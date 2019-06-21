@@ -40,7 +40,6 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
         ARouter.getInstance().inject(this);
         initInjector();
         attachView();
-        //if (!NetworkUtils.isConnected()) showNoNet();
         if (savedInstanceState != null) {
             boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -94,10 +93,6 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
         ZxToastUtil.centerToast(errorMsg);
     }
 
-    @Override
-    public void showNoNet() {
-        //ZxToastUtil.centerToast(R.string.no_network_connection);
-    }
 
     @Override
     public void onRetry() {

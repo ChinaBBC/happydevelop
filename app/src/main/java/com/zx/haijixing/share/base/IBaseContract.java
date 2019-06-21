@@ -1,12 +1,12 @@
 package com.zx.haijixing.share.base;
 
 public interface IBaseContract {
-    public interface IBasePresenter<T extends IBaseContract.IBaseView>{
+    interface IBasePresenter<T extends IBaseContract.IBaseView>{
         void attachView(T view);
 
         void detachView();
     }
-    public interface IBaseView {
+    interface IBaseView {
         //显示进度中
         void showLoading();
 
@@ -18,9 +18,6 @@ public interface IBaseContract {
 
         //失败重试
         void showFaild(String message);
-
-        //显示当前网络不可用
-        void showNoNet();
 
         //重试
         void onRetry();

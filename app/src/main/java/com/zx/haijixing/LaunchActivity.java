@@ -1,34 +1,25 @@
 package com.zx.haijixing;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
 import android.graphics.Point;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.zx.haijixing.custom.CustomGraphView;
-import com.zx.haijixing.custom.CustomGraphViewT;
+
 import com.zx.haijixing.driver.DriverInfo;
 import com.zx.haijixing.driver.DriverViewModel;
 import com.zx.haijixing.driver.adapter.DriverAdapter;
+import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.dao.HaiDao;
-import com.zx.haijixing.share.dao.HaiDataBase;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -37,7 +28,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import io.reactivex.FlowableSubscriber;
 
 /**
  *
@@ -45,7 +35,6 @@ import io.reactivex.FlowableSubscriber;
  *@创建日期 2019/6/14 12:00
  *@描述 启动页面
  */
-@Route(path = "/LaunchActivity")
 public class LaunchActivity extends AppCompatActivity {
 
 
@@ -138,7 +127,7 @@ public class LaunchActivity extends AppCompatActivity {
 
         //customGraphView.setData(yList , xRawData , 10000 , 500);
         sample.setOnClickListener(v -> {
-            ARouter.getInstance().build("/login/LoginActivity").navigation();
+            ARouter.getInstance().build(RoutePathConstant.ROUTE_LOGIN).navigation();
         });
 
         final RecyclerView recyclerView = findViewById(R.id.my_data);

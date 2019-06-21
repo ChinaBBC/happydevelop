@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
 
-    signingConfigs{
-        release{
+    signingConfigs {
+        release {
             keyAlias "${KEY_ALIAS}"
             keyPassword "${KEY_PASSWORD}"
             storeFile file("${STORE_FILE}")
             storePassword "${STORE_PASSWORD}"
         }
-        debug{
+        debug {
             keyAlias "${KEY_ALIAS}"
             keyPassword "${KEY_PASSWORD}"
             storeFile file("${STORE_FILE}")
@@ -29,7 +29,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath = true
-                arguments = [AROUTER_MODULE_NAME:project.getName()]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
         externalNativeBuild {
@@ -38,7 +38,7 @@ android {
             }
         }
         ndk {
-            abiFilters 'arm64-v8a', 'armeabi-v7a','x86'
+            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
     }
 
@@ -48,15 +48,15 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField("String","homeUrl","\"${HOME_URL}\"")
-            buildConfigField("String","buglyId","\"${BUGLY_ID}\"")
+            buildConfigField("String", "homeUrl", "\"${HOME_URL}\"")
+            buildConfigField("String", "buglyId", "\"${BUGLY_ID}\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
         debug {
-            buildConfigField("String","homeUrl","\"${TEST_URL}\"")
-            buildConfigField("String","buglyId","\"${BUGLY_ID}\"")
+            buildConfigField("String", "homeUrl", "\"${TEST_URL}\"")
+            buildConfigField("String", "buglyId", "\"${BUGLY_ID}\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
@@ -93,7 +93,8 @@ dependencies {
     implementation 'com.aliyun.dpa:oss-android-sdk:+'    //oss
     implementation 'com.wang.avi:library:2.1.3'//加载动画
     implementation 'com.github.ChinaBBC:SkyTool:v1.0.0'//一些通用工具
-    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation 'com.ethanhua:skeleton:1.1.2'//app骨架
     implementation 'io.supercharge:shimmerlayout:2.1.0'//app骨架

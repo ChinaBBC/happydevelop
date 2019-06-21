@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
+import com.zx.haijixing.util.CommonDialogFragment;
+import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -21,13 +23,11 @@ import butterknife.Unbinder;
 public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> extends AppCompatActivity implements IBaseContract.IBaseView {
     @Nullable
     protected T mPresenter;
-    /**
-     * LoadingView
-     */
-    //protected LoadingView mLoadingView;
+
     @Nullable
-    protected Toolbar mToolbar;
     private Unbinder unbinder;
+
+    private CommonDialogFragment commonDialogFragment;
 
     protected abstract void initView();
     @Override
@@ -38,20 +38,18 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         setContentView(layoutId);
         initInjector();
         unbinder = ButterKnife.bind(this);
-        initToolBar();
         attachView();
         initView();
-        //if (!NetworkUtils.isConnected()) showNoNet();
     }
 
     @Override
     public void showLoading() {
-
+        commonDialogFragment = HaiDialogUtil.showProgress(getSupportFragmentManager());
     }
 
     @Override
     public void hideLoading() {
-
+        commonDialogFragment.dismissAllowingStateLoss();
     }
 
     @Override
@@ -88,13 +86,6 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
 
 
     @Override
-    public void showNoNet() {
-        //ToastUtils.showShort(R.string.no_network_connection);
-    }
-    protected void setToolbarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-    @Override
     public void showSuccess(String successMsg) {
     }
 
@@ -105,23 +96,6 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-    }
-    /**
-     * 初始化toolbar
-     */
-    protected  void initToolBar(){
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar == null) {
-            throw new NullPointerException("toolbar can not be null");
-        }
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(showHomeAsUp());
-        /**toolbar除掉阴影*/
-        getSupportActionBar().setElevation(0);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mToolbar.setElevation(0);
-        }
-
     }
     /**
      * 是否显示返回键
