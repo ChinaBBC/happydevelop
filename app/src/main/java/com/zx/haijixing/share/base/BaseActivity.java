@@ -7,15 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.allen.library.utils.ToastUtils;
-import com.bumptech.glide.Glide;
-import com.zx.haijixing.HaiApplication;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.ad.ActivityComponent;
-import com.zx.haijixing.share.ad.ActivityModule;
-import com.zx.haijixing.share.ad.DaggerActivityComponent;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -26,12 +18,9 @@ import butterknife.Unbinder;
  *@创建日期 2019/6/17 14:47
  *@描述 所有activity的父类
  */
-public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends AppCompatActivity implements BaseContract.BaseView {
-
+public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> extends AppCompatActivity implements IBaseContract.IBaseView {
     @Nullable
-    @Inject
     protected T mPresenter;
-    protected ActivityComponent mActivityComponent;
     /**
      * LoadingView
      */
@@ -44,7 +33,6 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initActivityComponent();
         ARouter.getInstance().inject(this);
         int layoutId=getLayoutId();
         setContentView(layoutId);
@@ -149,14 +137,5 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     protected abstract int getLayoutId();
 
-    /**
-     * 初始化ActivityComponent
-     */
-    private void initActivityComponent() {
 
-        mActivityComponent= DaggerActivityComponent.builder()
-                .applicationComponent(((HaiApplication)getApplication()).getApplicationComponent())
-                .activityModule(new ActivityModule(this))
-                .build();
-    }
 }

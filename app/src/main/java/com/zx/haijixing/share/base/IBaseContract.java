@@ -1,12 +1,12 @@
 package com.zx.haijixing.share.base;
 
-public interface BaseContract {
-    public interface BasePresenter<T extends BaseContract.BaseView>{
+public interface IBaseContract {
+    public interface IBasePresenter<T extends IBaseContract.IBaseView>{
         void attachView(T view);
 
         void detachView();
     }
-    public interface BaseView {
+    public interface IBaseView {
         //显示进度中
         void showLoading();
 

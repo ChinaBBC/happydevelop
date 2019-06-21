@@ -45,7 +45,7 @@ import io.reactivex.FlowableSubscriber;
  *@创建日期 2019/6/14 12:00
  *@描述 启动页面
  */
-@Route(path = "")
+@Route(path = "/LaunchActivity")
 public class LaunchActivity extends AppCompatActivity {
 
 
@@ -134,9 +134,12 @@ public class LaunchActivity extends AppCompatActivity {
         xRawData.add("05-23");
         xRawData.add("05-24");
         xRawData.add("05-25");
+        ARouter.getInstance().inject(this);
 
         //customGraphView.setData(yList , xRawData , 10000 , 500);
-
+        sample.setOnClickListener(v -> {
+            ARouter.getInstance().build("/login/LoginActivity").navigation();
+        });
 
         final RecyclerView recyclerView = findViewById(R.id.my_data);
 

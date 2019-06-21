@@ -9,13 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.allen.library.utils.ToastUtils;
-import com.zx.haijixing.HaiApplication;
-import com.zx.haijixing.share.ad.DaggerFragmentComponent;
-import com.zx.haijixing.share.ad.FragmentComponent;
-import com.zx.haijixing.share.ad.FragmentModule;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,13 +20,11 @@ import zx.com.skytool.ZxToastUtil;
  *@创建日期 2019/6/17 14:49
  *@描述 所有fragment的父类
  */
-public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends Fragment implements BaseContract.BaseView {
+public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> extends Fragment implements IBaseContract.IBaseView {
 
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
     @Nullable
-    @Inject
     protected T mPresenter;
-    protected FragmentComponent mFragmentComponent;
     private Unbinder unbinder;
     private View mRootView, mErrorView, mEmptyView;
 
@@ -46,7 +37,6 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initFragmentComponent();
         ARouter.getInstance().inject(this);
         initInjector();
         attachView();
@@ -114,15 +104,6 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         ZxToastUtil.centerToast("onRetry");
     }
 
-    /**
-     * 初始化FragmentComponent
-     */
-    private void initFragmentComponent() {
-        mFragmentComponent = DaggerFragmentComponent.builder()
-                .applicationComponent(((HaiApplication) getActivity().getApplication()).getApplicationComponent())
-                .fragmentModule(new FragmentModule(this))
-                .build();
-    }
     /**
      * 贴上view
      */
