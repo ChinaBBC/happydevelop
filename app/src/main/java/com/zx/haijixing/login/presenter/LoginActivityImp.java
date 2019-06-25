@@ -3,6 +3,8 @@ package com.zx.haijixing.login.presenter;
 import com.zx.haijixing.login.contract.ILoginActivityContract;
 import com.zx.haijixing.share.base.BasePresenter;
 
+import zx.com.skytool.ZxSharePreferenceUtil;
+
 /**
  *
  *@作者 zx
