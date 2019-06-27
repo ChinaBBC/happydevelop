@@ -1,13 +1,10 @@
 package com.zx.haijixing.share.base;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.zx.haijixing.R;
+import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 
@@ -70,7 +67,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
      */
     @Override
     public void jumpToLogin() {
-        ARouter.getInstance().build("/activity/LoginActivity")
+        ARouter.getInstance().build(RoutePathConstant.ROUTE_LOGIN)
                 .navigation();
     }
 

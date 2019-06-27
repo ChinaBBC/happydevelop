@@ -45,7 +45,7 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_launch);
         Log.i("<<<<<","<BuildConfig.homeUrl>"+BuildConfig.homeUrl+HaiNativeHelper.baseUrl());
         final SwipeRefreshLayout swipe = findViewById(R.id.swipe);
         final TextView sample = findViewById(R.id.sample_text);

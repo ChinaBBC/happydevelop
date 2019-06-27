@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
-import zx.com.skytool.BackgroundTasks;
 import zx.com.skytool.SkyTool;
 
 /**
@@ -35,9 +34,7 @@ public class HaiApplication extends Application {
         MultiDex.install(this);
         haiApp = getApplicationContext();
         SkyTool.init(this);
-        BackgroundTasks.initInstance();
         configBugly();
-
         intARouter();
     }
 
