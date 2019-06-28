@@ -12,4 +12,22 @@
     <string name="login">登录</string>
     <string name="no_account">还没有账号，</string>
     <string name="go_register">快去注册吧</string>
+    <string name="base_info">基本信息</string>
+    <string name="car_info">车辆信息</string>
+    <string name="back_check">后台审核</string>
+    <string name="please_upload_head">请上传真实头像</string>
+    <string name="please_input_name">请输入真实姓名</string>
+    <string name="please_input_identify">请输入身份证号码</string>
+    <string name="please_input_phone">请输入手机号</string>
+    <string name="please_input_code">请输入手机验证码</string>
+    <string name="please_input_password">请输入密码</string>
+    <string name="has_read_and_agree">已阅读并同意</string>
+    <string name="xin_logistics_protocol">《星配送物流平台合作协议》</string>
+    <string name="next_step">下一步</string>
+    <string name="register">注册</string>
+    <string name="take_licenseA">拍摄驾驶证主页</string>
+    <string name="take_licenseB">拍摄驾驶证副页</string>
+    <string name="please_wait">请耐心等待......</string>
+    <string name="is_checking">已提交，审核中</string>
+    
 </resources>

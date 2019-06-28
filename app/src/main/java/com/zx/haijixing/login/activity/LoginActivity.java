@@ -17,11 +17,15 @@ import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxStatusBarCompat;
-
+/**
+ *
+ *@作者 zx
+ *@创建日期 2019/6/28 10:34
+ *@描述 登录
+ */
 @Route(path = RoutePathConstant.ROUTE_LOGIN)
 public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILoginActivityContract.LoginView {
 
@@ -49,6 +53,7 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     @Override
     protected void initView() {
         ZxStatusBarCompat.setStatusBarLightMode(this);
+        title.setText(getHaiString(R.string.login));
     }
 
     @Override
@@ -72,6 +77,7 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
                 mPresenter.loginMethod("", "");
                 break;
             case R.id.login_go_register:
+                ARouter.getInstance().build(RoutePathConstant.BASE_INFO).navigation();
                 break;
             case R.id.common_title_back:
                 finish();

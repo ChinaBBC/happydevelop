@@ -15,4 +15,7 @@ public final class HaiNativeHelper {
      * which is packaged with this application.
      */
     public static native String baseUrl();
+    public static native String ossUrl();
+    public static native String ossToken();
+    public static native String ossBuck();
 }

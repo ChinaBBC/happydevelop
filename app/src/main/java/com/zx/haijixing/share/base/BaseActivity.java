@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.zx.haijixing.R;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
@@ -103,7 +104,12 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         return false;
     }
 
-
+    public String getHaiString(int id){
+        return getResources().getString(id);
+    }
+    public int getHaiColor(int id){
+        return getResources().getColor(id);
+    }
     protected abstract void initInjector();
 
     protected abstract int getLayoutId();

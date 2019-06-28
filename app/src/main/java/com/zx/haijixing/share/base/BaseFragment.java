@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.zx.haijixing.share.RoutePathConstant;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -128,7 +129,12 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     }
     @Override
     public void jumpToLogin() {
-        ARouter.getInstance().build("/activity/LoginActivity")
+        ARouter.getInstance().build(RoutePathConstant.ROUTE_LOGIN)
                 .navigation();
+    }
+
+    //获取string
+    public String getHaiString(int id){
+        return getResources().getString(id);
     }
 }
