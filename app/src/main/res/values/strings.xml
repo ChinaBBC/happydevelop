@@ -43,4 +43,7 @@
     <string name="no">否</string>
     <string name="notify_center">消息中心</string>
     <string name="news">新闻资讯</string>
+    <string name="news_detail">新闻详情</string>
+    <string name="order_center">订单中心</string>
+    <string name="order_hint">运单号/车牌号/发货手机号/司机姓名</string>
 </resources>

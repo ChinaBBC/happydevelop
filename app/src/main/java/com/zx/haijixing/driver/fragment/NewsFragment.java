@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.youth.banner.Banner;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.NewsAdapter;
+import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 
 import butterknife.BindView;
@@ -31,12 +33,14 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     protected void initInjector() {
-
+        ARouter.getInstance().inject(this);
     }
 
     @Override
     protected void initView(View view) {
         newsRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        newsRvData.setAdapter(new NewsAdapter());
+        NewsAdapter newsAdapter = new NewsAdapter();
+        newsRvData.setAdapter(newsAdapter);
+        newsAdapter.setClickListener(view1 -> ARouter.getInstance().build(RoutePathConstant.DRIVER_NEWS).navigation());
     }
 }

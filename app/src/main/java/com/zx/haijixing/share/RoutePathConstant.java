@@ -15,5 +15,6 @@ public final class RoutePathConstant {
     public final static String DRIVER_NOTIFY = "/driver/activity/NotifyActivity";//司机端消息中心
     public final static String DRIVER_SERVICES = "/driver/activity/ServicesActivity";//司机端全部服务
     public final static String DRIVER_SEARCH = "/driver/activity/SearchActivity";//司机端搜索
+    public final static String DRIVER_NEWS = "/driver/activity/NewsActivity";//司机端新闻细节
 
 }

@@ -1,6 +1,7 @@
 package com.zx.haijixing.driver.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,12 @@ import com.zx.haijixing.R;
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static int HEAD_ITEM = 0;
     private final static int BODY_ITEM = 1;
+    private View.OnClickListener clickListener;
+
+    public void setClickListener(View.OnClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (position == 0)
@@ -41,7 +48,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        if (i == HEAD_ITEM){
 
+        }else {
+            NewsViewHolder newsViewHolder = (NewsViewHolder) viewHolder;
+            newsViewHolder.item.setOnClickListener(clickListener);
+        }
     }
 
     @Override
@@ -51,8 +63,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class NewsViewHolder extends RecyclerView.ViewHolder{
 
+        ConstraintLayout item;
         public NewsViewHolder(@NonNull View itemView) {
             super(itemView);
+            item = itemView.findViewById(R.id.new_data_item);
         }
     }
 
