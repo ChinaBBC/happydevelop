@@ -29,5 +29,18 @@
     <string name="take_licenseB">拍摄驾驶证副页</string>
     <string name="please_wait">请耐心等待......</string>
     <string name="is_checking">已提交，审核中</string>
-    
+
+
+    <string name="search">查询</string>
+    <string name="order_number">订单号</string>
+    <string name="receive_order">接单</string>
+    <string name="print_order">打单</string>
+    <string name="clock_in">考勤打卡</string>
+    <string name="all_service">全部服务</string>
+    <string name="the_news">最新资讯</string>
+    <string name="clock_tip">愉快的一天又开始啦\n准备上班啦！</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="notify_center">消息中心</string>
+    <string name="news">新闻资讯</string>
 </resources>

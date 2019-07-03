@@ -52,7 +52,6 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
 
     @Override
     protected void initView() {
-        ZxStatusBarCompat.setStatusBarLightMode(this);
         title.setText(getHaiString(R.string.login));
     }
 
@@ -74,7 +73,9 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
                 ARouter.getInstance().build(RoutePathConstant.ROUTE_FORGET).navigation();
                 break;
             case R.id.login_login:
-                mPresenter.loginMethod("", "");
+                ARouter.getInstance().build(RoutePathConstant.DRIVER_MAIN).navigation();
+
+                //mPresenter.loginMethod("", "");
                 break;
             case R.id.login_go_register:
                 ARouter.getInstance().build(RoutePathConstant.BASE_INFO).navigation();

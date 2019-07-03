@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.util.CommonDialogFragment;
+import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,6 +30,7 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     protected T mPresenter;
     private Unbinder unbinder;
     private View mRootView, mErrorView, mEmptyView;
+    private CommonDialogFragment commonDialogFragment;
 
     protected abstract int getLayoutId();
 
@@ -76,12 +79,12 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
 
     @Override
     public void showLoading() {
-        ZxToastUtil.centerToast("showLoading");
+        commonDialogFragment = HaiDialogUtil.showProgress(getFragmentManager());
     }
 
     @Override
     public void hideLoading() {
-        ZxToastUtil.centerToast("hideLoading");
+        commonDialogFragment.dismissAllowingStateLoss();
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.zx.haijixing.R;
 
@@ -28,4 +29,18 @@ public final class HaiDialogUtil {
         return progressDialog;
     }
 
+    //弹出打卡
+    public static CommonDialogFragment showClock(FragmentManager fragmentManager, View.OnClickListener clickListener){
+        CommonDialogFragment progressDialog = CommonDialogFragment.newInstance(context -> {
+            View view = LayoutInflater.from(context).inflate(R.layout.dialog_clock_in, null);
+            TextView yes = view.findViewById(R.id.dialog_clock_yes);
+            TextView no = view.findViewById(R.id.dialog_clock_no);
+            yes.setOnClickListener(clickListener);
+            no.setOnClickListener(clickListener);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
+            return builder.setView(view).create();
+        }, true, null);
+        progressDialog.show(fragmentManager, "clock");
+        return progressDialog;
+    }
 }

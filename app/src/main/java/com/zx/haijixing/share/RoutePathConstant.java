@@ -11,5 +11,9 @@ public final class RoutePathConstant {
     public final static String BASE_INFO = "/login/activity/BaseInfoActivity";//基本信息
     public final static String CAR_INFO = "/login/activity/CarInfoActivity";//车辆信息
     public final static String CHECKING = "/login/activity/CheckingActivity";//后台审核
+    public final static String DRIVER_MAIN = "/driver/activity/DriverActivity";//司机端
+    public final static String DRIVER_NOTIFY = "/driver/activity/NotifyActivity";//司机端消息中心
+    public final static String DRIVER_SERVICES = "/driver/activity/ServicesActivity";//司机端全部服务
+    public final static String DRIVER_SEARCH = "/driver/activity/SearchActivity";//司机端搜索
 
 }

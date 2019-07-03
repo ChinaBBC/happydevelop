@@ -46,7 +46,6 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
 
     @Override
     protected void initView() {
-        ZxStatusBarCompat.setStatusBarLightMode(this);
     }
 
     @Override

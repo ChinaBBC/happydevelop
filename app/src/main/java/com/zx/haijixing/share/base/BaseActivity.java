@@ -11,6 +11,7 @@ import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import zx.com.skytool.ZxStatusBarCompat;
 
 /**
  *
@@ -37,6 +38,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         initInjector();
         unbinder = ButterKnife.bind(this);
         attachView();
+        setStatusBar();
         initView();
     }
 
@@ -115,4 +117,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
     protected abstract int getLayoutId();
 
 
+    public void setStatusBar(){
+        ZxStatusBarCompat.setStatusBarLightMode(this);
+    }
 }

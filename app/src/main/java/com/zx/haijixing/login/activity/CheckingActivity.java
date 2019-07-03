@@ -41,7 +41,6 @@ public class CheckingActivity extends BaseActivity<CheckingActivityImp> implemen
 
     @Override
     protected void initView() {
-        ZxStatusBarCompat.setStatusBarLightMode(this);
         title.setText(getHaiString(R.string.register));
     }
 

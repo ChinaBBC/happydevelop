@@ -46,7 +46,6 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
 
     @Override
     protected void initView() {
-        ZxStatusBarCompat.setStatusBarLightMode(this);
         title.setText(getHaiString(R.string.register));
     }
 

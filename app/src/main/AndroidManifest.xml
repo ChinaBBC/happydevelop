@@ -53,13 +53,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".login.activity.LoginActivity" />
-        <activity android:name=".driver.DriverActivity" />
+        <activity android:name=".driver.activity.DriverActivity" />
         <activity android:name=".logistics.LogisticsActivity" />
         <activity android:name=".manager.ManagerActivity" />
         <activity android:name=".login.activity.ForgetActivity" />
         <activity android:name=".login.activity.BaseInfoActivity" />
         <activity android:name=".login.activity.CarInfoActivity" />
-        <activity android:name=".login.activity.CheckingActivity"></activity>
+        <activity android:name=".login.activity.CheckingActivity" />
+        <activity android:name=".driver.activity.NotifyActivity" />
+        <activity android:name=".driver.activity.ServicesActivity" />
+        <activity android:name=".driver.activity.SearchActivity"></activity>
     </application>
 
 </manifest>
