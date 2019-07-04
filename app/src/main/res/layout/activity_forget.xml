@@ -7,20 +7,36 @@
     android:background="@color/white"
     tools:context=".login.activity.ForgetActivity">
 
-    <include
-        android:id="@+id/forget_temp"
-        layout="@layout/a_common_title"
-        ></include>
+
     <ImageView
         android:id="@+id/forget_title_bg"
         android:layout_width="0dp"
-        android:layout_height="185dp"
+        android:layout_height="220dp"
         android:src="@mipmap/login_title_bg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forget_temp"
-        app:layout_constraintWidth_percent="0.94"
-        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
+        />
+    <ImageView
+        android:id="@+id/forget_back"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_20"
+        android:src="@mipmap/back_white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/dp_45"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/find_password"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_45"
         />
     <LinearLayout
         android:id="@+id/forget_name_area"
@@ -32,11 +48,12 @@
         app:layout_constraintWidth_percent="0.8"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/dp_15"
         >
         <ImageView
             android:layout_width="@dimen/dp_16"
             android:layout_height="@dimen/dp_16"
-            android:src="@mipmap/user_name"
+            android:src="@mipmap/user_phone"
             />
         <EditText
             android:id="@+id/forget_user_name"
@@ -44,7 +61,7 @@
             android:layout_weight="1"
             android:layout_height="@dimen/dp_40"
             android:background="@null"
-            android:hint="@string/phone_or_name"
+            android:hint="@string/phone"
             android:textColorHint="@color/color_cccc"
             android:textSize="@dimen/sp_16"
             android:paddingLeft="@dimen/dp_8"
@@ -62,7 +79,7 @@
             android:layout_height="wrap_content"
             android:text="@string/send_user_code"
             android:textSize="@dimen/sp_16"
-            android:textColor="@color/color_703f"
+            android:textColor="@color/color_3333"
             android:layout_marginLeft="@dimen/dp_10"
             />
     </LinearLayout>

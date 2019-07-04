@@ -13,6 +13,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.SearchAdapter;
 import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +25,7 @@ import butterknife.OnClick;
  * @描述 搜索
  */
 @Route(path = RoutePathConstant.DRIVER_SEARCH)
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity {
 
     @BindView(R.id.search_scan_code)
     ImageView back;
@@ -36,12 +37,19 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView searchRvData;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        ButterKnife.bind(this);
+    protected void initView() {
         searchRvData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         searchRvData.setAdapter(new SearchAdapter());
+    }
+
+    @Override
+    protected void initInjector() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_search;
     }
 
     @OnClick({R.id.search_scan_code, R.id.search_search})

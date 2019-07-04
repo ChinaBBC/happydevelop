@@ -9,13 +9,14 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 @Route(path = RoutePathConstant.DRIVER_NEWS)
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)
     ImageView back;
@@ -25,11 +26,18 @@ public class NewsActivity extends AppCompatActivity {
     WebView content;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news);
-        ButterKnife.bind(this);
+    protected void initView() {
         title.setText(R.string.news_detail);
+    }
+
+    @Override
+    protected void initInjector() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_news;
     }
 
     @OnClick(R.id.common_title_back)

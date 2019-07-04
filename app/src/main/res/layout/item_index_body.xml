@@ -1,59 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_210"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_5dp_59ff"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginRight="@dimen/dp_12"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:layout_marginTop="@dimen/dp_10"
     >
 
-    <android.support.constraint.ConstraintLayout
+    <com.zx.haijixing.custom.CustomImageView
+        android:id="@+id/index_body_img"
         android:layout_width="0dp"
-        android:layout_height="@dimen/dp_210"
-        android:background="@drawable/shape_5dp_4dff"
+        android:layout_height="@dimen/dp_120"
+        android:src="@mipmap/share_banner_bg"
+        android:scaleType="fitXY"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/index_body_words"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="JavaScript本身对嵌套的层级没有限制，但是过多的嵌套无疑会大大增加看懂代码的难度。撒大声地和都会死狐好滴好滴 "
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_3333"
+        android:maxEms="20"
+        android:ellipsize="end"
+        android:maxLines="2"
+        app:layout_constraintTop_toBottomOf="@id/index_body_img"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingLeft="@dimen/dp_14"
+        android:paddingRight="@dimen/dp_14"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+    <TextView
+        android:id="@+id/index_body_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2019.07.03"
+        android:textColor="@color/color_9999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/index_body_words"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintWidth_percent="0.96"
-        >
-        <com.zx.haijixing.custom.CustomImageView
-            android:id="@+id/index_body_img"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_120"
-            android:src="@mipmap/share_banner_bg"
-            android:scaleType="fitXY"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/index_body_words"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="JavaScript本身对嵌套的层级没有限制，但是过多的嵌套无疑会大大增加看懂代码的难度。撒大声地和都会死狐好滴好滴 "
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/color_3333"
-            android:maxEms="20"
-            android:ellipsize="end"
-            android:maxLines="2"
-            app:layout_constraintTop_toBottomOf="@id/index_body_img"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:paddingLeft="@dimen/dp_14"
-            android:paddingRight="@dimen/dp_14"
-            android:layout_marginTop="@dimen/dp_10"
-            />
-        <TextView
-            android:id="@+id/index_body_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2019.07.03"
-            android:textColor="@color/color_9999"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginRight="@dimen/dp_12"
-            android:layout_marginBottom="@dimen/dp_4"
-            />
-    </android.support.constraint.ConstraintLayout>
-
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_12"
+        />
 </android.support.constraint.ConstraintLayout>

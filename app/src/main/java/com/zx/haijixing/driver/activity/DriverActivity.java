@@ -7,6 +7,7 @@ import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomBottomBar;
 import com.zx.haijixing.driver.fragment.IndexFragment;
 import com.zx.haijixing.driver.fragment.NewsFragment;
+import com.zx.haijixing.driver.fragment.OrderFragment;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
@@ -35,7 +36,7 @@ public class DriverActivity extends BaseActivity {
                         "首页",
                         R.mipmap.index_index_before,
                         R.mipmap.index_index_after)
-                .addItem(IndexFragment.class,
+                .addItem(OrderFragment.class,
                         "订单中心",
                         R.mipmap.index_order_before,
                         R.mipmap.index_order_after)

@@ -1,14 +1,17 @@
 <resources>
-    <string name="app_name">HaiJiXing</string>
+    <string name="app_name">星配送</string>
 
     <string name="find_password">找回密码</string>
     <string name="phone_or_name">手机号/用户名</string>
+    <string name="phone">手机号</string>
     <string name="send_user_code">获取验证码</string>
     <string name="code">验证码</string>
     <string name="password">密码</string>
     <string name="sure_password">确认密码</string>
     <string name="sure">确认</string>
     <string name="forget_password">忘记密码？</string>
+    <string name="password_login">密码登录</string>
+    <string name="code_login">验证码登录</string>
     <string name="login">登录</string>
     <string name="no_account">还没有账号，</string>
     <string name="go_register">快去注册吧</string>
@@ -47,4 +50,33 @@
     <string name="order_center">订单中心</string>
     <string name="order_hint">运单号/车牌号/发货手机号/司机姓名</string>
     <string name="check_all">查看全部 ></string>
+    <string name="wait_receive">待接单</string>
+    <string name="wait_send">待出发</string>
+    <string name="sending">配送中</string>
+    <string name="complete">已完成</string>
+    <string name="has_cancel">已取消</string>
+    <string name="receive_time">剩余接单时间</string>
+    <string name="sure_receive">确认接单</string>
+    <string name="change_order">订单修改</string>
+    <string name="sure_change">确认修改</string>
+    <string name="complete_send">配送完成</string>
+    <string name="type">品类</string>
+    <string name="weight">重量</string>
+    <string name="freight">运费</string>
+    <string name="total">件数</string>
+    <string name="receive_c_time">接单时间：</string>
+    <string name="pay_way">支付方式：</string>
+    <string name="vip_service">增值服务：</string>
+    <string name="logistics_way">物流产品：</string>
+    <string name="logistics_company">承运公司：</string>
+    <string name="driver_info">司机信息：</string>
+    <string name="car_number">运输车牌：</string>
+    <string name="remark">备注：</string>
+    <string name="locate_tip">车辆即将出发，请打开GPS\n定位系统进入导航状态\n请安全驾驶！</string>
+    <string name="set">设置</string>
+    <string name="sure_to_receive">是否确认接单</string>
+    <string name="cancel">取消</string>
+    <string name="real_pay">实收运费</string>
+    <string name="pay_online">线上支付</string>
+    <string name="pay_crash">线下支付</string>s
 </resources>

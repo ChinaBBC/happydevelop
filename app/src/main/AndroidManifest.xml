@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zx.haijixing">
+
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许程序设置内置sd卡的读权限 -->
@@ -27,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
-        <activity android:name=".driver.activity.NewsActivity"></activity>
+        <activity android:name=".driver.activity.NewsActivity" />
         <activity
             android:name=".LaunchActivity"
             android:launchMode="singleTop"
@@ -50,6 +51,7 @@
         <activity android:name=".driver.activity.NotifyActivity" />
         <activity android:name=".driver.activity.ServicesActivity" />
         <activity android:name=".driver.activity.SearchActivity" />
+        <activity android:name=".driver.activity.OrderDetailActivity"></activity>
     </application>
 
 </manifest>

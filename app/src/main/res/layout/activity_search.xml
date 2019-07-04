@@ -8,13 +8,12 @@
     tools:context=".driver.activity.SearchActivity">
     <ImageView
         android:id="@+id/search_scan_code"
-        android:layout_width="@dimen/dp_20"
+        android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_20"
         android:src="@mipmap/back"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/dp_6"
-        android:layout_marginLeft="@dimen/dp_16"
         />
     <LinearLayout
         android:id="@+id/search_one"
@@ -28,7 +27,6 @@
         app:layout_constraintLeft_toRightOf="@id/search_scan_code"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="@dimen/dp_16"
-        android:layout_marginLeft="@dimen/dp_12"
         android:background="@drawable/shape_5dp_faf2"
         >
         <ImageView

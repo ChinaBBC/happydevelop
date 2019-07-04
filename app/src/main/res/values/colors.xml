@@ -17,4 +17,9 @@
     <color name="color_6666">#666666</color>
     <color name="color_3535">#353535</color>
     <color name="color_e0dd">#DCE0DD</color>
+    <color name="color_f0f0">#F0F0F0</color>
+    <color name="color_0a0a">#D10A0A</color>
+    <color name="color_a47f">#44A47F</color>
+    <color name="color_f0ec">#EBF0EC</color>
+    <color name="color_f5f1">#F0F5F1</color>
 </resources>

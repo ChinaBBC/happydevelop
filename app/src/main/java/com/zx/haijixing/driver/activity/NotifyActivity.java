@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.NotifyAdapter;
 import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +23,7 @@ import butterknife.OnClick;
  *@描述 消息中心
  */
 @Route(path = RoutePathConstant.DRIVER_NOTIFY)
-public class NotifyActivity extends AppCompatActivity {
+public class NotifyActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)
     ImageView back;
@@ -32,15 +33,22 @@ public class NotifyActivity extends AppCompatActivity {
     RecyclerView notifyData;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notify);
-        ButterKnife.bind(this);
+    protected void initView() {
         title.setText(getString(R.string.notify_center));
 
         NotifyAdapter notifyAdapter = new NotifyAdapter();
         notifyData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         notifyData.setAdapter(notifyAdapter);
+    }
+
+    @Override
+    protected void initInjector() {
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_notify;
     }
 
     @OnClick(R.id.common_title_back)

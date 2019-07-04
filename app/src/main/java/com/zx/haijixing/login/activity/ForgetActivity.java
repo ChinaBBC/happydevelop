@@ -28,7 +28,7 @@ import zx.com.skytool.ZxStatusBarCompat;
 @Route(path = RoutePathConstant.ROUTE_FORGET)
 public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements IForgetActivityContract.ForgetView {
 
-    @BindView(R.id.common_title_back)
+    @BindView(R.id.forget_back)
     ImageView back;
     @BindView(R.id.forget_user_name)
     EditText name;
@@ -63,10 +63,10 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
 
     }
 
-    @OnClick({R.id.common_title_back, R.id.forget_send_code, R.id.forget_sure})
+    @OnClick({R.id.forget_back, R.id.forget_send_code, R.id.forget_sure})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.common_title_back:
+            case R.id.forget_back:
                 finish();
                 break;
             case R.id.forget_send_code:
@@ -81,7 +81,7 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
         zxCountDownTimerUtil = new ZxCountDownTimerUtil<>(send);
         zxCountDownTimerUtil.setCommonStyle(0);
         zxCountDownTimerUtil.setRunningStyle(0);
-        zxCountDownTimerUtil.setTimeColor(getHaiColor(R.color.color_703f));
+        zxCountDownTimerUtil.setTimeColor(getHaiColor(R.color.color_3333));
         zxCountDownTimerUtil.start();
     }
 
@@ -90,5 +90,10 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
         super.onDestroy();
         if (zxCountDownTimerUtil != null && zxCountDownTimerUtil.getRunStatus())
             zxCountDownTimerUtil.cancel();
+    }
+
+    @Override
+    public void setStatusBar() {
+        ZxStatusBarCompat.translucentStatusBar(this,true);
     }
 }

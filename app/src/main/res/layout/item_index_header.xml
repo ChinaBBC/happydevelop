@@ -22,7 +22,7 @@
         android:layout_marginTop="@dimen/dp_16"
         android:layout_marginRight="@dimen/dp_12"
         android:layout_marginLeft="@dimen/dp_12"
-        android:background="@drawable/shape_5dp_ffff"
+        android:background="@drawable/shape_2dp_59ff"
         >
         <ImageView
             android:id="@+id/index_header_receive"
