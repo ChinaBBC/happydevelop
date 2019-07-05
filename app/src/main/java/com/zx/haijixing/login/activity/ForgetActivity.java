@@ -1,10 +1,13 @@
 package com.zx.haijixing.login.activity;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -30,6 +33,8 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
 
     @BindView(R.id.forget_back)
     ImageView back;
+    @BindView(R.id.forget_title)
+    TextView title;
     @BindView(R.id.forget_user_name)
     EditText name;
     @BindView(R.id.forget_send_code)
@@ -46,6 +51,8 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
 
     @Override
     protected void initView() {
+       setTitleTopMargin(back);
+       setTitleTopMargin(title);
     }
 
     @Override

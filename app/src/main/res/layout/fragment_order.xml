@@ -63,10 +63,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/order_one"
-        app:layout_constraintWidth_percent="0.96"
         android:background="@drawable/shape_2dp_59ff"
         android:layout_marginTop="@dimen/dp_10"
-        android:padding="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:padding="@dimen/dp_12"
         >
         <TextView
             android:id="@+id/order_total_orders"
@@ -102,6 +103,7 @@
             android:layout_width="@dimen/dp_29"
             android:layout_height="@dimen/dp_29"
             android:src="@mipmap/wait_receive"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/order_line1"
             android:layout_marginTop="@dimen/dp_10"
@@ -114,6 +116,8 @@
             android:text="@string/wait_receive"
             android:textColor="@color/color_6666"
             android:textSize="@dimen/sp_12"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+
             app:layout_constraintTop_toBottomOf="@id/order_wait_receive"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/order_word2"

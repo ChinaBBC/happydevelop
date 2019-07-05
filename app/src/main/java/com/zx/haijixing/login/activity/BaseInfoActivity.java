@@ -56,6 +56,10 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     Button next;
     @BindView(R.id.base_info_send)
     TextView send;
+    @BindView(R.id.base_info_bank_address)
+    EditText bankAddress;
+    @BindView(R.id.base_info_bank_number)
+    EditText bankNumber;
 
     private boolean isRead = false;
     private ZxCountDownTimerUtil<TextView> zxCountDownTimerUtil;

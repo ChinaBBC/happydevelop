@@ -6,8 +6,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.zx.haijixing.driver.DriverInfo;
-
 import java.util.List;
 
 /**
@@ -18,9 +16,5 @@ import java.util.List;
  */
 @Dao
 public interface HaiDao {
-    @Query("SELECT * FROM DRIVER_INFO")
-    DataSource.Factory<Integer,DriverInfo> getAllDriver();
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertDrivers(List<DriverInfo> drivers);
 
 }

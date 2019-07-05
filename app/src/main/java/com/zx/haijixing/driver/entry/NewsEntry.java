@@ -1,11 +1,17 @@
 package com.zx.haijixing.driver.entry;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+
 /**
  *
  *@作者 zx
  *@创建日期 2019/7/3 13:35
  *@描述 新闻资讯
  */
+@Entity(primaryKeys = "id")
 public class NewsEntry {
+    @ColumnInfo(name = "id")
     long id;
     String title;//标题
     String simple;//简介

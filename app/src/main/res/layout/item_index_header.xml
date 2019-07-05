@@ -82,7 +82,7 @@
             />
         <TextView
             android:id="@+id/index_header_word3"
-            android:layout_width="@dimen/dp_50"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/clock_in"
             android:textSize="@dimen/sp_12"
@@ -105,7 +105,7 @@
             />
         <TextView
             android:id="@+id/index_header_word4"
-            android:layout_width="@dimen/dp_50"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/all_service"
             android:textSize="@dimen/sp_12"

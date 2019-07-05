@@ -55,6 +55,8 @@ public class OrderFragment extends BaseFragment {
     TextView orderWord5;
     @BindView(R.id.order_rv_data)
     RecyclerView orderRvData;
+    @BindView(R.id.order_title)
+    TextView title;
 
     @Override
     protected int getLayoutId() {
@@ -68,6 +70,7 @@ public class OrderFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
+        setTitleTopMargin(title,0);
         orderRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         orderRvData.setAdapter(new OrderAdapter());
     }
@@ -76,10 +79,10 @@ public class OrderFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_search:
-
+                ARouter.getInstance().build(RoutePathConstant.PRINT).navigation();
                 break;
             case R.id.order_check_all:
-                ARouter.getInstance().build(RoutePathConstant.DRIVER_ORDER_DETAIL).navigation();
+                ARouter.getInstance().build(RoutePathConstant.DRIVER_ORDER).navigation();
                 break;
             case R.id.order_wait_receive:
             case R.id.order_word1:

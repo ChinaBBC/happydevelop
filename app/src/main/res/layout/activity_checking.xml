@@ -86,7 +86,7 @@
             android:id="@+id/checking_bot3"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
-            android:src="@mipmap/register_title_bg_in"
+            android:src="@mipmap/register_title_bg_out"
             app:layout_constraintLeft_toRightOf="@id/checking_line2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

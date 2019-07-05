@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.youth.banner.Banner;
@@ -25,6 +26,8 @@ import butterknife.BindView;
 public class NewsFragment extends BaseFragment {
     @BindView(R.id.news_rv_data)
     RecyclerView newsRvData;
+    @BindView(R.id.news_title)
+    TextView title;
 
     @Override
     protected int getLayoutId() {
@@ -38,6 +41,7 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
+        setTitleTopMargin(title,0);
         newsRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         NewsAdapter newsAdapter = new NewsAdapter();
         newsRvData.setAdapter(newsAdapter);

@@ -21,6 +21,8 @@
     <string name="please_upload_head">请上传真实头像</string>
     <string name="please_input_name">请输入真实姓名</string>
     <string name="please_input_identify">请输入身份证号码</string>
+    <string name="please_input_bank_number">请输入本人银行卡号</string>
+    <string name="please_input_bank_address">请输入银行卡开户行</string>
     <string name="please_input_phone">请输入手机号</string>
     <string name="please_input_code">请输入手机验证码</string>
     <string name="please_input_password">请输入密码</string>
@@ -79,4 +81,8 @@
     <string name="real_pay">实收运费</string>
     <string name="pay_online">线上支付</string>
     <string name="pay_crash">线下支付</string>s
+    <string name="select_all">全选</string>
+    <string name="sure_pay">确认收款</string>
+    <string name="new_client_back">星配送客户回单</string>
+    <string name="print_detail">打印详情</string>
 </resources>

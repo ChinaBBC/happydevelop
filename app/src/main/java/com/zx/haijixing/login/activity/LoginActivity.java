@@ -61,6 +61,7 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     EditText codeCode;
     @BindView(R.id.login_code_login_area)
     ConstraintLayout codeLoginArea;
+
     private ZxCountDownTimerUtil<TextView> zxCountDownTimerUtil;
 
     @Override

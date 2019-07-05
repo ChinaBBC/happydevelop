@@ -51,7 +51,9 @@
         <activity android:name=".driver.activity.NotifyActivity" />
         <activity android:name=".driver.activity.ServicesActivity" />
         <activity android:name=".driver.activity.SearchActivity" />
-        <activity android:name=".driver.activity.OrderDetailActivity"></activity>
+        <activity android:name=".driver.activity.OrderDetailActivity" />
+        <activity android:name=".driver.activity.OrderActivity" />
+        <activity android:name=".driver.activity.PrintActivity"></activity>
     </application>
 
 </manifest>

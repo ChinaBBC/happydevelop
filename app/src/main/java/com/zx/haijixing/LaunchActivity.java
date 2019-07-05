@@ -1,7 +1,5 @@
 package com.zx.haijixing;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.graphics.Point;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,14 +13,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
 
-import com.zx.haijixing.driver.DriverInfo;
-import com.zx.haijixing.driver.DriverViewModel;
-import com.zx.haijixing.driver.adapter.DriverAdapter;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.dao.HaiDao;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -38,7 +30,6 @@ import java.util.List;
 public class LaunchActivity extends AppCompatActivity {
 
 
-    DriverAdapter driverAdapter;
     private HaiDao dao;
     private RecyclerViewSkeletonScreen skeletonScreen;
 
@@ -132,42 +123,6 @@ public class LaunchActivity extends AppCompatActivity {
 
         final RecyclerView recyclerView = findViewById(R.id.my_data);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        driverAdapter = new DriverAdapter();
-
-        DriverViewModel driverViewModel1 = ViewModelProviders.of(this).get(DriverViewModel.class);
-        //driverViewModel1.driver().observe(this,driverAdapter.submitList(););
-        //ViewModelProvider viewModelProvider = new ViewModelProvider(this,this);
-        //DriverViewModel driverViewModel = viewModelProvider.get(DriverViewModel.class);
-       /* driverViewModel1.driver().observe(this, new Observer<PagedList<DriverInfo>>() {
-            @Override
-            public void onChanged(@Nullable PagedList<DriverInfo> o) {
-                driverAdapter.submitList(o);
-            }
-        });*/
-        skeletonScreen = Skeleton.bind(recyclerView).adapter(driverAdapter).load(R.layout.item_test_driver).show();
-
-        driverViewModel1.drivers().subscribe(new Subscriber<PagedList<DriverInfo>>() {
-            @Override
-            public void onSubscribe(Subscription s) {
-                s.request(Long.MAX_VALUE);
-            }
-
-            @Override
-            public void onNext(PagedList<DriverInfo> driverInfos) {
-                driverAdapter.submitList(driverInfos);
-                skeletonScreen.hide();
-            }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-            @Override
-            public void onComplete() {
-            }
-        });
         swipe.setOnRefreshListener(() -> {
 
         });

@@ -1,7 +1,6 @@
 package com.zx.haijixing.share.service;
 
-import com.allen.library.bean.BaseData;
-import com.zx.haijixing.driver.DriverInfo;
+import com.zx.haijixing.driver.entry.NewsEntry;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -24,7 +23,7 @@ public interface DriverApiService {
 
     //1首页轮播2资讯轮播
     @GET("hrsys/banner/api/bannerList")
-    Observable<DriverInfo> bannerApi(@Query("type") String str);//1首页轮播2资讯轮播
+    Observable<NewsEntry> bannerApi(@Query("type") String str);//1首页轮播2资讯轮播
 
     @GET("commons/ios/index/image")
     Observable<String> firstBg();

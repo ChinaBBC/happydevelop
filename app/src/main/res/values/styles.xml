@@ -44,4 +44,8 @@
         <!-- 按钮字体颜色,全部一起改，单个改需要在Java代码中修改 -->
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <style name="TabLayoutStyle">
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
 </resources>

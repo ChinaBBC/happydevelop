@@ -35,6 +35,7 @@ public class HaiApplication extends Application {
         haiApp = getApplicationContext();
         SkyTool.init(this);
         configBugly();
+        configRxUtil();
         intARouter();
     }
 
@@ -58,7 +59,6 @@ public class HaiApplication extends Application {
             e.printStackTrace();
         }
         CrashReport.initCrashReport(haiApp,BuildConfig.buglyId,true,strategy);
-        configRxUtil();
     }
 
     public static Context getInstance(){

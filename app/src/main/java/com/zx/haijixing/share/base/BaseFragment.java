@@ -2,6 +2,7 @@ package com.zx.haijixing.share.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxToastUtil;
 
 /**
@@ -139,5 +141,11 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     //获取string
     public String getHaiString(int id){
         return getResources().getString(id);
+    }
+
+    public void setTitleTopMargin(View view,int margin){
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.topMargin = ZxStatusBarCompat.getStatusBarHeight(getContext())+20+margin;
+        view.setLayoutParams(layoutParams);
     }
 }

@@ -2,7 +2,10 @@ package com.zx.haijixing.share.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.share.RoutePathConstant;
@@ -119,5 +122,11 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
 
     public void setStatusBar(){
         ZxStatusBarCompat.setStatusBarLightMode(this);
+    }
+
+    public void setTitleTopMargin(View view){
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.topMargin = ZxStatusBarCompat.getStatusBarHeight(this)+20;
+        view.setLayoutParams(layoutParams);
     }
 }
