@@ -85,4 +85,9 @@
     <string name="sure_pay">确认收款</string>
     <string name="new_client_back">星配送客户回单</string>
     <string name="print_detail">打印详情</string>
+    <string name="count">统计</string>
+    <string name="word">客户评价</string>
+    <string name="change">修改资料</string>
+    <string name="shifts">我的班次</string>
+    <string name="customer">联系客服</string>
 </resources>
