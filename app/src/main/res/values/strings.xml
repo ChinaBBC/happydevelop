@@ -34,7 +34,22 @@
     <string name="take_licenseB">拍摄驾驶证副页</string>
     <string name="please_wait">请耐心等待......</string>
     <string name="is_checking">已提交，审核中</string>
-
+    <string name="truck_num">车牌</string>
+    <string name="truck_type">车型</string>
+    <string name="truck_weight">载重</string>
+    <string name="truck_cure">保险</string>
+    <string name="truck_drive">行驶证</string>
+    <string name="truck_cure_id">保单</string>
+    <string name="truck">车辆</string>
+    <string name="other">其他</string>
+    <string name="take_driveA">行驶证正面</string>
+    <string name="take_driveB">行驶证反面</string>
+    <string name="go_on_add">继续天机车辆</string>
+    <string name="take_cure">保单照片</string>
+    <string name="truck_foreword">车辆证明</string>
+    <string name="truck_left">车辆左侧面</string>
+    <string name="truck_right">车辆右侧面</string>
+    <string name="other_info">其他信息</string>
 
     <string name="search">查询</string>
     <string name="order_number">订单号</string>
@@ -90,4 +105,34 @@
     <string name="change">修改资料</string>
     <string name="shifts">我的班次</string>
     <string name="customer">联系客服</string>
+    <string name="check_update">检查更新</string>
+    <string name="clean_cache">清除缓存</string>
+    <string name="private_stage">隐私策略</string>
+    <string name="out_login">退出登录</string>
+    <string name="version">版本</string>
+    <string name="version_update">版本更新</string>
+    <string name="now_version">当前版本</string>
+    <string name="all_score">总评分</string>
+    <string name="service_manner">服务态度</string>
+    <string name="arrive_time">按时到达</string>
+    <string name="goods_intact">货物完整</string>
+    <string name="evaluate">评价</string>
+    <string name="car_and_lines">车辆及路线</string>
+    <string name="this_month">本月运单</string>
+    <string name="this_day">今日运单</string>
+    <string name="this_other_month">本月代收运单</string>
+    <string name="bill_statistics">运单统计</string>
+    <string name="free_statistics">运费统计</string>
+    <string name="other_statistics">代收统计</string>
+    <string name="add_all">共计</string>
+    <string name="to">至</string>
+    <string name="header_up_real">头像(请上传真实头像)</string>
+    <string name="name">姓名</string>
+    <string name="change_phone">修改手机号</string>
+    <string name="change_password">修改密码</string>
+    <string name="truck_manager">车辆管理</string>
+    <string name="input_new_phone">输入新手机号</string>
+    <string name="input_code">输入验证码</string>
+    <string name="driving">驾驶证</string>
+
 </resources>

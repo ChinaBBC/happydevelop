@@ -12,6 +12,7 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
 import com.allen.library.cookie.store.SPCookieStore;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,12 +53,7 @@ public class HaiApplication extends Application {
     private void configBugly() {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(haiApp);
         strategy.setAppChannel(Build.MODEL);
-        try {
-            PackageInfo packageInfo = haiApp.getPackageManager().getPackageInfo(haiApp.getPackageName(), 0);
-            strategy.setAppVersion(packageInfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        strategy.setAppVersion(HaiTool.packageName(haiApp));
         CrashReport.initCrashReport(haiApp,BuildConfig.buglyId,true,strategy);
     }
 

@@ -53,7 +53,18 @@
         <activity android:name=".driver.activity.SearchActivity" />
         <activity android:name=".driver.activity.OrderDetailActivity" />
         <activity android:name=".driver.activity.OrderActivity" />
-        <activity android:name=".driver.activity.PrintActivity"></activity>
+        <activity android:name=".driver.activity.PrintActivity" />
+        <activity android:name=".driver.activity.SetActivity" />
+        <activity android:name=".driver.activity.VersionActivity" />
+        <activity android:name=".driver.activity.EvaluateActivity" />
+        <activity android:name=".driver.activity.LinesActivity" />
+        <activity android:name=".driver.activity.StatisticsActivity" />
+        <activity android:name=".driver.activity.ChangeActivity" />
+        <activity android:name=".login.activity.TruckActivity" />
+        <activity android:name=".driver.activity.PhoneActivity" />
+        <activity android:name=".driver.activity.PasswordActivity" />
+        <activity android:name=".driver.activity.VehicleActivity" />
+        <activity android:name=".driver.activity.TruckChangeActivity"></activity>
     </application>
 
 </manifest>

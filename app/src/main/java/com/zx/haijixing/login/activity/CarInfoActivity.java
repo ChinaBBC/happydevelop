@@ -70,7 +70,7 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
             case R.id.car_info_graphB:
                 break;
             case R.id.car_info_next:
-                ARouter.getInstance().build(RoutePathConstant.CHECKING).navigation();
+                ARouter.getInstance().build(RoutePathConstant.TRUCK).navigation();
                 break;
         }
     }

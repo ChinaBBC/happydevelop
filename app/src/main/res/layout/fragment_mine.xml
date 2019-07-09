@@ -4,21 +4,62 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/mine_bg"
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mine_bg_area"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_190"
-        android:src="@mipmap/mine_bg"
-        android:scaleType="fitXY"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        android:background="@mipmap/mine_bg"
+        >
+        <ImageView
+            android:id="@+id/mine_user_head"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:src="@mipmap/user_head"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="@dimen/dp_34"
+            />
+        <TextView
+            android:id="@+id/mine_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="刘伯温"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintLeft_toRightOf="@id/mine_user_head"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/mine_user_phone"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:maxLines="1"
+            android:maxEms="8"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/mine_user_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="234342342343"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toRightOf="@id/mine_user_head"
+            app:layout_constraintTop_toBottomOf="@id/mine_user_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_5"
+            />
+    </android.support.constraint.ConstraintLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mine_count_area"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_54"
-        app:layout_constraintTop_toBottomOf="@id/mine_bg"
+        app:layout_constraintTop_toBottomOf="@id/mine_bg_area"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:paddingLeft="@dimen/dp_17"
@@ -45,7 +86,7 @@
             android:layout_marginLeft="@dimen/dp_8"
             />
         <ImageView
-            android:layout_width="@dimen/dp_5"
+            android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
             android:src="@mipmap/in"
             app:layout_constraintRight_toRightOf="parent"
@@ -94,7 +135,7 @@
             android:layout_marginLeft="@dimen/dp_8"
             />
         <ImageView
-            android:layout_width="@dimen/dp_5"
+            android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
             android:src="@mipmap/in"
             app:layout_constraintRight_toRightOf="parent"
@@ -143,7 +184,7 @@
             android:layout_marginLeft="@dimen/dp_8"
             />
         <ImageView
-            android:layout_width="@dimen/dp_5"
+            android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
             android:src="@mipmap/in"
             app:layout_constraintRight_toRightOf="parent"
@@ -192,7 +233,7 @@
             android:layout_marginLeft="@dimen/dp_8"
             />
         <ImageView
-            android:layout_width="@dimen/dp_5"
+            android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
             android:src="@mipmap/in"
             app:layout_constraintRight_toRightOf="parent"
@@ -255,7 +296,7 @@
             />
         <ImageView
             android:id="@+id/mine_img7"
-            android:layout_width="@dimen/dp_5"
+            android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
             android:src="@mipmap/in"
             app:layout_constraintRight_toRightOf="parent"
@@ -304,7 +345,7 @@
             android:layout_marginLeft="@dimen/dp_8"
             />
         <ImageView
-            android:layout_width="@dimen/dp_5"
+            android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
             android:src="@mipmap/in"
             app:layout_constraintRight_toRightOf="parent"

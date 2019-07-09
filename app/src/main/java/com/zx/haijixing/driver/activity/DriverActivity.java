@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomBottomBar;
 import com.zx.haijixing.driver.fragment.IndexFragment;
+import com.zx.haijixing.driver.fragment.MineFragment;
 import com.zx.haijixing.driver.fragment.NewsFragment;
 import com.zx.haijixing.driver.fragment.OrderFragment;
 import com.zx.haijixing.share.RoutePathConstant;
@@ -44,7 +45,7 @@ public class DriverActivity extends BaseActivity {
                         "新闻资讯",
                         R.mipmap.index_news_before,
                         R.mipmap.index_news_after)
-                .addItem(IndexFragment.class,
+                .addItem(MineFragment.class,
                         "个人中心",
                         R.mipmap.index_mine_before,
                         R.mipmap.index_mine_after)
