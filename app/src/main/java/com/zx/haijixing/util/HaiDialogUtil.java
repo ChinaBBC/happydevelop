@@ -99,6 +99,23 @@ public final class HaiDialogUtil {
         return payDialog;
     }
 
+    //更新提示
+    public static CommonDialogFragment showUpdate(FragmentManager fragmentManager, View.OnClickListener clickListener){
+        CommonDialogFragment updateDialog = CommonDialogFragment.newInstance(context -> {
+            View view = LayoutInflater.from(context).inflate(R.layout.dialog_update_tip, null);
+            TextView yes = view.findViewById(R.id.dialog_update_yes);
+            TextView no = view.findViewById(R.id.dialog_update_no);
+
+            yes.setOnClickListener(clickListener);
+            no.setOnClickListener(clickListener);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
+            return builder.setView(view).create();
+        }, true, null);
+        updateDialog.show(fragmentManager, "receive");
+        return updateDialog;
+    }
+
+
     public interface PayMoneyResultListener{
         void payResult(String result);
     }

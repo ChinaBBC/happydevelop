@@ -15,6 +15,7 @@ import com.zx.haijixing.util.HaiDialogUtil;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import zx.com.skytool.ZxStatusBarCompat;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -79,7 +80,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
 
     @Override
     public void showFaild(String errorMsg) {
-
+        ZxToastUtil.centerToast(errorMsg);
     }
 
     @Override
@@ -90,6 +91,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
 
     @Override
     public void showSuccess(String successMsg) {
+        ZxToastUtil.centerToast(successMsg);
     }
 
     /**

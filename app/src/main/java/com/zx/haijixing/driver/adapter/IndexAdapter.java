@@ -1,6 +1,8 @@
 package com.zx.haijixing.driver.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.youth.banner.Banner;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.entry.NewsEntry;
+import com.zx.haijixing.share.RoutePathConstant;
+
+import java.util.List;
 
 /**
  *
@@ -21,11 +31,22 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final static int HEAD_ITEM = 0;
     private final static int BODY_ITEM = 1;
     private View.OnClickListener clickListener;
+    private List<NewsEntry.NewsData> newsData;
+    private String baseStr = "http://192.168.5.180:80/profile/image/";
+    private Context context;
 
+    public IndexAdapter(List<NewsEntry.NewsData> newsData) {
+        this.newsData = newsData;
+    }
 
     public void setClickListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
     }
+
+    public void setBaseStr(String baseStr) {
+        this.baseStr = baseStr;
+    }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -38,11 +59,12 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
+        context = parent.getContext();
         if (viewType == HEAD_ITEM){
-            View head = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_index_header, parent, false);
+            View head = LayoutInflater.from(context).inflate(R.layout.item_index_header, parent, false);
             viewHolder = new IndexHeadViewHolder(head);
         }else {
-            View body = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_index_data, parent, false);
+            View body = LayoutInflater.from(context).inflate(R.layout.item_index_data, parent, false);
             viewHolder = new IndexBodyViewHolder(body);
         }
         return viewHolder;
@@ -50,21 +72,34 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder indexViewHolder, int i) {
-        if (i == HEAD_ITEM){
+        if (getItemViewType(i) == HEAD_ITEM){
             IndexHeadViewHolder indexHeadViewHolder = (IndexHeadViewHolder) indexViewHolder;
             indexHeadViewHolder.receive.setOnClickListener(clickListener);
             indexHeadViewHolder.print.setOnClickListener(clickListener);
             indexHeadViewHolder.clock.setOnClickListener(clickListener);
             indexHeadViewHolder.services.setOnClickListener(clickListener);
             indexHeadViewHolder.notify.setOnClickListener(clickListener);
+        }else {
+            int realPosition = getRealPosition(indexViewHolder);
+            NewsEntry.NewsData newsData = this.newsData.get(realPosition);
+            IndexBodyViewHolder indexBodyViewHolder = (IndexBodyViewHolder) indexViewHolder;
+            indexBodyViewHolder.time.setText(newsData.getCreateTime());
+            indexBodyViewHolder.simple.setText(newsData.getFtitle());
+            RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(context).load(baseStr+newsData.getCoverImg()).apply(options).into(indexBodyViewHolder.img);
+            indexBodyViewHolder.item.setOnClickListener(view->ARouter.getInstance().build(RoutePathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return newsData.size()+1;
     }
 
+    public int getRealPosition(RecyclerView.ViewHolder viewHolder){
+        int p = viewHolder.getLayoutPosition();
+        return p-1;
+    }
     class IndexHeadViewHolder extends RecyclerView.ViewHolder{
         ImageView receive,print,clock,services;
         Banner banner;
@@ -87,11 +122,13 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     class IndexBodyViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
         TextView simple,time;
+        ConstraintLayout item;
         public IndexBodyViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.index_body_img);
             simple = itemView.findViewById(R.id.index_body_words);
             time = itemView.findViewById(R.id.index_body_time);
+            item = itemView.findViewById(R.id.index_body_item);
         }
     }
 }

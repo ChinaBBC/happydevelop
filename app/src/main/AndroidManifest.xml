@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于申请调用A-GPS模块 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 安装应用 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.CAMERA"/><!--相机-->
 
     <application
         android:name=".HaiApplication"
@@ -30,7 +31,7 @@
         tools:replace="android:theme">
         <activity android:name=".driver.activity.NewsActivity" />
         <activity
-            android:name=".LaunchActivity"
+            android:name=".share.pub.activity.LaunchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppStartLoad">
@@ -64,7 +65,20 @@
         <activity android:name=".driver.activity.PhoneActivity" />
         <activity android:name=".driver.activity.PasswordActivity" />
         <activity android:name=".driver.activity.VehicleActivity" />
-        <activity android:name=".driver.activity.TruckChangeActivity"></activity>
+        <activity android:name=".driver.activity.TruckChangeActivity" />
+        <activity android:name=".driver.activity.PapersActivity" />
+        <activity android:name=".driver.activity.PapersChangeActivity" />
+        <activity android:name=".share.pub.activity.ApkActivity"></activity>
+        <!-- 下载apk -->
+        <provider
+            android:name=".util.UpdateApkFileProvider"
+            android:authorities="${applicationId}.update.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_apk_paths" />
+        </provider>
     </application>
 
 </manifest>

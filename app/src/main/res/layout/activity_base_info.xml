@@ -138,6 +138,7 @@
                 app:layout_constraintTop_toBottomOf="@id/base_info_head"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="@dimen/dp_6"
                 />
             <EditText
                 android:id="@+id/base_info_name"

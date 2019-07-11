@@ -66,16 +66,32 @@ public class TruckChangeActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.truck_change_cure_area:
+
                 break;
             case R.id.truck_change_driving:
+                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                        .withString("title",getHaiString(R.string.driving))
+                        .navigation();
                 break;
             case R.id.truck_change_drive:
+                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                        .withString("title",getHaiString(R.string.truck_drive))
+                        .navigation();
                 break;
             case R.id.truck_change_ensure:
+                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                        .withString("title",getHaiString(R.string.truck_cure_id))
+                        .navigation();
                 break;
             case R.id.truck_change_truck:
+                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                        .withString("title",getHaiString(R.string.truck))
+                        .navigation();
                 break;
             case R.id.truck_change_other:
+                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                        .withString("title",getHaiString(R.string.other))
+                        .navigation();
                 break;
         }
     }

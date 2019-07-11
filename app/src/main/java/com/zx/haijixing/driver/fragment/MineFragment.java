@@ -53,8 +53,8 @@ public class MineFragment extends BaseFragment {
     }
 
     @Override
-    protected void initInjector() {
-        ARouter.getInstance().inject(this);
+    protected void initData() {
+
     }
 
     @Override

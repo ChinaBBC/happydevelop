@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
@@ -13,9 +14,14 @@ import com.zx.haijixing.login.presenter.CarInfoActivityImp;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxStatusBarCompat;
+import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  * @作者 zx
@@ -44,6 +50,12 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
     @BindView(R.id.car_info_next)
     Button next;
 
+    @Autowired(name = "driverId")
+    public String driverId;
+
+    private String strA = "dsdadadas";
+    private String strB = "dssddasdas";
+
     @Override
     protected void initView() {
         title.setText(getHaiString(R.string.register));
@@ -51,7 +63,7 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
 
     @Override
     protected void initInjector() {
-        ARouter.getInstance().inject(this);
+        mPresenter = new CarInfoActivityImp();
     }
 
     @Override
@@ -70,13 +82,30 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
             case R.id.car_info_graphB:
                 break;
             case R.id.car_info_next:
-                ARouter.getInstance().build(RoutePathConstant.TRUCK).navigation();
+                checkUpload();
                 break;
         }
     }
 
     @Override
     public void carInfoSuccess() {
+        ARouter.getInstance().build(RoutePathConstant.TRUCK).navigation();
+    }
 
+    private void checkUpload(){
+        if (ZxStringUtil.isEmpty(strA)){
+            ZxToastUtil.centerToast(getHaiString(R.string.upload_driving_A));
+        }else if (ZxStringUtil.isEmpty(strB)){
+            ZxToastUtil.centerToast(getHaiString(R.string.upload_driving_B));
+        }else{
+            Map<String,String> params = new HashMap<>();
+            params.put("userId",driverId);
+            params.put("driverCardFront",strA);
+            params.put("driverCardBack",strB);
+            params.put("driverCardFrontS",strA);//缩略图
+            params.put("driverCardBackS",strB);
+
+            mPresenter.carInfoMethod(params);
+        }
     }
 }

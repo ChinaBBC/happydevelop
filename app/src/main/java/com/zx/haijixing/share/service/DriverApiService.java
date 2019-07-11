@@ -1,6 +1,7 @@
 package com.zx.haijixing.share.service;
 
 import com.zx.haijixing.driver.entry.NewsEntry;
+import com.zx.haijixing.share.base.HaiDataObserver;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -27,6 +28,7 @@ public interface DriverApiService {
 
     @GET("commons/ios/index/image")
     Observable<String> firstBg();
+
 
 
 }

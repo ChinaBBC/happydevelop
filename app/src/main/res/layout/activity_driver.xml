@@ -13,9 +13,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/driver_Bb_bottomMenu"
+        app:layout_constraintBottom_toTopOf="@+id/driver_line"
         >
     </FrameLayout>
+    <View
+        android:id="@+id/driver_line"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/color_e0e0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/driver_Bb_bottomMenu"/>
     <com.zx.haijixing.custom.CustomBottomBar
         android:id="@+id/driver_Bb_bottomMenu"
         android:layout_width="0dp"

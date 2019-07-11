@@ -1,15 +1,14 @@
 package com.zx.haijixing.driver.fragment;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.driver.adapter.OrderAdapter;
+import com.zx.haijixing.custom.CustomBottomBar;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 
@@ -33,30 +32,13 @@ public class OrderFragment extends BaseFragment {
     TextView orderTotalOrders;
     @BindView(R.id.order_check_all)
     TextView orderCheckAll;
-    @BindView(R.id.order_wait_receive)
-    ImageView orderWaitReceive;
-    @BindView(R.id.order_word1)
-    TextView orderWord1;
-    @BindView(R.id.order_wait_send)
-    ImageView orderWaitSend;
-    @BindView(R.id.order_word2)
-    TextView orderWord2;
-    @BindView(R.id.order_is_sending)
-    ImageView orderIsSending;
-    @BindView(R.id.order_word3)
-    TextView orderWord3;
-    @BindView(R.id.order_has_completed)
-    ImageView orderHasCompleted;
-    @BindView(R.id.order_word4)
-    TextView orderWord4;
-    @BindView(R.id.order_has_cancel)
-    ImageView orderHasCancel;
-    @BindView(R.id.order_word5)
-    TextView orderWord5;
-    @BindView(R.id.order_rv_data)
-    RecyclerView orderRvData;
-    @BindView(R.id.order_title)
-    TextView title;
+
+    @BindView(R.id.order_rp_lay)
+    FrameLayout replace;
+    @BindView(R.id.order_one)
+    LinearLayout title;
+    @BindView(R.id.order_bottom_bar)
+    CustomBottomBar bottomBar;
 
     @Override
     protected int getLayoutId() {
@@ -64,18 +46,48 @@ public class OrderFragment extends BaseFragment {
     }
 
     @Override
-    protected void initInjector() {
-        ARouter.getInstance().inject(this);
+    protected void initData() {
+
     }
 
     @Override
     protected void initView(View view) {
         setTitleTopMargin(title,0);
-        orderRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        orderRvData.setAdapter(new OrderAdapter());
+
+        int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_11);
+        int titleMar = getResources().getDimensionPixelSize(R.dimen.dp_4);
+        int iconSize = getResources().getDimensionPixelSize(R.dimen.dp_20);
+        //初始化底部菜单栏
+        bottomBar.setContainer(R.id.order_rp_lay)
+                .setTitleBeforeAndAfterColor("#666666", "#30703f")
+                .setTitleSize(titleSize)
+                .setTitleIconMargin(titleMar)
+                .setIconHeight(iconSize)
+                .setIconWidth(iconSize)
+                .addItem(ReceivedFragment.class,
+                        getHaiString(R.string.wait_receive),
+                        R.mipmap.wait_receive,
+                        R.mipmap.wait_receive2)
+                .addItem(SendFragment.class,
+                        getHaiString(R.string.wait_send),
+                        R.mipmap.wait_send,
+                        R.mipmap.wait_send2)
+                .addItem(SendingFragment.class,
+                        getHaiString(R.string.sending),
+                        R.mipmap.sending,
+                        R.mipmap.sending2)
+                .addItem(CompleteFragment.class,
+                        getHaiString(R.string.complete),
+                        R.mipmap.complete,
+                        R.mipmap.complete2)
+                .addItem(CancelFragment.class,
+                        getHaiString(R.string.has_cancel),
+                        R.mipmap.has_cancel,
+                        R.mipmap.has_cancel2)
+                .build();
     }
 
-    @OnClick({R.id.order_search, R.id.order_check_all, R.id.order_wait_receive, R.id.order_word1, R.id.order_wait_send, R.id.order_word2, R.id.order_is_sending, R.id.order_word3, R.id.order_has_completed, R.id.order_word4, R.id.order_has_cancel, R.id.order_word5})
+    @OnClick({R.id.order_search, R.id.order_check_all})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_search:
@@ -84,26 +96,7 @@ public class OrderFragment extends BaseFragment {
             case R.id.order_check_all:
                 ARouter.getInstance().build(RoutePathConstant.DRIVER_ORDER).navigation();
                 break;
-            case R.id.order_wait_receive:
-            case R.id.order_word1:
 
-                break;
-            case R.id.order_wait_send:
-            case R.id.order_word2:
-
-                break;
-            case R.id.order_is_sending:
-            case R.id.order_word3:
-
-                break;
-            case R.id.order_has_completed:
-            case R.id.order_word4:
-
-                break;
-            case R.id.order_has_cancel:
-            case R.id.order_word5:
-
-                break;
         }
     }
 }

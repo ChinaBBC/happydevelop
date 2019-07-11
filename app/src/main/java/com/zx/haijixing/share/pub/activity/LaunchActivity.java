@@ -1,24 +1,33 @@
-package com.zx.haijixing;
+package com.zx.haijixing.share.pub.activity;
 
 import android.graphics.Point;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
 
+import com.zx.haijixing.BuildConfig;
+import com.zx.haijixing.HaiNativeHelper;
+import com.zx.haijixing.R;
 import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.share.dao.HaiDao;
+import com.zx.haijixing.share.pub.contract.VersionContract;
+import com.zx.haijixing.share.pub.entry.VersionEntry;
+import com.zx.haijixing.share.pub.imp.VersionImp;
+import com.zx.haijixing.util.CommonDialogFragment;
+import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import butterknife.OnClick;
 
 
 /**
@@ -27,16 +36,50 @@ import java.util.List;
  *@创建日期 2019/6/14 12:00
  *@描述 启动页面
  */
-public class LaunchActivity extends AppCompatActivity {
+public class LaunchActivity extends BaseActivity<VersionImp> implements VersionContract.VersionView {
 
 
     private HaiDao dao;
     private RecyclerViewSkeletonScreen skeletonScreen;
+    private CommonDialogFragment showUpdate;
+    private VersionEntry versionEntry;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launch);
+    protected void initView() {
+        test();
+        mPresenter.versionMethod();
+    }
+
+    @Override
+    protected void initInjector() {
+        mPresenter = new VersionImp();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_launch;
+    }
+
+    @Override
+    public void versionSuccess(VersionEntry versionEntry) {
+        this.versionEntry = versionEntry;
+        if (HaiTool.packageCode(this)<versionEntry.getVersionNum()) {
+            showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(), this::onViewClicked);
+        }
+    }
+
+    @OnClick
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.dialog_update_no:
+                showUpdate.dismissAllowingStateLoss();
+                break;
+            case R.id.dialog_update_yes:
+                ARouter.getInstance().build(RoutePathConstant.APK_ACTIVITY).withString("path",versionEntry.getDownloadUrl()).navigation();
+                break;
+        }
+    }
+    private void test(){
         Log.i("<<<<<","<BuildConfig.homeUrl>"+BuildConfig.homeUrl+HaiNativeHelper.baseUrl());
         final SwipeRefreshLayout swipe = findViewById(R.id.swipe);
         final TextView sample = findViewById(R.id.sample_text);
@@ -127,5 +170,4 @@ public class LaunchActivity extends AppCompatActivity {
 
         });
     }
-
 }

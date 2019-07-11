@@ -2,6 +2,8 @@ package com.zx.haijixing.login.contract;
 
 import com.zx.haijixing.share.base.IBaseContract;
 
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -14,6 +16,6 @@ public interface ICarInfoActivityContract {
     }
 
     interface CarInfoPresenter extends IBaseContract.IBasePresenter<CarInfoView>{
-        void carInfoMethod(String param);
+        void carInfoMethod(Map<String,String> params);
     }
 }

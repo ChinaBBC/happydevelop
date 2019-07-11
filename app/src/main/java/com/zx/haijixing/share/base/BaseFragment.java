@@ -36,7 +36,7 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
 
     protected abstract int getLayoutId();
 
-    protected abstract void initInjector();
+    protected abstract void initData();
 
     protected abstract void initView(View view);
 
@@ -44,8 +44,10 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ARouter.getInstance().inject(this);
-        initInjector();
+        initData();
+
         attachView();
+
         if (savedInstanceState != null) {
             boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
             FragmentTransaction ft = getFragmentManager().beginTransaction();

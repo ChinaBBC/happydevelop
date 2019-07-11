@@ -37,7 +37,7 @@ public class ReceivedFragment extends BaseFragment {
     }
 
     @Override
-    protected void initInjector() {
+    protected void initData() {
 
     }
 

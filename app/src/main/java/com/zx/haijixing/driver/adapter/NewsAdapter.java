@@ -1,13 +1,26 @@
 package com.zx.haijixing.driver.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.entry.NewsEntry;
+import com.zx.haijixing.share.RoutePathConstant;
+
+import java.util.List;
 
 /**
  *
@@ -18,10 +31,16 @@ import com.zx.haijixing.R;
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static int HEAD_ITEM = 0;
     private final static int BODY_ITEM = 1;
-    private View.OnClickListener clickListener;
+    private List<NewsEntry.NewsData> newsDataList;
+    private String baseStr;
+    private Context context;
 
-    public void setClickListener(View.OnClickListener clickListener) {
-        this.clickListener = clickListener;
+    public NewsAdapter(List<NewsEntry.NewsData> newsDataList) {
+        this.newsDataList = newsDataList;
+    }
+
+    public void setBaseStr(String baseStr) {
+        this.baseStr = baseStr;
     }
 
     @Override
@@ -35,45 +54,66 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        if (viewType == HEAD_ITEM){
-            View head = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_news_header, viewGroup, false);
+        context = viewGroup.getContext();
+        if (getItemViewType(viewType) == HEAD_ITEM){
+            View head = LayoutInflater.from(context).inflate(R.layout.item_news_header, viewGroup, false);
             viewHolder = new NewsHeadViewHolder(head);
         }else {
-            View body = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_news_data, viewGroup, false);
+            View body = LayoutInflater.from(context).inflate(R.layout.item_news_data, viewGroup, false);
             viewHolder = new NewsViewHolder(body);
         }
         return viewHolder;
 
     }
-
+    public int getRealPosition(RecyclerView.ViewHolder viewHolder){
+        int p = viewHolder.getLayoutPosition();
+        return p-1;
+    }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-        if (i == HEAD_ITEM){
-
+        if (getItemViewType(i) == HEAD_ITEM){
+            NewsHeadViewHolder newsHeadViewHolder = (NewsHeadViewHolder) viewHolder;
+            newsHeadViewHolder.banner.setOnBannerListener((OnBannerListener) position -> ARouter.getInstance().build(RoutePathConstant.DRIVER_NEWS).navigation());
         }else {
+            int realPosition = getRealPosition(viewHolder);
+            NewsEntry.NewsData newsData = newsDataList.get(realPosition);
             NewsViewHolder newsViewHolder = (NewsViewHolder) viewHolder;
-            newsViewHolder.item.setOnClickListener(clickListener);
+            newsViewHolder.item.setOnClickListener(view1 -> ARouter.getInstance().build(RoutePathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
+            newsViewHolder.title.setText(newsData.getTitle());
+            newsViewHolder.sample.setText(newsData.getFtitle());
+            newsViewHolder.time.setText(newsData.getCreateTime());
+            RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(context).load(baseStr+newsData.getCoverImg()).apply(options).into(newsViewHolder.back);
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return newsDataList.size()+1;
     }
 
     class NewsViewHolder extends RecyclerView.ViewHolder{
 
         ConstraintLayout item;
+        ImageView back,share;
+        TextView title,sample,time;
         public NewsViewHolder(@NonNull View itemView) {
             super(itemView);
             item = itemView.findViewById(R.id.new_data_item);
+            share = itemView.findViewById(R.id.new_data_share);
+            back = itemView.findViewById(R.id.news_data_image);
+            title = itemView.findViewById(R.id.news_data_title);
+            sample = itemView.findViewById(R.id.news_data_content);
+            time = itemView.findViewById(R.id.news_Data_time);
+
         }
     }
 
     class NewsHeadViewHolder extends RecyclerView.ViewHolder{
-
+        Banner banner;
         public NewsHeadViewHolder(@NonNull View itemView) {
             super(itemView);
+            banner = itemView.findViewById(R.id.news_banner);
         }
     }
 }

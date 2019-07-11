@@ -26,7 +26,13 @@
     <string name="please_input_phone">请输入手机号</string>
     <string name="please_input_code">请输入手机验证码</string>
     <string name="please_input_password">请输入密码</string>
+    <string name="password_not_equal">密码输入不一致</string>
+    <string name="please_read_and_agree">请阅读并同意《星配送物流平台合作协议》</string>
+    <string name="please_read_first">请先阅读《星配送物流平台合作协议》</string>
+    <string name="please_input_phone_pass">请输入账号和密码</string>
+    <string name="please_input_phone_code">请输入账号和验证码</string>
     <string name="has_read_and_agree">已阅读并同意</string>
+    <string name="send_success">发送成功</string>
     <string name="xin_logistics_protocol">《星配送物流平台合作协议》</string>
     <string name="next_step">下一步</string>
     <string name="register">注册</string>
@@ -65,6 +71,7 @@
     <string name="news">新闻资讯</string>
     <string name="news_detail">新闻详情</string>
     <string name="order_center">订单中心</string>
+    <string name="all_orders">全部运单</string>
     <string name="order_hint">运单号/车牌号/发货手机号/司机姓名</string>
     <string name="check_all">查看全部 ></string>
     <string name="wait_receive">待接单</string>
@@ -92,6 +99,7 @@
     <string name="locate_tip">车辆即将出发，请打开GPS\n定位系统进入导航状态\n请安全驾驶！</string>
     <string name="set">设置</string>
     <string name="sure_to_receive">是否确认接单</string>
+    <string name="check_new_update">检查到新版本，是否更新？</string>
     <string name="cancel">取消</string>
     <string name="real_pay">实收运费</string>
     <string name="pay_online">线上支付</string>
@@ -111,6 +119,9 @@
     <string name="out_login">退出登录</string>
     <string name="version">版本</string>
     <string name="version_update">版本更新</string>
+    <string name="update_content">更新内容:</string>
+    <string name="downloading">下载中，请稍候...</string>
+    <string name="update_immediately">立即更新</string>
     <string name="now_version">当前版本</string>
     <string name="all_score">总评分</string>
     <string name="service_manner">服务态度</string>
@@ -120,7 +131,7 @@
     <string name="car_and_lines">车辆及路线</string>
     <string name="this_month">本月运单</string>
     <string name="this_day">今日运单</string>
-    <string name="this_other_month">本月代收运单</string>
+    <string name="this_other_month">今日到付(线下)</string>
     <string name="bill_statistics">运单统计</string>
     <string name="free_statistics">运费统计</string>
     <string name="other_statistics">代收统计</string>
@@ -134,5 +145,10 @@
     <string name="input_new_phone">输入新手机号</string>
     <string name="input_code">输入验证码</string>
     <string name="driving">驾驶证</string>
+    <string name="changes">修改</string>
+    <string name="re_upload">重新上传</string>
+    <string name="save">保存</string>
+    <string name="upload_driving_A">请上传驾驶证主页照</string>
+    <string name="upload_driving_B">请上传驾驶证副页照</string>
 
 </resources>

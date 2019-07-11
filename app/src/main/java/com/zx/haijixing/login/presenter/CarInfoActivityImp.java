@@ -1,7 +1,16 @@
 package com.zx.haijixing.login.presenter;
 
+import com.allen.library.RxHttpUtils;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.login.contract.ICarInfoActivityContract;
 import com.zx.haijixing.share.base.BasePresenter;
+import com.zx.haijixing.share.service.LoginApiService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  *
@@ -11,7 +20,29 @@ import com.zx.haijixing.share.base.BasePresenter;
  */
 public class CarInfoActivityImp extends BasePresenter<ICarInfoActivityContract.CarInfoView> implements ICarInfoActivityContract.CarInfoPresenter {
     @Override
-    public void carInfoMethod(String param) {
+    public void carInfoMethod(Map<String,String> params) {
+        RxHttpUtils.createApi(LoginApiService.class)
+                .drivingCard(params)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
 
+                    @Override
+                    protected void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.carInfoSuccess();
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

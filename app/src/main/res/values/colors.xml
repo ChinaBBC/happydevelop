@@ -24,4 +24,6 @@
     <color name="color_f5f1">#F0F5F1</color>
     <color name="color_7e00">#FF7E00</color>
     <color name="color_7e21">#E77E21</color>
+    <color name="trans_3333">#66333333</color>
+    <color name="color_b375">#62B375</color>
 </resources>

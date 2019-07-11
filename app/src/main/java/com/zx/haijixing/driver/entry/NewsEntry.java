@@ -2,6 +2,12 @@ package com.zx.haijixing.driver.entry;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import com.zx.haijixing.share.base.HaiBaseData;
+
+import java.util.List;
 
 /**
  *
@@ -9,73 +15,129 @@ import android.arch.persistence.room.Entity;
  *@创建日期 2019/7/3 13:35
  *@描述 新闻资讯
  */
-@Entity(primaryKeys = "id")
-public class NewsEntry {
-    @ColumnInfo(name = "id")
-    long id;
-    String title;//标题
-    String simple;//简介
-    String content;//内容
-    String time;//时间
-    String img;//图片
+public class NewsEntry{
+
+    String msg;
+    int code;
+    String fileHttpWW;
+    List<NewsData> data;
 
     @Override
     public String toString() {
         return "NewsEntry{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", simple='" + simple + '\'' +
-                ", content='" + content + '\'' +
-                ", time='" + time + '\'' +
-                ", img='" + img + '\'' +
+                "msg='" + msg + '\'' +
+                ", code=" + code +
+                ", fileHttpWW='" + fileHttpWW + '\'' +
+                ", data=" + data +
                 '}';
     }
 
-    public long getId() {
-        return id;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public String getTitle() {
-        return title;
+    public int getCode() {
+        return code;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getSimple() {
-        return simple;
+    public String getFileHttpWW() {
+        return fileHttpWW;
     }
 
-    public void setSimple(String simple) {
-        this.simple = simple;
+    public void setFileHttpWW(String fileHttpWW) {
+        this.fileHttpWW = fileHttpWW;
     }
 
-    public String getContent() {
-        return content;
+    public List<NewsData> getData() {
+        return data;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setData(List<NewsData> data) {
+        this.data = data;
     }
 
-    public String getTime() {
-        return time;
-    }
+    @Entity(tableName = "news")
+    public class NewsData{
+        @ColumnInfo(name = "nid")
+        @PrimaryKey()
+        @NonNull
+        String newId;//id
+        String title;//标题
+        String ftitle;//简介
+        String content;//内容
+        String createTime;//时间
+        String coverImg;//图片
 
-    public void setTime(String time) {
-        this.time = time;
-    }
 
-    public String getImg() {
-        return img;
-    }
+        @NonNull
+        public String getNewId() {
+            return newId;
+        }
 
-    public void setImg(String img) {
-        this.img = img;
+        public void setNewId(@NonNull String newId) {
+            this.newId = newId;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getFtitle() {
+            return ftitle;
+        }
+
+        public void setFtitle(String ftitle) {
+            this.ftitle = ftitle;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getCoverImg() {
+            return coverImg;
+        }
+
+        public void setCoverImg(String coverImg) {
+            this.coverImg = coverImg;
+        }
+
+        @Override
+        public String toString() {
+            return "NewsData{" +
+                    "newId='" + newId + '\'' +
+                    ", title='" + title + '\'' +
+                    ", ftitle='" + ftitle + '\'' +
+                    ", content='" + content + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", coverImg='" + coverImg + '\'' +
+                    '}';
+        }
     }
 }
+
+

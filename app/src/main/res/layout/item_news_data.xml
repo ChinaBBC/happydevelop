@@ -14,6 +14,7 @@
         android:id="@+id/news_data_image"
         android:layout_width="@dimen/dp_85"
         android:layout_height="@dimen/dp_60"
+        android:scaleType="fitXY"
         android:background="@color/color_3333"
         />
     <TextView

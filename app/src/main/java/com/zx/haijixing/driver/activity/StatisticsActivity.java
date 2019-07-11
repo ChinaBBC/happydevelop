@@ -57,10 +57,6 @@ public class StatisticsActivity extends BaseActivity {
     TextView statisticsFree;
     @BindView(R.id.statistics_line2)
     TextView statisticsLine2;
-    @BindView(R.id.statistics_others)
-    TextView statisticsOthers;
-    @BindView(R.id.statistics_line3)
-    TextView statisticsLine3;
     @BindView(R.id.statistics_start_time)
     TextView startTime;
     @BindView(R.id.statistics_start_time_area)
@@ -92,7 +88,7 @@ public class StatisticsActivity extends BaseActivity {
         return R.layout.activity_statistics;
     }
 
-    @OnClick({R.id.statistics_back, R.id.statistics_bill, R.id.statistics_free, R.id.statistics_others, R.id.statistics_start_time_area, R.id.statistics_end_time_area, R.id.statistics_search})
+    @OnClick({R.id.statistics_back, R.id.statistics_bill, R.id.statistics_free, R.id.statistics_start_time_area, R.id.statistics_end_time_area, R.id.statistics_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.statistics_back:
@@ -101,8 +97,6 @@ public class StatisticsActivity extends BaseActivity {
             case R.id.statistics_bill:
                 break;
             case R.id.statistics_free:
-                break;
-            case R.id.statistics_others:
                 break;
             case R.id.statistics_start_time_area:
                 pvTime.show();

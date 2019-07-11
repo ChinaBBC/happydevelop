@@ -1,7 +1,6 @@
 package com.zx.haijixing.login.activity;
 
 
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
@@ -16,13 +15,15 @@ import com.zx.haijixing.login.contract.ILoginActivityContract;
 import com.zx.haijixing.login.presenter.LoginActivityImp;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zx.com.skytool.ZxCountDownTimerUtil;
 import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxStatusBarCompat;
+import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  * @作者 zx
@@ -63,10 +64,16 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     ConstraintLayout codeLoginArea;
 
     private ZxCountDownTimerUtil<TextView> zxCountDownTimerUtil;
+    private int loginType = 1;
 
     @Override
     public void loginSuccess() {
-        ZxLogUtil.logVerbose("login success!");
+        ARouter.getInstance().build(RoutePathConstant.DRIVER_MAIN).navigation();
+    }
+
+    @Override
+    public void loginCodeSuccess() {
+        ZxToastUtil.centerToast(getHaiString(R.string.send_success));
     }
 
     @Override
@@ -77,7 +84,6 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     @Override
     protected void initInjector() {
         mPresenter = new LoginActivityImp();
-        ARouter.getInstance().inject(this);
     }
 
     @Override
@@ -92,14 +98,17 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
                 ARouter.getInstance().build(RoutePathConstant.ROUTE_FORGET).navigation();
                 break;
             case R.id.login_login:
-                ARouter.getInstance().build(RoutePathConstant.DRIVER_MAIN).navigation();
-
-                //mPresenter.loginMethod("", "");
+                if (loginType == 1){
+                    checkInputC();
+                }else {
+                    checkInputP();
+                }
                 break;
             case R.id.login_go_register:
                 ARouter.getInstance().build(RoutePathConstant.BASE_INFO).navigation();
                 break;
             case R.id.login_password_login:
+                loginType = 2;
                 codeLoginArea.setVisibility(View.GONE);
                 codeImage.setVisibility(View.GONE);
                 passwordLoginArea.setVisibility(View.VISIBLE);
@@ -108,6 +117,7 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
                 codeLogin.setTextColor(getHaiColor(R.color.color_9999));
                 break;
             case R.id.login_code_login:
+                loginType = 1;
                 codeLoginArea.setVisibility(View.VISIBLE);
                 codeImage.setVisibility(View.VISIBLE);
                 passwordLoginArea.setVisibility(View.GONE);
@@ -116,7 +126,13 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
                 codeLogin.setTextColor(getHaiColor(R.color.color_3333));
                 break;
             case R.id.login_phone_send_code:
-                sendMethod();
+                String trim = phonePhone.getText().toString().trim();
+                if (ZxStringUtil.isEmpty(trim)){
+                    ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone));
+                }else {
+                    sendMethod();
+                    mPresenter.loginCodeMethod(trim);
+                }
                 break;
         }
     }
@@ -140,5 +156,24 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     @Override
     public void setStatusBar() {
         ZxStatusBarCompat.translucentStatusBar(this,true);
+    }
+
+    private void checkInputP(){
+        String phone = name.getText().toString().trim();
+        String password = this.password.getText().toString().trim();
+        if (ZxStringUtil.isEmpty(phone) || ZxStringUtil.isEmpty(password)){
+            ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone_pass));
+        }else {
+            mPresenter.loginMethod(phone,HaiTool.md5Method(password));
+        }
+    }
+    private void checkInputC(){
+        String phone = this.phonePhone.getText().toString().trim();
+        String code = this.codeCode.getText().toString().trim();
+        if (ZxStringUtil.isEmpty(phone) || ZxStringUtil.isEmpty(code)){
+            ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone_code));
+        }else {
+            mPresenter.loginMethodC(phone,code);
+        }
     }
 }

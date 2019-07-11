@@ -6,6 +6,9 @@ package com.zx.haijixing.share;
  *@描述 路由常量保持类
  */
 public final class RoutePathConstant {
+    public final static String APK_ACTIVITY = "/login/activity/ApkActivity";//更新
+
+
     public final static String ROUTE_LOGIN = "/login/activity/LoginActivity";//登录
     public final static String ROUTE_FORGET = "/login/activity/ForgetActivity";//忘记密码
     public final static String BASE_INFO = "/login/activity/BaseInfoActivity";//基本信息
@@ -31,6 +34,8 @@ public final class RoutePathConstant {
     public final static String PASSWORD = "/driver/activity/PasswordActivity";//修改密码
     public final static String VEHICLE = "/driver/activity/VehicleActivity";//车辆管理
     public final static String TRUCK_CHANGE = "/driver/activity/TruckChangeActivity";//车辆信息修改
+    public final static String PAPERS = "/driver/activity/PapersActivity";//车辆信息展示
+    public final static String PAPERS_CHANGE = "/driver/activity/PapersChangeActivity";//车辆信息修改
 
 
 }

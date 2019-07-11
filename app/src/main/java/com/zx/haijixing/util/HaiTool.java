@@ -3,6 +3,9 @@ package com.zx.haijixing.util;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+
+import com.allen.library.utils.MD5;
+
 /**
  *
  *@作者 zx
@@ -42,5 +45,9 @@ public final class HaiTool {
             e.printStackTrace();
         }
         return code;
+    }
+
+    public static String md5Method(String word){
+        return  MD5.EncoderByMd5(word);
     }
 }

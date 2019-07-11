@@ -16,7 +16,7 @@ import com.zx.haijixing.driver.entry.NewsEntry;
  *@创建日期 2019/6/17 14:29
  *@描述 创建数据库
  */
-@Database(entities = {NewsEntry.class},version = 4,exportSchema = false)
+@Database(entities = {NewsEntry.NewsData.class},version = 5,exportSchema = false)
 public abstract class HaiDataBase extends RoomDatabase {
     private static final String DB_NAME = "HaiJiXin.db";
     private static volatile HaiDataBase instance;

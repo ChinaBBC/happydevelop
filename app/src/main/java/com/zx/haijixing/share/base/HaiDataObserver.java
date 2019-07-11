@@ -46,7 +46,7 @@ public abstract class HaiDataObserver<T> extends BaseObserver<HaiBaseData<T>> {
         //onSuccess(data.getData());
         //可以根据需求对code统一处理
         switch (data.getCode()) {
-            case 200:
+            case 0:
                onSuccess(data.getData());
                 break;
             case 300:

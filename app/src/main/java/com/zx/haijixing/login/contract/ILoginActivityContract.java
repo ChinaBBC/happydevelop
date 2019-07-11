@@ -10,9 +10,12 @@ import com.zx.haijixing.share.base.IBaseContract;
 public interface ILoginActivityContract {
     interface LoginView extends IBaseContract.IBaseView{
         void loginSuccess();
+        void loginCodeSuccess();
     }
 
     interface LoginPresenter extends IBaseContract.IBasePresenter<LoginView>{
         void loginMethod(String account,String password);
+        void loginMethodC(String account,String code);
+        void loginCodeMethod(String phone);
     }
 }

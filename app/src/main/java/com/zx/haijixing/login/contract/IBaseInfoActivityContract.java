@@ -1,6 +1,9 @@
 package com.zx.haijixing.login.contract;
 
 import com.zx.haijixing.share.base.IBaseContract;
+
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -9,10 +12,12 @@ import com.zx.haijixing.share.base.IBaseContract;
  */
 public interface IBaseInfoActivityContract {
     interface BaseInfoView extends IBaseContract.IBaseView{
-        void baseInfoSuccess();
+        void baseInfoSuccess(String driverId);
+        void baseInfoCodeSuccess();
     }
 
     interface BaseInfoPresenter extends IBaseContract.IBasePresenter<BaseInfoView>{
-        void baseInfoMethod(String account,String password,String code);
+        void baseInfoMethod(Map<String,String> params);
+        void baseInfoCodeMethod(String phone);
     }
 }

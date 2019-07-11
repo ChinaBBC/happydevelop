@@ -2,31 +2,28 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_f0f0"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/order_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/order_center"
-        android:textSize="@dimen/sp_16"
-        android:textColor="@color/color_3333"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_112"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/dp_30"
-        />
+        android:background="@color/color_b375"
+        ></View>
     <LinearLayout
         android:id="@+id/order_one"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_37"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/order_title"
-        app:layout_constraintWidth_percent="0.96"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
         android:gravity="center_vertical"
         android:background="@drawable/shape_5dp_faf2"
-        android:layout_marginTop="@dimen/dp_15"
         >
         <ImageView
             android:layout_width="@dimen/dp_16"
@@ -50,9 +47,9 @@
             android:layout_width="@dimen/dp_60"
             android:layout_height="match_parent"
             android:text="@string/search"
-            android:textColor="@color/white"
+            android:textColor="@color/color_b375"
             android:textSize="@dimen/sp_14"
-            android:background="@drawable/shape_left_a45b"
+            android:background="@drawable/shape_5dp_left_ffff"
             android:gravity="center"
             />
     </LinearLayout>
@@ -88,7 +85,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
-        <TextView
+        <View
             android:id="@+id/order_line1"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_1"
@@ -98,125 +95,23 @@
             app:layout_constraintTop_toBottomOf="@id/order_total_orders"
             android:layout_marginTop="@dimen/dp_10"
             />
-        <ImageView
-            android:id="@+id/order_wait_receive"
-            android:layout_width="@dimen/dp_29"
-            android:layout_height="@dimen/dp_29"
-            android:src="@mipmap/wait_receive"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+        <com.zx.haijixing.custom.CustomBottomBar
+            android:id="@+id/order_bottom_bar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_line1"
-            android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintRight_toLeftOf="@+id/order_wait_send"
-            />
-        <TextView
-            android:id="@+id/order_word1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wait_receive"
-            android:textColor="@color/color_6666"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-
-            app:layout_constraintTop_toBottomOf="@id/order_wait_receive"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/order_word2"
-            />
-        <ImageView
-            android:id="@+id/order_wait_send"
-            android:layout_width="@dimen/dp_29"
-            android:layout_height="@dimen/dp_29"
-            android:src="@mipmap/wait_send"
-            app:layout_constraintLeft_toRightOf="@id/order_wait_receive"
-            app:layout_constraintTop_toBottomOf="@id/order_line1"
-            android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintRight_toLeftOf="@+id/order_is_sending"
-            />
-        <TextView
-            android:id="@+id/order_word2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wait_send"
-            android:textColor="@color/color_6666"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintTop_toBottomOf="@id/order_wait_send"
-            app:layout_constraintLeft_toRightOf="@id/order_word1"
-            app:layout_constraintRight_toLeftOf="@+id/order_word3"
-            />
-        <ImageView
-            android:id="@+id/order_is_sending"
-            android:layout_width="@dimen/dp_29"
-            android:layout_height="@dimen/dp_29"
-            android:src="@mipmap/sending"
-            app:layout_constraintLeft_toRightOf="@id/order_wait_send"
-            app:layout_constraintTop_toBottomOf="@id/order_line1"
-            android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintRight_toLeftOf="@+id/order_has_completed"
-            />
-        <TextView
-            android:id="@+id/order_word3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sending"
-            android:textColor="@color/color_6666"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintTop_toBottomOf="@id/order_is_sending"
-            app:layout_constraintLeft_toRightOf="@id/order_word2"
-            app:layout_constraintRight_toLeftOf="@+id/order_word4"
-            />
-        <ImageView
-            android:id="@+id/order_has_completed"
-            android:layout_width="@dimen/dp_29"
-            android:layout_height="@dimen/dp_29"
-            android:src="@mipmap/complete"
-            app:layout_constraintLeft_toRightOf="@id/order_is_sending"
-            app:layout_constraintTop_toBottomOf="@id/order_line1"
-            android:layout_marginTop="@dimen/dp_10"
-            app:layout_constraintRight_toLeftOf="@+id/order_has_cancel"
-            />
-        <TextView
-            android:id="@+id/order_word4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/complete"
-            android:textColor="@color/color_6666"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintTop_toBottomOf="@id/order_has_completed"
-            app:layout_constraintLeft_toRightOf="@id/order_word3"
-            app:layout_constraintRight_toLeftOf="@+id/order_word5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <ImageView
-            android:id="@+id/order_has_cancel"
-            android:layout_width="@dimen/dp_29"
-            android:layout_height="@dimen/dp_29"
-            android:src="@mipmap/has_cancel"
-            app:layout_constraintLeft_toRightOf="@id/order_has_completed"
-            app:layout_constraintTop_toBottomOf="@id/order_line1"
-            android:layout_marginTop="@dimen/dp_10"
             app:layout_constraintRight_toRightOf="parent"
-            />
-        <TextView
-            android:id="@+id/order_word5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/has_cancel"
-            android:textColor="@color/color_6666"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintTop_toBottomOf="@id/order_has_cancel"
-            app:layout_constraintLeft_toRightOf="@id/order_word4"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_line1"
             app:layout_constraintBottom_toBottomOf="parent"
             />
     </android.support.constraint.ConstraintLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/order_rv_data"
+    <FrameLayout
+        android:id="@+id/order_rp_lay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/order_lay1"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/color_f0f0"
-        ></android.support.v7.widget.RecyclerView>
+        ></FrameLayout>
 </android.support.constraint.ConstraintLayout>
