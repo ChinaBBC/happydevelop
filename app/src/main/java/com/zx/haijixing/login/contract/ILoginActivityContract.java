@@ -1,5 +1,6 @@
 package com.zx.haijixing.login.contract;
 
+import com.zx.haijixing.login.entry.LoginEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 /**
  *
@@ -9,7 +10,7 @@ import com.zx.haijixing.share.base.IBaseContract;
  */
 public interface ILoginActivityContract {
     interface LoginView extends IBaseContract.IBaseView{
-        void loginSuccess();
+        void loginSuccess(LoginEntry loginEntry);
         void loginCodeSuccess();
     }
 

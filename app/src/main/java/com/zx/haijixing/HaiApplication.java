@@ -17,6 +17,7 @@ import com.zx.haijixing.util.HaiTool;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
 import zx.com.skytool.SkyTool;
 
@@ -32,12 +33,15 @@ public class HaiApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
         MultiDex.install(this);
         haiApp = getApplicationContext();
         SkyTool.init(this);
         configBugly();
         configRxUtil();
         intARouter();
+
     }
 
 

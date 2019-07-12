@@ -90,6 +90,7 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
     @Override
     public void carInfoSuccess() {
         ARouter.getInstance().build(RoutePathConstant.TRUCK).navigation();
+        finish();
     }
 
     private void checkUpload(){

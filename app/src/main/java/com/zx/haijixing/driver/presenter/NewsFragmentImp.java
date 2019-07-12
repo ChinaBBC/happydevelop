@@ -4,6 +4,7 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.zx.haijixing.driver.contract.NewsFragmentContract;
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.service.ShareApiService;
@@ -18,7 +19,7 @@ import zx.com.skytool.ZxLogUtil;
  */
 public class NewsFragmentImp extends BasePresenter<NewsFragmentContract.NewsFragmentView> implements NewsFragmentContract.NewsFragmentPresenter {
     @Override
-    public void NewsFragmentMethod(int page) {
+    public void newsFragmentMethod(int page) {
         RxHttpUtils.createApi(ShareApiService.class)
                 .newsList(page,5)
                 .compose(Transformer.<NewsEntry>switchSchedulers())
@@ -30,7 +31,25 @@ public class NewsFragmentImp extends BasePresenter<NewsFragmentContract.NewsFrag
 
                     @Override
                     protected void onSuccess(NewsEntry data) {
-                        mView.NewsFragmentSuccess(data.getData(),data.getFileHttpWW());
+                        mView.newsFragmentSuccess(data.getData(),data.getFileHttpWW());
+                    }
+                });
+    }
+
+    @Override
+    public void newsFragmentBanner() {
+        RxHttpUtils.createApi(ShareApiService.class)
+                .bannerApi()
+                .compose(Transformer.<BannerEntry>switchSchedulers())
+                .subscribe(new CommonObserver<BannerEntry>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BannerEntry data) {
+                        mView.newsFragmentBannerSuccess(data.getData(),data.getFileHttpWW());
                     }
                 });
     }

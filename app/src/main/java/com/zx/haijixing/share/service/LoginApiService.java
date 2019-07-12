@@ -1,5 +1,8 @@
 package com.zx.haijixing.share.service;
 
+import com.zx.haijixing.login.entry.LoginEntry;
+import com.zx.haijixing.share.base.HaiBaseData;
+
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -18,12 +21,17 @@ public interface LoginApiService {
     //登录密码
     @FormUrlEncoded
     @POST("app/loginByPassword")
-    Observable<String> loginApiPass(@Field("phone") String phone, @Field("password") String password);
+    Observable<HaiBaseData<LoginEntry>> loginApiPass(@Field("phone") String phone, @Field("password") String password);
 
     //登录验证码
     @FormUrlEncoded
     @POST("app/loginBySmsCode")
-    Observable<String> loginApiCode(@Field("phone") String phone, @Field("smsCode") String code);
+    Observable<HaiBaseData<LoginEntry>> loginApiCode(@Field("phone") String phone, @Field("smsCode") String code);
+
+    //忘记密码
+    @FormUrlEncoded
+    @POST("app/loginBySmsCode")
+    Observable<String> forgetPass(@Field("phone") String phone, @Field("smsCode") String code,@Field("password") String password);
 
     //注册基本信息
     @FormUrlEncoded

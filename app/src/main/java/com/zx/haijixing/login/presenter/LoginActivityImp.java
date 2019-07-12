@@ -4,7 +4,9 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.login.contract.ILoginActivityContract;
+import com.zx.haijixing.login.entry.LoginEntry;
 import com.zx.haijixing.share.base.BasePresenter;
+import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.LoginApiService;
 
 import org.json.JSONException;
@@ -27,16 +29,16 @@ public class LoginActivityImp extends BasePresenter<ILoginActivityContract.Login
         RxHttpUtils.createApi(LoginApiService.class)
                 .loginApiPass(account,password)
                 .compose(Transformer.switchSchedulers())
-                .subscribe(new StringObserver() {
+                .subscribe(new HaiDataObserver<LoginEntry>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        mView.showFaild(errorMsg);
+                        mView.hideLoading();
                     }
 
                     @Override
-                    protected void onSuccess(String data) {
-                        ZxLogUtil.logError("<password>"+data);
+                    protected void onSuccess(LoginEntry data) {
                         mView.hideLoading();
+                        mView.loginSuccess(data);
                     }
                 });
     }
@@ -47,16 +49,16 @@ public class LoginActivityImp extends BasePresenter<ILoginActivityContract.Login
         RxHttpUtils.createApi(LoginApiService.class)
                 .loginApiCode(account,code)
                 .compose(Transformer.switchSchedulers())
-                .subscribe(new StringObserver() {
+                .subscribe(new HaiDataObserver<LoginEntry>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        mView.showFaild(errorMsg);
+                        mView.hideLoading();
                     }
 
                     @Override
-                    protected void onSuccess(String data) {
-                        ZxLogUtil.logError("<code>"+data);
+                    protected void onSuccess(LoginEntry data) {
                         mView.hideLoading();
+                        mView.loginSuccess(data);
                     }
                 });
     }

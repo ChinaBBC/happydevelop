@@ -19,6 +19,7 @@ import com.youth.banner.Banner;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.NewsAdapter;
 import com.zx.haijixing.driver.contract.NewsFragmentContract;
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.driver.presenter.NewsFragmentImp;
 import com.zx.haijixing.share.RoutePathConstant;
@@ -66,7 +67,9 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
         newsRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         newsAdapter = new NewsAdapter(newsData);
         newsRvData.setAdapter(newsAdapter);
-        mPresenter.NewsFragmentMethod(page);
+
+        mPresenter.newsFragmentBanner();
+        mPresenter.newsFragmentMethod(page);
 
         skeletonScreen = Skeleton.bind(newsRvData).adapter(newsAdapter)
                 .shimmer(true)
@@ -76,7 +79,7 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
     }
 
     @Override
-    public void NewsFragmentSuccess(List<NewsEntry.NewsData> newsEntries, String base) {
+    public void newsFragmentSuccess(List<NewsEntry.NewsData> newsEntries, String base) {
         ZxLogUtil.logError("<<news>>"+newsEntries.toString());
         if (!isHide){
             isHide = true;
@@ -99,13 +102,19 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
-        mPresenter.NewsFragmentMethod(page);
+        mPresenter.newsFragmentMethod(page);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         newsData.clear();
-        mPresenter.NewsFragmentMethod(page);
+        mPresenter.newsFragmentMethod(page);
+    }
+
+    @Override
+    public void newsFragmentBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr) {
+        newsAdapter.setBannerData(bannerDataList,bannerStr);
+        newsAdapter.notifyDataSetChanged();
     }
 }

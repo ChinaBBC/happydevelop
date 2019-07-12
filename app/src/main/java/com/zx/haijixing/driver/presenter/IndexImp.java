@@ -4,12 +4,10 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.zx.haijixing.driver.contract.IIndexContract;
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.service.ShareApiService;
-
-import zx.com.skytool.ZxLogUtil;
-
 
 /**
  *
@@ -32,6 +30,24 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
                     @Override
                     protected void onSuccess(NewsEntry data) {
                         mView.newsDataSuccess(data.getData(),data.getFileHttpWW());
+                    }
+                });
+    }
+
+    @Override
+    public void newsDataBanner() {
+        RxHttpUtils.createApi(ShareApiService.class)
+                .bannerApi()
+                .compose(Transformer.<BannerEntry>switchSchedulers())
+                .subscribe(new CommonObserver<BannerEntry>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BannerEntry data) {
+                        mView.newDataBannerSuccess(data.getData(),data.getFileHttpWW());
                     }
                 });
     }

@@ -15,11 +15,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.util.BannerUtil;
 
 import java.util.List;
+
+import zx.com.skytool.ZxLogUtil;
 
 /**
  *
@@ -32,7 +37,9 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final static int BODY_ITEM = 1;
     private View.OnClickListener clickListener;
     private List<NewsEntry.NewsData> newsData;
-    private String baseStr = "http://192.168.5.180:80/profile/image/";
+    private List<BannerEntry.BannerData> bannerData;
+    private String bannerStr;
+    private String baseStr ;
     private Context context;
 
     public IndexAdapter(List<NewsEntry.NewsData> newsData) {
@@ -41,6 +48,11 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setClickListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    public void setBannerData(List<BannerEntry.BannerData> bannerData,String bannerStr) {
+        this.bannerData = bannerData;
+        this.bannerStr = bannerStr;
     }
 
     public void setBaseStr(String baseStr) {
@@ -79,6 +91,12 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             indexHeadViewHolder.clock.setOnClickListener(clickListener);
             indexHeadViewHolder.services.setOnClickListener(clickListener);
             indexHeadViewHolder.notify.setOnClickListener(clickListener);
+            if (bannerData != null && bannerData.size()>0)
+                BannerUtil.initBannerScroll(indexHeadViewHolder.banner, bannerData,bannerStr, position -> {
+                    BannerEntry.BannerData bannerData = this.bannerData.get(position);
+                    ZxLogUtil.logError("<banner data>"+bannerData.toString());
+                });
+
         }else {
             int realPosition = getRealPosition(indexViewHolder);
             NewsEntry.NewsData newsData = this.newsData.get(realPosition);

@@ -17,10 +17,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.util.BannerUtil;
 
 import java.util.List;
+
+import zx.com.skytool.ZxLogUtil;
 
 /**
  *
@@ -32,6 +36,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final static int HEAD_ITEM = 0;
     private final static int BODY_ITEM = 1;
     private List<NewsEntry.NewsData> newsDataList;
+    private List<BannerEntry.BannerData> bannerData;
+    private String bannerStr;
     private String baseStr;
     private Context context;
 
@@ -42,7 +48,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setBaseStr(String baseStr) {
         this.baseStr = baseStr;
     }
-
+    public void setBannerData(List<BannerEntry.BannerData> bannerData,String bannerStr) {
+        this.bannerData = bannerData;
+        this.bannerStr = bannerStr;
+    }
     @Override
     public int getItemViewType(int position) {
         if (position == 0)
@@ -73,7 +82,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         if (getItemViewType(i) == HEAD_ITEM){
             NewsHeadViewHolder newsHeadViewHolder = (NewsHeadViewHolder) viewHolder;
-            newsHeadViewHolder.banner.setOnBannerListener((OnBannerListener) position -> ARouter.getInstance().build(RoutePathConstant.DRIVER_NEWS).navigation());
+            if (bannerData != null && bannerData.size()>0)
+                BannerUtil.initBannerScroll(newsHeadViewHolder.banner, bannerData,bannerStr, position -> {
+                BannerEntry.BannerData bannerData = this.bannerData.get(position);
+                ZxLogUtil.logError("<banner data>"+bannerData.toString());
+                });
         }else {
             int realPosition = getRealPosition(viewHolder);
             NewsEntry.NewsData newsData = newsDataList.get(realPosition);

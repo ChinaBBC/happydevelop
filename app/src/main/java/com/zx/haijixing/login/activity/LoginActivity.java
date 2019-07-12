@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.ILoginActivityContract;
+import com.zx.haijixing.login.entry.LoginEntry;
 import com.zx.haijixing.login.presenter.LoginActivityImp;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
@@ -67,8 +68,9 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     private int loginType = 1;
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(LoginEntry loginEntry) {
         ARouter.getInstance().build(RoutePathConstant.DRIVER_MAIN).navigation();
+        finish();
     }
 
     @Override
@@ -129,7 +131,10 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
                 String trim = phonePhone.getText().toString().trim();
                 if (ZxStringUtil.isEmpty(trim)){
                     ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone));
-                }else {
+                }else if (!HaiTool.checkPhone(trim)){
+                    ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
+                }
+                else {
                     sendMethod();
                     mPresenter.loginCodeMethod(trim);
                 }
@@ -163,7 +168,9 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
         String password = this.password.getText().toString().trim();
         if (ZxStringUtil.isEmpty(phone) || ZxStringUtil.isEmpty(password)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone_pass));
-        }else {
+        }/*else if (!HaiTool.checkPhone(phone)){
+            ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
+        }*/ else {
             mPresenter.loginMethod(phone,HaiTool.md5Method(password));
         }
     }
@@ -172,7 +179,9 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
         String code = this.codeCode.getText().toString().trim();
         if (ZxStringUtil.isEmpty(phone) || ZxStringUtil.isEmpty(code)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone_code));
-        }else {
+        }else if (!HaiTool.checkPhone(phone)){
+            ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
+        } else {
             mPresenter.loginMethodC(phone,code);
         }
     }

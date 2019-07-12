@@ -11,9 +11,11 @@ import com.zx.haijixing.share.base.IBaseContract;
 public interface IForgetActivityContract {
     interface ForgetView extends IBaseContract.IBaseView{
         void findSuccess();
+        void findCodeSuccess();
     }
 
     interface ForgetPresenter extends IBaseContract.IBasePresenter<ForgetView>{
         void findMethod(String account,String password,String code);
+        void findCodeMethod(String phone);
     }
 }

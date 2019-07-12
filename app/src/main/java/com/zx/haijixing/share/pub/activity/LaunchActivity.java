@@ -1,6 +1,11 @@
 package com.zx.haijixing.share.pub.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +51,7 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
 
     @Override
     protected void initView() {
+        permission();
         test();
         mPresenter.versionMethod();
     }
@@ -78,6 +84,53 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
                 ARouter.getInstance().build(RoutePathConstant.APK_ACTIVITY).withString("path",versionEntry.getDownloadUrl()).navigation();
                 break;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void permission(){
+        final List<String> permissionsList = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.RECORD_AUDIO)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.CAMERA)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.CALL_PHONE)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+            }else {
+                if ((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+                if ((checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+                if ((checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.CAMERA);
+                if ((checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.RECORD_AUDIO);
+                if ((checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+                if ((checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.CALL_PHONE);
+                if ((checkSelfPermission(Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.WRITE_SETTINGS);
+                if ((checkSelfPermission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS);
+                if (permissionsList.size() == 0) {
+
+                } else {
+                    requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                            0);
+                }
+            }
+        } else {
+
+        }
+
     }
     private void test(){
         Log.i("<<<<<","<BuildConfig.homeUrl>"+BuildConfig.homeUrl+HaiNativeHelper.baseUrl());

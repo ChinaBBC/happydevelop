@@ -1,5 +1,6 @@
 package com.zx.haijixing.share.service;
 
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.HaiBaseData;
 import com.zx.haijixing.share.pub.entry.VersionEntry;
@@ -17,10 +18,20 @@ import retrofit2.http.Query;
  */
 public interface ShareApiService {
 
+    //新闻列表
     @GET("news/newList")
     Observable<NewsEntry> newsList(@Query("pageNum") int num, @Query("pageSize") int size);
+
+    //新闻详情
     @GET("news/selectNewById")
     Observable<HaiBaseData<NewsEntry.NewsData>> newsOne(@Query("newId") String newId);
+
+    //版本
     @GET("version/newVersion")
     Observable<HaiBaseData<VersionEntry>> versionApi();
+
+    //轮播
+    @GET("banner/allBanners")
+    Observable<BannerEntry> bannerApi();
+
 }

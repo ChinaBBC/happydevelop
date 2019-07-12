@@ -1,5 +1,6 @@
 package com.zx.haijixing.driver.contract;
 
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public interface IIndexContract {
     interface IndexView extends IBaseContract.IBaseView{
         void newsDataSuccess(List<NewsEntry.NewsData> newsEntries,String base);
+        void newDataBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr);
     }
 
     interface IndexPresenter extends IBaseContract.IBasePresenter<IndexView>{
         void newsDataMethod(int page);
+        void newsDataBanner();
     }
 }

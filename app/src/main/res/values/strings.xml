@@ -27,6 +27,9 @@
     <string name="please_input_code">请输入手机验证码</string>
     <string name="please_input_password">请输入密码</string>
     <string name="password_not_equal">密码输入不一致</string>
+    <string name="phone_error">手机号输入错误</string>
+    <string name="identify_error">身份证号码输入错误</string>
+    <string name="bank_error">银行卡号输入错误</string>
     <string name="please_read_and_agree">请阅读并同意《星配送物流平台合作协议》</string>
     <string name="please_read_first">请先阅读《星配送物流平台合作协议》</string>
     <string name="please_input_phone_pass">请输入账号和密码</string>
@@ -141,6 +144,7 @@
     <string name="name">姓名</string>
     <string name="change_phone">修改手机号</string>
     <string name="change_password">修改密码</string>
+    <string name="change_success">修改成功</string>
     <string name="truck_manager">车辆管理</string>
     <string name="input_new_phone">输入新手机号</string>
     <string name="input_code">输入验证码</string>

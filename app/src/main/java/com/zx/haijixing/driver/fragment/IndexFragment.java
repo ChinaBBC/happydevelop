@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.IndexAdapter;
 import com.zx.haijixing.driver.contract.IIndexContract;
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.driver.presenter.IndexImp;
 import com.zx.haijixing.share.RoutePathConstant;
@@ -83,6 +84,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         rvBody.setAdapter(indexAdapter);
         indexAdapter.setClickListener(this::onViewClicked);
 
+        mPresenter.newsDataBanner();
         mPresenter.newsDataMethod(page);
         refresh.setOnRefreshLoadMoreListener(this);
         skeletonScreen = Skeleton.bind(rvBody).adapter(indexAdapter)
@@ -135,6 +137,12 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
             refresh.finishLoadMoreWithNoMoreData();
         }
 
+    }
+
+    @Override
+    public void newDataBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr) {
+        indexAdapter.setBannerData(bannerDataList,bannerStr);
+        indexAdapter.notifyDataSetChanged();
     }
 
     @Override

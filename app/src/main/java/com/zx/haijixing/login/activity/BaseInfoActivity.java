@@ -144,6 +144,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     @Override
     public void baseInfoSuccess(String driverId) {
         ARouter.getInstance().build(RoutePathConstant.CAR_INFO).withString("driverId",driverId).navigation();
+        finish();
     }
 
     @Override
@@ -225,7 +226,13 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
         }else if (!isRead){
             ZxToastUtil.centerToast(getHaiString(R.string.please_read_and_agree));
 
-        }else {
+        }else if (!HaiTool.checkPhone(phone)){
+            ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
+        }else if (!HaiTool.checkIdentify(identifyCar)){
+            ZxToastUtil.centerToast(getHaiString(R.string.identify_error));
+        }else if (!HaiTool.checkBank(bankCar)){
+            ZxToastUtil.centerToast(getHaiString(R.string.bank_error));
+        } else {
             Map<String,String> params = new HashMap<>();
             params.put("name",realName);
             params.put("idcard",identifyCar);

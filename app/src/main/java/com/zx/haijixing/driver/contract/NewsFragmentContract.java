@@ -1,5 +1,6 @@
 package com.zx.haijixing.driver.contract;
 
+import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
@@ -13,10 +14,12 @@ import java.util.List;
  */
 public interface NewsFragmentContract {
     interface NewsFragmentView extends IBaseContract.IBaseView{
-        void NewsFragmentSuccess(List<NewsEntry.NewsData> newsEntries, String base);
+        void newsFragmentSuccess(List<NewsEntry.NewsData> newsEntries, String base);
+        void newsFragmentBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr);
     }
 
     interface NewsFragmentPresenter extends IBaseContract.IBasePresenter<NewsFragmentView>{
-        void NewsFragmentMethod(int page);
+        void newsFragmentMethod(int page);
+        void newsFragmentBanner();
     }
 }

@@ -17,11 +17,15 @@ import com.zx.haijixing.login.contract.IForgetActivityContract;
 import com.zx.haijixing.login.presenter.ForgetActivityImp;
 import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxCountDownTimerUtil;
 import zx.com.skytool.ZxStatusBarCompat;
+import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
+
 /**
  *
  *@作者 zx
@@ -57,7 +61,7 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
 
     @Override
     protected void initInjector() {
-        ARouter.getInstance().inject(this);
+        mPresenter = new ForgetActivityImp();
     }
 
     @Override
@@ -67,7 +71,13 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
 
     @Override
     public void findSuccess() {
+        ZxToastUtil.centerToast(getHaiString(R.string.change_success));
+        finish();
+    }
 
+    @Override
+    public void findCodeSuccess() {
+        ZxToastUtil.centerToast(getHaiString(R.string.send_success));
     }
 
     @OnClick({R.id.forget_back, R.id.forget_send_code, R.id.forget_sure})
@@ -77,9 +87,18 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
                 finish();
                 break;
             case R.id.forget_send_code:
-                sendMethod();
+                String phone = this.name.getText().toString().trim();
+                if (ZxStringUtil.isEmpty(phone)){
+                    ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone));
+                }else if (!HaiTool.checkPhone(phone)){
+                    ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
+                } else {
+                    sendMethod();
+                    mPresenter.findCodeMethod(phone);
+                }
                 break;
             case R.id.forget_sure:
+                checkInput();
                 break;
         }
     }
@@ -92,6 +111,29 @@ public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements I
         zxCountDownTimerUtil.start();
     }
 
+    private void checkInput(){
+        String phone = this.name.getText().toString().trim();
+        String code = this.code.getText().toString().trim();
+        String password = this.password.getText().toString().trim();
+        String surePassword = this.surePassword.getText().toString().trim();
+
+        if (ZxStringUtil.isEmpty(phone)){
+            ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone));
+        }else if (ZxStringUtil.isEmpty(code)){
+            ZxToastUtil.centerToast(getHaiString(R.string.please_input_code));
+        }else if (ZxStringUtil.isEmpty(password)){
+            ZxToastUtil.centerToast(getHaiString(R.string.please_input_password));
+        }else if (ZxStringUtil.isEmpty(surePassword)){
+            ZxToastUtil.centerToast(getHaiString(R.string.sure_password));
+        }else if (!password.equals(surePassword)){
+            ZxToastUtil.centerToast(getHaiString(R.string.password_not_equal));
+        }else if (!HaiTool.checkPhone(phone)){
+            ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
+        } else {
+            mPresenter.findMethod(phone,password,code);
+        }
+
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
