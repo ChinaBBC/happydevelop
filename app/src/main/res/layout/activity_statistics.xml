@@ -20,7 +20,7 @@
             android:id="@+id/statistics_back"
             android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_20"
-            android:src="@mipmap/back"
+            android:src="@mipmap/back_white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />

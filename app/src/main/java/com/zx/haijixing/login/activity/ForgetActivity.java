@@ -1,21 +1,16 @@
 package com.zx.haijixing.login.activity;
 
-import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.IForgetActivityContract;
 import com.zx.haijixing.login.presenter.ForgetActivityImp;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
@@ -32,7 +27,7 @@ import zx.com.skytool.ZxToastUtil;
  *@创建日期 2019/6/28 10:38
  *@描述 忘记密码
  */
-@Route(path = RoutePathConstant.ROUTE_FORGET)
+@Route(path = PathConstant.ROUTE_FORGET)
 public class ForgetActivity extends BaseActivity<ForgetActivityImp> implements IForgetActivityContract.ForgetView {
 
     @BindView(R.id.forget_back)

@@ -54,7 +54,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginLeft="@dimen/dp_22"
                     />
-                <TextView
+                <View
                     android:id="@+id/truck_line1"
                     android:layout_width="@dimen/dp_106"
                     android:layout_height="@dimen/dp_1"
@@ -85,7 +85,7 @@
                     app:layout_constraintLeft_toRightOf="@id/truck_str1"
                     app:layout_constraintRight_toLeftOf="@id/truck_str3"
                     />
-                <TextView
+                <View
                     android:id="@+id/truck_line2"
                     android:layout_width="@dimen/dp_106"
                     android:layout_height="@dimen/dp_1"
@@ -143,6 +143,10 @@
                     android:id="@+id/truck_number"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:textSize="@dimen/sp_14"
+                    android:textColor="@color/color_3333"
+                    android:hint="@string/input_drive_number"
+                    android:textColorHint="@color/color_9999"
                     app:layout_constraintLeft_toRightOf="@id/truck_word1"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -151,7 +155,7 @@
                     android:layout_marginLeft="@dimen/dp_40"
                     android:maxLength="8"
                     />
-                <TextView
+                <View
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_1"
                     android:background="@color/color_e0e0"
@@ -187,7 +191,7 @@
                     android:id="@+id/truck_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="大车"
+                    android:text="@string/select_type"
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/color_3333"
                     app:layout_constraintLeft_toRightOf="@id/truck_word2"
@@ -205,7 +209,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     />
-                <TextView
+
+                <View
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_1"
                     android:background="@color/color_e0e0"
@@ -241,7 +246,7 @@
                     android:id="@+id/truck_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="500KG"
+                    android:text="0KG"
                     android:textSize="@dimen/sp_15"
                     android:textColor="@color/color_3333"
                     app:layout_constraintRight_toRightOf="parent"
@@ -251,7 +256,7 @@
                     android:layout_marginLeft="@dimen/dp_40"
                     android:maxLength="10"
                     />
-                <TextView
+                <View
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_1"
                     android:background="@color/color_e0e0"
@@ -306,7 +311,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     />
-                <TextView
+                <View
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_1"
                     android:background="@color/color_e0e0"
@@ -316,7 +321,7 @@
                     android:layout_marginLeft="@dimen/dp_25"
                     />
             </android.support.constraint.ConstraintLayout>
-            <TextView
+            <View
                 android:id="@+id/truck_line3"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_5"
@@ -328,7 +333,7 @@
                 />
             <TextView
                 android:id="@+id/truck_drive_word"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="wrap_content"
                 android:text="@string/truck_drive"
                 android:textSize="@dimen/sp_14"
@@ -340,9 +345,9 @@
                 app:layout_constraintRight_toLeftOf="@id/truck_cure_word"
                 android:layout_marginTop="@dimen/dp_25"
                 />
-            <TextView
+            <View
                 android:id="@+id/truck_line_drive"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/color_703f"
                 app:layout_constraintTop_toBottomOf="@id/truck_drive_word"
@@ -352,7 +357,7 @@
                 />
             <TextView
                 android:id="@+id/truck_cure_word"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="wrap_content"
                 android:text="@string/truck_cure_id"
                 android:textSize="@dimen/sp_14"
@@ -364,9 +369,9 @@
                 app:layout_constraintRight_toLeftOf="@id/truck_truck_word"
                 android:layout_marginTop="@dimen/dp_25"
                 />
-            <TextView
+            <View
                 android:id="@+id/truck_line_cure"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/color_703f"
                 app:layout_constraintTop_toBottomOf="@id/truck_cure_word"
@@ -377,7 +382,7 @@
                 />
             <TextView
                 android:id="@+id/truck_truck_word"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="wrap_content"
                 android:text="@string/truck"
                 android:textSize="@dimen/sp_14"
@@ -389,9 +394,9 @@
                 app:layout_constraintRight_toLeftOf="@id/truck_other_word"
                 android:layout_marginTop="@dimen/dp_25"
                 />
-            <TextView
+            <View
                 android:id="@+id/truck_line_truck"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/color_703f"
                 app:layout_constraintTop_toBottomOf="@id/truck_truck_word"
@@ -402,7 +407,7 @@
                 />
             <TextView
                 android:id="@+id/truck_other_word"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="wrap_content"
                 android:text="@string/other"
                 android:textSize="@dimen/sp_14"
@@ -414,9 +419,9 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="@dimen/dp_25"
                 />
-            <TextView
+            <View
                 android:id="@+id/truck_line_other"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dp_55"
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/color_703f"
                 app:layout_constraintTop_toBottomOf="@id/truck_other_word"

@@ -1,22 +1,17 @@
 package com.zx.haijixing.driver.fragment;
 
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * 个人中心
@@ -66,21 +61,21 @@ public class MineFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.mine_count_area:
-                ARouter.getInstance().build(RoutePathConstant.STATISTICS).navigation();
+                ARouter.getInstance().build(PathConstant.STATISTICS).navigation();
                 break;
             case R.id.mine_word_area:
-                ARouter.getInstance().build(RoutePathConstant.EVALUATE).navigation();
+                ARouter.getInstance().build(PathConstant.EVALUATE).navigation();
                 break;
             case R.id.mine_shifts_area:
-                ARouter.getInstance().build(RoutePathConstant.LINES).navigation();
+                ARouter.getInstance().build(PathConstant.LINES).navigation();
                 break;
             case R.id.mine_change_area:
-                ARouter.getInstance().build(RoutePathConstant.CHANGE).navigation();
+                ARouter.getInstance().build(PathConstant.CHANGE).navigation();
                 break;
             case R.id.mine_customer_area:
                 break;
             case R.id.mine_set_area:
-                ARouter.getInstance().build(RoutePathConstant.SET).navigation();
+                ARouter.getInstance().build(PathConstant.SET).navigation();
                 break;
         }
     }

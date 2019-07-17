@@ -1,17 +1,16 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zx.com.skytool.ZxStatusBarCompat;
 
@@ -20,7 +19,7 @@ import zx.com.skytool.ZxStatusBarCompat;
  * @创建日期 2019/7/4 14:41
  * @描述 订单详情
  */
-@Route(path = RoutePathConstant.DRIVER_ORDER_DETAIL)
+@Route(path = PathConstant.DRIVER_ORDER_DETAIL)
 public class OrderDetailActivity extends BaseActivity {
 
     @BindView(R.id.order_detail_back)
@@ -53,7 +52,8 @@ public class OrderDetailActivity extends BaseActivity {
     TextView receivePhone;
     @BindView(R.id.order_detail_receive_locate)
     TextView receiveLocate;
-    @BindView(R.id.order_detail_wType)
+
+    /*@BindView(R.id.order_detail_wType)
     TextView wType;
     @BindView(R.id.order_detail_wWeight)
     TextView wWeight;
@@ -78,11 +78,45 @@ public class OrderDetailActivity extends BaseActivity {
     @BindView(R.id.order_detail_car_number)
     TextView carNumber;
     @BindView(R.id.order_detail_remark)
-    TextView remark;
+    TextView remark;*/
+
+    @BindView(R.id.stub_normal_dan)
+    ViewStub stubNormalDan;
+    @BindView(R.id.stub_change_dan)
+    ViewStub stubChangeDan;
+    @BindView(R.id.stub_normal_down)
+    ViewStub stubNormalDown;
+    @BindView(R.id.stub_normal_down_b)
+    ViewStub stubNormalDownB;
+    @BindView(R.id.stub_has_complete)
+    ViewStub stubHasComplete;
+
 
     @Override
     protected void initView() {
 
+        int m = 1;
+        switch (m){
+            case 0:
+                View inflateNormalDan = stubNormalDan.inflate();
+                View inflateNormalDownB = stubNormalDownB.inflate();
+
+                break;
+            case 1:
+                View inflateChangeDan = stubChangeDan.inflate();
+                View inflateNormalDown = stubNormalDown.inflate();
+                break;
+            case 2:
+                View inflateNormalDan1 = stubNormalDan.inflate();
+                break;
+            case 3:
+                stubNormalDan.inflate();
+                stubNormalDownB.inflate();
+                stubHasComplete.inflate();
+                break;
+            case 4:
+                break;
+        }
     }
 
     @Override
@@ -102,6 +136,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     @Override
     public void setStatusBar() {
-        ZxStatusBarCompat.translucentStatusBar(this,true);
+        ZxStatusBarCompat.translucentStatusBar(this, true);
     }
+
 }

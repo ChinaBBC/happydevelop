@@ -1,7 +1,5 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -10,11 +8,10 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.NotifyAdapter;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 /**
  *
@@ -22,7 +19,7 @@ import butterknife.OnClick;
  *@创建日期 2019/7/3 16:34
  *@描述 消息中心
  */
-@Route(path = RoutePathConstant.DRIVER_NOTIFY)
+@Route(path = PathConstant.DRIVER_NOTIFY)
 public class NotifyActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)

@@ -1,28 +1,22 @@
 package com.zx.haijixing.driver.fragment;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
-import com.youth.banner.Banner;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.NewsAdapter;
 import com.zx.haijixing.driver.contract.NewsFragmentContract;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.driver.presenter.NewsFragmentImp;
-import com.zx.haijixing.share.RoutePathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 
 import java.util.ArrayList;

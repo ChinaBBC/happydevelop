@@ -1,7 +1,5 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,11 +8,10 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 /**
  *
@@ -22,7 +19,7 @@ import butterknife.OnClick;
  *@创建日期 2019/7/9 16:54
  *@描述 修改密码
  */
-@Route(path = RoutePathConstant.PASSWORD)
+@Route(path = PathConstant.PASSWORD)
 public class PasswordActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)

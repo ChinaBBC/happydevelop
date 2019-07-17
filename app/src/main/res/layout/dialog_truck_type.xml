@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/shape_2dp_ffff">
+
+    <TextView
+        android:id="@+id/dialog_truck_sure"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_30"
+        android:text="@string/sure"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/shape_5dp_a45b"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+    <TextView
+        android:id="@+id/dialog_truck_cancel"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_30"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/shape_5dp_a45b"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+    <View
+        android:layout_width="@dimen/dp_315"
+        android:layout_height="@dimen/dp_180" />
+    <com.contrarywind.view.WheelView
+        android:id="@+id/dialog_truck_wheel"
+        android:layout_width="0dp"
+        android:layout_height="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_truck_cancel" />
+</android.support.constraint.ConstraintLayout>

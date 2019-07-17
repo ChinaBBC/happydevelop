@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
@@ -21,7 +21,7 @@ import butterknife.OnClick;
  *@创建日期 2019/7/8 10:07
  *@描述 版本更新
  */
-@Route(path = RoutePathConstant.VERSION)
+@Route(path = PathConstant.VERSION)
 public class VersionActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)

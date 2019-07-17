@@ -15,9 +15,9 @@
         android:src="@mipmap/select_yes"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/dialog_pay_money"
+        app:layout_constraintBottom_toTopOf="@id/dialog_pay_no"
         app:layout_constraintRight_toLeftOf="@id/dialog_pay_online_img"
-        android:layout_marginBottom="@dimen/dp_27"
+        android:layout_marginBottom="@dimen/dp_47"
         />
     <TextView
         android:id="@+id/dialog_pay_online_img"
@@ -27,10 +27,10 @@
         android:textColor="@color/color_703f"
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toRightOf="@id/dialog_pay_online"
-        app:layout_constraintBottom_toTopOf="@id/dialog_pay_money"
+        app:layout_constraintBottom_toTopOf="@id/dialog_pay_no"
         app:layout_constraintRight_toLeftOf="@id/dialog_pay_crash"
         android:layout_marginLeft="@dimen/dp_6"
-        android:layout_marginBottom="@dimen/dp_27"
+        android:layout_marginBottom="@dimen/dp_47"
         />
     <ImageView
         android:id="@+id/dialog_pay_crash"
@@ -38,10 +38,10 @@
         android:layout_height="@dimen/dp_20"
         android:src="@mipmap/select_no"
         app:layout_constraintLeft_toRightOf="@id/dialog_pay_online_img"
-        app:layout_constraintBottom_toTopOf="@id/dialog_pay_money"
+        app:layout_constraintBottom_toTopOf="@id/dialog_pay_no"
         app:layout_constraintRight_toLeftOf="@id/dialog_pay_crash_img"
         android:layout_marginLeft="@dimen/dp_16"
-        android:layout_marginBottom="@dimen/dp_27"
+        android:layout_marginBottom="@dimen/dp_47"
         />
     <TextView
         android:id="@+id/dialog_pay_crash_img"
@@ -51,12 +51,12 @@
         android:textColor="@color/color_9999"
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toRightOf="@id/dialog_pay_crash"
-        app:layout_constraintBottom_toTopOf="@id/dialog_pay_money"
+        app:layout_constraintBottom_toTopOf="@id/dialog_pay_no"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="@dimen/dp_6"
-        android:layout_marginBottom="@dimen/dp_27"
+        android:layout_marginBottom="@dimen/dp_47"
         />
-    <TextView
+    <!--<TextView
         android:id="@+id/dialog_pay_word1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         android:paddingLeft="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_20"
         android:layout_marginLeft="@dimen/dp_10"
-        />
+        />-->
     <TextView
         android:id="@+id/dialog_pay_no"
         android:layout_width="@dimen/dp_100"

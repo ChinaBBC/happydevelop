@@ -2,13 +2,16 @@ package com.zx.haijixing.share.service;
 
 import com.zx.haijixing.login.entry.LoginEntry;
 import com.zx.haijixing.share.base.HaiBaseData;
+import com.zx.haijixing.login.entry.TruckTypeEntry;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -47,5 +50,12 @@ public interface LoginApiService {
     @FormUrlEncoded
     @POST("driver/driverCard")
     Observable<String> drivingCard(@FieldMap Map<String,String> params);
+
+    @GET("logistics/carType/selectAllCarType")
+    Observable<HaiBaseData<List<TruckTypeEntry>>> truckTypeApi();
+
+    @FormUrlEncoded
+    @POST("logistics/carApply/addApply")
+    Observable<String> truckApplyApi(@FieldMap Map<String,String> params);
 
 }

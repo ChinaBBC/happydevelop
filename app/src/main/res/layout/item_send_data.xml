@@ -30,7 +30,7 @@
             android:id="@+id/send_data_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/wait_receive"
+            android:text="@string/wait_send"
             android:textColor="@color/color_7e00"
             android:textSize="@dimen/sp_14"
             app:layout_constraintRight_toRightOf="parent"

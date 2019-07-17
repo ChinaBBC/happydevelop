@@ -1,7 +1,5 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -11,11 +9,10 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.VehicleAdapter;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -23,7 +20,7 @@ import butterknife.OnClick;
  * @创建日期 2019/7/9 17:32
  * @描述 车辆管理
  */
-@Route(path = RoutePathConstant.VEHICLE)
+@Route(path = PathConstant.VEHICLE)
 public class VehicleActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)

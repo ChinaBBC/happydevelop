@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 
@@ -136,7 +136,7 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     }
     @Override
     public void jumpToLogin() {
-        ARouter.getInstance().build(RoutePathConstant.ROUTE_LOGIN)
+        ARouter.getInstance().build(PathConstant.ROUTE_LOGIN)
                 .navigation();
     }
 

@@ -2,7 +2,6 @@ package com.zx.haijixing.login.activity;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,21 +18,17 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.IBaseInfoActivityContract;
 import com.zx.haijixing.login.presenter.BaseInfoActivityImp;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import zx.com.skytool.ZxCacheUtil;
 import zx.com.skytool.ZxCountDownTimerUtil;
-import zx.com.skytool.ZxLogUtil;
-import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxStringUtil;
 import zx.com.skytool.ZxToastUtil;
 
@@ -43,7 +38,7 @@ import zx.com.skytool.ZxToastUtil;
  *@创建日期 2019/6/28 10:28
  *@描述 基本信息
  */
-@Route(path = RoutePathConstant.BASE_INFO)
+@Route(path = PathConstant.BASE_INFO)
 public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implements IBaseInfoActivityContract.BaseInfoView {
 
     @BindView(R.id.common_title_back)
@@ -136,14 +131,15 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
                 }
                 break;
             case R.id.base_info_next:
-                checkInput();
+                ARouter.getInstance().build(PathConstant.CAR_INFO).withString("driverId","dsdsd").navigation();
+                //checkInput();
                 break;
         }
     }
 
     @Override
     public void baseInfoSuccess(String driverId) {
-        ARouter.getInstance().build(RoutePathConstant.CAR_INFO).withString("driverId",driverId).navigation();
+        ARouter.getInstance().build(PathConstant.CAR_INFO).withString("driverId",driverId).navigation();
         finish();
     }
 

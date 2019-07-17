@@ -1,6 +1,8 @@
 package com.zx.haijixing.driver.fragment;
 
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +18,15 @@ import com.ethanhua.skeleton.Skeleton;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.IndexAdapter;
 import com.zx.haijixing.driver.contract.IIndexContract;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.driver.presenter.IndexImp;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
@@ -33,6 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -97,9 +102,10 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.index_search:
-                ARouter.getInstance().build(RoutePathConstant.DRIVER_SEARCH).navigation();
+                ARouter.getInstance().build(PathConstant.DRIVER_SEARCH).navigation();
                 break;
             case R.id.index_scan_code:
+                scanQrCode();
                 break;
             case R.id.index_header_clock:
                 showClock = HaiDialogUtil.showClock(getFragmentManager(), this::onViewClicked);
@@ -111,10 +117,10 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 showClock.dismissAllowingStateLoss();
                 break;
             case R.id.index_header_notify:
-                ARouter.getInstance().build(RoutePathConstant.DRIVER_NOTIFY).navigation();
+                ARouter.getInstance().build(PathConstant.DRIVER_NOTIFY).navigation();
                 break;
             case R.id.index_header_services:
-                ARouter.getInstance().build(RoutePathConstant.DRIVER_SERVICES).navigation();
+                ARouter.getInstance().build(PathConstant.DRIVER_SERVICES).navigation();
                 break;
         }
     }
@@ -157,5 +163,38 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         page = 1;
         newsData.clear();
         mPresenter.newsDataMethod(page);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ZxLogUtil.logError("in the result");
+        //super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 123) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    ZxLogUtil.logError("onActivityResult: " + result);
+                    ZxToastUtil.centerToast("解析结果:" + result);
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    ZxToastUtil.centerToast("解析失败");
+                }
+            }
+        }
+    }
+
+    /**
+     * 扫描二维码
+     */
+    private void scanQrCode(){
+        Intent intent = new Intent(getActivity(), CaptureActivity.class);
+        //第二个参数是请求码，定义的常量随意填写
+        startActivityForResult(intent, 123);
+
     }
 }

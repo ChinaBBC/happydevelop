@@ -5,7 +5,7 @@
 
     <permission
         android:name="com.zx.haijixing.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature"/>
+        android:protectionLevel="signature" />
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- 允许程序打开网络套接字 -->
@@ -34,11 +34,20 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 安装应用 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!--相机-->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="com.zx.haijixing.permission.JPUSH_MESSAGE"/>
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <!-- 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
+
+    <uses-permission android:name="com.zx.haijixing.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
@@ -92,7 +101,7 @@
         <activity android:name=".driver.activity.TruckChangeActivity" />
         <activity android:name=".driver.activity.PapersActivity" />
         <activity android:name=".driver.activity.PapersChangeActivity" />
-        <activity android:name=".share.pub.activity.ApkActivity"></activity>
+        <activity android:name=".share.pub.activity.ApkActivity" />
         <!-- 下载apk -->
         <provider
             android:name=".util.UpdateApkFileProvider"
@@ -105,7 +114,8 @@
         </provider>
 
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
-        <service android:name=".share.service.HaiCommonService"
+        <service
+            android:name=".share.service.HaiCommonService"
             android:enabled="true"
             android:exported="false"
             android:process=":pushcore">
@@ -118,12 +128,21 @@
         <receiver
             android:name=".share.service.HaiPushReceiver"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
                 <category android:name="com.zx.haijixing" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".logistics.activity.ClaManageActivity" />
+        <activity android:name=".logistics.activity.FeeActivity" />
+        <activity android:name=".logistics.activity.RunTableActivity" />
+        <activity android:name=".logistics.activity.DriverWordsActivity" />
+        <activity android:name=".logistics.activity.FeeStatisticsActivity" />
+        <activity android:name=".logistics.activity.AllotActivity" />
+        <activity android:name=".logistics.activity.CheckLogisticsActivity"></activity>
     </application>
 
 </manifest>

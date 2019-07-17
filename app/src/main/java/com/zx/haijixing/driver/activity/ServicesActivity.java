@@ -1,8 +1,6 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,11 +8,10 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -22,7 +19,7 @@ import butterknife.OnClick;
  * @创建日期 2019/7/3 17:06
  * @描述 全部服务
  */
-@Route(path = RoutePathConstant.DRIVER_SERVICES)
+@Route(path = PathConstant.DRIVER_SERVICES)
 public class ServicesActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)

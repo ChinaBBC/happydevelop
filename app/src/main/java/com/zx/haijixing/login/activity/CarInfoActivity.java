@@ -11,7 +11,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.ICarInfoActivityContract;
 import com.zx.haijixing.login.presenter.CarInfoActivityImp;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import java.util.HashMap;
@@ -19,7 +19,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxStringUtil;
 import zx.com.skytool.ZxToastUtil;
 
@@ -28,7 +27,7 @@ import zx.com.skytool.ZxToastUtil;
  * @创建日期 2019/6/28 11:38
  * @描述 车辆信息
  */
-@Route(path = RoutePathConstant.CAR_INFO)
+@Route(path = PathConstant.CAR_INFO)
 public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements ICarInfoActivityContract.CarInfoView {
 
     @BindView(R.id.common_title_back)
@@ -82,14 +81,15 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
             case R.id.car_info_graphB:
                 break;
             case R.id.car_info_next:
-                checkUpload();
+                ARouter.getInstance().build(PathConstant.TRUCK).navigation();
+                //checkUpload();
                 break;
         }
     }
 
     @Override
     public void carInfoSuccess() {
-        ARouter.getInstance().build(RoutePathConstant.TRUCK).navigation();
+        ARouter.getInstance().build(PathConstant.TRUCK).withString("driverId",driverId).navigation();
         finish();
     }
 

@@ -15,11 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.BannerUtil;
 
 import java.util.List;
@@ -91,7 +90,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int realPosition = getRealPosition(viewHolder);
             NewsEntry.NewsData newsData = newsDataList.get(realPosition);
             NewsViewHolder newsViewHolder = (NewsViewHolder) viewHolder;
-            newsViewHolder.item.setOnClickListener(view1 -> ARouter.getInstance().build(RoutePathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
+            newsViewHolder.item.setOnClickListener(view1 -> ARouter.getInstance().build(PathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
             newsViewHolder.title.setText(newsData.getTitle());
             newsViewHolder.sample.setText(newsData.getFtitle());
             newsViewHolder.time.setText(newsData.getCreateTime());

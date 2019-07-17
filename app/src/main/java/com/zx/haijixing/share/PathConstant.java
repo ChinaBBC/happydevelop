@@ -5,7 +5,7 @@ package com.zx.haijixing.share;
  *@创建日期 2019/6/21 15:37
  *@描述 路由常量保持类
  */
-public final class RoutePathConstant {
+public final class PathConstant {
     public final static String APK_ACTIVITY = "/login/activity/ApkActivity";//更新
 
 
@@ -37,5 +37,18 @@ public final class RoutePathConstant {
     public final static String PAPERS = "/driver/activity/PapersActivity";//车辆信息展示
     public final static String PAPERS_CHANGE = "/driver/activity/PapersChangeActivity";//车辆信息修改
 
+
+    public final static String LOGISTICS = "/logistics/LogisticsActivity";//物流端
+    public final static String CLASSES_MANAGE = "/logistics/activity/ClaManageActivity";//班次管理
+    public final static String FEE = "/logistics/activity/FeeActivity";//收费标准
+    public final static String RUN_TABLE = "/logistics/activity/RunTableActivity";//收费标准
+    public final static String DRIVER_EVALUATE = "/logistics/activity/DriverWordsActivity";//司机评价汇总
+    public final static String FEE_STATISTICS = "/logistics/activity/FeeStatisticsActivity";//运费统计
+    public final static String ALLOT = "/logistics/activity/AllotActivity";//派单
+    public final static String CHECK_LOGISTICS = "/logistics/activity/CheckLogisticsActivity";//查看物流
+
+
+
+    public final static String MANAGER = "/manager/activity/ManagerActivity";//管理员
 
 }

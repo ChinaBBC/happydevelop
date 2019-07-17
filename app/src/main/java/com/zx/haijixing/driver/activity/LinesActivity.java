@@ -1,22 +1,17 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.LinesAdapter;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -24,7 +19,7 @@ import butterknife.OnClick;
  * @创建日期 2019/7/8 14:08
  * @描述 车辆及路线
  */
-@Route(path = RoutePathConstant.LINES)
+@Route(path = PathConstant.LINES)
 public class LinesActivity extends BaseActivity {
 
 

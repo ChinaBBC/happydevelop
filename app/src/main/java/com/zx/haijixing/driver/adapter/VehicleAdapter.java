@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 
 /**
  *
@@ -30,7 +30,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
 
     @Override
     public void onBindViewHolder(@NonNull VehicleViewHolder vehicleViewHolder, int i) {
-        vehicleViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(RoutePathConstant.TRUCK_CHANGE).navigation());
+        vehicleViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.TRUCK_CHANGE).navigation());
     }
 
     @Override

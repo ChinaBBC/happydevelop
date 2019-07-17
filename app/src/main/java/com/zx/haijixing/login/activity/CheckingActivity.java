@@ -1,6 +1,5 @@
 package com.zx.haijixing.login.activity;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,19 +10,18 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.ICheckingActivityContract;
 import com.zx.haijixing.login.presenter.CheckingActivityImp;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import zx.com.skytool.ZxStatusBarCompat;
 
 /**
  * @作者 zx
  * @创建日期 2019/6/28 11:43
  * @描述 后台审核
  */
-@Route(path = RoutePathConstant.CHECKING)
+@Route(path = PathConstant.CHECKING)
 public class CheckingActivity extends BaseActivity<CheckingActivityImp> implements ICheckingActivityContract.CheckingView {
 
     @BindView(R.id.common_title_back)

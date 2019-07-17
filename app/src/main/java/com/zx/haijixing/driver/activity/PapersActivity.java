@@ -1,7 +1,5 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,11 +8,10 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -22,7 +19,7 @@ import butterknife.OnClick;
  * @创建日期 2019/7/10 9:40
  * @描述 证件展示
  */
-@Route(path = RoutePathConstant.PAPERS)
+@Route(path = PathConstant.PAPERS)
 public class PapersActivity extends BaseActivity {
 
     @BindView(R.id.papers_back)
@@ -66,7 +63,7 @@ public class PapersActivity extends BaseActivity {
                 break;
             case R.id.papers_change_word:
             case R.id.papers_change_img:
-                ARouter.getInstance().build(RoutePathConstant.PAPERS_CHANGE).navigation();
+                ARouter.getInstance().build(PathConstant.PAPERS_CHANGE).navigation();
                 break;
         }
     }

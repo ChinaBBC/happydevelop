@@ -9,8 +9,10 @@ import android.widget.TextView;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.SendingAdapter;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -21,16 +23,7 @@ import butterknife.OnClick;
 public class SendingFragment extends BaseFragment {
     @BindView(R.id.fragment_sending_data)
     RecyclerView sendingData;
-    @BindView(R.id.fragment_sending_selectAll)
-    ImageView selectAll;
-    @BindView(R.id.fragment_sending_word1)
-    TextView word1;
-    @BindView(R.id.fragment_sending_total)
-    TextView total;
-    @BindView(R.id.fragment_sending_sure_pay)
-    TextView surePay;
-    @BindView(R.id.fragment_sending_complete)
-    TextView complete;
+    private SendingAdapter sendingAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -44,20 +37,53 @@ public class SendingFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        sendingData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        sendingData.setAdapter(new SendingAdapter());
+        sendingData.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        sendingAdapter = new SendingAdapter();
+        sendingAdapter.setLoginType(1);
+        sendingAdapter.setOnClickListener(this::onViewClicked);
+        sendingData.setAdapter(sendingAdapter);
+
     }
 
-    @OnClick({R.id.fragment_sending_selectAll, R.id.fragment_sending_word1, R.id.fragment_sending_sure_pay, R.id.fragment_sending_complete})
+    @OnClick()
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.fragment_sending_selectAll:
-            case R.id.fragment_sending_word1:
+            case R.id.sending_data_sure_pay:
+
                 break;
-            case R.id.fragment_sending_sure_pay:
+            case R.id.sending_data_send_complete:
+                HaiDialogUtil.showChangeMoney(getFragmentManager());
                 break;
-            case R.id.fragment_sending_complete:
-                break;
+        }
+    }
+
+    class SendingViewHolder {
+        @BindView(R.id.fragment_sending_selectAll)
+        ImageView selectAll;
+        @BindView(R.id.fragment_sending_word1)
+        TextView word1;
+        @BindView(R.id.fragment_sending_total)
+        TextView total;
+        @BindView(R.id.fragment_sending_sure_pay)
+        TextView surePay;
+        @BindView(R.id.fragment_sending_complete)
+        TextView complete;
+
+        public SendingViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+
+        @OnClick({R.id.fragment_sending_selectAll, R.id.fragment_sending_word1, R.id.fragment_sending_sure_pay, R.id.fragment_sending_complete})
+        public void onViewClicked(View view) {
+            switch (view.getId()) {
+                case R.id.fragment_sending_selectAll:
+                case R.id.fragment_sending_word1:
+                    break;
+                case R.id.fragment_sending_sure_pay:
+                    break;
+                case R.id.fragment_sending_complete:
+                    break;
+            }
         }
     }
 }

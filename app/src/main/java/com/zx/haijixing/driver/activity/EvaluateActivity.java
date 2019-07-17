@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.EvaluateAdapter;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
@@ -19,7 +19,7 @@ import butterknife.OnClick;
  * @创建日期 2019/7/8 11:11
  * @描述 评价
  */
-@Route(path = RoutePathConstant.EVALUATE)
+@Route(path = PathConstant.EVALUATE)
 public class EvaluateActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)

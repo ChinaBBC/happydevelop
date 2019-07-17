@@ -41,9 +41,9 @@ android {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'
         }
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : JPUSH_KEY, //JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }
 
@@ -75,34 +75,58 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation "com.android.support:design:${SUPPORT_VERSION}"
     implementation "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
     implementation 'com.jakewharton:butterknife:8.4.0'
     implementation 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation "android.arch.persistence.room:runtime:${ROOM_VERSION}"
 
-    implementation "android.arch.persistence.room:runtime:${ROOM_VERSION}"    //ROOM数据库
+    //ROOM数据库
     implementation 'com.android.support:support-v4:28.0.0'
     annotationProcessor "android.arch.persistence.room:compiler:${ROOM_VERSION}"
-    implementation "android.arch.persistence.room:rxjava2:${ROOM_VERSION}"    // rxjava支持
-    implementation 'com.github.lygttpod:RxHttpUtils:2.3.3'    //rxjava+retroft网络访问工具
-    implementation 'io.github.openfeign:feign-gson:9.4.0'    //gson解析
+    implementation "android.arch.persistence.room:rxjava2:${ROOM_VERSION}"
 
-    implementation 'com.youth.banner:banner:1.4.10'    //轮播图
-    implementation 'org.greenrobot:eventbus:3.0.0'    //事件传递
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'    //图片选择
-    implementation 'com.aliyun.dpa:oss-android-sdk:+'    //oss
-    implementation 'com.wang.avi:library:2.1.3'//加载动画
-    implementation 'com.github.ChinaBBC:SkyTool:v1.0.1'//一些通用工具
+    // rxjava支持
+    implementation 'com.github.lygttpod:RxHttpUtils:2.3.3'
+
+    //rxjava+retroft网络访问工具
+    implementation 'io.github.openfeign:feign-gson:9.4.0'
+
+    //gson解析
+    implementation 'com.youth.banner:banner:1.4.10'
+
+    //轮播图
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
+    //事件传递
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
+    //图片选择
+    implementation 'com.aliyun.dpa:oss-android-sdk:+'
+
+    //oss
+    implementation 'com.wang.avi:library:2.1.3'
+
+    //加载动画
+    implementation 'com.github.ChinaBBC:SkyTool:v1.0.1'
+
+    //一些通用工具
     implementation 'com.tencent.bugly:crashreport:latest.release'
+
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
-    implementation 'com.ethanhua:skeleton:1.1.2'//app骨架
-    implementation 'io.supercharge:shimmerlayout:2.1.0'//app骨架
-    implementation 'android.arch.lifecycle:extensions:1.1.1'//扩展
+    implementation 'com.ethanhua:skeleton:1.1.2'
+
+    //app骨架
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+    //扩展
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-30'
+
     //ARouter
     implementation 'com.alibaba:arouter-api:1.5.0'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
@@ -110,14 +134,17 @@ dependencies {
     //map
     implementation 'com.amap.api:navi-3dmap:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
-
     implementation 'com.android.support:multidex:1.0.3'
+    //各种选择
     implementation 'com.contrarywind:Android-PickerView:4.1.8'
+    // Push 3.3.2
+    implementation 'cn.jiguang.sdk:jpush:3.3.2'
+    implementation 'cn.jiguang.sdk:jcore:2.1.0'
 
-    implementation 'cn.jiguang.sdk:jpush:3.3.2'  // 此处以JPush 3.3.2 版本为例。
-    implementation 'cn.jiguang.sdk:jcore:2.1.0'  // 此处以JCore 2.1.0 版本为例。
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'//二维码
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation files('libs/gprintersdkv1.jar')
 }

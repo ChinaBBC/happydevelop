@@ -15,11 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.BannerUtil;
 
 import java.util.List;
@@ -41,6 +40,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private String bannerStr;
     private String baseStr ;
     private Context context;
+    private int loginType = 0;
 
     public IndexAdapter(List<NewsEntry.NewsData> newsData) {
         this.newsData = newsData;
@@ -59,6 +59,9 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.baseStr = baseStr;
     }
 
+    public void setLoginType(int loginType) {
+        this.loginType = loginType;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -86,6 +89,15 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder indexViewHolder, int i) {
         if (getItemViewType(i) == HEAD_ITEM){
             IndexHeadViewHolder indexHeadViewHolder = (IndexHeadViewHolder) indexViewHolder;
+            if (loginType == 1){
+                indexHeadViewHolder.word1.setText(context.getResources().getString(R.string.wait_allot_order));
+                indexHeadViewHolder.word2.setText(context.getResources().getString(R.string.wait_send));
+                indexHeadViewHolder.word3.setText(context.getResources().getString(R.string.classes_manage));
+                indexHeadViewHolder.clock.setImageResource(R.mipmap.classes_manage);
+                indexHeadViewHolder.services.setImageResource(R.mipmap.all_services_l);
+            }else if (loginType == 2){
+
+            }
             indexHeadViewHolder.receive.setOnClickListener(clickListener);
             indexHeadViewHolder.print.setOnClickListener(clickListener);
             indexHeadViewHolder.clock.setOnClickListener(clickListener);
@@ -105,7 +117,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             indexBodyViewHolder.simple.setText(newsData.getFtitle());
             RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
             Glide.with(context).load(baseStr+newsData.getCoverImg()).apply(options).into(indexBodyViewHolder.img);
-            indexBodyViewHolder.item.setOnClickListener(view->ARouter.getInstance().build(RoutePathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
+            indexBodyViewHolder.item.setOnClickListener(view->ARouter.getInstance().build(PathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
         }
     }
 
@@ -122,7 +134,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ImageView receive,print,clock,services;
         Banner banner;
         TextView city,weather,temperature;
-        TextView notify;
+        TextView notify,word1,word2,word3;
         public IndexHeadViewHolder(@NonNull View itemView) {
             super(itemView);
             receive = itemView.findViewById(R.id.index_header_receive);
@@ -134,6 +146,9 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             weather = itemView.findViewById(R.id.index_header_weather);
             temperature = itemView.findViewById(R.id.index_header_temperature);
             notify = itemView.findViewById(R.id.index_header_notify);
+            word1 = itemView.findViewById(R.id.index_header_word1);
+            word2 = itemView.findViewById(R.id.index_header_word2);
+            word3 = itemView.findViewById(R.id.index_header_word3);
         }
 
     }

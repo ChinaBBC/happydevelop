@@ -9,13 +9,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.contract.NewsActivityContract;
 import com.zx.haijixing.driver.presenter.NewsActivityImp;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-@Route(path = RoutePathConstant.DRIVER_NEWS)
+@Route(path = PathConstant.DRIVER_NEWS)
 public class NewsActivity extends BaseActivity<NewsActivityImp> implements NewsActivityContract.NewDetailView {
 
     @BindView(R.id.common_title_back)

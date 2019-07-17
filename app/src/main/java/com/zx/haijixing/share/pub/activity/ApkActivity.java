@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.share.pub.contract.ApkContract;
 import com.zx.haijixing.share.pub.imp.ApkImp;
@@ -25,7 +25,7 @@ import zx.com.skytool.ZxToastUtil;
  *@创建日期 2019/7/11 10:17
  *@描述 版本更新
  */
-@Route(path = RoutePathConstant.APK_ACTIVITY)
+@Route(path = PathConstant.APK_ACTIVITY)
 public class ApkActivity extends BaseActivity<ApkImp> implements ApkContract.ApkView {
 
     @BindView(R.id.common_title_back)

@@ -12,6 +12,7 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
 import com.allen.library.cookie.store.SPCookieStore;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.zx.haijixing.util.HaiTool;
 
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class HaiApplication extends Application {
         configBugly();
         configRxUtil();
         intARouter();
-
+        ZXingLibrary.initDisplayOpinion(this);
     }
 
 

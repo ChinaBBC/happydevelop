@@ -1,8 +1,6 @@
 package com.zx.haijixing.driver.activity;
 
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,11 +8,10 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -22,7 +19,7 @@ import butterknife.OnClick;
  * @创建日期 2019/7/9 17:41
  * @描述 车辆信息修改
  */
-@Route(path = RoutePathConstant.TRUCK_CHANGE)
+@Route(path = PathConstant.TRUCK_CHANGE)
 public class TruckChangeActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)
@@ -69,27 +66,27 @@ public class TruckChangeActivity extends BaseActivity {
 
                 break;
             case R.id.truck_change_driving:
-                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                ARouter.getInstance().build(PathConstant.PAPERS)
                         .withString("title",getHaiString(R.string.driving))
                         .navigation();
                 break;
             case R.id.truck_change_drive:
-                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                ARouter.getInstance().build(PathConstant.PAPERS)
                         .withString("title",getHaiString(R.string.truck_drive))
                         .navigation();
                 break;
             case R.id.truck_change_ensure:
-                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                ARouter.getInstance().build(PathConstant.PAPERS)
                         .withString("title",getHaiString(R.string.truck_cure_id))
                         .navigation();
                 break;
             case R.id.truck_change_truck:
-                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                ARouter.getInstance().build(PathConstant.PAPERS)
                         .withString("title",getHaiString(R.string.truck))
                         .navigation();
                 break;
             case R.id.truck_change_other:
-                ARouter.getInstance().build(RoutePathConstant.PAPERS)
+                ARouter.getInstance().build(PathConstant.PAPERS)
                         .withString("title",getHaiString(R.string.other))
                         .navigation();
                 break;

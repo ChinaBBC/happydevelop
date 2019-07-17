@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
@@ -20,7 +20,7 @@ import butterknife.OnClick;
  *@创建日期 2019/7/10 10:47
  *@描述 修改证件
  */
-@Route(path = RoutePathConstant.PAPERS_CHANGE)
+@Route(path = PathConstant.PAPERS_CHANGE)
 public class PapersChangeActivity extends BaseActivity {
 
     @BindView(R.id.papers_change_back)

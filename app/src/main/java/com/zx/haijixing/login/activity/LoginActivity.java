@@ -14,14 +14,13 @@ import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.ILoginActivityContract;
 import com.zx.haijixing.login.entry.LoginEntry;
 import com.zx.haijixing.login.presenter.LoginActivityImp;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxCountDownTimerUtil;
-import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxStringUtil;
 import zx.com.skytool.ZxToastUtil;
@@ -31,7 +30,7 @@ import zx.com.skytool.ZxToastUtil;
  * @创建日期 2019/6/28 10:34
  * @描述 登录
  */
-@Route(path = RoutePathConstant.ROUTE_LOGIN)
+@Route(path = PathConstant.ROUTE_LOGIN)
 public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILoginActivityContract.LoginView {
 
 
@@ -69,7 +68,7 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
 
     @Override
     public void loginSuccess(LoginEntry loginEntry) {
-        ARouter.getInstance().build(RoutePathConstant.DRIVER_MAIN).navigation();
+        ARouter.getInstance().build(PathConstant.DRIVER_MAIN).navigation();
         finish();
     }
 
@@ -97,17 +96,18 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_forget_password:
-                ARouter.getInstance().build(RoutePathConstant.ROUTE_FORGET).navigation();
+                ARouter.getInstance().build(PathConstant.ROUTE_FORGET).navigation();
                 break;
             case R.id.login_login:
-                if (loginType == 1){
+                ARouter.getInstance().build(PathConstant.MANAGER).navigation();
+               /* if (loginType == 1){
                     checkInputC();
                 }else {
                     checkInputP();
-                }
+                }*/
                 break;
             case R.id.login_go_register:
-                ARouter.getInstance().build(RoutePathConstant.BASE_INFO).navigation();
+                ARouter.getInstance().build(PathConstant.BASE_INFO).navigation();
                 break;
             case R.id.login_password_login:
                 loginType = 2;

@@ -8,13 +8,13 @@ import com.zx.haijixing.driver.fragment.IndexFragment;
 import com.zx.haijixing.driver.fragment.MineFragment;
 import com.zx.haijixing.driver.fragment.NewsFragment;
 import com.zx.haijixing.driver.fragment.OrderFragment;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
 import zx.com.skytool.ZxStatusBarCompat;
 
-@Route(path = RoutePathConstant.DRIVER_MAIN)
+@Route(path = PathConstant.DRIVER_MAIN)
 public class DriverActivity extends BaseActivity {
 
     @BindView(R.id.driver_Bb_bottomMenu)
@@ -33,19 +33,19 @@ public class DriverActivity extends BaseActivity {
                 .setIconHeight(iconSize)
                 .setIconWidth(iconSize)
                 .addItem(IndexFragment.class,
-                        "首页",
+                        getHaiString(R.string.index),
                         R.mipmap.index_index_before,
                         R.mipmap.index_index_after)
                 .addItem(OrderFragment.class,
-                        "订单中心",
+                        getHaiString(R.string.order_center),
                         R.mipmap.index_order_before,
                         R.mipmap.index_order_after)
                 .addItem(NewsFragment.class,
-                        "新闻资讯",
+                        getHaiString(R.string.news),
                         R.mipmap.index_news_before,
                         R.mipmap.index_news_after)
                 .addItem(MineFragment.class,
-                        "个人中心",
+                        getHaiString(R.string.mine_center),
                         R.mipmap.index_mine_before,
                         R.mipmap.index_mine_after)
                 .build();
@@ -65,4 +65,5 @@ public class DriverActivity extends BaseActivity {
     public void setStatusBar() {
         ZxStatusBarCompat.translucentStatusBar(this);
     }
+
 }

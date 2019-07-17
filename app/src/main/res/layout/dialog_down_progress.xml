@@ -15,23 +15,35 @@
         android:textColor="@color/black"
         android:gravity="center"
         />
-    <ProgressBar
-        android:id="@+id/dialog_down_pp_myPro"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+
+    <LinearLayout
+        android:id="@+id/move_data_progress_area"
         android:layout_width="@dimen/dp_280"
         android:layout_height="@dimen/dp_22"
-        android:max="100"
-        android:progress="0"
+        android:orientation="horizontal"
         android:layout_marginTop="@dimen/dp_24"
-        android:progressDrawable="@drawable/layer_dialog_down"
-        />
+        android:padding="@dimen/dp_4"
+        android:background="@drawable/shape_50dp_703f"
+        >
+        <ProgressBar
+            android:id="@+id/dialog_down_pp_myPro"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="@dimen/dp_272"
+            android:layout_height="@dimen/dp_14"
+            android:max="100"
+            android:progress="10"
+            android:progressDrawable="@drawable/layer_dialog_down"
+            />
+    </LinearLayout>
     <TextView
         android:id="@+id/dialog_down_tv_percent"
         android:layout_width="@dimen/dp_280"
         android:layout_height="wrap_content"
         android:text="0%"
         android:textSize="@dimen/dp_12"
-        android:textColor="@color/black"
+        android:textColor="@color/color_703f"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_8"
         />
     <TextView
         android:layout_width="@dimen/dp_315"

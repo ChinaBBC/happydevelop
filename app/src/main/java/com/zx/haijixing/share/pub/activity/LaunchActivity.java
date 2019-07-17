@@ -18,7 +18,7 @@ import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.zx.haijixing.BuildConfig;
 import com.zx.haijixing.HaiNativeHelper;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.share.dao.HaiDao;
 import com.zx.haijixing.share.pub.contract.VersionContract;
@@ -81,7 +81,7 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
                 showUpdate.dismissAllowingStateLoss();
                 break;
             case R.id.dialog_update_yes:
-                ARouter.getInstance().build(RoutePathConstant.APK_ACTIVITY).withString("path",versionEntry.getDownloadUrl()).navigation();
+                ARouter.getInstance().build(PathConstant.APK_ACTIVITY).withString("path",versionEntry.getDownloadUrl()).navigation();
                 break;
         }
     }
@@ -214,7 +214,7 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
 
         //customGraphView.setData(yList , xRawData , 10000 , 500);
         sample.setOnClickListener(v -> {
-            ARouter.getInstance().build(RoutePathConstant.ROUTE_LOGIN).navigation();
+            ARouter.getInstance().build(PathConstant.ROUTE_LOGIN).navigation();
         });
 
         final RecyclerView recyclerView = findViewById(R.id.my_data);

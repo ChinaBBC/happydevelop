@@ -12,6 +12,7 @@ import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -20,16 +21,9 @@ import butterknife.OnClick;
  * @描述 待接单
  */
 public class ReceivedFragment extends BaseFragment {
-    @BindView(R.id.fragment_receive_selectAll)
-    ImageView selectAll;
-    @BindView(R.id.fragment_receive_word1)
-    TextView word1;
-    @BindView(R.id.fragment_receive_total)
-    TextView total;
-    @BindView(R.id.fragment_receive_receive)
-    TextView receive;
     @BindView(R.id.fragment_receive_data)
     RecyclerView rvData;
+    private ReceiveAdapter receiveAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -43,19 +37,48 @@ public class ReceivedFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        rvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        rvData.setAdapter(new ReceiveAdapter());
+        rvData.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        receiveAdapter = new ReceiveAdapter();
+        receiveAdapter.setLoginType(1);
+        receiveAdapter.setOnClickListener(this::onViewClicked);
+        rvData.setAdapter(receiveAdapter);
     }
 
-    @OnClick({R.id.fragment_receive_selectAll, R.id.fragment_receive_word1,R.id.fragment_receive_receive})
+    @OnClick()
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.fragment_receive_selectAll:
-            case R.id.fragment_receive_word1:
+            case R.id.receive_data_sure_receive:
+                HaiDialogUtil.showReceive(getFragmentManager(), this::onViewClicked, "dsdhu");
                 break;
-            case R.id.fragment_receive_receive:
-                HaiDialogUtil.showReceive(getFragmentManager(),this::onViewClicked,total.getText().toString());
-                break;
+        }
+    }
+
+    class ReceiveViewHolder {
+        @BindView(R.id.fragment_receive_selectAll)
+        ImageView selectAll;
+        @BindView(R.id.fragment_receive_word1)
+        TextView word1;
+        @BindView(R.id.fragment_receive_total)
+        TextView total;
+        @BindView(R.id.fragment_receive_receive)
+        TextView receive;
+
+        public ReceiveViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+
+        @OnClick({R.id.fragment_receive_selectAll, R.id.fragment_receive_word1, R.id.fragment_receive_receive})
+        public void onViewClicked(View view) {
+            switch (view.getId()) {
+                case R.id.fragment_receive_selectAll:
+                case R.id.fragment_receive_word1:
+                    break;
+                case R.id.fragment_receive_receive:
+                    HaiDialogUtil.showReceive(getFragmentManager(), this::onViewClicked, total.getText().toString());
+                    break;
+                case R.id.receive_data_sure_receive:
+                    break;
+            }
         }
     }
 }

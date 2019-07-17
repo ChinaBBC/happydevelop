@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomBottomBar;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 
 import butterknife.BindView;
@@ -91,10 +91,10 @@ public class OrderFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_search:
-                ARouter.getInstance().build(RoutePathConstant.PRINT).navigation();
+                ARouter.getInstance().build(PathConstant.PRINT).navigation();
                 break;
             case R.id.order_check_all:
-                ARouter.getInstance().build(RoutePathConstant.DRIVER_ORDER).navigation();
+                ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL).navigation();
                 break;
 
         }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
-import com.zx.haijixing.share.RoutePathConstant;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
@@ -19,7 +19,7 @@ import butterknife.OnClick;
  *@创建日期 2019/7/9 15:40
  *@描述 资料修改
  */
-@Route(path = RoutePathConstant.CHANGE)
+@Route(path = PathConstant.CHANGE)
 public class ChangeActivity extends BaseActivity {
 
     @BindView(R.id.common_title_back)
@@ -63,13 +63,13 @@ public class ChangeActivity extends BaseActivity {
             case R.id.change_head_area:
                 break;
             case R.id.change_phone_area:
-                ARouter.getInstance().build(RoutePathConstant.PHONE).navigation();
+                ARouter.getInstance().build(PathConstant.PHONE).navigation();
                 break;
             case R.id.change_password_area:
-                ARouter.getInstance().build(RoutePathConstant.PASSWORD).navigation();
+                ARouter.getInstance().build(PathConstant.PASSWORD).navigation();
                 break;
             case R.id.change_truck_area:
-                ARouter.getInstance().build(RoutePathConstant.VEHICLE).navigation();
+                ARouter.getInstance().build(PathConstant.VEHICLE).navigation();
                 break;
         }
     }
