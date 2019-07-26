@@ -25,7 +25,7 @@
         android:id="@+id/change_money_input"
         android:layout_width="@dimen/dp_102"
         android:layout_height="@dimen/dp_30"
-        android:text="1000"
+        android:text="0"
         android:textSize="@dimen/sp_14"
         android:textColor="@color/color_3333"
         android:gravity="center"
@@ -37,6 +37,7 @@
         app:layout_constraintLeft_toRightOf="@id/change_money_word1"
         app:layout_constraintRight_toLeftOf="@+id/change_money_word2"
         android:layout_marginLeft="@dimen/sp_12"
+        android:textCursorDrawable="@drawable/shape_input_cur"
         />
     <TextView
         android:id="@+id/change_money_word2"

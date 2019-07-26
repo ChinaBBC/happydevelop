@@ -4,17 +4,27 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_sending_data"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/fragment_sending_refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@color/color_f5f5"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/fragment_sending_lay1"
-        ></android.support.v7.widget.RecyclerView>
+        app:layout_constraintBottom_toTopOf="@id/fragment_sending_lay1">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.scwang.smartrefresh.layout.header.ClassicsHeader>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_sending_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ></android.support.v7.widget.RecyclerView>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.scwang.smartrefresh.layout.footer.ClassicsFooter>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <TextView
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_1"

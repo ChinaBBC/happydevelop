@@ -77,7 +77,7 @@ public class HaiApplication extends Application {
                 //开启缓存策略(默认false)
                 //1、在有网络的时候，先去读缓存，缓存时间到了，再去访问网络获取数据；
                 //2、在没有网络的时候，去读缓存中的数据。
-                .setCache(true)
+                .setCache(false)
                 //全局持久话cookie,保存到内存（new MemoryCookieStore()）或者保存到本地（new SPCookieStore(this)）
                 //不设置的话，默认不对cookie做处理
                 .setCookieType(new SPCookieStore(this))

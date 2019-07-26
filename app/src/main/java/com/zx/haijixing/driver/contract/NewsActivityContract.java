@@ -10,8 +10,10 @@ import com.zx.haijixing.share.base.IBaseContract;
 public interface NewsActivityContract {
     interface NewDetailView extends IBaseContract.IBaseView{
         void detailSuccess(String data);
+        void orderDetail(String data);
     }
     interface NewsDetailPresenter extends IBaseContract.IBasePresenter<NewDetailView>{
-        void detailMethod(String newId);
+        void detailMethod(String token,String newId);
+        void orderDetailMethod(String token,String newId);
     }
 }

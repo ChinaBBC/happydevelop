@@ -34,28 +34,15 @@
         android:id="@+id/fragment_sending_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="共：2单"
+        android:text="共：0单"
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@id/fragment_sending_word1"
-        app:layout_constraintRight_toLeftOf="@id/fragment_sending_sure_pay"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-    <TextView
-        android:id="@+id/fragment_sending_sure_pay"
-        android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_30"
-        android:text="@string/sure_pay"
-        android:textSize="@dimen/sp_16"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:background="@drawable/shape_5dp_7e21"
         app:layout_constraintRight_toLeftOf="@id/fragment_sending_complete"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginRight="@dimen/dp_5"
         />
+
     <TextView
         android:id="@+id/fragment_sending_complete"
         android:layout_width="@dimen/dp_80"

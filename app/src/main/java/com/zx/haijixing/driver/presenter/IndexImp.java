@@ -3,11 +3,16 @@ package com.zx.haijixing.driver.presenter;
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
+import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.driver.contract.IIndexContract;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.BasePresenter;
+import com.zx.haijixing.share.service.DriverApiService;
 import com.zx.haijixing.share.service.ShareApiService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -48,6 +53,33 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
                     @Override
                     protected void onSuccess(BannerEntry data) {
                         mView.newDataBannerSuccess(data.getData(),data.getFileHttpWW());
+                    }
+                });
+    }
+
+    @Override
+    public void workMethod(String token) {
+        RxHttpUtils.createApi(DriverApiService.class)
+                .workApi(token)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.workSuccess(jsonObject.getString("msg"));
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }

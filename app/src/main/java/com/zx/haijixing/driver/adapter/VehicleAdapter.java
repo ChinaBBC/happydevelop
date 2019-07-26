@@ -10,7 +10,11 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.entry.TruckEntry;
 import com.zx.haijixing.share.PathConstant;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -19,6 +23,12 @@ import com.zx.haijixing.share.PathConstant;
  *@描述 车辆管理
  */
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder> {
+
+    private List<TruckEntry> truckEntries = new ArrayList<>();
+
+    public void setTruckEntries(List<TruckEntry> truckEntries) {
+        this.truckEntries = truckEntries;
+    }
 
     @NonNull
     @Override
@@ -30,12 +40,19 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
 
     @Override
     public void onBindViewHolder(@NonNull VehicleViewHolder vehicleViewHolder, int i) {
-        vehicleViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.TRUCK_CHANGE).navigation());
+        if (truckEntries.size()>0){
+            TruckEntry truckEntry = truckEntries.get(i);
+            vehicleViewHolder.number.setText(truckEntry.getIDCARD());
+            vehicleViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.TRUCK_CHANGE)
+                    .withString("truckId",truckEntry.getCARID())
+                    .withString("truckName",truckEntry.getIDCARD())
+                    .navigation());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return truckEntries.size();
     }
 
     class VehicleViewHolder extends RecyclerView.ViewHolder{

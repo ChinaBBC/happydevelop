@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.LruCache;
+import android.view.PixelCopy;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,10 +18,15 @@ import com.allen.library.utils.MD5;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.adapter.PrintAdapter;
 
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxStringUtil;
 
 /**
  *
@@ -63,9 +69,37 @@ public final class HaiTool {
     }
 
     public static String md5Method(String word){
-        return  MD5.EncoderByMd5(word);
-    }
+        String resultString = null;
+        try {
+            resultString = new String(word);
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            resultString = byteArrayToHexString(md.digest(resultString
+                    .getBytes("utf-8")));
 
+        } catch (Exception exception) {
+        }
+        return resultString;
+    }
+    private static final String hexDigits[] = { "0", "1", "2", "3", "4", "5",
+            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
+
+    //字节数组转字符串
+    public static String byteArrayToHexString(byte b[]) {
+        StringBuffer resultSb = new StringBuffer();
+        for (int i = 0; i < b.length; i++)
+            resultSb.append(byteToHexString(b[i]));
+
+        return resultSb.toString();
+    }
+    //字节转字符
+    private static String byteToHexString(byte b) {
+        int n = b;
+        if (n < 0)
+            n += 256;
+        int d1 = n / 16;
+        int d2 = n % 16;
+        return hexDigits[d1] + hexDigits[d2];
+    }
     private static final String TEL_REGEX = "^[1][3-9][0-9]{9}$";
     private static final String IDENTIFY_CARD = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
     private static final String BANK_CARD = "^([1-9]{1})(\\d{14}|\\d{18})$";
@@ -78,61 +112,51 @@ public final class HaiTool {
     public static boolean checkBank(String bank){
         return bank.matches(BANK_CARD);
     }
-
+    /**
+     * 将dp转换成px
+     * @param context
+     * @param dpValue
+     * @return
+     */
+    public static int dip2px(Context context,float dpValue){
+        final float scale = context.getResources ().getDisplayMetrics ().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
     /**
      * recycleview截图
      * @param view
      * @return
      */
-    public static Bitmap shotRecyclerView(RecyclerView view) {
-        RecyclerView.Adapter adapter = view.getAdapter();
+    public static Bitmap shotRecyclerView(RecyclerView view,int i) {
+        RecyclerView.Adapter printAdapter = view.getAdapter();
+        PrintAdapter adapter = (PrintAdapter) printAdapter;
         Bitmap bigBitmap = null;
         if (adapter != null) {
-            int size = adapter.getItemCount();
             int height = 0;
             Paint paint = new Paint();
             int iHeight = 0;
-            final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 
-            // Use 1/8th of the available memory for this memory cache.
-            final int cacheSize = maxMemory / 8;
-            LruCache<String, Bitmap> bitmaCache = new LruCache<>(cacheSize);
-            for (int i = 0; i < size; i++) {
-                RecyclerView.ViewHolder holder = adapter.createViewHolder(view, adapter.getItemViewType(i));
-                adapter.onBindViewHolder(holder, i);
-                holder.itemView.measure(
-                        View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                holder.itemView.layout(0, 0, holder.itemView.getMeasuredWidth(),
-                        holder.itemView.getMeasuredHeight());
-                holder.itemView.setDrawingCacheEnabled(true);
-                holder.itemView.buildDrawingCache();
-                Bitmap drawingCache = holder.itemView.getDrawingCache();
-                if (drawingCache != null) {
+            RecyclerView.ViewHolder holder = adapter.createViewHolder(view, adapter.getItemViewType(i));
+            adapter.onBindViewHolder(holder, i);
+            holder.itemView.measure(
+                    View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            holder.itemView.layout(0, 0, holder.itemView.getMeasuredWidth(),
+                    holder.itemView.getMeasuredHeight());
 
-                    bitmaCache.put(String.valueOf(i), drawingCache);
-                }
-                height += holder.itemView.getMeasuredHeight();
-            }
+            holder.itemView.setDrawingCacheEnabled(true);
+            holder.itemView.buildDrawingCache();
+            Bitmap drawingCache = holder.itemView.getDrawingCache();
 
+            height = holder.itemView.getMeasuredHeight();
             bigBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), height, Bitmap.Config.ARGB_8888);
             Canvas bigCanvas = new Canvas(bigBitmap);
-            Drawable lBackground = view.getBackground();
-            if (lBackground instanceof ColorDrawable) {
-                ColorDrawable lColorDrawable = (ColorDrawable) lBackground;
-                int lColor = lColorDrawable.getColor();
-                bigCanvas.drawColor(lColor);
-            }
+            bigCanvas.drawBitmap(drawingCache, 0f, iHeight, paint);
 
-            for (int i = 0; i < size; i++) {
-                Bitmap bitmap = bitmaCache.get(String.valueOf(i));
-                bigCanvas.drawBitmap(bitmap, 0f, iHeight, paint);
-                iHeight += bitmap.getHeight();
-                bitmap.recycle();
-            }
         }
         return bigBitmap;
     }
+
 
     public static TimePickerView initTimePickers(Context context, TextView view1, TextView view2) {
         //选择出生年月日

@@ -9,11 +9,17 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.VehicleAdapter;
+import com.zx.haijixing.driver.contract.VehicleContract;
+import com.zx.haijixing.driver.entry.TruckEntry;
+import com.zx.haijixing.driver.presenter.VehicleImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
 /**
  * @作者 zx
@@ -21,7 +27,7 @@ import butterknife.OnClick;
  * @描述 车辆管理
  */
 @Route(path = PathConstant.VEHICLE)
-public class VehicleActivity extends BaseActivity {
+public class VehicleActivity extends BaseActivity<VehicleImp> implements VehicleContract.VehicleView {
 
     @BindView(R.id.common_title_back)
     ImageView back;
@@ -30,16 +36,25 @@ public class VehicleActivity extends BaseActivity {
     @BindView(R.id.vehicle_data)
     RecyclerView vehicleData;
 
+    private VehicleAdapter vehicleAdapter;
+
     @Override
     protected void initView() {
         title.setText(getHaiString(R.string.truck_manager));
         vehicleData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        vehicleData.setAdapter(new VehicleAdapter());
+        vehicleAdapter = new VehicleAdapter();
+        vehicleData.setAdapter(vehicleAdapter);
+
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        String token = (String) instance.getParam("token", "null");
+
+        mPresenter.vehicleMethod(token);
     }
 
     @Override
     protected void initInjector() {
-        ARouter.getInstance().inject(this);
+        mPresenter = new VehicleImp();
     }
 
     @Override
@@ -50,5 +65,11 @@ public class VehicleActivity extends BaseActivity {
     @OnClick(R.id.common_title_back)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    public void vehicleSuccess(List<TruckEntry> truckEntries) {
+        vehicleAdapter.setTruckEntries(truckEntries);
+        vehicleAdapter.notifyDataSetChanged();
     }
 }

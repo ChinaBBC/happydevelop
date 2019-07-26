@@ -1,5 +1,9 @@
 package com.zx.haijixing.share.base;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -7,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
@@ -30,6 +36,9 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
     private Unbinder unbinder;
 
     private CommonDialogFragment commonDialogFragment;
+    private MyCloseReceiver myCloseReceiver;
+    private SmartRefreshLayout refreshLayout;
+
 
     protected abstract void initView();
     @Override
@@ -43,6 +52,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         attachView();
         setStatusBar();
         initView();
+        registerBroad();
     }
 
     @Override
@@ -60,6 +70,8 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         super.onDestroy();
         unbinder.unbind();
         detachView();
+        if (myCloseReceiver != null)
+            unregisterReceiver(myCloseReceiver);
     }
 
     private void attachView() {
@@ -80,6 +92,10 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
     @Override
     public void showFaild(String errorMsg) {
         ZxToastUtil.centerToast(errorMsg);
+        if (refreshLayout != null){
+            refreshLayout.finishLoadMore(false);
+            refreshLayout.finishRefresh(false);
+        }
     }
 
     @Override
@@ -91,6 +107,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
     @Override
     public void showSuccess(String successMsg) {
         ZxToastUtil.centerToast(successMsg);
+
     }
 
     /**
@@ -100,14 +117,6 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-    }
-    /**
-     * 是否显示返回键
-     *
-     * @return
-     */
-    protected boolean showHomeAsUp() {
-        return false;
     }
 
     public String getHaiString(int id){
@@ -130,4 +139,21 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         layoutParams.topMargin = ZxStatusBarCompat.getStatusBarHeight(this)+20;
         view.setLayoutParams(layoutParams);
     }
+
+    private  void registerBroad(){
+        myCloseReceiver = new MyCloseReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(OtherConstants.LOGIN_OUT);
+        this.registerReceiver(myCloseReceiver,intentFilter);
+    }
+
+    class MyCloseReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(OtherConstants.LOGIN_OUT)){
+                finish();
+            }
+        }
+    }
+
 }

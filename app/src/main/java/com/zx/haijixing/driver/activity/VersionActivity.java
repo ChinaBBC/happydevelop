@@ -10,6 +10,11 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.share.pub.contract.VersionContract;
+import com.zx.haijixing.share.pub.entry.VersionEntry;
+import com.zx.haijixing.share.pub.imp.VersionImp;
+import com.zx.haijixing.util.CommonDialogFragment;
+import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
 import butterknife.BindView;
@@ -22,7 +27,7 @@ import butterknife.OnClick;
  *@描述 版本更新
  */
 @Route(path = PathConstant.VERSION)
-public class VersionActivity extends BaseActivity {
+public class VersionActivity extends BaseActivity<VersionImp> implements VersionContract.VersionView {
 
     @BindView(R.id.common_title_back)
     ImageView back;
@@ -34,6 +39,8 @@ public class VersionActivity extends BaseActivity {
     TextView versionIntro;
     @BindView(R.id.version_version_update_area)
     ConstraintLayout updateArea;
+    private CommonDialogFragment showUpdate;
+    private VersionEntry versionEntry;
 
     @Override
     protected void initView() {
@@ -59,6 +66,20 @@ public class VersionActivity extends BaseActivity {
                 break;
             case R.id.version_version_update_area:
                 break;
+            case R.id.dialog_update_no:
+                showUpdate.dismissAllowingStateLoss();
+                break;
+            case R.id.dialog_update_yes:
+                ARouter.getInstance().build(PathConstant.APK_ACTIVITY).withString("path",versionEntry.getDownloadUrl()).navigation();
+                break;
+        }
+    }
+
+    @Override
+    public void versionSuccess(VersionEntry versionEntry) {
+        this.versionEntry = versionEntry;
+        if (HaiTool.packageCode(this)<versionEntry.getVersionNum()) {
+            showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(),null, this::onViewClicked);
         }
     }
 }

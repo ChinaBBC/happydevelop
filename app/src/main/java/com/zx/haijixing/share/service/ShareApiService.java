@@ -3,8 +3,11 @@ package com.zx.haijixing.share.service;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.HaiBaseData;
+import com.zx.haijixing.share.pub.entry.NotifyEntry;
 import com.zx.haijixing.share.pub.entry.VersionEntry;
 
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -24,7 +27,7 @@ public interface ShareApiService {
 
     //新闻详情
     @GET("news/selectNewById")
-    Observable<HaiBaseData<NewsEntry.NewsData>> newsOne(@Query("newId") String newId);
+    Observable<HaiBaseData<NewsEntry.NewsData>> newsOne(@Query("token") String token,@Query("newId") String newId);
 
     //版本
     @GET("version/newVersion")
@@ -34,4 +37,12 @@ public interface ShareApiService {
     @GET("banner/allBanners")
     Observable<BannerEntry> bannerApi();
 
+    //消息中心
+    @GET("notice/page/list")
+    Observable<HaiBaseData<List<NotifyEntry>>> notifyApi(@Query("token") String token, @Query("pageNum") String pageNum, @Query("pageSize") String pageSize);
+
+
+    //二维码运单信息
+    @GET("logistics/common/orderInfoByQR")
+    Observable<String> qrOrderApi(@Query("token") String token, @Query("code") String code);
 }

@@ -1,4 +1,7 @@
 package com.zx.haijixing.login.entry;
+
+import java.util.List;
+
 /**
  *
  *@作者 zx
@@ -7,21 +10,43 @@ package com.zx.haijixing.login.entry;
  */
 public class LoginEntry {
     /*"userId":"5266c28f-19ef-4e31-b468-6d5513ef361d",
-            "deptId":"selfAndroid",
-            "userName":"策",
-            "phonenumber":"12333333333",
-            "avatar":"http://192.168.5.180:80/profile/null",
-            "sex":"2",
-            "loginDate":"2019-07-12 08:54:48",
-            "token":"7e7fbc0af63e494587e3d5269c004f51"*/
+    		"deptId":"selfAndroid",
+    		"roleType":"3",
+    		"userName":"策",
+    		"phonenumber":"12333333333",
+    		"avatar":"http://192.168.5.180:80/profile/null",
+    		"sex":"2",
+    		"loginDate":"2019-07-18 19:25:47",
+    		"token":"2a6da1c4a727438695776f87ec8d7247",
+    		"menus":[
+
+    		]*/
     String userId;
     String deptId;
+    String roleType;
     String userName;
     String phonenumber;
     String avatar;
     int sex;
     String loginDate;
     String token;
+    List<String> menus;
+
+    public String getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(String roleType) {
+        this.roleType = roleType;
+    }
+
+    public List<String> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<String> menus) {
+        this.menus = menus;
+    }
 
     public String getUserId() {
         return userId;
@@ -92,12 +117,14 @@ public class LoginEntry {
         return "LoginEntry{" +
                 "userId='" + userId + '\'' +
                 ", deptId='" + deptId + '\'' +
+                ", roleType='" + roleType + '\'' +
                 ", userName='" + userName + '\'' +
                 ", phonenumber='" + phonenumber + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", sex=" + sex +
                 ", loginDate='" + loginDate + '\'' +
                 ", token='" + token + '\'' +
+                ", menus=" + menus +
                 '}';
     }
 }

@@ -16,10 +16,12 @@ public interface IIndexContract {
     interface IndexView extends IBaseContract.IBaseView{
         void newsDataSuccess(List<NewsEntry.NewsData> newsEntries,String base);
         void newDataBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr);
+        void workSuccess(String msg);
     }
 
     interface IndexPresenter extends IBaseContract.IBasePresenter<IndexView>{
         void newsDataMethod(int page);
         void newsDataBanner();
+        void workMethod(String token);
     }
 }

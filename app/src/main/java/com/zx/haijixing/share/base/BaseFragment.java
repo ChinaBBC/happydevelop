@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
@@ -33,6 +34,7 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     private Unbinder unbinder;
     private View mRootView, mErrorView, mEmptyView;
     private CommonDialogFragment commonDialogFragment;
+    protected SmartRefreshLayout refreshLayout;
 
     protected abstract int getLayoutId();
 
@@ -99,6 +101,10 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     @Override
     public void showFaild(String errorMsg) {
         ZxToastUtil.centerToast(errorMsg);
+        if (refreshLayout != null){
+            refreshLayout.finishRefresh(false);
+            refreshLayout.finishLoadMore(false);
+        }
     }
 
 

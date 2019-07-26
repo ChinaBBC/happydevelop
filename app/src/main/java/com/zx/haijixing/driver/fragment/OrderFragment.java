@@ -9,11 +9,19 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomBottomBar;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  * 订单中心
@@ -53,7 +61,7 @@ public class OrderFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         setTitleTopMargin(title,0);
-
+        EventBus.getDefault().register(this);
         int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_11);
         int titleMar = getResources().getDimensionPixelSize(R.dimen.dp_4);
         int iconSize = getResources().getDimensionPixelSize(R.dimen.dp_20);
@@ -91,12 +99,28 @@ public class OrderFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_search:
-                ARouter.getInstance().build(PathConstant.PRINT).navigation();
+                String trim = orderInput.getText().toString().trim();
+                if (ZxStringUtil.isEmpty(trim)){
+                    ZxToastUtil.centerToast("请输入查询内容");
+                }else {
+                    ARouter.getInstance().build(PathConstant.DRIVER_SEARCH)
+                            .withString("content",trim)
+                            .navigation();
+                }
                 break;
             case R.id.order_check_all:
-                ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL).navigation();
+                ARouter.getInstance().build(PathConstant.DRIVER_ORDER).navigation();
                 break;
 
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg() == OtherConstants.EVENT_RECEIVE){
+            bottomBar.switchTo(0);
+        }else if (entity.getMsg() == OtherConstants.EVENT_PRINT){
+            bottomBar.switchTo(1);
         }
     }
 }

@@ -8,11 +8,18 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.LinesAdapter;
+import com.zx.haijixing.driver.contract.LinesContract;
+import com.zx.haijixing.driver.entry.DriverClassEntry;
+import com.zx.haijixing.driver.presenter.LineImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
 /**
  * @作者 zx
@@ -20,7 +27,7 @@ import butterknife.OnClick;
  * @描述 车辆及路线
  */
 @Route(path = PathConstant.LINES)
-public class LinesActivity extends BaseActivity {
+public class LinesActivity extends BaseActivity<LineImp> implements LinesContract.LinesView {
 
 
     @BindView(R.id.lines_data)
@@ -30,16 +37,25 @@ public class LinesActivity extends BaseActivity {
     @BindView(R.id.common_title_title)
     TextView title;
 
+    private List<DriverClassEntry> driverClassEntries = new ArrayList<>();
+    private LinesAdapter linesAdapter;
+    private String token;
     @Override
     protected void initView() {
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        token = (String)instance.getParam("token","null");
         title.setText(getHaiString(R.string.car_and_lines));
         linesData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        linesData.setAdapter(new LinesAdapter());
+        linesAdapter = new LinesAdapter(driverClassEntries);
+        linesData.setAdapter(linesAdapter);
+
+        mPresenter.linesMethod(token);
     }
 
     @Override
     protected void initInjector() {
-
+        mPresenter = new LineImp();
     }
 
     @Override
@@ -50,5 +66,11 @@ public class LinesActivity extends BaseActivity {
     @OnClick(R.id.common_title_back)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    public void linesSuccess(List<DriverClassEntry> driverClassEntries) {
+        this.driverClassEntries.addAll(driverClassEntries);
+        linesAdapter.notifyDataSetChanged();
     }
 }

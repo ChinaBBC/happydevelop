@@ -16,10 +16,12 @@ public interface ITruckActivityContract {
     interface TruckView extends IBaseContract.IBaseView{
         void typeSuccess(List<TruckTypeEntry> typeEntryList);
         void truckApplySuccess();
+        void uploadTruckSuccess(String path,int tag);
     }
 
     interface TruckPresenter extends IBaseContract.IBasePresenter<TruckView>{
         void truckTypeMethod();
         void truckApplyMethod(Map<String,String> params);
+        void uploadTruckMethod(String path,int tag);
     }
 }

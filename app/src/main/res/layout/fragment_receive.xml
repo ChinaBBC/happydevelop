@@ -5,17 +5,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_receive_data"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/fragment_receive_refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@color/color_f5f5"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/fragment_receive_lay1"
-        ></android.support.v7.widget.RecyclerView>
-
+        app:layout_constraintBottom_toTopOf="@id/fragment_receive_lay1">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.scwang.smartrefresh.layout.header.ClassicsHeader>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_receive_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ></android.support.v7.widget.RecyclerView>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.scwang.smartrefresh.layout.footer.ClassicsFooter>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <TextView
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_1"
@@ -34,63 +44,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-   <!-- <android.support.constraint.ConstraintLayout
-        android:id="@+id/fragment_receive_lay1"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_49"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/white"
-        >
-        <ImageView
-            android:id="@+id/fragment_receive_selectAll"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:src="@mipmap/select_no"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="@dimen/dp_24"
-            />
-        <TextView
-            android:id="@+id/fragment_receive_word1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/select_all"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/color_3333"
-            app:layout_constraintLeft_toRightOf="@id/fragment_receive_selectAll"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="@dimen/dp_6"
-            />
-        <TextView
-            android:id="@+id/fragment_receive_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="共：2单"
-            android:textColor="@color/color_3333"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <TextView
-            android:id="@+id/fragment_receive_receive"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_30"
-            android:text="@string/sure_receive"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:background="@drawable/shape_5dp_a45b"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginRight="@dimen/dp_20"
-            />
-    </android.support.constraint.ConstraintLayout>-->
 
 </android.support.constraint.ConstraintLayout>

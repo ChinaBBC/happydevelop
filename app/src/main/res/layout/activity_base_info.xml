@@ -154,6 +154,7 @@
                 app:layout_constraintWidth_percent="0.9"
                 android:inputType="text"
                 android:maxLength="11"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -178,6 +179,7 @@
                 app:layout_constraintWidth_percent="0.9"
                 android:inputType="text"
                 android:maxLength="18"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -202,6 +204,7 @@
                 app:layout_constraintWidth_percent="0.9"
                 android:inputType="text"
                 android:maxLength="20"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -226,6 +229,7 @@
                 app:layout_constraintWidth_percent="0.9"
                 android:inputType="text"
                 android:maxLength="20"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -250,6 +254,7 @@
                 app:layout_constraintWidth_percent="0.9"
                 android:inputType="phone"
                 android:maxLength="11"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -282,6 +287,7 @@
                     android:background="@null"
                     android:inputType="number"
                     android:maxLength="6"
+                    android:textCursorDrawable="@drawable/shape_input_cur"
                     />
                 <TextView
                     android:layout_width="@dimen/dp_1"
@@ -322,6 +328,7 @@
                 app:layout_constraintWidth_percent="0.9"
                 android:inputType="textPassword"
                 android:maxLength="16"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -346,6 +353,7 @@
                 app:layout_constraintWidth_percent="0.9"
                 android:inputType="textPassword"
                 android:maxLength="16"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="0dp"

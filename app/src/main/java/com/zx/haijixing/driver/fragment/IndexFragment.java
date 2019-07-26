@@ -26,10 +26,14 @@ import com.zx.haijixing.driver.contract.IIndexContract;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.driver.presenter.IndexImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxSharePreferenceUtil;
+import zx.com.skytool.ZxStringUtil;
 import zx.com.skytool.ZxToastUtil;
 
 /**
@@ -67,6 +73,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     private int page = 1;
     private RecyclerViewSkeletonScreen skeletonScreen;
     private boolean isHide = false;
+    private String token = null;
 
     @Override
     protected int getLayoutId() {
@@ -80,6 +87,11 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
 
     @Override
     protected void initView(View view) {
+
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        token = (String) instance.getParam("token","null");
+
 
         setTitleTopMargin(one,0);
         setTitleTopMargin(scanCode,20);
@@ -102,7 +114,14 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.index_search:
-                ARouter.getInstance().build(PathConstant.DRIVER_SEARCH).navigation();
+                String trim = orderNumber.getText().toString().trim();
+                if (ZxStringUtil.isEmpty(trim)){
+                    ZxToastUtil.centerToast("请输入搜索内容");
+                }else {
+                    ARouter.getInstance().build(PathConstant.DRIVER_SEARCH)
+                            .withString("content",trim)
+                            .navigation();
+                }
                 break;
             case R.id.index_scan_code:
                 scanQrCode();
@@ -111,7 +130,8 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 showClock = HaiDialogUtil.showClock(getFragmentManager(), this::onViewClicked);
                 break;
             case R.id.dialog_clock_yes:
-                showClock.dismissAllowingStateLoss();
+                mPresenter.workMethod(token);
+                //showClock.dismissAllowingStateLoss();
                 break;
             case R.id.dialog_clock_no:
                 showClock.dismissAllowingStateLoss();
@@ -121,6 +141,12 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 break;
             case R.id.index_header_services:
                 ARouter.getInstance().build(PathConstant.DRIVER_SERVICES).navigation();
+                break;
+            case R.id.index_header_receive:
+                EventBus.getDefault().post(new EventBusEntity(OtherConstants.EVENT_RECEIVE));
+                break;
+            case R.id.index_header_print:
+                EventBus.getDefault().post(new EventBusEntity(OtherConstants.EVENT_PRINT));
                 break;
         }
     }
@@ -139,7 +165,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
             newsData.addAll(newsEntries);
             indexAdapter.notifyDataSetChanged();
         }else {
-            refresh.finishRefresh(true);
+            refresh.finishRefreshWithNoMoreData();
             refresh.finishLoadMoreWithNoMoreData();
         }
 
@@ -149,6 +175,12 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     public void newDataBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr) {
         indexAdapter.setBannerData(bannerDataList,bannerStr);
         indexAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void workSuccess(String msg) {
+        ZxToastUtil.centerToast(msg);
+        showClock.dismissAllowingStateLoss();
     }
 
     @Override
@@ -195,6 +227,9 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         Intent intent = new Intent(getActivity(), CaptureActivity.class);
         //第二个参数是请求码，定义的常量随意填写
         startActivityForResult(intent, 123);
+    }
+
+    private void getWeather(){
 
     }
 }

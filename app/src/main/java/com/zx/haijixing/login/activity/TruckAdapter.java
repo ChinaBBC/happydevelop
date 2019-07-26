@@ -1,13 +1,7 @@
 package com.zx.haijixing.login.activity;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.contrarywind.adapter.WheelAdapter;
-import com.zx.haijixing.R;
 import com.zx.haijixing.login.entry.TruckTypeEntry;
 
 import java.util.List;

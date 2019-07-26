@@ -99,6 +99,7 @@
                 android:paddingLeft="@dimen/dp_8"
                 android:inputType="text"
                 android:maxLength="11"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
         </LinearLayout>
         <TextView
@@ -138,6 +139,7 @@
                 android:paddingLeft="@dimen/dp_8"
                 android:inputType="textPassword"
                 android:maxLength="16"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
         </LinearLayout>
         <TextView
@@ -200,6 +202,7 @@
                 android:paddingLeft="@dimen/dp_8"
                 android:inputType="text"
                 android:maxLength="11"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
             <TextView
                 android:layout_width="@dimen/dp_1"
@@ -253,6 +256,7 @@
                 android:paddingLeft="@dimen/dp_8"
                 android:inputType="number"
                 android:maxLength="6"
+                android:textCursorDrawable="@drawable/shape_input_cur"
                 />
         </LinearLayout>
         <TextView

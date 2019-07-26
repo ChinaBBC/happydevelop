@@ -32,7 +32,7 @@
         android:paddingRight="@dimen/dp_14"
         android:layout_marginTop="@dimen/dp_10"
         />
-    <TextView
+    <View
         android:id="@+id/index_c"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_20"

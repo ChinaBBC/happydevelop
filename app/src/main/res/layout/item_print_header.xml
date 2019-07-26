@@ -79,11 +79,13 @@
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/print_header_line1" />
-    <ImageView
+    <TextView
         android:id="@+id/print_header_img3"
-        android:layout_width="@dimen/dp_18"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_18"
-        android:src="@mipmap/send_man"
+        android:text="发:"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_6666"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
         android:layout_marginTop="@dimen/dp_12"
@@ -113,11 +115,13 @@
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginLeft="@dimen/dp_8"
         />
-    <ImageView
+    <TextView
         android:id="@+id/print_header_img4"
-        android:layout_width="@dimen/dp_18"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_18"
-        android:src="@mipmap/receive_man"
+        android:text="收:"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_6666"
         app:layout_constraintTop_toBottomOf="@id/print_header_send_locate"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="@dimen/dp_15"

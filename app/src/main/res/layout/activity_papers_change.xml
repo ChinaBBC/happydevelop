@@ -114,7 +114,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/papers_change_con2"
                 android:layout_marginTop="@dimen/dp_15"
-                android:visibility="gone"
                 >
                 <ImageView
                     android:id="@+id/papers_change_two"
@@ -163,7 +162,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/papers_change_con3"
                 android:layout_marginTop="@dimen/dp_15"
-                android:visibility="gone"
                 >
                 <ImageView
                     android:id="@+id/papers_change_three"

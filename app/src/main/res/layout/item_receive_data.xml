@@ -9,7 +9,7 @@
     android:layout_marginTop="@dimen/dp_10"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
+    <!--<android.support.constraint.ConstraintLayout
         android:id="@+id/receive_data_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -158,8 +158,11 @@
             app:layout_constraintTop_toBottomOf="@id/receive_data_number"
             android:layout_marginTop="@dimen/dp_6"
             />
-    </android.support.constraint.ConstraintLayout>
-
+    </android.support.constraint.ConstraintLayout>-->
+    <include
+        android:id="@+id/receive_data_item"
+        layout="@layout/a_common_orders"
+        />
     <ImageView
         android:id="@+id/receive_data_select"
         android:layout_width="@dimen/dp_16"

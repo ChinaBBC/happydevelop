@@ -90,7 +90,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int realPosition = getRealPosition(viewHolder);
             NewsEntry.NewsData newsData = newsDataList.get(realPosition);
             NewsViewHolder newsViewHolder = (NewsViewHolder) viewHolder;
-            newsViewHolder.item.setOnClickListener(view1 -> ARouter.getInstance().build(PathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
+            newsViewHolder.item.setOnClickListener(view1 -> ARouter.getInstance().build(PathConstant.DRIVER_NEWS)
+                    .withString("newId",newsData.getNewId())
+                    .withString("from","news")
+                    .navigation());
             newsViewHolder.title.setText(newsData.getTitle());
             newsViewHolder.sample.setText(newsData.getFtitle());
             newsViewHolder.time.setText(newsData.getCreateTime());

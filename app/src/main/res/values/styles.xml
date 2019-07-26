@@ -12,7 +12,7 @@
     <style name="AppStartLoad" parent="AppTheme">
         <item name="windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@mipmap/launch_back</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 

@@ -158,6 +158,12 @@ public class CustomBottomBar extends View {
 
     private int parentItemWidth;
 
+    //切换菜单
+    public void switchTo(int index){
+        switchFragment(index);
+        currentCheckedIndex = index;
+        invalidate();
+    }
     private void initParam() {
         if (itemCount != 0) {
             //单个item宽高
@@ -312,7 +318,7 @@ public class CustomBottomBar extends View {
                 }
             }
             currentFragment = fragment;
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 }

@@ -9,163 +9,17 @@
     android:layout_marginTop="@dimen/dp_10"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/send_data_item"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <TextView
-            android:id="@+id/send_data_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下单:2019.5.23 12:15:59"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/color_9999"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            />
-        <TextView
-            android:id="@+id/send_data_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wait_send"
-            android:textColor="@color/color_7e00"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/send_data_line1"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_1"
-            android:background="@color/color_e0e0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/send_data_time"
-            android:layout_marginTop="@dimen/dp_10"
-            />
-        <TextView
-            android:id="@+id/send_data_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="运单号:15522745747457"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/color_6666"
-            app:layout_constraintTop_toBottomOf="@id/send_data_line1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="@dimen/dp_10"
-            />
-        <TextView
-            android:id="@+id/send_data_way"
-            android:layout_width="@dimen/dp_55"
-            android:layout_height="@dimen/dp_18"
-            android:text="城市配送"
-            android:textColor="@color/color_703f"
-            android:textSize="@dimen/sp_12"
-            android:gravity="center"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/send_data_line1"
-            android:layout_marginTop="@dimen/dp_12"
-            android:background="@drawable/shape_3dp_703f"
-            />
-        <ImageView
-            android:id="@+id/send_data_img1"
-            android:layout_width="@dimen/dp_16"
-            android:layout_height="@dimen/dp_16"
-            android:src="@mipmap/receive_man"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/send_data_order"
-            android:layout_marginTop="@dimen/dp_10"
-            />
-        <TextView
-            android:id="@+id/send_data_shop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="周海冷冻"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@color/color_3333"
-            app:layout_constraintLeft_toRightOf="@id/send_data_img1"
-            app:layout_constraintTop_toBottomOf="@id/send_data_order"
-            android:layout_marginTop="@dimen/dp_6"
-            android:layout_marginLeft="@dimen/dp_4"
-            />
-        <TextView
-            android:id="@+id/send_data_lines"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="双流百家->绵阳高水"
-            android:textColor="@color/color_3333"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/send_data_way"
-            android:layout_marginTop="@dimen/dp_6"
-            />
-        <ImageView
-            android:id="@+id/send_data_img2"
-            android:layout_width="@dimen/dp_16"
-            android:layout_height="@dimen/dp_16"
-            android:src="@mipmap/phone_number"
-            app:layout_constraintTop_toBottomOf="@id/send_data_img1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="@dimen/dp_6"
-            />
-        <TextView
-            android:id="@+id/send_data_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="12342354554"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/color_3333"
-            app:layout_constraintTop_toBottomOf="@id/send_data_shop"
-            app:layout_constraintLeft_toRightOf="@id/send_data_img2"
-            android:layout_marginTop="@dimen/dp_3"
-            android:layout_marginLeft="@dimen/dp_4"
-            />
-        <TextView
-            android:id="@+id/send_data_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="海鲜/10件"
-            android:textColor="@color/color_6666"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintTop_toBottomOf="@id/send_data_lines"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="@dimen/dp_2"
-            />
-        <TextView
-            android:id="@+id/send_data_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="涪城区城西大道23号"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/color_3333"
-            app:layout_constraintLeft_toRightOf="@id/send_data_img2"
-            app:layout_constraintTop_toBottomOf="@id/send_data_phone"
-            android:layout_marginLeft="@dimen/dp_4"
-            android:layout_marginTop="@dimen/dp_6"
-            />
-        <TextView
-            android:id="@+id/send_data_pay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="￥100元(到付)"
-            android:textColor="@color/color_6666"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/send_data_number"
-            android:layout_marginTop="@dimen/dp_6"
-            />
-    </android.support.constraint.ConstraintLayout>
-
+    <include
+        android:id="@+id/send_data_common"
+        layout="@layout/a_common_orders"
+        />
     <ImageView
         android:id="@+id/send_data_select"
         android:layout_width="@dimen/dp_16"
         android:layout_height="@dimen/dp_16"
         android:src="@mipmap/select_no"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/send_data_item"
+        app:layout_constraintTop_toBottomOf="@id/send_data_common"
         android:layout_marginTop="@dimen/dp_29"
         />
     <Button
@@ -177,7 +31,7 @@
         android:textColor="@color/white"
         android:background="@drawable/shape_5dp_a45b"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/send_data_item"
+        app:layout_constraintTop_toBottomOf="@id/send_data_common"
         android:layout_marginTop="@dimen/dp_22"
         />
     <Button
@@ -188,7 +42,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
         android:background="@drawable/shape_5dp_a47f"
-        app:layout_constraintTop_toBottomOf="@id/send_data_item"
+        app:layout_constraintTop_toBottomOf="@id/send_data_common"
         app:layout_constraintRight_toLeftOf="@id/send_data_print_order"
         android:layout_marginTop="@dimen/dp_22"
         android:layout_marginRight="@dimen/dp_5"

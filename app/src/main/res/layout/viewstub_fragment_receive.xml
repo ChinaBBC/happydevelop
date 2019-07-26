@@ -33,7 +33,7 @@
         android:id="@+id/fragment_receive_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="共：2单"
+        android:text="共：0单"
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toLeftOf="parent"

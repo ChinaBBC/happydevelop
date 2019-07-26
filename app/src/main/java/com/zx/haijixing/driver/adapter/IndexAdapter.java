@@ -89,13 +89,13 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder indexViewHolder, int i) {
         if (getItemViewType(i) == HEAD_ITEM){
             IndexHeadViewHolder indexHeadViewHolder = (IndexHeadViewHolder) indexViewHolder;
-            if (loginType == 1){
+            if (loginType == 2){
                 indexHeadViewHolder.word1.setText(context.getResources().getString(R.string.wait_allot_order));
                 indexHeadViewHolder.word2.setText(context.getResources().getString(R.string.wait_send));
                 indexHeadViewHolder.word3.setText(context.getResources().getString(R.string.classes_manage));
                 indexHeadViewHolder.clock.setImageResource(R.mipmap.classes_manage);
                 indexHeadViewHolder.services.setImageResource(R.mipmap.all_services_l);
-            }else if (loginType == 2){
+            }else if (loginType == 3){
 
             }
             indexHeadViewHolder.receive.setOnClickListener(clickListener);
@@ -117,7 +117,10 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             indexBodyViewHolder.simple.setText(newsData.getFtitle());
             RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
             Glide.with(context).load(baseStr+newsData.getCoverImg()).apply(options).into(indexBodyViewHolder.img);
-            indexBodyViewHolder.item.setOnClickListener(view->ARouter.getInstance().build(PathConstant.DRIVER_NEWS).withString("newId",newsData.getNewId()).navigation());
+            indexBodyViewHolder.item.setOnClickListener(view->ARouter.getInstance().build(PathConstant.DRIVER_NEWS)
+                    .withString("newId",newsData.getNewId())
+                    .withString("from","news")
+                    .navigation());
         }
     }
 

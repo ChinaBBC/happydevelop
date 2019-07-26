@@ -80,6 +80,7 @@
     <string name="news">新闻资讯</string>
     <string name="news_detail">新闻详情</string>
     <string name="order_center">订单中心</string>
+    <string name="order_detail">订单详情</string>
     <string name="all_orders">全部运单</string>
     <string name="order_hint">运单号/车牌号/发货手机号/司机姓名</string>
     <string name="check_all">查看全部 ></string>
@@ -208,5 +209,6 @@
     <string name="brokerage">佣金</string>
     <string name="index">首页</string>
     <string name="mine_center">个人中心</string>
+    <string name="check_logistics">查看物流</string>
 
 </resources>

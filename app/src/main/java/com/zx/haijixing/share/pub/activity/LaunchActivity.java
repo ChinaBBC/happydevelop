@@ -18,6 +18,8 @@ import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.zx.haijixing.BuildConfig;
 import com.zx.haijixing.HaiNativeHelper;
 import com.zx.haijixing.R;
+import com.zx.haijixing.custom.CustomGraphView;
+import com.zx.haijixing.custom.CustomGraphViewT;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.share.dao.HaiDao;
@@ -33,6 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.OnClick;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
 
 /**
@@ -44,8 +47,6 @@ import butterknife.OnClick;
 public class LaunchActivity extends BaseActivity<VersionImp> implements VersionContract.VersionView {
 
 
-    private HaiDao dao;
-    private RecyclerViewSkeletonScreen skeletonScreen;
     private CommonDialogFragment showUpdate;
     private VersionEntry versionEntry;
 
@@ -70,7 +71,7 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
     public void versionSuccess(VersionEntry versionEntry) {
         this.versionEntry = versionEntry;
         if (HaiTool.packageCode(this)<versionEntry.getVersionNum()) {
-            showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(), this::onViewClicked);
+            showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(),null, this::onViewClicked);
         }
     }
 
@@ -100,6 +101,7 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
                     ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.CALL_PHONE)||
                     ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)||
                     ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.INTERNET)||
                     ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
             }else {
                 if ((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
@@ -120,6 +122,8 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
                     permissionsList.add(Manifest.permission.WRITE_SETTINGS);
                 if ((checkSelfPermission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS) != PackageManager.PERMISSION_GRANTED))
                     permissionsList.add(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS);
+                if ((checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED))
+                    permissionsList.add(Manifest.permission.INTERNET);
                 if (permissionsList.size() == 0) {
 
                 } else {
@@ -134,7 +138,6 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
     }
     private void test(){
         Log.i("<<<<<","<BuildConfig.homeUrl>"+BuildConfig.homeUrl+HaiNativeHelper.baseUrl());
-        final SwipeRefreshLayout swipe = findViewById(R.id.swipe);
         final TextView sample = findViewById(R.id.sample_text);
         //final CustomGraphView customGraphView = findViewById(R.id.graph);
         //final CustomGraphViewT customGraphView2 = findViewById(R.id.graph2);
@@ -186,12 +189,7 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
         points.add(new Point(16,3234));
         points.add(new Point(17,3234));
 
-        /*customGraphView2.setXUnitValue(1)
-                .setYUnitValue(2000)
-                .setXTextUnits(list1)
-                .setYTextUnits(list2)
-                .setDateList(points)
-                .startDraw();*/
+        ///customGraphView2.setXUnitValue(1).setYUnitValue(2000).setXTextUnits(list1).setYTextUnits(list2).setDateList(points).startDraw();
 
         LinkedList<Double> yList = new LinkedList<>();
         yList.add(200.203);
@@ -210,17 +208,15 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
         xRawData.add("05-23");
         xRawData.add("05-24");
         xRawData.add("05-25");
-        ARouter.getInstance().inject(this);
-
         //customGraphView.setData(yList , xRawData , 10000 , 500);
+
         sample.setOnClickListener(v -> {
-            ARouter.getInstance().build(PathConstant.ROUTE_LOGIN).navigation();
-        });
-
-        final RecyclerView recyclerView = findViewById(R.id.my_data);
-
-        swipe.setOnRefreshListener(() -> {
-
+            ZxSharePreferenceUtil.getInstance().init(LaunchActivity.this);
+            boolean login = ZxSharePreferenceUtil.getInstance().isLogin();
+            if (login)
+                ARouter.getInstance().build(PathConstant.DRIVER_MAIN).navigation();
+            else
+                ARouter.getInstance().build(PathConstant.ROUTE_LOGIN).navigation();
         });
     }
 }

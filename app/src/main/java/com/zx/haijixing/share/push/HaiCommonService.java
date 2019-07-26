@@ -1,4 +1,4 @@
-package com.zx.haijixing.share.service;
+package com.zx.haijixing.share.push;
 
 import cn.jpush.android.service.JCommonService;
 /**

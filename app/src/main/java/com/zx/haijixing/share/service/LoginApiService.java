@@ -13,6 +13,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 /**
  *
@@ -51,11 +52,18 @@ public interface LoginApiService {
     @POST("driver/driverCard")
     Observable<String> drivingCard(@FieldMap Map<String,String> params);
 
+    //选择车辆类型
     @GET("logistics/carType/selectAllCarType")
     Observable<HaiBaseData<List<TruckTypeEntry>>> truckTypeApi();
 
+    ///添加车辆
     @FormUrlEncoded
     @POST("logistics/carApply/addApply")
     Observable<String> truckApplyApi(@FieldMap Map<String,String> params);
+
+    //修改上传头像@Field("token") String token,
+    @FormUrlEncoded
+    @PUT("driver/updateDriverHeadImageByUserId")
+    Observable<String> changeUserHead(@Field("headImg") String headImg);
 
 }

@@ -2,6 +2,7 @@ package com.zx.haijixing.driver.presenter;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.driver.contract.NewsActivityContract;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.BasePresenter;
@@ -17,10 +18,10 @@ import com.zx.haijixing.share.service.ShareApiService;
  */
 public class NewsActivityImp extends BasePresenter<NewsActivityContract.NewDetailView> implements NewsActivityContract.NewsDetailPresenter {
     @Override
-    public void detailMethod(String newId) {
+    public void detailMethod(String token,String newId) {
         mView.showLoading();
         RxHttpUtils.createApi(ShareApiService.class)
-                .newsOne(newId)
+                .newsOne(token,newId)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<NewsEntry.NewsData>() {
                     @Override
@@ -32,6 +33,24 @@ public class NewsActivityImp extends BasePresenter<NewsActivityContract.NewDetai
                     protected void onSuccess(NewsEntry.NewsData data) {
                         mView.detailSuccess(data.getContent());
                         mView.hideLoading();
+                    }
+                });
+    }
+
+    @Override
+    public void orderDetailMethod(String token, String newId) {
+        RxHttpUtils.createApi(ShareApiService.class)
+                .qrOrderApi(token,newId)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        mView.orderDetail(data);
                     }
                 });
     }

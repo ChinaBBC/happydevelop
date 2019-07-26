@@ -64,6 +64,8 @@ public class CheckingActivity extends BaseActivity<CheckingActivityImp> implemen
                 finish();
                 break;
             case R.id.checking_sure:
+                ARouter.getInstance().build(PathConstant.DRIVER_MAIN).navigation();
+                finish();
                 break;
         }
     }

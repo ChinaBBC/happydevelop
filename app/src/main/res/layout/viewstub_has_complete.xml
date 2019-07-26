@@ -107,7 +107,7 @@
         android:layout_marginTop="@dimen/dp_8"
         />
     <TextView
-        android:id="@+id/normal_dan_remark"
+        android:id="@+id/has_complete_remark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="备注：请一定送货到收货人手里！谢谢！"

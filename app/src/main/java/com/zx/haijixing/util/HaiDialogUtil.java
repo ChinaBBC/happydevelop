@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.contrarywind.adapter.WheelAdapter;
 import com.contrarywind.listener.OnItemSelectedListener;
 import com.contrarywind.view.WheelView;
 import com.zx.haijixing.R;
@@ -17,6 +18,8 @@ import com.zx.haijixing.driver.adapter.BluetoothDataAdapter;
 import com.zx.haijixing.login.activity.TruckAdapter;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
+import zx.com.skytool.ZxStringUtil;
 
 /**
  *
@@ -79,7 +82,7 @@ public final class HaiDialogUtil {
             no.setOnClickListener(clickListener);
             AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
             return builder.setView(view).create();
-        }, true, null);
+        }, false, null);
         receiveDialog.show(fragmentManager, "receive");
         return receiveDialog;
     }
@@ -89,9 +92,9 @@ public final class HaiDialogUtil {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_tip, null);
             TextView yes = view.findViewById(R.id.dialog_pay_yes);
             TextView no = view.findViewById(R.id.dialog_pay_no);
-            TextView crash = view.findViewById(R.id.dialog_pay_crash);
+            ImageView crash = view.findViewById(R.id.dialog_pay_crash);
             TextView crashImg = view.findViewById(R.id.dialog_pay_crash_img);
-            TextView online = view.findViewById(R.id.dialog_pay_online);
+            ImageView online = view.findViewById(R.id.dialog_pay_online);
             TextView onlineImg = view.findViewById(R.id.dialog_pay_online_img);
             //EditText money = view.findViewById(R.id.dialog_pay_money);
             yes.setOnClickListener(clickListener);
@@ -103,23 +106,25 @@ public final class HaiDialogUtil {
             //payMoneyResultListener.payResult(money.getText().toString());
             AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
             return builder.setView(view).create();
-        }, true, null);
+        }, false, null);
         payDialog.show(fragmentManager, "pay");
         return payDialog;
     }
 
-    //更新提示
-    public static CommonDialogFragment showUpdate(FragmentManager fragmentManager, View.OnClickListener clickListener){
+    //更新提示以及其他提示
+    public static CommonDialogFragment showUpdate(FragmentManager fragmentManager,String contents,View.OnClickListener clickListener){
         CommonDialogFragment updateDialog = CommonDialogFragment.newInstance(context -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_update_tip, null);
             TextView yes = view.findViewById(R.id.dialog_update_yes);
             TextView no = view.findViewById(R.id.dialog_update_no);
-
+            TextView content = view.findViewById(R.id.dialog_update_content);
+            if (!ZxStringUtil.isEmpty(contents))
+                content.setText(contents);
             yes.setOnClickListener(clickListener);
             no.setOnClickListener(clickListener);
             AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
             return builder.setView(view).create();
-        }, true, null);
+        }, false, null);
         updateDialog.show(fragmentManager, "receive");
         return updateDialog;
     }
@@ -143,8 +148,8 @@ public final class HaiDialogUtil {
         return bluetooth;
     }
 
-    //车型选择
-    public static CommonDialogFragment showTruck(FragmentManager fragmentManager, TruckAdapter truckAdapter,TruckResultListener truckResultListener){
+    //车型选择/班次选择
+    public static CommonDialogFragment showTruck(FragmentManager fragmentManager, WheelAdapter truckAdapter, TruckResultListener truckResultListener){
         CommonDialogFragment truckDialog = CommonDialogFragment.newInstance(context -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_truck_type, null);
             WheelView wheelView = view.findViewById(R.id.dialog_truck_wheel);
@@ -157,7 +162,7 @@ public final class HaiDialogUtil {
             wheelView.setOnItemSelectedListener(index -> truckResultListener.truckResult(index));
             AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
             return builder.setView(view).create();
-        }, true, null);
+        }, false, null);
         truckDialog.show(fragmentManager, "truck");
         return truckDialog;
     }
@@ -178,18 +183,20 @@ public final class HaiDialogUtil {
         return addEditorDialog;
     }
     //修改运费
-    public static CommonDialogFragment showChangeMoney(FragmentManager fragmentManager){
+    public static CommonDialogFragment showChangeMoney(FragmentManager fragmentManager,PayMoneyResultListener payMoneyResultListener,String money){
         CommonDialogFragment changeMoneyDialog = CommonDialogFragment.newInstance(context -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_change_money, null);
             TextView sure = view.findViewById(R.id.change_money_sure);
             TextView cancel = view.findViewById(R.id.change_money_cancel);
+            TextView input = view.findViewById(R.id.change_money_input);
+            input.setText(money);
 
-            //sure.setOnClickListener(v -> truckResultListener.truckResult(-1));
-            //cancel.setOnClickListener(v -> truckResultListener.truckResult(-2) );
+            sure.setOnClickListener(v -> payMoneyResultListener.payResult(input.getText().toString()));
+            cancel.setOnClickListener(v -> payMoneyResultListener.payResult("cancel") );
             AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
             return builder.setView(view).create();
-        }, true, null);
-        changeMoneyDialog.show(fragmentManager, "add editor");
+        }, false, null);
+        changeMoneyDialog.show(fragmentManager, "change price");
         return changeMoneyDialog;
     }
     public interface PayMoneyResultListener{

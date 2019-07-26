@@ -1,17 +1,25 @@
 package com.zx.haijixing.driver.fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zx.haijixing.R;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
 /**
  * 个人中心
@@ -73,6 +81,7 @@ public class MineFragment extends BaseFragment {
                 ARouter.getInstance().build(PathConstant.CHANGE).navigation();
                 break;
             case R.id.mine_customer_area:
+                call();
                 break;
             case R.id.mine_set_area:
                 ARouter.getInstance().build(PathConstant.SET).navigation();
@@ -80,4 +89,33 @@ public class MineFragment extends BaseFragment {
         }
     }
 
+    private void call(){
+        Intent call = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + customerPhone.getText().toString().trim()));
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            //
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(call);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        String name = (String)instance.getParam("user_name","null");
+        String phone = (String)instance.getParam("user_phone","null");
+        String head = (String)instance.getParam("user_head","null");
+
+        userName.setText(name);
+        userPhone.setText(phone);
+        RequestOptions options = new RequestOptions().circleCrop().error(R.mipmap.user_head);
+        Glide.with(this).load(head).apply(options).into(userHead);
+    }
 }

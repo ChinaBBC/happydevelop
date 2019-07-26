@@ -1,6 +1,10 @@
 package com.zx.haijixing.login.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,10 +15,16 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.ITruckActivityContract;
 import com.zx.haijixing.login.entry.TruckTypeEntry;
 import com.zx.haijixing.login.presenter.TruckActivityImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.CommonDialogFragment;
@@ -82,6 +92,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     TextView driveWordA;
     @BindView(R.id.truck_con2)
     ConstraintLayout driveAreaA;
+
     @BindView(R.id.truck_licenseB)
     ImageView driveB;
     @BindView(R.id.truck_graphB)
@@ -90,6 +101,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     TextView driveWordB;
     @BindView(R.id.truck_con3)
     ConstraintLayout driveAreaB;
+
     @BindView(R.id.truck_cure_img)
     ImageView cureImg;
     @BindView(R.id.truck_cure_take)
@@ -98,6 +110,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     TextView cureWord5;
     @BindView(R.id.truck_con4)
     ConstraintLayout cureCon4;
+
     @BindView(R.id.truck_foreword_img)
     ImageView forewordImg;
     @BindView(R.id.truck_foreword_take)
@@ -106,6 +119,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     TextView forewordWord6;
     @BindView(R.id.truck_con5)
     ConstraintLayout forewordCon5;
+
     @BindView(R.id.truck_left_img)
     ImageView leftImg;
     @BindView(R.id.truck_left_take)
@@ -114,6 +128,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     TextView leftWord7;
     @BindView(R.id.truck_con6)
     ConstraintLayout leftCon6;
+
     @BindView(R.id.truck_right_img)
     ImageView rightImg;
     @BindView(R.id.truck_right_take)
@@ -122,6 +137,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     TextView rightWord8;
     @BindView(R.id.truck_con7)
     ConstraintLayout rightCon7;
+
     @BindView(R.id.truck_other_img)
     ImageView otherImg;
     @BindView(R.id.truck_other_take)
@@ -130,6 +146,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     TextView otherWord9;
     @BindView(R.id.truck_con8)
     ConstraintLayout otherCon8;
+
     @BindView(R.id.truck_add)
     Button add;
     @BindView(R.id.truck_next)
@@ -206,18 +223,25 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
 
                 break;
             case R.id.truck_con2:
+                takePic(OtherConstants.UPLOAD_DRIVING_A);
                 break;
             case R.id.truck_con3:
+                takePic(OtherConstants.UPLOAD_DRIVING_B);
                 break;
             case R.id.truck_con4:
+                takePic(OtherConstants.UPLOAD_CURE);
                 break;
             case R.id.truck_con5:
+                takePic(OtherConstants.UPLOAD_TRUCK_A);
                 break;
             case R.id.truck_con6:
+                takePic(OtherConstants.UPLOAD_TRUCK_B);
                 break;
             case R.id.truck_con7:
+                takePic(OtherConstants.UPLOAD_TRUCK_C);
                 break;
             case R.id.truck_con8:
+                takePic(OtherConstants.UPLOAD_OTHER);
                 break;
             case R.id.truck_add:
                 isAdd = true;
@@ -225,11 +249,20 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
                 break;
             case R.id.truck_next:
                 isAdd = false;
-                ARouter.getInstance().build(PathConstant.CHECKING).navigation();
+                //ARouter.getInstance().build(PathConstant.CHECKING).navigation();
+                checkInput();
                 break;
         }
     }
 
+    //拍照
+    private void takePic(int requestCode){
+        PictureSelector.create(this)
+                .openCamera(PictureMimeType.ofImage())
+                .forResult(requestCode);
+    }
+
+    //界面
     private void showOrHide(int select){
         switch (select){
             case 0:
@@ -331,6 +364,42 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
         }
     }
 
+
+    @Override
+    public void uploadTruckSuccess(String path, int tag) {
+       ZxLogUtil.logError("<<<path>>"+path+"<<tag>>"+tag);
+        switch (tag){
+            case OtherConstants.UPLOAD_DRIVING_A:
+                drivingA = path;
+                driveWordA.setText("上传完成");
+                break;
+            case OtherConstants.UPLOAD_DRIVING_B:
+                drivingB = path;
+                driveWordB.setText("上传完成");
+                break;
+            case OtherConstants.UPLOAD_CURE:
+                cureDan = path;
+                cureWord5.setText("上传完成");
+                break;
+            case OtherConstants.UPLOAD_TRUCK_A:
+                truckFor = path;
+                forewordWord6.setText("上传完成");
+                break;
+            case OtherConstants.UPLOAD_TRUCK_B:
+                truckLef = path;
+                leftWord7.setText("上传完成");
+                break;
+            case OtherConstants.UPLOAD_TRUCK_C:
+                truckRig = path;
+                rightWord8.setText("上传完成");
+                break;
+            case OtherConstants.UPLOAD_OTHER:
+                otherPic = path;
+                otherWord.setText("上传完成");
+                break;
+        }
+    }
+
     @Override
     public void truckResult(int index) {
         ZxLogUtil.logError("<<<<<<<<<<<"+index);
@@ -346,6 +415,61 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
             showTruck.dismissAllowingStateLoss();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
+            String path = uris.get(0).getPath();
+            switch (requestCode){
+                case OtherConstants.UPLOAD_DRIVING_A:
+                    Glide.with(this).load(path).into(driveA);
+                    driveGraphA.setVisibility(View.GONE);
+                    driveWordA.setText("正在上传...");
+                    driveWordA.setTextColor(Color.RED);
+                    break;
+                case OtherConstants.UPLOAD_DRIVING_B:
+                    Glide.with(this).load(path).into(driveB);
+                    driveGraphB.setVisibility(View.GONE);
+                    driveWordB.setText("正在上传...");
+                    driveWordB.setTextColor(Color.RED);
+                    break;
+                case OtherConstants.UPLOAD_CURE:
+                    Glide.with(this).load(path).into(cureImg);
+                    cureTake.setVisibility(View.GONE);
+                    cureWord5.setText("正在上传...");
+                    cureWord5.setTextColor(Color.RED);
+                    break;
+                case OtherConstants.UPLOAD_TRUCK_A:
+                    Glide.with(this).load(path).into(forewordImg);
+                    forewordTake.setVisibility(View.GONE);
+                    forewordWord6.setText("正在上传...");
+                    forewordWord6.setTextColor(Color.RED);
+                    break;
+                case OtherConstants.UPLOAD_TRUCK_B:
+                    Glide.with(this).load(path).into(leftImg);
+                    leftTake.setVisibility(View.GONE);
+                    leftWord7.setText("正在上传...");
+                    leftWord7.setTextColor(Color.RED);
+                    break;
+                case OtherConstants.UPLOAD_TRUCK_C:
+                    Glide.with(this).load(path).into(rightImg);
+                    rightightTake.setVisibility(View.GONE);
+                    rightWord8.setText("正在上传...");
+                    rightWord8.setTextColor(Color.RED);
+                    break;
+                case OtherConstants.UPLOAD_OTHER:
+                    Glide.with(this).load(path).into(otherImg);
+                    otherTake.setVisibility(View.GONE);
+                    otherWord.setText("正在上传...");
+                    otherWord.setTextColor(Color.RED);
+                    break;
+            }
+            mPresenter.uploadTruckMethod(path,requestCode);
+        }
+    }
+
     //检查输入
     private void checkInput(){
         String truckNum = number.getText().toString().trim();
@@ -369,7 +493,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
         }else if (ZxStringUtil.isEmpty(truckRig)){
             ZxToastUtil.centerToast(getHaiString(R.string.upload_truck));
         }else {
-            params.put("userId","");
+            params.put("userId",driverId);
             params.put("caeType",typeId);
             params.put("safeEnd",cureTime);
             params.put("idcard",truckNum);

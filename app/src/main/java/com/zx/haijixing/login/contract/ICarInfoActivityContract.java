@@ -13,9 +13,11 @@ import java.util.Map;
 public interface ICarInfoActivityContract {
     interface CarInfoView extends IBaseContract.IBaseView{
         void carInfoSuccess();
+        void uploadCarInfoSuccess(String path,int tag);
     }
 
     interface CarInfoPresenter extends IBaseContract.IBasePresenter<CarInfoView>{
         void carInfoMethod(Map<String,String> params);
+        void uploadCarInfoMethod(String path,int tag);
     }
 }

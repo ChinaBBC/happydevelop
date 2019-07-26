@@ -306,66 +306,54 @@ public class DeviceConnectManager {
     private void queryPrinterCommand() {
 
         //线程池添加任务
-        ThreadPool.getInstantiation().addTask(new Runnable() {
-            @Override
-            public void run() {
-                //发送ESC查询打印机状态指令
-                sendCommand = esc;
-                Vector<Byte> data = new Vector<>(esc.length);
-                for (int i = 0; i < esc.length; i++) {
-                    data.add(esc[i]);
-                }
-                sendDataImmediately(data); //发送esc数据
-                //开启计时器，隔2000毫秒没有没返回值时发送TSC查询打印机状态指令
-                final ThreadFactoryBuilder threadFactoryBuilder = new ThreadFactoryBuilder("Timer");
-                final ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1, threadFactoryBuilder);
-                scheduledExecutorService.schedule(threadFactoryBuilder.newThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (currentPrinterCommand == null || currentPrinterCommand != PrinterCommand.ESC) {
-                            Log.e(TAG, Thread.currentThread().getName());
-                            //发送TSC查询打印机状态指令
-                            sendCommand = tsc;
-                            Vector<Byte> data = new Vector<>(tsc.length);
-                            for (int i = 0; i < tsc.length; i++) {
-                                data.add(tsc[i]);
+        ThreadPool.getInstantiation().addTask(() -> {
+            //发送ESC查询打印机状态指令
+            sendCommand = esc;
+            Vector<Byte> data = new Vector<>(esc.length);
+            for (int i = 0; i < esc.length; i++) {
+                data.add(esc[i]);
+            }
+            sendDataImmediately(data); //发送esc数据
+            //开启计时器，隔2000毫秒没有没返回值时发送TSC查询打印机状态指令
+            final ThreadFactoryBuilder threadFactoryBuilder = new ThreadFactoryBuilder("Timer");
+            final ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1, threadFactoryBuilder);
+            scheduledExecutorService.schedule(threadFactoryBuilder.newThread(() -> {
+                if (currentPrinterCommand == null || currentPrinterCommand != PrinterCommand.ESC) {
+                    Log.e(TAG, Thread.currentThread().getName());
+                    //发送TSC查询打印机状态指令
+                    sendCommand = tsc;
+                    Vector<Byte> data1 = new Vector<>(tsc.length);
+                    for (int i = 0; i < tsc.length; i++) {
+                        data1.add(tsc[i]);
+                    }
+                    sendDataImmediately(data1);
+                    //开启计时器，隔2000毫秒没有没返回值时发送CPCL查询打印机状态指令
+                    scheduledExecutorService.schedule(threadFactoryBuilder.newThread(() -> {
+                        if (currentPrinterCommand == null||(currentPrinterCommand != PrinterCommand.ESC&&currentPrinterCommand != PrinterCommand.TSC)) {
+                            Log.e(TAG,Thread.currentThread().getName());
+                            //发送CPCL查询打印机状态指令
+                            sendCommand=cpcl;
+                            Vector<Byte> data11 =new Vector<Byte>(cpcl.length);
+                            for (int i=0;i<cpcl.length;i++){
+                                data11.add(cpcl[i]);
                             }
-                            sendDataImmediately(data);
-                            //开启计时器，隔2000毫秒没有没返回值时发送CPCL查询打印机状态指令
-                            scheduledExecutorService.schedule(threadFactoryBuilder.newThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (currentPrinterCommand == null||(currentPrinterCommand != PrinterCommand.ESC&&currentPrinterCommand != PrinterCommand.TSC)) {
-                                        Log.e(TAG,Thread.currentThread().getName());
-                                        //发送CPCL查询打印机状态指令
-                                        sendCommand=cpcl;
-                                        Vector<Byte> data =new Vector<Byte>(cpcl.length);
-                                        for (int i=0;i<cpcl.length;i++){
-                                            data.add(cpcl[i]);
-                                        }
-                                        sendDataImmediately(data);
-                                        //开启计时器，隔2000毫秒打印机没有响应者停止读取打印机数据线程并且关闭端口
-                                        scheduledExecutorService.schedule(threadFactoryBuilder.newThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if(currentPrinterCommand==null){
-                                                    if (reader != null) {
-                                                        reader.canceled();
-                                                        mPort.closePort();
-                                                        isOpenPort = false;
-                                                        mPort=null;
-                                                        sendStateBroadcast(CONN_STATE_FAILED);
-                                                    }
-                                                }
-                                            }
-                                        }),2000,TimeUnit.MILLISECONDS);
+                            sendDataImmediately(data11);
+                            //开启计时器，隔2000毫秒打印机没有响应者停止读取打印机数据线程并且关闭端口
+                            scheduledExecutorService.schedule(threadFactoryBuilder.newThread(() -> {
+                                if(currentPrinterCommand==null){
+                                    if (reader != null) {
+                                        reader.canceled();
+                                        mPort.closePort();
+                                        isOpenPort = false;
+                                        mPort=null;
+                                        sendStateBroadcast(CONN_STATE_FAILED);
                                     }
                                 }
-                            }), 2000, TimeUnit.MILLISECONDS);
+                            }),2000,TimeUnit.MILLISECONDS);
                         }
-                    }
-                }), 2000, TimeUnit.MILLISECONDS);
-            }
+                    }), 2000, TimeUnit.MILLISECONDS);
+                }
+            }), 2000, TimeUnit.MILLISECONDS);
         });
     }
 

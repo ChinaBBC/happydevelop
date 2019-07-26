@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -145,5 +147,15 @@ public class CommonDialogFragment extends DialogFragment {
         Dialog getDialog(Context context);
     }
 
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        //super.show(manager, tag);
+        //mDismissed = false;
+        //mShownByMe = true;
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        // 这里吧原来的commit()方法换成了commitAllowingStateLoss()
+        ft.commitAllowingStateLoss();
+    }
 }
 

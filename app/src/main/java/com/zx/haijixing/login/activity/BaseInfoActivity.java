@@ -1,6 +1,7 @@
 package com.zx.haijixing.login.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.IBaseInfoActivityContract;
 import com.zx.haijixing.login.presenter.BaseInfoActivityImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
@@ -71,8 +73,10 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     EditText bankAddress;
     @BindView(R.id.base_info_bank_number)
     EditText bankNumber;
+    @BindView(R.id.base_info_upHead)
+    TextView upHead;
 
-    private final static int HEAD_REQUEST = 1001;
+
 
     private boolean isRead = false;
     private boolean hasRead = false;
@@ -131,8 +135,8 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
                 }
                 break;
             case R.id.base_info_next:
-                ARouter.getInstance().build(PathConstant.CAR_INFO).withString("driverId","dsdsd").navigation();
-                //checkInput();
+                //ARouter.getInstance().build(PathConstant.CAR_INFO).withString("driverId","dsdsd").navigation();
+                checkInput();
                 break;
         }
     }
@@ -149,6 +153,24 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     }
 
     @Override
+    public void showFaild(String errorMsg) {
+        super.showFaild(errorMsg);
+        upHead.setText("上传失败");
+        upHead.setTextColor(Color.RED);
+    }
+
+    @Override
+    public void uploadImgSuccess(String path, int tag) {
+        headPath = path;
+        mPresenter.updateHeadImgMethod(path);
+    }
+
+    @Override
+    public void updateHeadSuccess(String msg) {
+        upHead.setText("上传完成");
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (zxCountDownTimerUtil != null && zxCountDownTimerUtil.getRunStatus())
@@ -158,19 +180,20 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == HEAD_REQUEST){
+        if (resultCode == RESULT_OK && requestCode == OtherConstants.UPLOAD_HEAD){
             List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
             String path = uris.get(0).getPath();
             RequestOptions options = new RequestOptions().circleCrop();
             Glide.with(this).load(path).apply(options).into(head);
-            headPath = path;
+            upHead.setText("头像上传中...");
+            mPresenter.uploadImgMethod(path,1);
         }
     }
 
     private void takePic(){
         PictureSelector.create(this)
                 .openCamera(PictureMimeType.ofImage())
-                .forResult(HEAD_REQUEST);
+                .forResult(OtherConstants.UPLOAD_HEAD);
     }
     //发送验证码
     private void sendMethod() {
@@ -191,7 +214,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
         String password = this.password.getText().toString().trim();
         String surePassword = this.surePassword.getText().toString().trim();
 
-        if (!ZxStringUtil.isEmpty(headPath)){
+        if (ZxStringUtil.isEmpty(headPath)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_upload_head));
         }else if (ZxStringUtil.isEmpty(realName)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_name));
@@ -237,7 +260,6 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
             params.put("phone",phone);
             params.put("vcode",code);
             params.put("loginKey",HaiTool.md5Method(password));
-            //params.put("head",headPath);
 
             mPresenter.baseInfoMethod(params);
 

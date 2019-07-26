@@ -14,6 +14,7 @@ import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.ILoginActivityContract;
 import com.zx.haijixing.login.entry.LoginEntry;
 import com.zx.haijixing.login.presenter.LoginActivityImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
@@ -21,6 +22,7 @@ import com.zx.haijixing.util.HaiTool;
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxCountDownTimerUtil;
+import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxStringUtil;
 import zx.com.skytool.ZxToastUtil;
@@ -68,7 +70,18 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
 
     @Override
     public void loginSuccess(LoginEntry loginEntry) {
-        ARouter.getInstance().build(PathConstant.DRIVER_MAIN).navigation();
+        save(loginEntry);
+        switch (loginEntry.getRoleType()){
+            case OtherConstants.LOGIN_DRIVER:
+                ARouter.getInstance().build(PathConstant.DRIVER_MAIN).navigation();
+                break;
+            case OtherConstants.LOGIN_LOGISTICS:
+                ARouter.getInstance().build(PathConstant.LOGISTICS).navigation();
+                break;
+            case OtherConstants.LOGIN_MANAGER:
+                ARouter.getInstance().build(PathConstant.MANAGER).navigation();
+                break;
+        }
         finish();
     }
 
@@ -99,12 +112,11 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
                 ARouter.getInstance().build(PathConstant.ROUTE_FORGET).navigation();
                 break;
             case R.id.login_login:
-                ARouter.getInstance().build(PathConstant.MANAGER).navigation();
-               /* if (loginType == 1){
+                if (loginType == 1){
                     checkInputC();
                 }else {
                     checkInputP();
-                }*/
+                }
                 break;
             case R.id.login_go_register:
                 ARouter.getInstance().build(PathConstant.BASE_INFO).navigation();
@@ -151,6 +163,18 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
         zxCountDownTimerUtil.start();
     }
 
+    //保存信息
+    private void save(LoginEntry data){
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        instance.saveParam("token",data.getToken());
+        instance.saveParam("user_name",data.getUserName());
+        instance.saveParam("user_head",data.getAvatar());
+        instance.saveParam("user_phone",data.getPhonenumber());
+        instance.saveParam("login_type",data.getRoleType());
+        instance.saveParam("limit",data.getMenus());
+        instance.setLogin(true);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -168,9 +192,9 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
         String password = this.password.getText().toString().trim();
         if (ZxStringUtil.isEmpty(phone) || ZxStringUtil.isEmpty(password)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone_pass));
-        }/*else if (!HaiTool.checkPhone(phone)){
+        }else if (!HaiTool.checkPhone(phone)){
             ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
-        }*/ else {
+        } else {
             mPresenter.loginMethod(phone,HaiTool.md5Method(password));
         }
     }

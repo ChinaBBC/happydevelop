@@ -9,6 +9,8 @@ import com.zx.haijixing.share.pub.contract.VersionContract;
 import com.zx.haijixing.share.pub.entry.VersionEntry;
 import com.zx.haijixing.share.service.ShareApiService;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
 /**
  *
  *@作者 zx
@@ -21,6 +23,7 @@ public class VersionImp extends BasePresenter<VersionContract.VersionView> imple
         RxHttpUtils.createApi(ShareApiService.class)
                 .versionApi()
                 .compose(Transformer.<HaiBaseData<VersionEntry>>switchSchedulers())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HaiDataObserver<VersionEntry>() {
                     @Override
                     protected void onError(String errorMsg) {

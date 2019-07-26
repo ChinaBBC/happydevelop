@@ -1,5 +1,8 @@
 package com.zx.haijixing.login.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -8,13 +11,19 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.zx.haijixing.R;
 import com.zx.haijixing.login.contract.ICarInfoActivityContract;
 import com.zx.haijixing.login.presenter.CarInfoActivityImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -52,8 +61,8 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
     @Autowired(name = "driverId")
     public String driverId;
 
-    private String strA = "dsdadadas";
-    private String strB = "dssddasdas";
+    private String strA ;
+    private String strB ;
 
     @Override
     protected void initView() {
@@ -77,12 +86,14 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
                 finish();
                 break;
             case R.id.car_info_graphA:
+                takePic(OtherConstants.UPLOAD_DRIVER_A);
                 break;
             case R.id.car_info_graphB:
+                takePic(OtherConstants.UPLOAD_DRIVER_B);
                 break;
             case R.id.car_info_next:
-                ARouter.getInstance().build(PathConstant.TRUCK).navigation();
-                //checkUpload();
+                //ARouter.getInstance().build(PathConstant.TRUCK).navigation();
+                checkUpload();
                 break;
         }
     }
@@ -91,6 +102,60 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
     public void carInfoSuccess() {
         ARouter.getInstance().build(PathConstant.TRUCK).withString("driverId",driverId).navigation();
         finish();
+    }
+
+    @Override
+    public void showFaild(String errorMsg) {
+        super.showFaild(errorMsg);
+        graphA.setVisibility(View.VISIBLE);
+        graphB.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void uploadCarInfoSuccess(String path, int tag) {
+        switch (tag){
+            case OtherConstants.UPLOAD_DRIVER_A:
+                strA = path;
+                graphA.setVisibility(View.VISIBLE);
+                wordA.setText("上传完成");
+                break;
+            case OtherConstants.UPLOAD_DRIVER_B:
+                strB = path;
+                graphB.setVisibility(View.VISIBLE);
+                wordB.setText("上传完成");
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
+            String path = uris.get(0).getPath();
+            switch (requestCode){
+                case OtherConstants.UPLOAD_DRIVER_A:
+                    Glide.with(this).load(path).into(licenseA);
+                    graphA.setVisibility(View.GONE);
+                    wordA.setText("正在上传...");
+                    wordA.setTextColor(Color.RED);
+                    break;
+                case OtherConstants.UPLOAD_DRIVER_B:
+                    Glide.with(this).load(path).into(licenseB);
+                    graphB.setVisibility(View.GONE);
+                    wordB.setText("正在上传...");
+                    wordB.setTextColor(Color.RED);
+                    break;
+            }
+            mPresenter.uploadCarInfoMethod(path,requestCode);
+        }
+    }
+
+    //拍照
+    private void takePic(int requestCode){
+        PictureSelector.create(this)
+                .openCamera(PictureMimeType.ofImage())
+                .forResult(requestCode);
     }
 
     private void checkUpload(){

@@ -14,7 +14,14 @@ import com.zx.haijixing.share.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
+/**
+ *
+ *@作者 zx
+ *@创建日期 2019/7/22 16:37
+ *@描述 新闻详情和扫描详情
+ */
 @Route(path = PathConstant.DRIVER_NEWS)
 public class NewsActivity extends BaseActivity<NewsActivityImp> implements NewsActivityContract.NewDetailView {
 
@@ -24,13 +31,25 @@ public class NewsActivity extends BaseActivity<NewsActivityImp> implements NewsA
     TextView title;
     @BindView(R.id.news_detail_content)
     WebView content;
+
     @Autowired(name = "newId")
     public String newId;
+    @Autowired(name = "from")
+    public String from;
 
     @Override
     protected void initView() {
-        title.setText(R.string.news_detail);
-        mPresenter.detailMethod(newId);
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        String token = (String) instance.getParam("token","null");
+        if ("news".equals(from)){
+            title.setText(R.string.news_detail);
+            mPresenter.detailMethod(token,newId);
+        }else {
+            title.setText(R.string.order_detail);
+            mPresenter.orderDetailMethod(token,newId);
+        }
+
     }
 
     @Override
@@ -50,6 +69,11 @@ public class NewsActivity extends BaseActivity<NewsActivityImp> implements NewsA
 
     @Override
     public void detailSuccess(String data) {
+        content.loadDataWithBaseURL(null, data, "text/html", "utf-8", null);
+    }
+
+    @Override
+    public void orderDetail(String data) {
         content.loadDataWithBaseURL(null, data, "text/html", "utf-8", null);
     }
 
