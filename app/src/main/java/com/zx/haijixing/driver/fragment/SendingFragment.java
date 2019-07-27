@@ -102,8 +102,8 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         params.put("token", token);
         params.put("status", OtherConstants.DETAIL_SENDING);
         //params.put("params")
-        params.put("pageNum", page);
-        params.put("pageSize", 5);
+        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.SIZE, 5);
 
         mPresenter.sendingMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -173,7 +173,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     public void completeSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
         orderEntries.clear();
-        params.put("pageNum",1);
+        params.put(OtherConstants.PAGE,1);
         mPresenter.sendingMethod(params);
         sendingViewHolder.word1.setText(getString(R.string.select_all));
         sendingViewHolder.selectAll.setImageResource(R.mipmap.select_no);
@@ -199,16 +199,17 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.sendingMethod(params);
 
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.sendingMethod(params);
     }
 

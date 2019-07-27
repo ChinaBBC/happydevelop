@@ -19,6 +19,7 @@ import com.zx.haijixing.driver.adapter.SearchAdapter;
 import com.zx.haijixing.driver.contract.CompleteContract;
 import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.driver.presenter.CompleteImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 
@@ -76,7 +77,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
         //params.put("status", OtherConstants.DETAIL_SENDING);
         params.put("params",content);
         params.put("pageNum", page);
-        params.put("pageSize", 5);
+        params.put(OtherConstants.SIZE, 5);
 
         mPresenter.completeMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -116,7 +117,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
 
@@ -124,7 +125,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         orderEntries.clear();
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
 

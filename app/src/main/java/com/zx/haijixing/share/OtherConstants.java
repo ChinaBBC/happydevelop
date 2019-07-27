@@ -11,6 +11,9 @@ public final class OtherConstants {
     public final static String LOGIN_MANAGER = "2";//管理员
     public final static String LOGIN_OUT = "exit";//退出
 
+    public final static String PAGE = "num";//页数
+    public final static String SIZE = "size";//条数
+
 
     public final static int LOAD_ALLOT = 1;//派单
     public final static int LOAD_MOVE = 0;//物流动态\

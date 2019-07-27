@@ -192,6 +192,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refresh.setNoMoreData(false);
         page = 1;
         newsData.clear();
         mPresenter.newsDataMethod(page);

@@ -98,8 +98,8 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         params.put("token", token);
         params.put("status", OtherConstants.DETAIL_WAIT_SEND);
         //params.put("params")
-        params.put("pageNum", page);
-        params.put("pageSize", 5);
+        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.SIZE, 5);
 
         mPresenter.sendMethod(params);
         mPresenter.driverClassMethod(token);
@@ -168,7 +168,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         }else {
             ZxToastUtil.centerToast(msg);
             orderEntries.clear();
-            params.put("pageNum",1);
+            params.put(OtherConstants.PAGE,1);
             mPresenter.sendMethod(params);
             sendViewHolder.word1.setText(getString(R.string.select_all));
             sendViewHolder.selectAll.setImageResource(R.mipmap.select_no);
@@ -214,16 +214,17 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.sendMethod(params);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refresh.setNoMoreData(false);
         sendViewHolder.total.setText("共：0单");
         page = 1;
         orderEntries.clear();
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.sendMethod(params);
     }
 
@@ -251,8 +252,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
                 flag = 0;
             }
         }
-        if (all > 0)
-            canReceive = true;
+        canReceive = (all>0);
     }
 
     @Override
@@ -308,7 +308,9 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
                     selectAll.setImageResource(R.mipmap.select_yes_solid);
                     flag = 1;
                     for (int i = 0; i < orderEntries.size(); i++) {
-                        orderEntries.get(i).setSelect(true);
+                        OrderTotalEntry.OrderEntry orderEntry = orderEntries.get(i);
+                        //if ("1".equals(orderEntry.getDadanFlag()))
+                            orderEntry.setSelect(true);
                     }
                     total.setText("共：" + totalData + "单");
                     canReceive = true;

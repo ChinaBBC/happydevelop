@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.service.JPushMessageReceiver;
 import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxStringUtil;
 

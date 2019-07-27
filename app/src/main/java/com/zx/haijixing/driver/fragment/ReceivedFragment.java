@@ -134,7 +134,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         totalData = Integer.parseInt(ZxStringUtil.isEmpty(total)?"0":total);
         List<OrderTotalEntry.OrderEntry> rows = list.getRows();
         if (rows.size() == 0){
-            refresh.finishRefresh(true);
+            refresh.finishRefreshWithNoMoreData();
             refresh.finishLoadMoreWithNoMoreData();
         }else {
             refresh.finishLoadMore(true);
@@ -161,7 +161,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         ZxToastUtil.centerToast(msg);
         selectId = "";
         orderEntryList.clear();
-        params.put("pageNum",1);
+        params.put(OtherConstants.PAGE,1);
         mPresenter.orderMethod(params);
         receiveViewHolder.word1.setText(getString(R.string.select_all));
         receiveViewHolder.selectAll.setImageResource(R.mipmap.select_no);
@@ -252,11 +252,8 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
                     flag = 0;
                 }
             }
-            if (all>0){
-                canReceive = true;
-            }else {
-                canReceive = false;
-            }
+            canReceive = (all>0);
+
         }else {
             selectId = orderEntry.getWaybillId();
             temp = flag;
@@ -269,15 +266,16 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
-        params.put("pageNum",page);
+        params.put(OtherConstants.PAGE,page);
         mPresenter.orderMethod(params);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refresh.setNoMoreData(false);
         page = 1;
         orderEntryList.clear();
-        params.put("pageNum",page);
+        params.put(OtherConstants.PAGE,page);
         mPresenter.orderMethod(params);
     }
 
@@ -357,8 +355,8 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         params.put("token", token);
         params.put("status",OtherConstants.DETAIL_WAIT_RECEIVE);
         //params.put("params")
-        params.put("pageNum", page);
-        params.put("pageSize", 5);
+        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.SIZE, 5);
         orderEntryList.clear();
         mPresenter.orderMethod(params);
         updateTime();

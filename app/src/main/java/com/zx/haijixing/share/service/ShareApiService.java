@@ -2,6 +2,7 @@ package com.zx.haijixing.share.service;
 
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.HaiBaseData;
 import com.zx.haijixing.share.pub.entry.NotifyEntry;
 import com.zx.haijixing.share.pub.entry.VersionEntry;
@@ -23,7 +24,7 @@ public interface ShareApiService {
 
     //新闻列表
     @GET("news/newList")
-    Observable<NewsEntry> newsList(@Query("pageNum") int num, @Query("pageSize") int size);
+    Observable<NewsEntry> newsList(@Query(OtherConstants.PAGE) int num, @Query(OtherConstants.SIZE) int size);
 
     //新闻详情
     @GET("news/selectNewById")
@@ -39,7 +40,7 @@ public interface ShareApiService {
 
     //消息中心
     @GET("notice/page/list")
-    Observable<HaiBaseData<List<NotifyEntry>>> notifyApi(@Query("token") String token, @Query("pageNum") String pageNum, @Query("pageSize") String pageSize);
+    Observable<HaiBaseData<List<NotifyEntry>>> notifyApi(@Query("token") String token, @Query(OtherConstants.PAGE) String pageNum, @Query(OtherConstants.SIZE) String pageSize);
 
 
     //二维码运单信息

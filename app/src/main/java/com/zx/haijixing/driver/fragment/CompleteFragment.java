@@ -70,8 +70,8 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
         params.put("token", token);
         params.put("status", OtherConstants.DETAIL_COMPLETE);
         //params.put("params")
-        params.put("pageNum", page);
-        params.put("pageSize", 5);
+        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.SIZE, 5);
 
         mPresenter.completeMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -86,15 +86,16 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
 

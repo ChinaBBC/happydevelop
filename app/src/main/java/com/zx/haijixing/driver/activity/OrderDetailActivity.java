@@ -324,11 +324,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         String trim = cViewHolder.inputFree.getText().toString().trim();
 
         double fMoney =Double.parseDouble(ZxStringUtil.isEmpty(trim) ? "0" : trim);
-        ZxLogUtil.logError("<<<<fmoney"+fMoney);
-        int intValue = new Double(fMoney).intValue();
+        int intTotalMoney = new Double(fMoney*100).intValue();
+        int intTotalNumber = new Double(totalNumber).intValue();
+        ZxLogUtil.logError("<<<<totalWeight"+totalWeight+"<<<<intTotalMoney"+intTotalMoney+"<<<<intTotalNumber"+intTotalNumber);
+
         params.put("weight",totalWeight);
-        params.put("totalNum",totalNumber);
-        params.put("price",intValue*100);
+        params.put("totalNum",intTotalNumber);
+        params.put("price",intTotalMoney);
         params.put("goodsArray",goodsArray);
     }
 

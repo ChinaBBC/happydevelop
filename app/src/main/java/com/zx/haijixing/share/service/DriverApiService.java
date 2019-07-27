@@ -9,6 +9,7 @@ import com.zx.haijixing.driver.entry.PrintEntry;
 import com.zx.haijixing.driver.entry.TotalEvaluateEntry;
 import com.zx.haijixing.driver.entry.TruckDetailEntry;
 import com.zx.haijixing.driver.entry.TruckEntry;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.HaiBaseData;
 import com.zx.haijixing.share.base.HaiDataObserver;
 
@@ -133,7 +134,7 @@ public interface DriverApiService {
 
     //司机运单评价
     @GET("reception/orderComment/selectCommentByUserId")
-    Observable<HaiBaseData<List<EveryEvaluateEntry>>> queryEveryEvaluateApi(@Query("token") String token, @Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
+    Observable<HaiBaseData<List<EveryEvaluateEntry>>> queryEveryEvaluateApi(@Query("token") String token, @Query(OtherConstants.PAGE) int pageNum, @Query(OtherConstants.SIZE) int pageSize);
 
     //修改车辆信息
     @FormUrlEncoded

@@ -20,6 +20,7 @@ import com.zx.haijixing.share.PathConstant;
 import java.util.List;
 
 import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -88,14 +89,19 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
             sendViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
             sendViewHolder.select.setVisibility(View.VISIBLE);
             sendViewHolder.select.setOnClickListener(v -> {
-                if (orderEntry.isSelect()){
-                    sendViewHolder.select.setImageResource(R.mipmap.select_no);
-                    orderEntry.setSelect(false);
+                if (dadanFlag == 1){
+                    if (orderEntry.isSelect()){
+                        sendViewHolder.select.setImageResource(R.mipmap.select_no);
+                        orderEntry.setSelect(false);
+                    }else {
+                        sendViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                        orderEntry.setSelect(true);
+                    }
+                    iResultPositionListener.positionResult(null,1);
                 }else {
-                    sendViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
-                    orderEntry.setSelect(true);
+                    ZxToastUtil.centerToast("请先打单");
                 }
-                iResultPositionListener.positionResult(null,1);
+
             });
 
         }

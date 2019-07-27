@@ -70,8 +70,8 @@ public class CancelFragment extends BaseFragment<CancelImp> implements CancelCon
         params.put("token", token);
         params.put("status", OtherConstants.DETAIL_CANCEL);
         //params.put("params")
-        params.put("pageNum", page);
-        params.put("pageSize", 5);
+        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.SIZE, 5);
 
         mPresenter.cancelMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -86,15 +86,16 @@ public class CancelFragment extends BaseFragment<CancelImp> implements CancelCon
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.cancelMethod(params);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.cancelMethod(params);
     }
 

@@ -66,7 +66,7 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
         //params.put("status", OtherConstants.DETAIL_SENDING);
         //params.put("params")
         params.put("pageNum", page);
-        params.put("pageSize", 5);
+        params.put(OtherConstants.SIZE, 5);
 
         mPresenter.completeMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -91,7 +91,7 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
 
@@ -99,7 +99,7 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         orderEntries.clear();
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
 
