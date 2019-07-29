@@ -132,13 +132,14 @@
 
     <TextView
         android:id="@+id/print_data_receive_locate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="白家市场5栋28号冷冻室"
         android:textColor="@color/color_9999"
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@id/print_data_img4"
         app:layout_constraintTop_toBottomOf="@id/print_data_receive_man"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_8"
         />
@@ -192,13 +193,14 @@
         />
     <TextView
         android:id="@+id/print_data_total_detail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="(大件x1  小件x2  中件x3  中小件x5）"
         android:textColor="@color/color_6666"
         android:textSize="@dimen/sp_12"
         app:layout_constraintLeft_toRightOf="@id/print_data_number"
         app:layout_constraintTop_toBottomOf="@id/print_data_type"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/dp_12"
         />
     <ImageView

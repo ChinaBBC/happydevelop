@@ -95,6 +95,7 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
+        ccAdapter.notifyDataSetChanged();
         params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }

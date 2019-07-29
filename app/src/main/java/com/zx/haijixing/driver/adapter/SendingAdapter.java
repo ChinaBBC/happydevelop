@@ -72,7 +72,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
                     .withString("detailType",orderEntry.getStatus())
                     .navigation());
 
-            if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
+            if (!loginType.equals(OtherConstants.LOGIN_DRIVER)){
                 sendingViewHolder.button2.setText("修改价格");
                 sendingViewHolder.button1.setText("查看物流");
                 sendingViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.CHECK_LOGISTICS)

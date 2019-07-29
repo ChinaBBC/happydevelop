@@ -95,6 +95,7 @@ public class CancelFragment extends BaseFragment<CancelImp> implements CancelCon
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
+        ccAdapter.notifyDataSetChanged();
         params.put(OtherConstants.PAGE, page);
         mPresenter.cancelMethod(params);
     }

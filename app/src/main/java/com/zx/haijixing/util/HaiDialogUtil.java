@@ -1,6 +1,7 @@
 package com.zx.haijixing.util;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +88,7 @@ public final class HaiDialogUtil {
         return receiveDialog;
     }
     //支付选择
-    public static CommonDialogFragment showPay(FragmentManager fragmentManager, View.OnClickListener clickListener){
+    public static CommonDialogFragment showPay(FragmentManager fragmentManager, View.OnClickListener clickListener,TruckResultListener truckResultListener){
         CommonDialogFragment payDialog = CommonDialogFragment.newInstance(context -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_tip, null);
             TextView yes = view.findViewById(R.id.dialog_pay_yes);
@@ -99,10 +100,35 @@ public final class HaiDialogUtil {
             //EditText money = view.findViewById(R.id.dialog_pay_money);
             yes.setOnClickListener(clickListener);
             no.setOnClickListener(clickListener);
-            crash.setOnClickListener(clickListener);
-            crashImg.setOnClickListener(clickListener);
-            online.setOnClickListener(clickListener);
-            onlineImg.setOnClickListener(clickListener);
+
+            crash.setOnClickListener(v -> {
+                crash.setImageResource(R.mipmap.select_yes_solid);
+                crashImg.setTextColor(Color.parseColor("#30703f"));
+                online.setImageResource(R.mipmap.select_no);
+                onlineImg.setTextColor(Color.parseColor("#999999"));
+                truckResultListener.truckResult(2);
+            });
+            crashImg.setOnClickListener(v -> {
+                crash.setImageResource(R.mipmap.select_yes_solid);
+                crashImg.setTextColor(Color.parseColor("#30703f"));
+                online.setImageResource(R.mipmap.select_no);
+                onlineImg.setTextColor(Color.parseColor("#999999"));
+                truckResultListener.truckResult(2);
+            });
+            online.setOnClickListener(v -> {
+                crash.setImageResource(R.mipmap.select_no);
+                crashImg.setTextColor(Color.parseColor("#999999"));
+                online.setImageResource(R.mipmap.select_yes_solid);
+                onlineImg.setTextColor(Color.parseColor("#30703f"));
+                truckResultListener.truckResult(1);
+            });
+            onlineImg.setOnClickListener(v -> {
+                crash.setImageResource(R.mipmap.select_no);
+                crashImg.setTextColor(Color.parseColor("#999999"));
+                online.setImageResource(R.mipmap.select_yes_solid);
+                onlineImg.setTextColor(Color.parseColor("#30703f"));
+                truckResultListener.truckResult(1);
+            });
             //payMoneyResultListener.payResult(money.getText().toString());
             AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
             return builder.setView(view).create();

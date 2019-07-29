@@ -96,9 +96,9 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         receiveAdapter.setOnClickListener(this::positionResult);
         rvData.setAdapter(receiveAdapter);
 
-        receiveViewHolder = new ReceiveViewHolder(viewStub.inflate());
-
         refresh.setOnRefreshLoadMoreListener(this);
+
+        someData();
 
         skeletonScreen = Skeleton.bind(rvData).adapter(receiveAdapter)
                 .shimmer(true)
@@ -139,6 +139,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         }else {
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
+            refresh.setNoMoreData(false);
         }
         if (flag == 1 && rows.size()>0){
             for (int i = 0; i< rows.size(); i++){
@@ -166,6 +167,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         receiveViewHolder.word1.setText(getString(R.string.select_all));
         receiveViewHolder.selectAll.setImageResource(R.mipmap.select_no);
         flag = 0;
+        receiveViewHolder.total.setText("共：0单");
     }
 
     //下单
@@ -272,9 +274,11 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        refresh.setNoMoreData(false);
+        if (flag == 0)
+            receiveViewHolder.total.setText("共：0单");
         page = 1;
         orderEntryList.clear();
+        receiveAdapter.notifyDataSetChanged();
         params.put(OtherConstants.PAGE,page);
         mPresenter.orderMethod(params);
     }
@@ -343,18 +347,21 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void someData(){
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());
         token = (String) instance.getParam("token", "token");
         loginType = (String) instance.getParam("login_type", "4");
+        if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {
+            receiveViewHolder = new ReceiveViewHolder(viewStub.inflate());
+        }else {
+
+        }
+
         receiveAdapter.setLoginType(loginType);
         ZxLogUtil.logError("<<<<<on resume" + token);
         params.put("token", token);
         params.put("status",OtherConstants.DETAIL_WAIT_RECEIVE);
-        //params.put("params")
         params.put(OtherConstants.PAGE, page);
         params.put(OtherConstants.SIZE, 5);
         orderEntryList.clear();
@@ -373,5 +380,11 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     public void onDestroy() {
         super.onDestroy();
         receiveViewHolder = null;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        ZxLogUtil.logError("<<isHidden>>"+hidden);
     }
 }

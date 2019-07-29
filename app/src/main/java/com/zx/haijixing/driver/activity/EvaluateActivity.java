@@ -92,6 +92,7 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
     @Override
     public void everyEvaluateSuccess(List<EveryEvaluateEntry> everyEvaluateEntries) {
         if (everyEvaluateEntries.size()>0){
+            refresh.setNoMoreData(false);
             refresh.finishRefresh(true);
             refresh.finishLoadMore(true);
         }else {
@@ -113,6 +114,7 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         everyEvaluateEntries.clear();
+        evaluateAdapter.notifyDataSetChanged();
         mPresenter.everyEvaluateMethod(token,page);
     }
 }

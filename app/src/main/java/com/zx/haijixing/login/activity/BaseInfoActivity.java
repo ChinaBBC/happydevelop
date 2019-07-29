@@ -162,12 +162,6 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     @Override
     public void uploadImgSuccess(String path, int tag) {
         headPath = path;
-        mPresenter.updateHeadImgMethod(path);
-    }
-
-    @Override
-    public void updateHeadSuccess(String msg) {
-        upHead.setText("上传完成");
     }
 
     @Override
@@ -220,7 +214,6 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_name));
         }else if (ZxStringUtil.isEmpty(identifyCar)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_identify));
-
         }else if (ZxStringUtil.isEmpty(bankCar)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_bank_number));
 
@@ -259,6 +252,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
             params.put("bankName",bankAd);
             params.put("phone",phone);
             params.put("vcode",code);
+            params.put("headImg",headPath);
             params.put("loginKey",HaiTool.md5Method(password));
 
             mPresenter.baseInfoMethod(params);

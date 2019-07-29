@@ -37,7 +37,7 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
 
     private CommonDialogFragment commonDialogFragment;
     private MyCloseReceiver myCloseReceiver;
-    private SmartRefreshLayout refreshLayout;
+    protected SmartRefreshLayout refreshLayout;
 
 
     protected abstract void initView();

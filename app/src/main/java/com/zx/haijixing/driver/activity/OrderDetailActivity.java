@@ -189,10 +189,14 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
             mathMap.put(goodsVo.getDictCode(),goodsVo.getDwMoney()+","+goodsVo.getDwAvg());
             upMap.put(goodsVo.getDictCode(),goodsVo.getGoodsId());
         }
+
+        String timeEnd = orderDetailEntry.getTimeEnd();
+        long timeStamp = Long.parseLong(ZxStringUtil.isEmpty(timeEnd)?"0":timeEnd);
+        duration.setText(HaiTool.calculateTime(timeStamp));
+
         start.setText(orderDetailEntry.getLineStartName());
         end.setText(orderDetailEntry.getLineEndName());
         sTime.setText(orderDetailEntry.getLineStartTime());
-        duration.setText("需要计算");
         eTime.setText(orderDetailEntry.getLineEndTime());
         number.setText("运单号："+orderDetailEntry.getWaybillNo());
         cTime.setText(orderDetailEntry.getCreateTime());

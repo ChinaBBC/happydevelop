@@ -16,6 +16,6 @@ public interface ChangeContract {
 
     interface ChangePresenter extends IBaseContract.IBasePresenter<ChangeView>{
         void changeMethod(String path);
-        void changeHeadImgMethod(String path);
+        void changeHeadImgMethod(String path,String token);
     }
 }

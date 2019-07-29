@@ -16,6 +16,7 @@ import com.zx.haijixing.driver.contract.IResultPositionListener;
 import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.List;
 
@@ -85,9 +86,9 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
             if (isRefresh){
                 long l = timeStamp - 60 * 1000;
                 orderEntry.setTimeEnd(l<0?"0":l+"");
-                receiveViewHolder.downTime.setText(l <= 0?"(超时)":calculateTime(l));
+                receiveViewHolder.downTime.setText(l <= 0?"(超时)":HaiTool.calculateTime(l));
             }else {
-                receiveViewHolder.downTime.setText(timeStamp <= 0?"(超时)":calculateTime(timeStamp));
+                receiveViewHolder.downTime.setText(timeStamp <= 0?"(超时)":HaiTool.calculateTime(timeStamp));
             }
             receiveViewHolder.address.setText(orderEntry.getSenderAddress());
 
@@ -143,12 +144,5 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
         }
     }
 
-    private String calculateTime(long timeStamp){
 
-        long day = timeStamp / (1000 * 60 * 60 * 24);
-        long hour = (timeStamp / (1000 * 60 * 60) - day * 24);
-        long min = ((timeStamp / (60 * 1000)) - day * 24 * 60 - hour * 60);
-        String timeStr = "("+day + "天" + hour + "小时" + min + "分)";
-        return  timeStr;
-    }
 }

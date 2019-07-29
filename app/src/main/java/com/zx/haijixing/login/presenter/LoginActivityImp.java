@@ -33,6 +33,7 @@ public class LoginActivityImp extends BasePresenter<ILoginActivityContract.Login
                     @Override
                     protected void onError(String errorMsg) {
                         mView.hideLoading();
+                        mView.showFaild(errorMsg);
                     }
 
                     @Override
@@ -53,6 +54,7 @@ public class LoginActivityImp extends BasePresenter<ILoginActivityContract.Login
                     @Override
                     protected void onError(String errorMsg) {
                         mView.hideLoading();
+                        mView.showFaild(errorMsg);
                     }
 
                     @Override

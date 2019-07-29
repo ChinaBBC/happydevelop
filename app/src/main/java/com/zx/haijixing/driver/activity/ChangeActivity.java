@@ -53,6 +53,7 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
     ConstraintLayout passwordArea;
     @BindView(R.id.change_truck_area)
     ConstraintLayout truckArea;
+    private String token;
 
     @Override
     protected void initView() {
@@ -62,6 +63,7 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
 
         String head = (String)instance.getParam("user_head","null");
         String name = (String)instance.getParam("user_name","null");
+        token = (String)instance.getParam("token","null");
 
         this.name.setText(name);
         RequestOptions options = new RequestOptions().circleCrop().error(R.mipmap.user_head);
@@ -115,7 +117,7 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
 
     @Override
     public void changeSuccess(String head) {
-        mPresenter.changeHeadImgMethod(head);
+        mPresenter.changeHeadImgMethod(head,token);
         RequestOptions options = new RequestOptions().circleCrop();
         Glide.with(this).load(head).apply(options).into(header);
     }

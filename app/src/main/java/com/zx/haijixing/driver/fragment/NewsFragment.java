@@ -82,6 +82,7 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
 
         newsAdapter.setBaseStr(base);
         if (newsEntries.size()>0){
+            refresh.setNoMoreData(false);
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
             newsData.addAll(newsEntries);
@@ -103,6 +104,7 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         newsData.clear();
+        newsAdapter.notifyDataSetChanged();
         mPresenter.newsFragmentMethod(page);
     }
 

@@ -122,6 +122,15 @@ public final class HaiTool {
         final float scale = context.getResources ().getDisplayMetrics ().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
+    public static String calculateTime(long timeStamp){
+        long day = timeStamp / (1000 * 60 * 60 * 24);
+        long hour = (timeStamp / (1000 * 60 * 60) - day * 24);
+        long min = ((timeStamp / (60 * 1000)) - day * 24 * 60 - hour * 60);
+        String timeStr = "("+day + "天" + hour + "时" + min + "分)";
+        return  timeStr;
+    }
+
     /**
      * recycleview截图
      * @param view
@@ -137,6 +146,7 @@ public final class HaiTool {
             int iHeight = 0;
 
             RecyclerView.ViewHolder holder = adapter.createViewHolder(view, adapter.getItemViewType(i));
+            adapter.setPrint(true);
             adapter.onBindViewHolder(holder, i);
             holder.itemView.measure(
                     View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),

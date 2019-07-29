@@ -65,11 +65,13 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
         params.put("token", token);
         //params.put("status", OtherConstants.DETAIL_SENDING);
         //params.put("params")
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         params.put(OtherConstants.SIZE, 5);
 
         mPresenter.completeMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
+
+        refreshLayout = refresh;
     }
 
     @Override
@@ -99,6 +101,7 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         orderEntries.clear();
+        orderAdapter.notifyDataSetChanged();
         params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
@@ -110,6 +113,7 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
             refresh.finishRefreshWithNoMoreData();
             refresh.finishLoadMoreWithNoMoreData();
         } else {
+            refresh.setNoMoreData(false);
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
         }

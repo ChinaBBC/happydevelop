@@ -41,6 +41,7 @@
             android:textColorHint="@color/color_e0dd"
             android:textSize="@dimen/sp_14"
             android:layout_marginLeft="@dimen/dp_6"
+            android:textCursorDrawable="@drawable/shape_input_cur"
             />
         <TextView
             android:id="@+id/order_search"

@@ -6,6 +6,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import zx.com.skytool.ZxLogUtil;
+
 /**
  * Created by Administrator
  *
@@ -59,6 +61,7 @@ public class ThreadPool {
         if (runnable == null) {
             throw new NullPointerException("addTask(Runnable runnable)传入参数为空");
         }
+        ZxLogUtil.logError("<threadPoolExecutor>"+threadPoolExecutor+"<MAX_POOL_COUNTS>"+MAX_POOL_COUNTS);
         if (threadPoolExecutor != null && threadPoolExecutor.getActiveCount() < MAX_POOL_COUNTS) {
             threadPoolExecutor.execute(runnable);
         }
@@ -68,6 +71,7 @@ public class ThreadPool {
         if (threadPoolExecutor != null) {
             threadPoolExecutor.shutdown();
             threadPoolExecutor = null;
+            threadPool = null;
         }
     }
 }

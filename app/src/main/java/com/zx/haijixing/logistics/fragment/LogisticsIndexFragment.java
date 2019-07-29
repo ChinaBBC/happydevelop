@@ -35,6 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxToastUtil;
 
 /**
@@ -62,6 +63,8 @@ public class LogisticsIndexFragment extends BaseFragment<IndexImp> implements II
     private int page = 1;
     private RecyclerViewSkeletonScreen skeletonScreen;
     private boolean isHide = false;
+    private String token;
+    private String loginType;
 
     @Override
     protected int getLayoutId() {
@@ -78,11 +81,16 @@ public class LogisticsIndexFragment extends BaseFragment<IndexImp> implements II
         setTitleTopMargin(one,0);
         setTitleTopMargin(scanCode,20);
 
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        token = (String) instance.getParam("token","null");
+        loginType = (String) instance.getParam("login_type", "4");
+
         rvBody.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.VERTICAL,false));
         indexAdapter = new IndexAdapter(newsData);
         rvBody.setAdapter(indexAdapter);
         indexAdapter.setClickListener(this::onViewClicked);
-        indexAdapter.setLoginType(1);
+        indexAdapter.setLoginType(loginType);
 
         mPresenter.newsDataBanner();
         mPresenter.newsDataMethod(page);

@@ -78,7 +78,6 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
     private List<BluetoothDevice> mBlueList = new ArrayList<>();
     private BluetoothDataAdapter adapter = null;
 
-    private int id = 0;
     private ThreadPool threadPool;
     private CommonDialogFragment showBluetooth;
     private PrintAdapter printAdapter;
@@ -95,7 +94,7 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
     protected void initView() {
         title.setText(getHaiString(R.string.print_detail));
         printData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        printAdapter = new PrintAdapter(this::totalResult);
+        printAdapter = new PrintAdapter(this::totalResult,waybillId);
         printData.setAdapter(printAdapter);
 
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
@@ -232,12 +231,9 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
                     break;
                 case DeviceConnectManager.ACTION_CONN_STATE:
                     int state = intent.getIntExtra( DeviceConnectManager.STATE, -1 );
-                    int deviceId = intent.getIntExtra( DeviceConnectManager.DEVICE_ID, -1 );
                     switch ( state ) {
                         case DeviceConnectManager.CONN_STATE_DISCONNECT:
-                            if ( id == deviceId ) {
-                                ZxToastUtil.centerToast("连接断开，请重试");
-                            }
+                            ZxToastUtil.centerToast("连接断开，请重试");
                             break;
                         case DeviceConnectManager.CONN_STATE_CONNECTING:
                             ZxToastUtil.centerToast("正在连接，请稍候");
@@ -280,7 +276,11 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
         if (receiver != null) {
             //取消注册,防止内存泄露（onDestroy被回调代不代表Activity被回收？：具体回收看系统，由GC回收，同时广播会注册到系统
             //管理的ams中，即使activity被回收，reciver也不会被回收，所以一定要取消注册），
-            unregisterReceiver(receiver);
+            try {
+                unregisterReceiver(receiver);
+            }catch (Exception e){
+                ZxLogUtil.logError(",<<<<<<未注册");
+            }
         }
         if ( threadPool != null ) {
             threadPool.stopThreadPool();
@@ -306,26 +306,19 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
      * 重新连接回收上次连接的对象，避免内存泄漏
      */
     private void closePort(){
-        if ( DeviceConnectManager.getDeviceConnectManagers()[id] != null &&DeviceConnectManager.getDeviceConnectManagers()[id].mPort != null ) {
-            DeviceConnectManager.getDeviceConnectManagers()[id].reader.canceled();
-            DeviceConnectManager.getDeviceConnectManagers()[id].mPort.closePort();
-            DeviceConnectManager.getDeviceConnectManagers()[id].mPort = null;
-        }
+        DeviceConnectManager.getDeviceConnectManagers().closePort();
     }
 
     private void connectPort(String address){
+        ZxLogUtil.logError("<<<<address>>"+address);
         closePort();
-        /* 初始化话DeviceConnFactoryManager */
-        new DeviceConnectManager.Build()
-                .setId(id)
-                /* 设置连接方式 */
-                .setConnMethod( DeviceConnectManager.CONN_METHOD.BLUETOOTH )
-                /* 设置连接的蓝牙mac地址 */
-                .setMacAddress(address)
-                .build();
         /* 打开端口 */
         threadPool = ThreadPool.getInstantiation();
-        threadPool.addTask(() -> DeviceConnectManager.getDeviceConnectManagers()[id].openPort());
+        threadPool.addTask(() -> {
+                    ZxLogUtil.logError("<<<<address>>"+address);
+                    DeviceConnectManager.getDeviceConnectManagers().setMacAddress(address).openPort();
+                }
+               );
     }
 
     /**
@@ -342,19 +335,19 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
         for (int i=headSelect;i<totalNum+headSelect;i++){
             final Bitmap bitmap = HaiTool.shotRecyclerView(printData,i);
             threadPool.addTask(() -> {
-                if ( DeviceConnectManager.getDeviceConnectManagers()[id] == null || !DeviceConnectManager.getDeviceConnectManagers()[id].getConnState() ) {
+                if ( DeviceConnectManager.getDeviceConnectManagers() == null || !DeviceConnectManager.getDeviceConnectManagers().getConnState() ) {
                     ZxToastUtil.centerToast("连接断开了。。。");
                     return;
                 }
 
-                if ( DeviceConnectManager.getDeviceConnectManagers()[id].getCurrentPrinterCommand() == DeviceConnectManager.PrinterCommand.CPCL ) {
+                if ( DeviceConnectManager.getDeviceConnectManagers().getCurrentPrinterCommand() == DeviceConnectManager.PrinterCommand.CPCL ) {
                     ZxLogUtil.logError("<<<<<CPCL<");
                     CpclCommand cpcl = new CpclCommand();
                     cpcl.addInitializePrinter( 1500, 1 );
                     cpcl.addCGraphics( 0, 0, (80 - 10) * 8, bitmap );
                     cpcl.addPrint();
-                    DeviceConnectManager.getDeviceConnectManagers()[id].sendDataImmediately( cpcl.getCommand() );
-                } else if ( DeviceConnectManager.getDeviceConnectManagers()[id].getCurrentPrinterCommand() == DeviceConnectManager.PrinterCommand.TSC ) {
+                    DeviceConnectManager.getDeviceConnectManagers().sendDataImmediately( cpcl.getCommand() );
+                } else if ( DeviceConnectManager.getDeviceConnectManagers().getCurrentPrinterCommand() == DeviceConnectManager.PrinterCommand.TSC ) {
                     ZxLogUtil.logError("<<<<<TSC<"+bitmap.getWidth()+"<>"+bitmap.getHeight());
                     LabelCommand labelCommand = new LabelCommand();
 
@@ -363,8 +356,8 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
                     labelCommand.addCls();
                     labelCommand.addBitmap( 0, 0, (80 - 10) * 8, bitmap );
                     labelCommand.addPrint( 1 );
-                    DeviceConnectManager.getDeviceConnectManagers()[id].sendDataImmediately( labelCommand.getCommand() );
-                }else if ( DeviceConnectManager.getDeviceConnectManagers()[id].getCurrentPrinterCommand() == DeviceConnectManager.PrinterCommand.ESC ) {
+                    DeviceConnectManager.getDeviceConnectManagers().sendDataImmediately( labelCommand.getCommand() );
+                }else if ( DeviceConnectManager.getDeviceConnectManagers().getCurrentPrinterCommand() == DeviceConnectManager.PrinterCommand.ESC ) {
                     ZxLogUtil.logError("<<<<<ESC<");
                     EscCommand esc = new EscCommand();
                     esc.addInitializePrinter();
@@ -373,7 +366,7 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
                     esc.addPrintAndLineFeed();
                     esc.addPrintAndLineFeed();
                     esc.addPrintAndLineFeed();
-                    DeviceConnectManager.getDeviceConnectManagers()[id].sendDataImmediately(esc.getCommand());
+                    DeviceConnectManager.getDeviceConnectManagers().sendDataImmediately(esc.getCommand());
                 }
             });
         }

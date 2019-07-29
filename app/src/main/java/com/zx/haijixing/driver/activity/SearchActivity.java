@@ -65,6 +65,8 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
     private int page = 1;
     @Override
     protected void initView() {
+        orderNumber.setText(content);
+
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
         String token = (String) instance.getParam("token", "null");
@@ -76,7 +78,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
         params.put("token", token);
         //params.put("status", OtherConstants.DETAIL_SENDING);
         params.put("params",content);
-        params.put("pageNum", page);
+        params.put(OtherConstants.PAGE, page);
         params.put(OtherConstants.SIZE, 5);
 
         mPresenter.completeMethod(params);
@@ -104,7 +106,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
                 if (ZxStringUtil.isEmpty(trim)){
                     ZxToastUtil.centerToast("请输入搜索内容");
                 }else {
-                    params.put("param",trim);
+                    params.put("params",trim);
                     orderEntries.clear();
                     orderAdapter.notifyDataSetChanged();
                     mPresenter.completeMethod(params);
@@ -125,6 +127,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         orderEntries.clear();
+        orderAdapter.notifyDataSetChanged();
         params.put(OtherConstants.PAGE, page);
         mPresenter.completeMethod(params);
     }
@@ -136,6 +139,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
             refresh.finishRefreshWithNoMoreData();
             refresh.finishLoadMoreWithNoMoreData();
         } else {
+            refresh.setNoMoreData(false);
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
         }

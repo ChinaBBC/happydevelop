@@ -5,6 +5,7 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.driver.contract.DriverContract;
 import com.zx.haijixing.driver.entry.DriverClassEntry;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
@@ -25,6 +26,11 @@ public class DriverImp extends BasePresenter<DriverContract.DriverView> implemen
                 .uploadLocate(token,longitude,latitude)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
+                    @Override
+                    protected String setTag() {
+                        return OtherConstants.CANCEL_REQUEST;
+                    }
+
                     @Override
                     protected void onError(String errorMsg) {
                         mView.showFaild(errorMsg);

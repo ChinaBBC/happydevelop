@@ -10,6 +10,7 @@ public final class OtherConstants {
     public final static String LOGIN_LOGISTICS = "3";//物流
     public final static String LOGIN_MANAGER = "2";//管理员
     public final static String LOGIN_OUT = "exit";//退出
+    public final static String CANCEL_REQUEST = "cancel";//取消请求
 
     public final static String PAGE = "num";//页数
     public final static String SIZE = "size";//条数

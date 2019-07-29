@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.allen.library.RxHttpUtils;
 import com.zx.haijixing.R;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
@@ -94,6 +95,7 @@ public class SetActivity extends BaseActivity {
 
     private void loginOut(){
         showUpdate.dismissAllowingStateLoss();
+        RxHttpUtils.cancel(OtherConstants.CANCEL_REQUEST);
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
         instance.setLogin(false);

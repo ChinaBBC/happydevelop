@@ -4,6 +4,7 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.allen.library.observer.StringObserver;
+import com.zx.haijixing.BuildConfig;
 import com.zx.haijixing.login.contract.IBaseInfoActivityContract;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.service.LoginApiService;
@@ -88,7 +89,7 @@ public class BaseInfoActivityImp extends BasePresenter<IBaseInfoActivityContract
         list.add(path);
         Map<String,Object> params = new HashMap<>();
         params.put("files","path");
-        RxHttpUtils.uploadImagesWithParams("http://192.168.5.88:80/api/upload/files/uploadImages","files",params,list)
+        RxHttpUtils.uploadImagesWithParams(BuildConfig.homeUrl+"upload/files/uploadImages","files",params,list)
                 .compose(Transformer.<ResponseBody>switchSchedulers())
                 .subscribe(new CommonObserver<ResponseBody>() {
                     @Override
@@ -113,33 +114,5 @@ public class BaseInfoActivityImp extends BasePresenter<IBaseInfoActivityContract
                     }
                 });
     }
-
-    @Override
-    public void updateHeadImgMethod(String path) {
-        RxHttpUtils.createApi(LoginApiService.class)
-                .changeUserHead(path)
-                .compose(Transformer.<String>switchSchedulers())
-                .subscribe(new StringObserver() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        mView.showFaild(errorMsg);
-                    }
-
-                    @Override
-                    protected void onSuccess(String data) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.getInt("code") == 0){
-                                mView.updateHeadSuccess(jsonObject.getString("data"));
-                            }else {
-                                mView.showFaild(jsonObject.getString("msg"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
-
 
 }

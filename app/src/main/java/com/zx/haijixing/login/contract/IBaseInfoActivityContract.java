@@ -15,13 +15,11 @@ public interface IBaseInfoActivityContract {
         void baseInfoSuccess(String driverId);
         void baseInfoCodeSuccess();
         void uploadImgSuccess(String path,int tag);
-        void updateHeadSuccess(String msg);
     }
 
     interface BaseInfoPresenter extends IBaseContract.IBasePresenter<BaseInfoView>{
         void baseInfoMethod(Map<String,String> params);
         void baseInfoCodeMethod(String phone);
         void uploadImgMethod(String path,int tag);
-        void updateHeadImgMethod(String path);
     }
 }

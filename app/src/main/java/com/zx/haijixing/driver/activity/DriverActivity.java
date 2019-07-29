@@ -37,7 +37,7 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
     private AMapLocationClientOption mLocationOption;
 
     private String token = null;
-    private static String city = "成都";
+    private String city = "成都";
 
     @Override
     protected void initView() {
@@ -74,7 +74,7 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
                         R.mipmap.index_mine_after)
                 .build();
 
-        //initLocateOnce();
+        initLocateOnce();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -121,7 +121,7 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(1000);
+        mLocationOption.setInterval(10*1000);
         //给定位客户端对象设置定位参数
         mlocationClient.setLocationOption(mLocationOption);
         //启动定位
@@ -142,7 +142,7 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
         }
     }
 
-    public static String getCity() {
+    public String getCity() {
         return city;
     }
 
@@ -150,5 +150,9 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mlocationClient != null){
+            mlocationClient.startLocation();
+            mlocationClient.onDestroy();
+        }
     }
 }

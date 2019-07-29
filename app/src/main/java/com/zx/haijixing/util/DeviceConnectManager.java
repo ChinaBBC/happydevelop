@@ -17,12 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import zx.com.skytool.ZxToastUtil;
+import zx.com.skytool.ZxLogUtil;
 
 /**
  * Created by Administrator
@@ -36,18 +31,10 @@ public class DeviceConnectManager {
 
     private static final String TAG = DeviceConnectManager.class.getSimpleName();
 
-    public CONN_METHOD connMethod;
-
-    private String ip;
-
-    private int port;
-
     private String macAddress;
 
 
-    private int id;
-
-    private static DeviceConnectManager[] deviceConnectManagers = new DeviceConnectManager[4];
+    private static DeviceConnectManager deviceConnectManager = new DeviceConnectManager();
 
     private boolean isOpenPort;
     /**
@@ -113,31 +100,19 @@ public class DeviceConnectManager {
     public static final String ACTION_CONN_STATE = "action_connect_state";
     public static final String ACTION_QUERY_PRINTER_STATE = "action_query_printer_state";
     public static final String STATE = "state";
-    public static final String DEVICE_ID = "id";
     public static final int CONN_STATE_DISCONNECT = 0x90;
     public static final int CONN_STATE_CONNECTING = CONN_STATE_DISCONNECT << 1;
     public static final int CONN_STATE_FAILED = CONN_STATE_DISCONNECT << 2;
     public static final int CONN_STATE_CONNECTED = CONN_STATE_DISCONNECT << 3;
     public PrinterReader reader;
 
-    public enum CONN_METHOD {
-        //蓝牙连接
-        BLUETOOTH("BLUETOOTH");
-
-        private String name;
-
-        CONN_METHOD(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
+    public static DeviceConnectManager getDeviceConnectManagers() {
+        return deviceConnectManager;
     }
 
-    public static DeviceConnectManager[] getDeviceConnectManagers() {
-        return deviceConnectManagers;
+    public DeviceConnectManager setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
+        return this;
     }
 
     /**
@@ -146,10 +121,11 @@ public class DeviceConnectManager {
      * @return
      */
     public void openPort() {
-        deviceConnectManagers[id].isOpenPort = false;
+        deviceConnectManager.isOpenPort = false;
         sendStateBroadcast(CONN_STATE_CONNECTING);
         mPort = new BluetoothPort(macAddress);
-        isOpenPort = deviceConnectManagers[id].mPort.openPort();
+        isOpenPort = deviceConnectManager.mPort.openPort();
+        ZxLogUtil.logError("<mPort>"+mPort+"<isOpenPort>"+isOpenPort);
         //端口打开成功后，检查连接打印机所使用的打印机指令ESC、TSC
         if (isOpenPort) {
             queryCommand();
@@ -173,15 +149,6 @@ public class DeviceConnectManager {
     }
 
     /**
-     * 获取端口连接方式
-     *
-     * @return
-     */
-    public CONN_METHOD getConnMethod() {
-        return connMethod;
-    }
-
-    /**
      * 获取端口打开状态（true 打开，false 未打开）
      *
      * @return
@@ -191,21 +158,10 @@ public class DeviceConnectManager {
     }
 
     /**
-     * 获取连接蓝牙的物理地址
-     *
-     * @return
-     */
-    public String getMacAddress() {
-        return macAddress;
-    }
-
-
-    /**
      * 关闭端口
      */
-    public void closePort(int id) {
+    public void closePort() {
         if (this.mPort != null) {
-            System.out.println("id -> " + id);
             reader.canceled();
            boolean b= this.mPort.closePort();
             if(b) {
@@ -217,72 +173,15 @@ public class DeviceConnectManager {
         sendStateBroadcast(CONN_STATE_DISCONNECT);
     }
 
-    public static void closeAllPort() {
-        for (DeviceConnectManager deviceConnectManager : deviceConnectManagers) {
-            if (deviceConnectManager != null) {
-                Log.e(TAG, "cloaseAllPort() id -> " + deviceConnectManager.id);
-                deviceConnectManager.closePort(deviceConnectManager.id);
-                deviceConnectManagers[deviceConnectManager.id] = null;
-            }
-        }
-    }
-
-    private DeviceConnectManager(Build build) {
-        this.connMethod = build.connMethod;
-        this.macAddress = build.macAddress;
-        this.port = build.port;
-        this.ip = build.ip;
-        this.id = build.id;
-        deviceConnectManagers[id] = this;
-    }
-
     /**
      * 获取当前打印机指令
      *
      * @return PrinterCommand
      */
     public PrinterCommand getCurrentPrinterCommand() {
-        return deviceConnectManagers[id].currentPrinterCommand;
+        return deviceConnectManager.currentPrinterCommand;
     }
 
-    public static final class Build {
-        private String ip;
-        private String macAddress;
-        private int port;
-        private CONN_METHOD connMethod;
-        private int id;
-
-
-        public DeviceConnectManager.Build setId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public DeviceConnectManager.Build setIp(String ip) {
-            this.ip = ip;
-            return this;
-        }
-
-        public DeviceConnectManager.Build setMacAddress(String macAddress) {
-            this.macAddress = macAddress;
-            return this;
-        }
-
-
-        public DeviceConnectManager.Build setPort(int port) {
-            this.port = port;
-            return this;
-        }
-
-        public DeviceConnectManager.Build setConnMethod(CONN_METHOD connMethod) {
-            this.connMethod = connMethod;
-            return this;
-        }
-
-        public DeviceConnectManager build() {
-            return new DeviceConnectManager(this);
-        }
-    }
 
     public void sendDataImmediately(final Vector<Byte> data) {
         if (this.mPort == null) {
@@ -383,8 +282,8 @@ public class DeviceConnectManager {
                     }
                 }
             } catch (Exception e) {
-                if (deviceConnectManagers[id] != null) {
-                    closePort(id);
+                if (deviceConnectManager != null) {
+                    closePort();
                 }
             }
         }
@@ -407,6 +306,7 @@ public class DeviceConnectManager {
          */
         CPCL
     }
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -420,6 +320,7 @@ public class DeviceConnectManager {
                     }
                     int result = judgeResponseType(buffer[0]); //数据右移
                     String status = HaiApplication.getInstance().getString(R.string.str_printer_conn_normal);
+                    ZxLogUtil.logError("<<sendCommand>>>"+sendCommand+"<currentPrinterCommand>"+currentPrinterCommand);
                     if (sendCommand == esc) {
                         //设置当前打印机模式为ESC模式
                         if (currentPrinterCommand == null) {
@@ -428,7 +329,6 @@ public class DeviceConnectManager {
                         } else {//查询打印机状态
                             if (result == 0) {//打印机状态查询
                                 Intent intent = new Intent(ACTION_QUERY_PRINTER_STATE);
-                                intent.putExtra(DEVICE_ID, id);
                                 HaiApplication.getInstance().sendBroadcast(intent);
                             } else if (result == 1) {//查询打印机实时状态
                                 if ((buffer[0] & ESC_STATE_PAPER_ERR) > 0) {
@@ -466,7 +366,6 @@ public class DeviceConnectManager {
                                 //Utils.toast(HaiApplication.getInstance(), mode+" "+status);
                             } else {//打印机状态查询
                                 Intent intent = new Intent(ACTION_QUERY_PRINTER_STATE);
-                                intent.putExtra(DEVICE_ID, id);
                                 HaiApplication.getInstance().sendBroadcast(intent);
                             }
                         }
@@ -487,7 +386,6 @@ public class DeviceConnectManager {
                                 //Utils.toast(HaiApplication.getInstance(), mode+" "+status);
                             } else {//打印机状态查询
                                 Intent intent = new Intent(ACTION_QUERY_PRINTER_STATE);
-                                intent.putExtra(DEVICE_ID, id);
                                 HaiApplication.getInstance().sendBroadcast(intent);
                             }
                         }
@@ -502,7 +400,6 @@ public class DeviceConnectManager {
     private void sendStateBroadcast(int state) {
         Intent intent = new Intent(ACTION_CONN_STATE);
         intent.putExtra(STATE, state);
-        intent.putExtra(DEVICE_ID, id);
         HaiApplication.getInstance().sendBroadcast(intent);
     }
 

@@ -18,6 +18,7 @@ import com.youth.banner.Banner;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.BannerUtil;
 
@@ -40,7 +41,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private String bannerStr;
     private String baseStr ;
     private Context context;
-    private int loginType = 0;
+    private String loginType = OtherConstants.LOGIN_DRIVER;
 
     public IndexAdapter(List<NewsEntry.NewsData> newsData) {
         this.newsData = newsData;
@@ -59,7 +60,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.baseStr = baseStr;
     }
 
-    public void setLoginType(int loginType) {
+    public void setLoginType(String loginType) {
         this.loginType = loginType;
     }
 
@@ -89,14 +90,12 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder indexViewHolder, int i) {
         if (getItemViewType(i) == HEAD_ITEM){
             IndexHeadViewHolder indexHeadViewHolder = (IndexHeadViewHolder) indexViewHolder;
-            if (loginType == 2){
+            if (loginType.equals(OtherConstants.LOGIN_LOGISTICS) ||loginType.equals(OtherConstants.LOGIN_MANAGER)){
                 indexHeadViewHolder.word1.setText(context.getResources().getString(R.string.wait_allot_order));
                 indexHeadViewHolder.word2.setText(context.getResources().getString(R.string.wait_send));
                 indexHeadViewHolder.word3.setText(context.getResources().getString(R.string.classes_manage));
                 indexHeadViewHolder.clock.setImageResource(R.mipmap.classes_manage);
                 indexHeadViewHolder.services.setImageResource(R.mipmap.all_services_l);
-            }else if (loginType == 3){
-
             }
             indexHeadViewHolder.receive.setOnClickListener(clickListener);
             indexHeadViewHolder.print.setOnClickListener(clickListener);

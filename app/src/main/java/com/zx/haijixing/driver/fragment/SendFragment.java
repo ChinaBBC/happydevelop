@@ -139,6 +139,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
             refresh.finishRefreshWithNoMoreData();
             refresh.finishLoadMoreWithNoMoreData();
         } else {
+            refresh.setNoMoreData(false);
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
         }
@@ -173,6 +174,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
             sendViewHolder.word1.setText(getString(R.string.select_all));
             sendViewHolder.selectAll.setImageResource(R.mipmap.select_no);
             flag = 0;
+            sendViewHolder.total.setText("共：0单");
         }
     }
 
@@ -221,9 +223,11 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         refresh.setNoMoreData(false);
-        sendViewHolder.total.setText("共：0单");
+        if (flag == 0)
+            sendViewHolder.total.setText("共：0单");
         page = 1;
         orderEntries.clear();
+        sendAdapter.notifyDataSetChanged();
         params.put(OtherConstants.PAGE, page);
         mPresenter.sendMethod(params);
     }

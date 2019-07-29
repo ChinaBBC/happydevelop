@@ -61,9 +61,9 @@ public interface LoginApiService {
     @POST("logistics/carApply/addApply")
     Observable<String> truckApplyApi(@FieldMap Map<String,String> params);
 
-    //修改上传头像@Field("token") String token,
+    //修改上传头像,
     @FormUrlEncoded
     @PUT("driver/updateDriverHeadImageByUserId")
-    Observable<String> changeUserHead(@Field("headImg") String headImg);
+    Observable<String> changeUserHead(@Field("headImg") String headImg,@Field("token") String token);
 
 }

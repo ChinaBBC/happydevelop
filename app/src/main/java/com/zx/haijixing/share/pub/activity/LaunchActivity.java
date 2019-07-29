@@ -2,27 +2,17 @@ package com.zx.haijixing.share.pub.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-
-import com.zx.haijixing.BuildConfig;
-import com.zx.haijixing.HaiNativeHelper;
 import com.zx.haijixing.R;
-import com.zx.haijixing.custom.CustomGraphView;
-import com.zx.haijixing.custom.CustomGraphViewT;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
-import com.zx.haijixing.share.dao.HaiDao;
 import com.zx.haijixing.share.pub.contract.VersionContract;
 import com.zx.haijixing.share.pub.entry.VersionEntry;
 import com.zx.haijixing.share.pub.imp.VersionImp;
@@ -31,30 +21,33 @@ import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
+import zx.com.skytool.ZxToastUtil;
 
 
 /**
- *
- *@作者 zx
- *@创建日期 2019/6/14 12:00
- *@描述 启动页面
+ * @作者 zx
+ * @创建日期 2019/6/14 12:00
+ * @描述 启动页面
  */
 public class LaunchActivity extends BaseActivity<VersionImp> implements VersionContract.VersionView {
 
 
+    @BindView(R.id.sample_text)
+    TextView jump;
+
     private CommonDialogFragment showUpdate;
     private VersionEntry versionEntry;
+    private StartTimer startTimer;
 
     @Override
     protected void initView() {
         permission();
-        test();
-        mPresenter.versionMethod();
     }
 
     @Override
@@ -70,19 +63,25 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
     @Override
     public void versionSuccess(VersionEntry versionEntry) {
         this.versionEntry = versionEntry;
-        if (HaiTool.packageCode(this)<versionEntry.getVersionNum()) {
-            showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(),null, this::onViewClicked);
+        if (HaiTool.packageCode(this) < versionEntry.getVersionNum()) {
+            showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(), null, this::onViewClicked);
+        }else {
+            startTimer = new StartTimer(3000, 1000);
+            startTimer.start();
         }
     }
 
-    @OnClick
+    @OnClick(R.id.sample_text)
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.dialog_update_no:
                 showUpdate.dismissAllowingStateLoss();
                 break;
             case R.id.dialog_update_yes:
-                ARouter.getInstance().build(PathConstant.APK_ACTIVITY).withString("path",versionEntry.getDownloadUrl()).navigation();
+                ARouter.getInstance().build(PathConstant.APK_ACTIVITY).withString("path", versionEntry.getDownloadUrl()).navigation();
+                break;
+            case R.id.sample_text:
+                checkLogin();
                 break;
         }
     }
@@ -90,20 +89,31 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 220:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mPresenter.versionMethod();
+                } else {
+                    ZxToastUtil.centerToast("请开启权限");
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
-
-    private void permission(){
+    private void permission() {
         final List<String> permissionsList = new ArrayList<>();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.RECORD_AUDIO)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.CAMERA)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.CALL_PHONE)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.INTERNET)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-            }else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.RECORD_AUDIO) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.CAMERA) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.CALL_PHONE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.WRITE_SETTINGS) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            } else {
                 if ((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
                     permissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))
@@ -122,101 +132,68 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
                     permissionsList.add(Manifest.permission.WRITE_SETTINGS);
                 if ((checkSelfPermission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS) != PackageManager.PERMISSION_GRANTED))
                     permissionsList.add(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS);
-                if ((checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED))
-                    permissionsList.add(Manifest.permission.INTERNET);
                 if (permissionsList.size() == 0) {
-
+                    mPresenter.versionMethod();
                 } else {
-                    requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                            0);
+                    requestPermissions(permissionsList.toArray(new String[permissionsList.size()]), 220);
                 }
             }
         } else {
-
+            mPresenter.versionMethod();
         }
 
     }
-    private void test(){
-        Log.i("<<<<<","<BuildConfig.homeUrl>"+BuildConfig.homeUrl+HaiNativeHelper.baseUrl());
-        final TextView sample = findViewById(R.id.sample_text);
-        //final CustomGraphView customGraphView = findViewById(R.id.graph);
-        //final CustomGraphViewT customGraphView2 = findViewById(R.id.graph2);
+
+    //检查登录
+    private void checkLogin(){
+        if (startTimer != null && startTimer.getRunStatus()) {
+            startTimer.cancel();
+        }
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        if (instance.isLogin()){
+            ARouter.getInstance().build(PathConstant.DRIVER_MAIN).navigation();
+            finish();
+        }else {
+            ARouter.getInstance().build(PathConstant.ROUTE_LOGIN).navigation();
+            finish();
+        }
+    }
 
 
-        List<String> list1 = new ArrayList<>();
-        list1.add("1");
-        list1.add("2");
-        list1.add("3");
-        list1.add("4");
-        list1.add("5");
-        list1.add("6");
-        list1.add("7");
-        list1.add("8");
-        list1.add("9");
-        list1.add("11");
-        list1.add("12");
-        list1.add("13");
-        list1.add("14");
-        list1.add("15");
-        list1.add("16");
-        list1.add("17");
+    //倒计时内部类实现
+    class StartTimer extends CountDownTimer {
 
-        List<String> list2 = new ArrayList<>();
-        list2.add("2千元");
-        list2.add("4千元");
-        list2.add("6千元");
-        list2.add("8千元");
-        list2.add("10千元");
-        list2.add("12千元");
+        private boolean isRunning = true;
 
-        List<Point> points = new ArrayList<>();
-        points.add(new Point(0,2999));
-        points.add(new Point(1,2324));
-        points.add(new Point(2,1223));
-        points.add(new Point(3,4545));
-        points.add(new Point(4,6643));
-        points.add(new Point(5,7777));
-        points.add(new Point(6,8888));
-        points.add(new Point(7,1234));
-        points.add(new Point(8,2234));
-        points.add(new Point(9,3234));
-        points.add(new Point(10,3234));
-        points.add(new Point(11,3234));
-        points.add(new Point(12,3234));
-        points.add(new Point(13,3234));
-        points.add(new Point(14,3234));
-        points.add(new Point(15,3234));
-        points.add(new Point(16,3234));
-        points.add(new Point(17,3234));
+        /**
+         * @param millisInFuture    结束时间
+         * @param countDownInterval 计时间隔
+         */
+        public StartTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
 
-        ///customGraphView2.setXUnitValue(1).setYUnitValue(2000).setXTextUnits(list1).setYTextUnits(list2).setDateList(points).startDraw();
+        public boolean getRunStatus() {
+            return isRunning;
+        }
 
-        LinkedList<Double> yList = new LinkedList<>();
-        yList.add(200.203);
-        yList.add(400.05);
-        yList.add(600.60);
-        yList.add(300.08);
-        yList.add(400.32);
-        yList.add(220.0);
-        yList.add(550.0);
+        @Override
+        public void onTick(long millisUntilFinished) {
+            isRunning = true;
+        }
 
-        LinkedList<String> xRawData = new LinkedList<>();
-        xRawData.add("05-19");
-        xRawData.add("05-20");
-        xRawData.add("05-21");
-        xRawData.add("05-22");
-        xRawData.add("05-23");
-        xRawData.add("05-24");
-        xRawData.add("05-25");
-        //customGraphView.setData(yList , xRawData , 10000 , 500);
+        @Override
+        public void onFinish() {
+            isRunning = false;
+            checkLogin();
+        }
+    }
 
-        sample.setOnClickListener(v -> {
-            ZxSharePreferenceUtil.getInstance().init(LaunchActivity.this);
-            boolean login = ZxSharePreferenceUtil.getInstance().isLogin();
-            if (login)
-                ARouter.getInstance().build(PathConstant.DRIVER_MAIN).navigation();
-            else
-                ARouter.getInstance().build(PathConstant.ROUTE_LOGIN).navigation();
-        });
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (startTimer!= null && startTimer.isRunning)
+            startTimer.cancel();
     }
 }

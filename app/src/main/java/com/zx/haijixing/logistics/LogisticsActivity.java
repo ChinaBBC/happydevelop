@@ -9,6 +9,10 @@ import com.zx.haijixing.logistics.fragment.LogisticsIndexFragment;
 import com.zx.haijixing.logistics.fragment.WayBillFragment;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import zx.com.skytool.ZxStatusBarCompat;
@@ -54,6 +58,11 @@ public class LogisticsActivity extends BaseActivity {
                         R.mipmap.company_center_a,
                         R.mipmap.company_center_b)
                 .build();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        bottomMenu.switchTo(1);
     }
 
     @Override

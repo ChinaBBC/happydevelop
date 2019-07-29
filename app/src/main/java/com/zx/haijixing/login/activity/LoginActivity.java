@@ -171,8 +171,9 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
         instance.saveParam("user_name",data.getUserName());
         instance.saveParam("user_head",data.getAvatar());
         instance.saveParam("user_phone",data.getPhonenumber());
-        instance.saveParam("login_type",data.getRoleType());
-        instance.saveParam("limit",data.getMenus());
+        instance.saveParam("login_type",ZxStringUtil.isEmpty(data.getRoleType())?"4":data.getRoleType());
+        if (data.getMenus().size()>0)
+            instance.saveParam("limit",data.getMenus());
         instance.setLogin(true);
     }
     @Override

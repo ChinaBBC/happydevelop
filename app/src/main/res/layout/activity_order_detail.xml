@@ -43,12 +43,13 @@
             />
         <TextView
             android:id="@+id/order_detail_start"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="双流百家"
             android:textColor="@color/white"
             android:textSize="@dimen/dp_18"
             android:textStyle="bold"
+            android:gravity="right"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/order_detail_title"
@@ -57,41 +58,42 @@
             />
         <TextView
             android:id="@+id/order_detail_sTime"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="07:09"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/white"
+            android:gravity="right"
+            android:paddingRight="@dimen/dp_4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/order_detail_start"
             app:layout_constraintRight_toLeftOf="@id/order_detail_duration"
-            android:layout_marginLeft="@dimen/dp_50"
             />
         <ImageView
             android:id="@+id/order_detail_img1"
-            android:layout_width="@dimen/dp_64"
+            android:layout_width="@dimen/dp_70"
             android:layout_height="@dimen/dp_7"
             android:src="@mipmap/arrows"
             app:layout_constraintLeft_toRightOf="@id/order_detail_start"
             app:layout_constraintTop_toBottomOf="@id/order_detail_title"
             app:layout_constraintRight_toLeftOf="@id/order_detail_end"
-            android:layout_marginTop="@dimen/dp_74"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_70"
             />
         <TextView
             android:id="@+id/order_detail_duration"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_84"
             android:layout_height="wrap_content"
-            android:text="5小时00分钟"
+            android:text="(02天52时00分)"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_10"
+            android:gravity="center"
             app:layout_constraintLeft_toRightOf="@id/order_detail_sTime"
             app:layout_constraintTop_toBottomOf="@id/order_detail_img1"
             app:layout_constraintRight_toLeftOf="@id/order_detail_eTime"
             />
         <TextView
             android:id="@+id/order_detail_end"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="重启南岸"
             android:textColor="@color/white"
@@ -101,19 +103,18 @@
             app:layout_constraintTop_toBottomOf="@id/order_detail_title"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="@dimen/dp_60"
-            android:layout_marginLeft="@dimen/dp_10"
             />
         <TextView
             android:id="@+id/order_detail_eTime"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="12:00"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/white"
+            android:paddingLeft="@dimen/dp_4"
             app:layout_constraintLeft_toRightOf="@id/order_detail_duration"
             app:layout_constraintTop_toBottomOf="@id/order_detail_end"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="@dimen/dp_50"
             />
         <android.support.constraint.ConstraintLayout
             android:id="@+id/order_detail_lay1"
@@ -130,13 +131,15 @@
             >
             <TextView
                 android:id="@+id/order_detail_number"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="运单号：3423423424212"
                 android:textColor="@color/color_6666"
                 android:textSize="@dimen/sp_14"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/order_detail_cTime"
+                android:paddingRight="@dimen/dp_4"
                 />
 
             <TextView
@@ -195,13 +198,14 @@
                 />
             <TextView
                 android:id="@+id/order_detail_send_locate"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="白家市场5栋28号冷冻室"
                 android:textColor="@color/color_9999"
                 android:textSize="@dimen/sp_14"
                 app:layout_constraintLeft_toRightOf="@id/order_detail_img3"
                 app:layout_constraintTop_toBottomOf="@id/order_detail_send_man"
+                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginLeft="@dimen/dp_4"
                 />
@@ -210,9 +214,9 @@
                 android:layout_width="@dimen/dp_18"
                 android:layout_height="@dimen/dp_18"
                 android:src="@mipmap/receive_man"
-                app:layout_constraintTop_toBottomOf="@id/order_detail_img3"
+                app:layout_constraintTop_toBottomOf="@id/order_detail_send_locate"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_17"
                 />
             <TextView
                 android:id="@+id/order_detail_receive_man"
@@ -250,13 +254,14 @@
                 />
             <TextView
                 android:id="@+id/order_detail_receive_locate"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="白家市场5栋28号冷冻室"
                 android:textColor="@color/color_9999"
                 android:textSize="@dimen/sp_14"
                 app:layout_constraintLeft_toRightOf="@id/order_detail_img5"
                 app:layout_constraintTop_toBottomOf="@id/order_detail_receive_man"
+                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginLeft="@dimen/dp_4"
                 />

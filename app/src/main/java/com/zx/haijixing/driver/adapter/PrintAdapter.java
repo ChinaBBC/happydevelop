@@ -33,13 +33,16 @@ public class PrintAdapter extends RecyclerView.Adapter {
     private int selectHead = 1; //1未选择0选择
     private TotalPrintListener totalPrintListener;
     private List<SelectEntry> selectEntries;
+    private String wayBillId;
+    private boolean isPrint = false;
 
     public void setSelectEntries(List<SelectEntry> selectEntries) {
         this.selectEntries = selectEntries;
     }
 
-    public PrintAdapter(TotalPrintListener totalPrintListener) {
+    public PrintAdapter(TotalPrintListener totalPrintListener,String wayBillId) {
         this.totalPrintListener = totalPrintListener;
+        this.wayBillId = wayBillId;
     }
 
     public void setPrintEntry(PrintEntry printEntry) {
@@ -52,6 +55,10 @@ public class PrintAdapter extends RecyclerView.Adapter {
 
     public void setSelectHead(int selectHead) {
         this.selectHead = selectHead;
+    }
+
+    public void setPrint(boolean print) {
+        isPrint = print;
     }
 
     @Override
@@ -92,19 +99,24 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printHeadViewHolder.type.setText(printEntry.getCategory());
                 printHeadViewHolder.number.setText(printEntry.getTotalNum()+"件");
                 printHeadViewHolder.detail.setText("("+printEntry.getGoodsNum()+")");
-                printHeadViewHolder.select.setImageResource(selectHead == 0?R.mipmap.select_yes_solid:R.mipmap.select_no);
-                printHeadViewHolder.select.setOnClickListener(v -> {
-                    if (selectHead == 0){
-                        printHeadViewHolder.select.setImageResource(R.mipmap.select_no);
-                        selectHead = 1;
-                        selectTag--;
-                    }else {
-                        printHeadViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
-                        selectHead = 0;
-                        selectTag++;
-                    }
-                    totalPrintListener.totalResult(selectTag,selectHead);
-                });
+                if (isPrint){
+                    printHeadViewHolder.select.setVisibility(View.GONE);
+                }else {
+                    printHeadViewHolder.select.setVisibility(View.VISIBLE);
+                    printHeadViewHolder.select.setImageResource(selectHead == 0?R.mipmap.select_yes_solid:R.mipmap.select_no);
+                    printHeadViewHolder.select.setOnClickListener(v -> {
+                        if (selectHead == 0){
+                            printHeadViewHolder.select.setImageResource(R.mipmap.select_no);
+                            selectHead = 1;
+                            selectTag--;
+                        }else {
+                            printHeadViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                            selectHead = 0;
+                            selectTag++;
+                        }
+                        totalPrintListener.totalResult(selectTag,selectHead);
+                    });
+                }
 
             }else {
                 PrintViewHolder printViewHolder = (PrintViewHolder) viewHolder;
@@ -118,7 +130,7 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printViewHolder.number.setText(printEntry.getTotalNum()+"件");
                 printViewHolder.detail.setText("("+printEntry.getGoodsNum()+")");
                 printViewHolder.page.setText("第"+i+"/"+printEntry.getTotalNum()+"张");
-                Bitmap image = CodeUtils.createImage(printEntry.getQrCodeUrl()+"wuqi", 80, 80, null);
+                Bitmap image = CodeUtils.createImage(wayBillId, 80, 80, null);
                 printViewHolder.qr.setImageBitmap(image);
 
                 int realPosition = getRealPosition(viewHolder);

@@ -91,6 +91,7 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
             refresh.finishRefreshWithNoMoreData();
             refresh.finishLoadMoreWithNoMoreData();
         }else {
+            refresh.setNoMoreData(false);
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
         }
@@ -109,6 +110,7 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
         notifyEntries.clear();
+        notifyAdapter.notifyDataSetChanged();
         mPresenter.notifyMethod(token,page+"",8+"");
     }
 

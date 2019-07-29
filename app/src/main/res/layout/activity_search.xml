@@ -48,6 +48,7 @@
             android:focusableInTouchMode="true"
             android:layout_marginLeft="@dimen/dp_6"
             android:layout_marginRight="@dimen/dp_6"
+            android:textCursorDrawable="@drawable/shape_input_cur"
             />
         <TextView
             android:layout_width="@dimen/dp_1"

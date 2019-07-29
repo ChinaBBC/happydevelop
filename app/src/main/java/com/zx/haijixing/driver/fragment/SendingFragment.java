@@ -42,7 +42,8 @@ import zx.com.skytool.ZxToastUtil;
  * @创建日期 2019/7/5 11:29
  * @描述 配送中
  */
-public class SendingFragment extends BaseFragment<SendingImp> implements SendingContract.SendingView, OnRefreshLoadMoreListener, IResultPositionListener,HaiDialogUtil.PayMoneyResultListener {
+public class SendingFragment extends BaseFragment<SendingImp> implements SendingContract.SendingView
+        , OnRefreshLoadMoreListener, IResultPositionListener,HaiDialogUtil.PayMoneyResultListener,HaiDialogUtil.TruckResultListener {
     @BindView(R.id.fragment_sending_data)
     RecyclerView sendingData;
     @BindView(R.id.fragment_sending_lay1)
@@ -125,14 +126,6 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
                 showPay.dismissAllowingStateLoss();
                 complete();
                 break;
-            case R.id.dialog_pay_crash:
-            case R.id.dialog_pay_crash_img:
-                payType = 2;
-                break;
-            case R.id.dialog_pay_online:
-            case R.id.dialog_pay_online_img:
-                payType = 1;
-                break;
         }
     }
 
@@ -147,7 +140,8 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         totalData = Integer.parseInt(ZxStringUtil.isEmpty(total)?"0":total);
         List<OrderTotalEntry.OrderEntry> rows = orderTotalEntry.getRows();
         if (rows.size() == 0) {
-            refresh.finishRefresh(true);
+            refresh.setNoMoreData(false);
+            refresh.finishRefreshWithNoMoreData();
             refresh.finishLoadMoreWithNoMoreData();
         } else {
             refresh.finishLoadMore(true);
@@ -179,6 +173,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         sendingViewHolder.selectAll.setImageResource(R.mipmap.select_no);
         flag = 0;
         selectId = "";
+        sendingViewHolder.total.setText("共：0单");
     }
 
     @Override
@@ -206,6 +201,8 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        if (flag == 0)
+            sendingViewHolder.total.setText("共：0单");
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
@@ -222,7 +219,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
                     break;
                 case 2:
                     selectId = orderEntry.getWaybillId();
-                    showPay = HaiDialogUtil.showPay(getFragmentManager(), SendingFragment.this::onViewClicked);
+                    showPay = HaiDialogUtil.showPay(getFragmentManager(), SendingFragment.this::onViewClicked,this::truckResult);
                     break;
                 case 3:
                     waybillId = orderEntry.getWaybillId();
@@ -310,6 +307,12 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         if (all > 0)
             canReceive = true;
     }
+
+    @Override
+    public void truckResult(int index) {
+        payType = index;
+    }
+
     class SendingViewHolder {
         @BindView(R.id.fragment_sending_selectAll)
         ImageView selectAll;
@@ -334,7 +337,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
                 case R.id.fragment_sending_complete:
                     if (canReceive) {
                         isTotal = true;
-                        showPay = HaiDialogUtil.showPay(getFragmentManager(), SendingFragment.this::onViewClicked);
+                        showPay = HaiDialogUtil.showPay(getFragmentManager(), SendingFragment.this::onViewClicked,SendingFragment.this::truckResult);
                     } else {
                         ZxToastUtil.centerToast("您还没有选择订单");
                     }

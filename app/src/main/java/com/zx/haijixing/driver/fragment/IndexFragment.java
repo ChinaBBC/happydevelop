@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.activity.DriverActivity;
 import com.zx.haijixing.driver.adapter.IndexAdapter;
 import com.zx.haijixing.driver.contract.IIndexContract;
 import com.zx.haijixing.driver.entry.BannerEntry;
@@ -74,6 +76,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     private RecyclerViewSkeletonScreen skeletonScreen;
     private boolean isHide = false;
     private String token = null;
+    private String loginType;
 
     @Override
     protected int getLayoutId() {
@@ -91,13 +94,14 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());
         token = (String) instance.getParam("token","null");
-
+        loginType = (String) instance.getParam("login_type", "4");
 
         setTitleTopMargin(one,0);
         setTitleTopMargin(scanCode,20);
 
         rvBody.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.VERTICAL,false));
         indexAdapter = new IndexAdapter(newsData);
+        indexAdapter.setLoginType(loginType);
         rvBody.setAdapter(indexAdapter);
         indexAdapter.setClickListener(this::onViewClicked);
 
@@ -108,6 +112,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 .shimmer(true)
                 .load(R.layout.skeleton_index_data)
                 .show();
+        getWeather();
     }
 
     @OnClick({R.id.index_search, R.id.index_scan_code})
@@ -162,6 +167,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         if (newsEntries.size()>0){
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
+            refresh.setNoMoreData(false);
             newsData.addAll(newsEntries);
             indexAdapter.notifyDataSetChanged();
         }else {
@@ -195,6 +201,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         refresh.setNoMoreData(false);
         page = 1;
         newsData.clear();
+        indexAdapter.notifyDataSetChanged();
         mPresenter.newsDataMethod(page);
     }
 
@@ -212,6 +219,10 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                            .withString("orderId",result)
+                            .withString("detailType",OtherConstants.DETAIL_WAIT_SEND+"")
+                            .navigation();
                     ZxLogUtil.logError("onActivityResult: " + result);
                     ZxToastUtil.centerToast("解析结果:" + result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
@@ -231,6 +242,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     }
 
     private void getWeather(){
-
+        String city = ((DriverActivity) getActivity()).getCity();
+       ZxLogUtil.logError("<<<<<city"+city);
     }
 }
