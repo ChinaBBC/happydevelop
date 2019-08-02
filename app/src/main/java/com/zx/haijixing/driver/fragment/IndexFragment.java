@@ -36,6 +36,8 @@ import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +101,8 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         setTitleTopMargin(one,0);
         setTitleTopMargin(scanCode,20);
 
+        EventBus.getDefault().register(this);
+
         rvBody.setLayoutManager(new LinearLayoutManager(this.getContext(),LinearLayoutManager.VERTICAL,false));
         indexAdapter = new IndexAdapter(newsData);
         indexAdapter.setLoginType(loginType);
@@ -112,7 +116,6 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 .shimmer(true)
                 .load(R.layout.skeleton_index_data)
                 .show();
-        getWeather();
     }
 
     @OnClick({R.id.index_search, R.id.index_scan_code})
@@ -190,6 +193,12 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     }
 
     @Override
+    public void weatherSuccess(String city, String weather, String temp) {
+        //ZxLogUtil.logError("<city>"+city+"<weather>"+weather+"<temp>"+temp);
+        indexAdapter.setWeather(city,weather,temp);
+    }
+
+    @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
@@ -207,10 +216,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ZxLogUtil.logError("in the result");
-        //super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 123) {
+        if (requestCode == OtherConstants.READ_QR) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
                 Bundle bundle = data.getExtras();
@@ -224,11 +230,17 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                             .withString("detailType",OtherConstants.DETAIL_WAIT_SEND+"")
                             .navigation();
                     ZxLogUtil.logError("onActivityResult: " + result);
-                    ZxToastUtil.centerToast("解析结果:" + result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ZxToastUtil.centerToast("解析失败");
+                    ZxToastUtil.centerToast("识别二维码失败");
                 }
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg() == OtherConstants.WEATHER_ENTRY){
+            mPresenter.weatherMethod(entity.getMessage());
         }
     }
 
@@ -238,11 +250,12 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     private void scanQrCode(){
         Intent intent = new Intent(getActivity(), CaptureActivity.class);
         //第二个参数是请求码，定义的常量随意填写
-        startActivityForResult(intent, 123);
+        startActivityForResult(intent, OtherConstants.READ_QR);
     }
 
-    private void getWeather(){
-        String city = ((DriverActivity) getActivity()).getCity();
-       ZxLogUtil.logError("<<<<<city"+city);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

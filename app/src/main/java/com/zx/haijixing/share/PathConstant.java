@@ -46,6 +46,8 @@ public final class PathConstant {
     public final static String FEE_STATISTICS = "/logistics/activity/FeeStatisticsActivity";//运费统计
     public final static String ALLOT = "/logistics/activity/AllotActivity";//派单
     public final static String CHECK_LOGISTICS = "/logistics/activity/CheckLogisticsActivity";//查看物流
+    public final static String ADD_CLASS = "/logistics/activity/AddClassActivity";//添加班次
+
 
 
 

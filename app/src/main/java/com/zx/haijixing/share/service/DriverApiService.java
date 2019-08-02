@@ -44,7 +44,7 @@ public interface DriverApiService {
 
     //订单详情
     @GET("reception/waybill/details")
-    Observable<HaiBaseData<OrderDetailEntry>> orderDetails(@Query("token") String token, @Query("waybillId") String waybillId);
+    Observable<HaiBaseData<OrderDetailEntry>> orderDetails(@QueryMap Map<String, Object> params);
 
     //出发
     @FormUrlEncoded
@@ -140,4 +140,5 @@ public interface DriverApiService {
     @FormUrlEncoded
     @POST("logistics/carApply/updateApply")
     Observable<String> changeTruckApi(@FieldMap Map<String, Object> params);
+
 }

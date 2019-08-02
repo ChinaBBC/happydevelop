@@ -33,16 +33,14 @@ public class PrintAdapter extends RecyclerView.Adapter {
     private int selectHead = 1; //1未选择0选择
     private TotalPrintListener totalPrintListener;
     private List<SelectEntry> selectEntries;
-    private String wayBillId;
     private boolean isPrint = false;
 
     public void setSelectEntries(List<SelectEntry> selectEntries) {
         this.selectEntries = selectEntries;
     }
 
-    public PrintAdapter(TotalPrintListener totalPrintListener,String wayBillId) {
+    public PrintAdapter(TotalPrintListener totalPrintListener) {
         this.totalPrintListener = totalPrintListener;
-        this.wayBillId = wayBillId;
     }
 
     public void setPrintEntry(PrintEntry printEntry) {
@@ -130,25 +128,29 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printViewHolder.number.setText(printEntry.getTotalNum()+"件");
                 printViewHolder.detail.setText("("+printEntry.getGoodsNum()+")");
                 printViewHolder.page.setText("第"+i+"/"+printEntry.getTotalNum()+"张");
-                Bitmap image = CodeUtils.createImage(wayBillId, 80, 80, null);
+                Bitmap image = CodeUtils.createImage(printEntry.getWaybillNo(), 110, 110, null);
                 printViewHolder.qr.setImageBitmap(image);
 
-                int realPosition = getRealPosition(viewHolder);
-                ZxLogUtil.logError("<<selectEntries"+selectEntries.size()+"<realPosition>"+realPosition);
-                SelectEntry selectEntry = selectEntries.get(realPosition<0?0:realPosition);
-                printViewHolder.select.setImageResource(selectEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
-                printViewHolder.select.setOnClickListener(v -> {
-                    if (selectEntry.isSelect()){
-                        printViewHolder.select.setImageResource(R.mipmap.select_no);
-                        selectEntry.setSelect(false);
-                        selectTag--;
-                    }else {
-                        printViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
-                        selectEntry.setSelect(true);
-                        selectTag++;
-                    }
-                    totalPrintListener.totalResult(selectTag,selectHead);
-                });
+                if (isPrint){
+                    printViewHolder.select.setVisibility(View.GONE);
+                }else{
+                    int realPosition = getRealPosition(viewHolder);
+                    SelectEntry selectEntry = selectEntries.get(realPosition<0?0:realPosition);
+                    printViewHolder.select.setImageResource(selectEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
+                    printViewHolder.select.setOnClickListener(v -> {
+                        if (selectEntry.isSelect()){
+                            printViewHolder.select.setImageResource(R.mipmap.select_no);
+                            selectEntry.setSelect(false);
+                            selectTag--;
+                        }else {
+                            printViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                            selectEntry.setSelect(true);
+                            selectTag++;
+                        }
+                        totalPrintListener.totalResult(selectTag,selectHead);
+                    });
+                }
+
             }
         }
     }

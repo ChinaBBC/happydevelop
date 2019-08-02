@@ -11,6 +11,7 @@ public final class OtherConstants {
     public final static String LOGIN_MANAGER = "2";//管理员
     public final static String LOGIN_OUT = "exit";//退出
     public final static String CANCEL_REQUEST = "cancel";//取消请求
+    public final static String WEATHER_API = "https://www.tianqiapi.com/";//取消请求
 
     public final static String PAGE = "num";//页数
     public final static String SIZE = "size";//条数
@@ -49,6 +50,23 @@ public final class OtherConstants {
     public final static int CHANGE_CURE_ID = 1015;//修改保单
     public final static int CHANGE_TRUCK_IMG = 1016;//修改车辆照片
     public final static int CHANGE_OTHER = 1017;//其他
+
+    public final static int SET_ALIAS = 1018;//设置标签
+    public final static int PERMISSION_REQUEST = 1019;//权限请求
+    public final static int WEATHER_ENTRY = 1020;//event 天气
+    public final static int READ_QR = 1021;//识别二维码
+
+
+    public final static int SELECT_DRIVER = 0;//选择司机
+    public final static int SELECT_TRUCK = 1;//选择车辆
+
+    public final static int CLASS_DELETE = 2;//删除班次
+
+    public final static int REQUEST_ADD_CLASS = 1022;//新增的onActivityResult回调
+
+
+
+    public final static long TIME_ONE_DAY = 24*60*60*1000;//24小时的毫秒数
 
 
 

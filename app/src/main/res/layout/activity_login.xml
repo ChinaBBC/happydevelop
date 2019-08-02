@@ -97,7 +97,7 @@
                 android:textColorHint="@color/color_cccc"
                 android:textSize="@dimen/sp_16"
                 android:paddingLeft="@dimen/dp_8"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLength="11"
                 android:textCursorDrawable="@drawable/shape_input_cur"
                 />
@@ -200,7 +200,7 @@
                 android:textColorHint="@color/color_cccc"
                 android:textSize="@dimen/sp_16"
                 android:paddingLeft="@dimen/dp_8"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLength="11"
                 android:textCursorDrawable="@drawable/shape_input_cur"
                 />

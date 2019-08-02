@@ -71,7 +71,8 @@ public class CarInfoActivityImp extends BasePresenter<ICarInfoActivityContract.C
                     @Override
                     protected void onSuccess(ResponseBody responseBody) {
                         try {
-                            JSONObject jsonObject = new JSONObject(responseBody.string());
+                            String string = responseBody.string().trim();
+                            JSONObject jsonObject = new JSONObject(string);
                             if (jsonObject.getInt("code") == 0){
                                 mView.uploadCarInfoSuccess(jsonObject.getString("fileName"),tag);
                             }else {

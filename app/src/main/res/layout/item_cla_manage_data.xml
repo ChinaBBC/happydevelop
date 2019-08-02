@@ -11,13 +11,17 @@
     android:paddingTop="@dimen/dp_10"
     android:paddingBottom="@dimen/dp_10">
 
-    <ImageView
+    <TextView
         android:id="@+id/cla_manage_sendWay"
         android:layout_width="@dimen/dp_65"
         android:layout_height="@dimen/dp_25"
-        android:src="@mipmap/city_send"
+        android:text="城市配送"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/white"
+        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/shape_left_50dp_a45b"
         />
     <TextView
         android:id="@+id/cla_manage_endT"
@@ -54,11 +58,12 @@
         android:id="@+id/cla_manage_totalT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="4小时45分"
+        android:text="(12天14时45分)"
         android:textSize="@dimen/sp_12"
         android:textColor="@color/color_6666"
         app:layout_constraintRight_toLeftOf="@id/cla_manage_endT"
         app:layout_constraintTop_toBottomOf="@id/cla_manage_img1"
+        app:layout_constraintLeft_toRightOf="@id/cla_manage_startT"
         android:layout_marginRight="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_6"
         />
@@ -94,6 +99,7 @@
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cla_manage_truckNum"
+        app:layout_constraintRight_toRightOf="parent"
         android:padding="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@color/color_f5f1"
@@ -124,7 +130,7 @@
             android:layout_marginLeft="@dimen/dp_2"
             />
     </LinearLayout>
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/cla_manage_editor"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_30"
@@ -176,5 +182,5 @@
             android:textColor="@color/white"
             android:layout_marginLeft="@dimen/dp_2"
             />
-    </LinearLayout>
+    </LinearLayout>-->
 </android.support.constraint.ConstraintLayout>

@@ -1,11 +1,13 @@
 package com.zx.haijixing.login.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -154,6 +156,10 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
 
     @Autowired(name = "driverId")
     public String driverId;
+    @Autowired(name = "name")
+    public String realName;
+    @Autowired(name = "phone")
+    public String phoneNum;
 
     private List<TruckTypeEntry> typeEntryList = new ArrayList<>();
     private CommonDialogFragment showTruck;
@@ -197,6 +203,8 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
                 break;
             case R.id.truck_type_area:
                 if (typeEntryList.size()>0){
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(),0);
                     TruckAdapter truckAdapter = new TruckAdapter(typeEntryList);
                     showTruck = HaiDialogUtil.showTruck(getSupportFragmentManager(), truckAdapter, this);
                 }else {
@@ -205,6 +213,8 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
 
                 break;
             case R.id.truck_cure_area:
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(),0);
                 pvTime.show();
                 break;
             case R.id.truck_drive_word:
@@ -395,7 +405,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
                 break;
             case OtherConstants.UPLOAD_OTHER:
                 otherPic = path;
-                otherWord.setText("上传完成");
+                otherWord9.setText("上传完成");
                 break;
         }
     }
@@ -462,8 +472,8 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
                 case OtherConstants.UPLOAD_OTHER:
                     Glide.with(this).load(path).into(otherImg);
                     otherTake.setVisibility(View.GONE);
-                    otherWord.setText("正在上传...");
-                    otherWord.setTextColor(Color.RED);
+                    otherWord9.setText("正在上传...");
+                    otherWord9.setTextColor(Color.RED);
                     break;
             }
             mPresenter.uploadTruckMethod(path,requestCode);
@@ -497,6 +507,8 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
             params.put("caeType",typeId);
             params.put("safeEnd",cureTime);
             params.put("idcard",truckNum);
+            params.put("name",realName);
+            params.put("phone",phoneNum);
             params.put("carImgFront",truckFor);
             params.put("carImgLeft",truckLef);
             params.put("carImgRight",truckRig);

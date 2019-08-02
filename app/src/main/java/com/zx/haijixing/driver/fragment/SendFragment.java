@@ -25,6 +25,7 @@ import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,10 +55,10 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
     private Map<String, Object> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
-    private int loginType = 0;
+    private String loginType;
     private SendViewHolder sendViewHolder;
     private int page = 1;
-    private int flag = 0;//0部分 1全选
+    private int flag = 1;//0部分 1全选
     private String token;
     private CommonDialogFragment showSend;
     private boolean canReceive = false;
@@ -83,18 +84,20 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
     @Override
     protected void initView(View view) {
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        token = (String) instance.getParam("token", "token");
+        loginType = (String) instance.getParam("login_type", "4");
+        ZxLogUtil.logError("<<<<<" + token);
+
         sendData.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         sendAdapter = new SendAdapter(orderEntries);
         sendAdapter.setiResultPositionListener(this::positionResult);
         sendData.setAdapter(sendAdapter);
-        if (loginType == 0) {
+        if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {
             sendViewHolder = new SendViewHolder(viewStub.inflate());
-            sendViewHolder.receive.setText(getHaiString(R.string.go_now));
         }
-        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
-        instance.init(getContext());
-        token = (String) instance.getParam("token", "token");
-        ZxLogUtil.logError("<<<<<" + token);
+
         params.put("token", token);
         params.put("status", OtherConstants.DETAIL_WAIT_SEND);
         //params.put("params")
@@ -116,12 +119,20 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.dialog_locate_yes:
-                showSend.dismissAllowingStateLoss();
-                depart();
+                if (HaiTool.isOPen(getContext())){
+                    showSend.dismissAllowingStateLoss();
+                    depart();
+                }else {
+                    ZxToastUtil.centerToast("请点击设置打开GPS。");
+                }
+
                 break;
             case R.id.dialog_locate_no:
-                showSend.dismissAllowingStateLoss();
-                bakkiId = null;
+                if (HaiTool.isOPen(getContext())){
+                    ZxToastUtil.centerToast("您的GPS已打开，请点击确认出发。");
+                }else {
+                    HaiTool.openGPS(getContext());
+                }
                 break;
         }
     }
@@ -132,8 +143,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
             skeletonScreen.hide();
             isHide = true;
         }
-        String total = orderTotalEntry.getTotal();
-        totalData = Integer.parseInt(ZxStringUtil.isEmpty(total)?"0":total);
+
         List<OrderTotalEntry.OrderEntry> rows = orderTotalEntry.getRows();
         if (rows.size() == 0) {
             refresh.finishRefreshWithNoMoreData();
@@ -143,7 +153,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
             refresh.finishLoadMore(true);
             refresh.finishRefresh(true);
         }
-        if (flag == 1 && rows.size() > 0) {
+       /* if (flag == 1 && rows.size() > 0) {
             sendViewHolder.total.setText("共：" + totalData + "单");
             for (int i = 0; i < rows.size(); i++) {
                 rows.get(i).setSelect(true);
@@ -152,8 +162,12 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
             for (int i = 0; i < rows.size(); i++) {
                 rows.get(i).setSelect(false);
             }
-        }
-
+        }*/
+       if (sendViewHolder != null){
+           String total = orderTotalEntry.getTotal();
+           totalData = Integer.parseInt(ZxStringUtil.isEmpty(total)?"0":total);
+           sendViewHolder.total.setText("共：" + totalData + "单");
+       }
         orderEntries.addAll(orderTotalEntry.getRows());
         sendAdapter.notifyDataSetChanged();
         if (orderEntries.size() == 0)
@@ -169,12 +183,13 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         }else {
             ZxToastUtil.centerToast(msg);
             orderEntries.clear();
+            sendAdapter.notifyDataSetChanged();
             params.put(OtherConstants.PAGE,1);
             mPresenter.sendMethod(params);
-            sendViewHolder.word1.setText(getString(R.string.select_all));
+            /*sendViewHolder.word1.setText(getString(R.string.select_all));
             sendViewHolder.selectAll.setImageResource(R.mipmap.select_no);
             flag = 0;
-            sendViewHolder.total.setText("共：0单");
+            sendViewHolder.total.setText("共：0单");*/
         }
     }
 
@@ -188,8 +203,8 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         Map<String, Object> param = new HashMap<>();
         param.put("token", token);
         param.put("selectAllFlag", flag);
-        StringBuilder idBuilder = new StringBuilder();
 
+        /*StringBuilder idBuilder = new StringBuilder();
         for (int i = 0; i < orderEntries.size(); i++) {
             OrderTotalEntry.OrderEntry fansBean = orderEntries.get(i);
             if (flag == 0 && fansBean.isSelect()) {
@@ -202,12 +217,12 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         }
         String selectId = idBuilder.toString();;
         if (!ZxStringUtil.isEmpty(selectId))
-            selectId = selectId.substring(0, selectId.length() - 1);
+            selectId = selectId.substring(0, selectId.length() - 1);*/
         if (!ZxStringUtil.isEmpty(bakkiId))
             param.put("bkkiId",bakkiId);
 
-        ZxLogUtil.logError("<<<<selectId>>"+selectId+"<>"+flag);
-        param.put("waybillIds", selectId);
+        //ZxLogUtil.logError("<<<<selectId>>"+selectId+"<>"+flag);
+        //param.put("waybillIds", selectId);
         bakkiId = null;
         mPresenter.departMethod(param);
     }
@@ -223,8 +238,8 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         refresh.setNoMoreData(false);
-        if (flag == 0)
-            sendViewHolder.total.setText("共：0单");
+        /*if (flag == 0)
+            sendViewHolder.total.setText("共：0单");*/
         page = 1;
         orderEntries.clear();
         sendAdapter.notifyDataSetChanged();
@@ -234,7 +249,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
     @Override
     public void positionResult(OrderTotalEntry.OrderEntry orderEntry, int tag) {
-        int all = 0;
+       /* int all = 0;
         for (int i = 0; i < orderEntries.size(); i++) {
             OrderTotalEntry.OrderEntry fansBean = orderEntries.get(i);
             if (fansBean.isSelect())
@@ -256,7 +271,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
                 flag = 0;
             }
         }
-        canReceive = (all>0);
+        canReceive = (all>0);*/
     }
 
     @Override
@@ -286,6 +301,9 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
         public SendViewHolder(View view) {
             ButterKnife.bind(this, view);
+            selectAll.setVisibility(View.GONE);
+            word1.setVisibility(View.GONE);
+            receive.setText(getHaiString(R.string.go_now));
         }
 
         @OnClick({R.id.fragment_receive_selectAll, R.id.fragment_receive_word1, R.id.fragment_receive_receive})
@@ -296,11 +314,12 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
                     selectAll();
                     break;
                 case R.id.fragment_receive_receive:
-                    if (canReceive) {
+                    showSend = HaiDialogUtil.showLocate(getFragmentManager(), SendFragment.this::onViewClicked);
+                    /*if (canReceive) {
                         showSend = HaiDialogUtil.showLocate(getFragmentManager(), SendFragment.this::onViewClicked);
                     } else {
                         ZxToastUtil.centerToast("您还没有选择订单");
-                    }
+                    }*/
                     break;
             }
         }

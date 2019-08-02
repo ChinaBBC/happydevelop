@@ -60,7 +60,16 @@ public class TruckActivityImp extends BasePresenter<ITruckActivityContract.Truck
 
                     @Override
                     protected void onSuccess(String data) {
-                        mView.truckApplySuccess();
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.truckApplySuccess();
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        }catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -82,7 +91,8 @@ public class TruckActivityImp extends BasePresenter<ITruckActivityContract.Truck
                     @Override
                     protected void onSuccess(ResponseBody responseBody) {
                         try {
-                            JSONObject jsonObject = new JSONObject(responseBody.string());
+                            String string = responseBody.string().trim();
+                            JSONObject jsonObject = new JSONObject(string);
                             if (jsonObject.getInt("code") == 0){
                                 mView.uploadTruckSuccess(jsonObject.getString("fileName"),tag);
                             }else {

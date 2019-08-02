@@ -21,9 +21,9 @@ import java.util.Map;
  */
 public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetailView> implements OrderDetailContract.OrderDetailPresenter {
     @Override
-    public void orderDetailMethod(String token, String id) {
+    public void orderDetailMethod(Map<String,Object> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .orderDetails(token,id)
+                .orderDetails(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<OrderDetailEntry>() {
                     @Override

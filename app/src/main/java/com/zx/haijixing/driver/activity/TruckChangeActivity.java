@@ -103,12 +103,13 @@ public class TruckChangeActivity extends BaseActivity<TruckChangeImp> implements
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.common_title_back:
-                String value = cureTime.getText().toString().trim();
+                finish();
+               /* String value = cureTime.getText().toString().trim();
                 if (time.equals(value)){
-                    finish();
+
                 }else {
                     ZxToastUtil.centerToast("您有修改的数据未保存");
-                }
+                }*/
                 break;
             case R.id.truck_change_cure_area:
                 timePickerView.show();

@@ -17,11 +17,13 @@ public interface IIndexContract {
         void newsDataSuccess(List<NewsEntry.NewsData> newsEntries,String base);
         void newDataBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr);
         void workSuccess(String msg);
+        void weatherSuccess(String city,String weather,String temp);
     }
 
     interface IndexPresenter extends IBaseContract.IBasePresenter<IndexView>{
         void newsDataMethod(int page);
         void newsDataBanner();
         void workMethod(String token);
+        void weatherMethod(String city);
     }
 }

@@ -141,8 +141,8 @@
     <string name="goods_intact">货物完整</string>
     <string name="evaluate">评价</string>
     <string name="car_and_lines">车辆及路线</string>
-    <string name="this_month">本月运单</string>
-    <string name="this_day">今日运单</string>
+    <string name="this_month">今日运单</string>
+    <string name="this_day">今日运费</string>
     <string name="this_other_month">今日到付(线下)</string>
     <string name="bill_statistics">运单统计</string>
     <string name="statistics">统计</string>
@@ -210,5 +210,7 @@
     <string name="index">首页</string>
     <string name="mine_center">个人中心</string>
     <string name="check_logistics">查看物流</string>
+
+    <string name="type_price">品类价格</string>
 
 </resources>

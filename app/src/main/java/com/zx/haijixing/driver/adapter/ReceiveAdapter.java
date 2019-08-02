@@ -65,11 +65,9 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
 
     @Override
     public void onBindViewHolder(@NonNull ReceiveViewHolder receiveViewHolder, int i) {
-        if (!OtherConstants.LOGIN_DRIVER.equals(loginType))
-            receiveViewHolder.sure.setText("修改订单");
+
         if (list.size()>0){
             OrderTotalEntry.OrderEntry orderEntry = list.get(i);
-            receiveViewHolder.sure.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,0));
             receiveViewHolder.address.setText(orderEntry.getSenderAddress());
             receiveViewHolder.status.setText("待接单");
             receiveViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
@@ -92,19 +90,31 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
             }
             receiveViewHolder.address.setText(orderEntry.getSenderAddress());
 
+            if (OtherConstants.LOGIN_DRIVER.equals(loginType)){
+                receiveViewHolder.sure.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,0));
+                receiveViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
+                receiveViewHolder.select.setVisibility(View.VISIBLE);
+                receiveViewHolder.select.setOnClickListener(v -> {
+                    if (orderEntry.isSelect()){
+                        receiveViewHolder.select.setImageResource(R.mipmap.select_no);
+                        orderEntry.setSelect(false);
+                    }else {
+                        receiveViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                        orderEntry.setSelect(true);
+                    }
+                    iResultPositionListener.positionResult(null,1);
+                });
+            }else {
+                receiveViewHolder.select.setVisibility(View.GONE);
+                receiveViewHolder.sure.setText("修改订单");
+                receiveViewHolder.sure.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                        .withString("orderId",orderEntry.getWaybillId())
+                        .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                        .withString("linesId",orderEntry.getLineId())
+                        .navigation());
+            }
 
-            receiveViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
-            receiveViewHolder.select.setVisibility(View.VISIBLE);
-            receiveViewHolder.select.setOnClickListener(v -> {
-                if (orderEntry.isSelect()){
-                    receiveViewHolder.select.setImageResource(R.mipmap.select_no);
-                    orderEntry.setSelect(false);
-                }else {
-                    receiveViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
-                    orderEntry.setSelect(true);
-                }
-                iResultPositionListener.positionResult(null,1);
-            });
+
             receiveViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())
                     .withString("detailType",orderEntry.getStatus())

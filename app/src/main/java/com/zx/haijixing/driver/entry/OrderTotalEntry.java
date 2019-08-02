@@ -47,6 +47,13 @@ public class OrderTotalEntry{
         private String senderPhone;
         /** 发件人地址关联接纬度表 */
         private String senderAddress;
+        /** 收件人姓名 */
+        private String incomeName;
+        /** 收件人电话 */
+        private String incomePhone;
+        /** 收件人地址关联接纬度表 */
+        private String incomeAddress;
+
         //货物信息
         /** 运输品类（关联数据字典） */
         private String category;
@@ -70,8 +77,36 @@ public class OrderTotalEntry{
         /**  运输主键*/
         private String lineId;
 
-
         private boolean isSelect;
+
+
+        @Override
+        public String toString() {
+            return "OrderEntry{" +
+                    "waybillId='" + waybillId + '\'' +
+                    ", waybillNo='" + waybillNo + '\'' +
+                    ", status='" + status + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", timeEnd='" + timeEnd + '\'' +
+                    ", senderName='" + senderName + '\'' +
+                    ", senderPhone='" + senderPhone + '\'' +
+                    ", senderAddress='" + senderAddress + '\'' +
+                    ", incomeName='" + incomeName + '\'' +
+                    ", incomePhone='" + incomePhone + '\'' +
+                    ", incomeAddress='" + incomeAddress + '\'' +
+                    ", category='" + category + '\'' +
+                    ", totalNum=" + totalNum +
+                    ", price='" + price + '\'' +
+                    ", type='" + type + '\'' +
+                    ", productName='" + productName + '\'' +
+                    ", linkName='" + linkName + '\'' +
+                    ", lineStartName='" + lineStartName + '\'' +
+                    ", lineEndName='" + lineEndName + '\'' +
+                    ", dadanFlag='" + dadanFlag + '\'' +
+                    ", lineId='" + lineId + '\'' +
+                    ", isSelect=" + isSelect +
+                    '}';
+        }
 
         public boolean isSelect() {
             return isSelect;
@@ -90,27 +125,28 @@ public class OrderTotalEntry{
             this.lineId = lineId;
         }
 
-        @Override
-        public String toString() {
-            return "OrderEntry{" +
-                    "waybillId='" + waybillId + '\'' +
-                    ", waybillNo='" + waybillNo + '\'' +
-                    ", status='" + status + '\'' +
-                    ", createTime='" + createTime + '\'' +
-                    ", timeEnd='" + timeEnd + '\'' +
-                    ", senderName='" + senderName + '\'' +
-                    ", senderPhone='" + senderPhone + '\'' +
-                    ", senderAddress='" + senderAddress + '\'' +
-                    ", category='" + category + '\'' +
-                    ", totalNum=" + totalNum +
-                    ", price='" + price + '\'' +
-                    ", type='" + type + '\'' +
-                    ", productName='" + productName + '\'' +
-                    ", linkName='" + linkName + '\'' +
-                    ", lineStartName='" + lineStartName + '\'' +
-                    ", lineEndName='" + lineEndName + '\'' +
-                    ", dadanFlag='" + dadanFlag + '\'' +", lineId='" + lineId + '\'' +
-                    '}';
+        public String getIncomeName() {
+            return incomeName;
+        }
+
+        public void setIncomeName(String incomeName) {
+            this.incomeName = incomeName;
+        }
+
+        public String getIncomePhone() {
+            return incomePhone;
+        }
+
+        public void setIncomePhone(String incomePhone) {
+            this.incomePhone = incomePhone;
+        }
+
+        public String getIncomeAddress() {
+            return incomeAddress;
+        }
+
+        public void setIncomeAddress(String incomeAddress) {
+            this.incomeAddress = incomeAddress;
         }
 
         public String getWaybillId() {

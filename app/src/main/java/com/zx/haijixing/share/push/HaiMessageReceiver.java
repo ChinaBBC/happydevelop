@@ -1,5 +1,8 @@
 package com.zx.haijixing.share.push;
 
+import android.content.Context;
+
+import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.service.JPushMessageReceiver;
 /**
  *
@@ -8,7 +11,7 @@ import cn.jpush.android.service.JPushMessageReceiver;
  *@描述 极光
  */
 public class HaiMessageReceiver extends JPushMessageReceiver {
-    /*@Override
+    @Override
     public void onTagOperatorResult(Context context, JPushMessage jPushMessage) {
         TagAliasOperatorHelper.getInstance().onTagOperatorResult(context,jPushMessage);
         super.onTagOperatorResult(context, jPushMessage);
@@ -28,5 +31,5 @@ public class HaiMessageReceiver extends JPushMessageReceiver {
     public void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage) {
         TagAliasOperatorHelper.getInstance().onMobileNumberOperatorResult(context,jPushMessage);
         super.onMobileNumberOperatorResult(context, jPushMessage);
-    }*/
+    }
 }

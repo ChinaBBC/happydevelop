@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.location.LocationManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -94,7 +93,7 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
     protected void initView() {
         title.setText(getHaiString(R.string.print_detail));
         printData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        printAdapter = new PrintAdapter(this::totalResult,waybillId);
+        printAdapter = new PrintAdapter(this::totalResult);
         printData.setAdapter(printAdapter);
 
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();

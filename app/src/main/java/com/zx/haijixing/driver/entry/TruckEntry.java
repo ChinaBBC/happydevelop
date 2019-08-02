@@ -11,7 +11,7 @@ public class TruckEntry {
 
     @Override
     public String toString() {
-        return "TruckEntry{" +
+        return "TruckInfoEntry{" +
                 "CARID='" + CARID + '\'' +
                 ", IDCARD='" + IDCARD + '\'' +
                 '}';

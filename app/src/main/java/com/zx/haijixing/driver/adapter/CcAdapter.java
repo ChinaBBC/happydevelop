@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -46,21 +47,26 @@ public class CcAdapter extends RecyclerView.Adapter<CcAdapter.CcViewHolder> {
             ccViewHolder.address.setText(orderEntry.getSenderAddress());
             String status = orderEntry.getStatus();
             if ((OtherConstants.DETAIL_COMPLETE+"").equals(status)){
+                ccViewHolder.sendImg.setImageResource(R.mipmap.receive_man);
                 ccViewHolder.status.setText("已完成");
                 ccViewHolder.status.setTextColor(Color.parseColor("#30703f"));
+                ccViewHolder.receiveShop.setText(orderEntry.getIncomeName());
+                ccViewHolder.phone.setText(orderEntry.getIncomePhone());
+                ccViewHolder.address.setText(orderEntry.getIncomeAddress());
             }else {
                 ccViewHolder.status.setText("已取消");
+                ccViewHolder.sendImg.setImageResource(R.mipmap.send_man);
                 ccViewHolder.status.setTextColor(Color.parseColor("#666666"));
+                ccViewHolder.receiveShop.setText(orderEntry.getSenderName());
+                ccViewHolder.phone.setText(orderEntry.getSenderPhone());
+                ccViewHolder.address.setText(orderEntry.getSenderAddress());
             }
             ccViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
             ccViewHolder.orderNumber.setText("运单号："+orderEntry.getWaybillNo());
             ccViewHolder.sendWay.setText(orderEntry.getProductName());
-            ccViewHolder.receiveShop.setText(orderEntry.getSenderName());
             ccViewHolder.line.setText(orderEntry.getLinkName());
-            ccViewHolder.phone.setText(orderEntry.getSenderPhone());
             ccViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
             ccViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
-            ccViewHolder.address.setText(orderEntry.getSenderAddress());
             ccViewHolder.item.setOnClickListener(v -> {
                 ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                         .withString("orderId",orderEntry.getWaybillId())
@@ -78,11 +84,13 @@ public class CcAdapter extends RecyclerView.Adapter<CcAdapter.CcViewHolder> {
     class CcViewHolder extends RecyclerView.ViewHolder{
         TextView createTime,orderNumber,sendWay,receiveShop,line,phone,count,address,pay,status;
         View item;
+        ImageView sendImg;
         public CcViewHolder(@NonNull View itemView) {
             super(itemView);
             createTime = itemView.findViewById(R.id.send_data_time);
             orderNumber = itemView.findViewById(R.id.send_data_order);
             sendWay = itemView.findViewById(R.id.send_data_way);
+            sendImg = itemView.findViewById(R.id.send_data_img1);
             receiveShop = itemView.findViewById(R.id.send_data_shop);
             line = itemView.findViewById(R.id.send_data_lines);
             phone = itemView.findViewById(R.id.send_data_phone);

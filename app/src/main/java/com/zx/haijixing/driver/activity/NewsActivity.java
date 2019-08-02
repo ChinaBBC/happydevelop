@@ -34,22 +34,15 @@ public class NewsActivity extends BaseActivity<NewsActivityImp> implements NewsA
 
     @Autowired(name = "newId")
     public String newId;
-    @Autowired(name = "from")
-    public String from;
+
 
     @Override
     protected void initView() {
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
         String token = (String) instance.getParam("token","null");
-        if ("news".equals(from)){
-            title.setText(R.string.news_detail);
-            mPresenter.detailMethod(token,newId);
-        }else {
-            title.setText(R.string.order_detail);
-            mPresenter.orderDetailMethod(token,newId);
-        }
-
+        title.setText(R.string.news_detail);
+        mPresenter.detailMethod(token,newId);
     }
 
     @Override

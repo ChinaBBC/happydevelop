@@ -61,7 +61,7 @@
         android:id="@+id/send_data_img1"
         android:layout_width="@dimen/dp_16"
         android:layout_height="@dimen/dp_16"
-        android:src="@mipmap/receive_man"
+        android:src="@mipmap/send_man"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/send_data_order"
         android:layout_marginTop="@dimen/dp_10"

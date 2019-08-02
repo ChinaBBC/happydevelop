@@ -10,7 +10,7 @@ import com.zx.haijixing.share.base.IBaseContract;
  */
 public interface ChangeContract {
     interface ChangeView extends IBaseContract.IBaseView{
-        void changeSuccess(String head);
+        void changeSuccess(String head,String base);
         void changeHeadSuccess(String msg);
     }
 

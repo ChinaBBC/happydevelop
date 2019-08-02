@@ -58,9 +58,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
         <activity android:name=".driver.activity.NewsActivity" />
@@ -75,18 +75,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.activity.LoginActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
-        <activity android:name=".driver.activity.DriverActivity" android:launchMode="singleTask"/>
-        <activity android:name=".logistics.LogisticsActivity" android:launchMode="singleTask"/>
-        <activity android:name=".manager.ManagerActivity" android:launchMode="singleTask"/>
-        <activity android:name=".login.activity.ForgetActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
-        <activity android:name=".login.activity.BaseInfoActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".login.activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".driver.activity.DriverActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".logistics.LogisticsActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".manager.ManagerActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".login.activity.ForgetActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".login.activity.BaseInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".login.activity.CarInfoActivity" />
         <activity android:name=".login.activity.CheckingActivity" />
-        <activity android:name=".driver.activity.NotifyActivity" />
+        <activity
+            android:name=".driver.activity.NotifyActivity"
+            android:exported="false" />
         <activity android:name=".driver.activity.ServicesActivity" />
         <activity android:name=".driver.activity.SearchActivity" />
-        <activity android:name=".driver.activity.OrderDetailActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".driver.activity.OrderDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".driver.activity.OrderActivity" />
         <activity android:name=".driver.activity.PrintActivity" />
         <activity android:name=".driver.activity.SetActivity" />
@@ -95,7 +111,9 @@
         <activity android:name=".driver.activity.LinesActivity" />
         <activity android:name=".driver.activity.StatisticsActivity" />
         <activity android:name=".driver.activity.ChangeActivity" />
-        <activity android:name=".login.activity.TruckActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".login.activity.TruckActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".driver.activity.PhoneActivity" />
         <activity android:name=".driver.activity.PasswordActivity" />
         <activity android:name=".driver.activity.VehicleActivity" />
@@ -136,6 +154,19 @@
                 <category android:name="com.zx.haijixing" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".share.push.HaiPushReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.zx.haijixing" />
+            </intent-filter>
+        </receiver>
 
         <!-- 高德地图key配置 -->
         <meta-data
@@ -144,7 +175,6 @@
         <!-- 高德地图定位服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
-
         <activity android:name=".logistics.activity.ClaManageActivity" />
         <activity android:name=".logistics.activity.FeeActivity" />
         <activity android:name=".logistics.activity.RunTableActivity" />
@@ -152,6 +182,10 @@
         <activity android:name=".logistics.activity.FeeStatisticsActivity" />
         <activity android:name=".logistics.activity.AllotActivity" />
         <activity android:name=".logistics.activity.CheckLogisticsActivity" />
+        <activity
+            android:name=".logistics.activity.AddClassActivity"
+            android:theme="@style/Hai_AlertDialog"
+            ></activity>
     </application>
 
 </manifest>

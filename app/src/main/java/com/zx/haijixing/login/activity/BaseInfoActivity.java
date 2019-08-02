@@ -82,6 +82,8 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     private boolean hasRead = false;
     private ZxCountDownTimerUtil<TextView> zxCountDownTimerUtil;
     private String headPath = null;
+    private String realName;
+    private String phoneNum;
 
     @Override
     protected void initView() {
@@ -123,6 +125,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
                 break;
             case R.id.base_info_protocol:
                 hasRead = true;
+                isRead = true;
                 agree.setImageResource(R.mipmap.register_agree);
                 break;
             case R.id.base_info_send:
@@ -143,7 +146,11 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
 
     @Override
     public void baseInfoSuccess(String driverId) {
-        ARouter.getInstance().build(PathConstant.CAR_INFO).withString("driverId",driverId).navigation();
+        ARouter.getInstance().build(PathConstant.CAR_INFO)
+                .withString("driverId",driverId)
+                .withString("name",realName)
+                .withString("phone",phoneNum)
+                .navigation();
         finish();
     }
 
@@ -162,6 +169,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     @Override
     public void uploadImgSuccess(String path, int tag) {
         headPath = path;
+        upHead.setText("上传成功");
     }
 
     @Override
@@ -176,7 +184,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == OtherConstants.UPLOAD_HEAD){
             List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
-            String path = uris.get(0).getPath();
+            String path = uris.get(0).getCompressPath();
             RequestOptions options = new RequestOptions().circleCrop();
             Glide.with(this).load(path).apply(options).into(head);
             upHead.setText("头像上传中...");
@@ -187,6 +195,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     private void takePic(){
         PictureSelector.create(this)
                 .openCamera(PictureMimeType.ofImage())
+                .compress(true)
                 .forResult(OtherConstants.UPLOAD_HEAD);
     }
     //发送验证码
@@ -199,11 +208,11 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     }
 
     private void checkInput(){
-        String realName = name.getText().toString().trim();
+        realName = name.getText().toString().trim();
         String identifyCar = identify.getText().toString().trim();
         String bankCar = bankNumber.getText().toString().trim();
         String bankAd = bankAddress.getText().toString().trim();
-        String phone = this.phone.getText().toString().trim();
+        phoneNum = this.phone.getText().toString().trim();
         String code = this.code.getText().toString().trim();
         String password = this.password.getText().toString().trim();
         String surePassword = this.surePassword.getText().toString().trim();
@@ -220,7 +229,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
         }else if (ZxStringUtil.isEmpty(bankAd)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_bank_address));
 
-        }else if (ZxStringUtil.isEmpty(phone)){
+        }else if (ZxStringUtil.isEmpty(phoneNum)){
             ZxToastUtil.centerToast(getHaiString(R.string.please_input_phone));
 
         }else if (ZxStringUtil.isEmpty(code)){
@@ -238,7 +247,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
         }else if (!isRead){
             ZxToastUtil.centerToast(getHaiString(R.string.please_read_and_agree));
 
-        }else if (!HaiTool.checkPhone(phone)){
+        }else if (!HaiTool.checkPhone(phoneNum)){
             ZxToastUtil.centerToast(getHaiString(R.string.phone_error));
         }else if (!HaiTool.checkIdentify(identifyCar)){
             ZxToastUtil.centerToast(getHaiString(R.string.identify_error));
@@ -250,7 +259,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
             params.put("idcard",identifyCar);
             params.put("bankCard",bankCar);
             params.put("bankName",bankAd);
-            params.put("phone",phone);
+            params.put("phone",phoneNum);
             params.put("vcode",code);
             params.put("headImg",headPath);
             params.put("loginKey",HaiTool.md5Method(password));

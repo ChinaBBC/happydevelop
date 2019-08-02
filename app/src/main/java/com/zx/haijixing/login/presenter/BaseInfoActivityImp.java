@@ -84,7 +84,6 @@ public class BaseInfoActivityImp extends BasePresenter<IBaseInfoActivityContract
 
     @Override
     public void uploadImgMethod(String path,int tag) {
-
         List<String> list = new ArrayList<>();
         list.add(path);
         Map<String,Object> params = new HashMap<>();
@@ -100,7 +99,8 @@ public class BaseInfoActivityImp extends BasePresenter<IBaseInfoActivityContract
                     @Override
                     protected void onSuccess(ResponseBody responseBody) {
                         try {
-                            JSONObject jsonObject = new JSONObject(responseBody.string());
+                            String string = responseBody.string().trim();
+                            JSONObject jsonObject = new JSONObject(string);
                             if (jsonObject.getInt("code") == 0){
                                 mView.uploadImgSuccess(jsonObject.getString("fileName"),tag);
                             }else {
@@ -110,6 +110,7 @@ public class BaseInfoActivityImp extends BasePresenter<IBaseInfoActivityContract
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            ZxLogUtil.logError("<<<解析失败>"+e.getMessage());
                         }
                     }
                 });

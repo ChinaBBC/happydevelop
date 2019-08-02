@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.allen.library.interfaces.ILoadingView;
 import com.contrarywind.adapter.WheelAdapter;
 import com.contrarywind.listener.OnItemSelectedListener;
 import com.contrarywind.view.WheelView;
@@ -193,21 +194,6 @@ public final class HaiDialogUtil {
         return truckDialog;
     }
 
-    //新增修改班次
-    public static CommonDialogFragment showAddEditor(FragmentManager fragmentManager, TruckAdapter truckAdapter,TruckResultListener truckResultListener){
-        CommonDialogFragment addEditorDialog = CommonDialogFragment.newInstance(context -> {
-            View view = LayoutInflater.from(context).inflate(R.layout.dialog_add_editor_classes, null);
-            TextView sure = view.findViewById(R.id.add_editor_sure);
-            TextView cancel = view.findViewById(R.id.add_editor_cancel);
-
-            //sure.setOnClickListener(v -> truckResultListener.truckResult(-1));
-            //cancel.setOnClickListener(v -> truckResultListener.truckResult(-2) );
-            AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);
-            return builder.setView(view).create();
-        }, true, null);
-        addEditorDialog.show(fragmentManager, "add editor");
-        return addEditorDialog;
-    }
     //修改运费
     public static CommonDialogFragment showChangeMoney(FragmentManager fragmentManager,PayMoneyResultListener payMoneyResultListener,String money){
         CommonDialogFragment changeMoneyDialog = CommonDialogFragment.newInstance(context -> {
@@ -225,6 +211,7 @@ public final class HaiDialogUtil {
         changeMoneyDialog.show(fragmentManager, "change price");
         return changeMoneyDialog;
     }
+
     public interface PayMoneyResultListener{
         void payResult(String result);
     }

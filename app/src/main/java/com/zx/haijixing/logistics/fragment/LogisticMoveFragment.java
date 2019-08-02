@@ -1,6 +1,7 @@
 package com.zx.haijixing.logistics.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,21 +10,36 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.zx.haijixing.R;
 import com.zx.haijixing.logistics.adapter.LogisticsMoveAdapter;
+import com.zx.haijixing.logistics.contract.LoMoveContract;
+import com.zx.haijixing.logistics.entry.LinesClassEntry;
+import com.zx.haijixing.logistics.presenter.LoMoveImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxSharePreferenceUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  * @作者 zx
  * @创建日期 2019/7/16 14:23
  * @描述 物流动态
  */
-public class LogisticMoveFragment extends BaseFragment {
+public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoMoveContract.LoMoveView,OnRefreshLoadMoreListener {
     @BindView(R.id.logistics_move_img1)
     ImageView logisticsMoveImg1;
     @BindView(R.id.logistics_move_num1)
@@ -46,8 +62,14 @@ public class LogisticMoveFragment extends BaseFragment {
     TextView title;
     @BindView(R.id.logistics_move_data)
     RecyclerView logisticsMoveData;
+    @BindView(R.id.logistics_move_refresh)
+    SmartRefreshLayout refresh;
 
-    private int loginType = 1;
+    private List<LinesClassEntry> linesClassEntries = new ArrayList<>();
+    private LogisticsMoveAdapter logisticsMoveAdapter;
+    private Map<String,Object> allParams = new HashMap<>();
+    private int page = 1;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_logistics_move;
@@ -55,17 +77,33 @@ public class LogisticMoveFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        mPresenter = new LoMoveImp();
     }
 
     @Override
     protected void initView(View view) {
-        if (loginType == 1){
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        String token = (String) instance.getParam("token", "null");
+        String loginType = (String) instance.getParam("login_type", "4");
+        ZxLogUtil.logError("<<<<<" + token);
+        if (OtherConstants.LOGIN_MANAGER.equals(loginType)){
             title.setVisibility(View.VISIBLE);
             setTitleTopMargin(title,0);
         }
         logisticsMoveData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        logisticsMoveData.setAdapter(new LogisticsMoveAdapter());
+        logisticsMoveAdapter = new LogisticsMoveAdapter(linesClassEntries);
+        logisticsMoveData.setAdapter(logisticsMoveAdapter);
+
+        allParams.put("token",token);
+        allParams.put(OtherConstants.PAGE,page);
+        allParams.put(OtherConstants.SIZE,5);
+
+        refresh.setOnRefreshLoadMoreListener(this);
+
+        mPresenter.loMoveMethod(allParams);
+        mPresenter.countAllMethod(token);
+
     }
 
     @OnClick({R.id.logistics_move_num1, R.id.logistics_move_word1, R.id.logistics_move_num2, R.id.logistics_move_word2, R.id.logistics_move_num3, R.id.logistics_move_word3, R.id.logistics_move_num4, R.id.logistics_move_word4})
@@ -88,5 +126,47 @@ public class LogisticMoveFragment extends BaseFragment {
 
                 break;
         }
+    }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+        if (page < 1000)
+            page++;
+        allParams.put(OtherConstants.PAGE, page);
+        mPresenter.loMoveMethod(allParams);
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        refresh.setNoMoreData(false);
+        page = 1;
+        linesClassEntries.clear();
+        logisticsMoveAdapter.notifyDataSetChanged();
+        allParams.put(OtherConstants.PAGE, page);
+        mPresenter.loMoveMethod(allParams);
+    }
+
+    @Override
+    public void loMoveSuccess(List<LinesClassEntry> linesClassEntries) {
+        if (linesClassEntries.size() == 0) {
+            refresh.finishRefreshWithNoMoreData();
+            refresh.finishLoadMoreWithNoMoreData();
+        } else {
+            refresh.setNoMoreData(false);
+            refresh.finishLoadMore(true);
+            refresh.finishRefresh(true);
+        }
+        this.linesClassEntries.addAll(linesClassEntries);
+        logisticsMoveAdapter.notifyDataSetChanged();
+        if (this.linesClassEntries.size() == 0)
+            ZxToastUtil.centerToast("没有可选的班次");
+    }
+
+    @Override
+    public void countAllSuccess(String today, String waitSend, String sending, String complete) {
+        num1.setText(today);
+        num2.setText(waitSend);
+        num3.setText(sending);
+        num4.setText(complete);
     }
 }

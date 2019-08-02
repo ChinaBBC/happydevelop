@@ -19,7 +19,7 @@ public interface OrderDetailContract {
         void changeOrderMethodSuccess(String msg);
     }
     interface OrderDetailPresenter extends IBaseContract.IBasePresenter<OrderDetailView>{
-        void orderDetailMethod(String token,String id);
+        void orderDetailMethod(Map<String,Object> params);
         void goodTypePriceMethod(String token,String lineId);
         void changeOrderMethod(Map<String,Object> params);
     }

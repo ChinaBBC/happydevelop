@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.entry.DriverClassEntry;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.List;
+
+import zx.com.skytool.ZxStringUtil;
 
 /**
  *
@@ -44,7 +47,10 @@ public class LinesAdapter extends RecyclerView.Adapter<LinesAdapter.LinesViewHol
             linesViewHolder.end.setText(driverClassEntry.getLineEndName());
             linesViewHolder.startTime.setText(driverClassEntry.getStartTime());
             linesViewHolder.endTime.setText(driverClassEntry.getEndTime());
-            linesViewHolder.endTime.setText(driverClassEntry.getEndTime());
+            String differTime = driverClassEntry.getDifferTime();
+            long time = Long.parseLong(ZxStringUtil.isEmpty(differTime) ? "0" : differTime);
+            String tim = HaiTool.calculateTime(time);
+            linesViewHolder.times.setText(tim);
         }
     }
 

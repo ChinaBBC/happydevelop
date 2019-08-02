@@ -172,6 +172,11 @@ public class LogisticsIndexFragment extends BaseFragment<IndexImp> implements II
     }
 
     @Override
+    public void weatherSuccess(String city, String weather, String temp) {
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ZxLogUtil.logError("in the result");
         //super.onActivityResult(requestCode, resultCode, data);

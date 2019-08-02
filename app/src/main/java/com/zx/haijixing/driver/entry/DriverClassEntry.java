@@ -24,6 +24,8 @@ public class DriverClassEntry {
     private String bkkiStatus;
     /**  物流产品 */
     private String productName;
+    //时间间隔
+    private String differTime;
 
     @Override
     public String toString() {
@@ -36,7 +38,16 @@ public class DriverClassEntry {
                 ", idcard='" + idcard + '\'' +
                 ", bkkiStatus='" + bkkiStatus + '\'' +
                 ", productName='" + productName + '\'' +
+                ", differTime='" + differTime + '\'' +
                 '}';
+    }
+
+    public String getDifferTime() {
+        return differTime;
+    }
+
+    public void setDifferTime(String differTime) {
+        this.differTime = differTime;
     }
 
     public String getBakkiId() {

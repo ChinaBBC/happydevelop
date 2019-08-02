@@ -86,8 +86,9 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
                     .withString("waybillId",orderEntry.getWaybillId())
                     .withString("printStatus",orderEntry.getDadanFlag())
                     .navigation());
-            sendViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
-            sendViewHolder.select.setVisibility(View.VISIBLE);
+            sendViewHolder.select.setVisibility(View.GONE);
+
+           /* sendViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
             sendViewHolder.select.setOnClickListener(v -> {
                 if (dadanFlag == 1){
                     if (orderEntry.isSelect()){
@@ -102,7 +103,7 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
                     ZxToastUtil.centerToast("请先打单");
                 }
 
-            });
+            });*/
 
         }
     }

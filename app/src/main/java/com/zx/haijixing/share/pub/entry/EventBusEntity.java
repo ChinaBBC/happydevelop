@@ -7,6 +7,7 @@ package com.zx.haijixing.share.pub.entry;
  */
 public class EventBusEntity {
     private int mMsg;
+    private String message;
 
     public EventBusEntity(int msg) {
         mMsg = msg;
@@ -14,5 +15,13 @@ public class EventBusEntity {
 
     public int getMsg() {
         return mMsg;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

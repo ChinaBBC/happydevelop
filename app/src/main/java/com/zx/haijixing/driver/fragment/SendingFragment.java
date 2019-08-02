@@ -201,7 +201,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (flag == 0)
+        if (flag == 0 && sendingViewHolder != null)
             sendingViewHolder.total.setText("共：0单");
         refresh.setNoMoreData(false);
         page = 1;

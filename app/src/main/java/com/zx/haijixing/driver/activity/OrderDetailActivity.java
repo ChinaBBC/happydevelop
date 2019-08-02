@@ -116,6 +116,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private Map<String,String> mathMap = new HashMap<>();
     private Map<String,String> upMap = new HashMap<>();
     private Map<String,Object> params = new HashMap<>();
+    private Map<String,Object> detailParams = new HashMap<>();
 
     @Override
     protected void initView() {
@@ -150,7 +151,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         params.put("token",token);
         params.put("waybillId",orderId);
 
-        mPresenter.orderDetailMethod(token,orderId);
+        detailParams.put("token",token);
+        if (orderId.length()>20){
+            detailParams.put("waybillId",orderId);
+        }else {
+            detailParams.put("waybillNo",orderId);
+        }
+        mPresenter.orderDetailMethod(detailParams);
     }
 
     @Override
@@ -340,7 +347,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
 
     //普通
     private void aMethod(OrderDetailEntry orderDetailEntry){
-        aViewHolder.remark.setText(orderDetailEntry.getRemark());
+        String content = orderDetailEntry.getRemark();
+        aViewHolder.remark.setText(ZxStringUtil.isEmpty(content)?"暂无备注":content);
+
         aViewHolder.wType.setText(orderDetailEntry.getCategory());
         aViewHolder.totalInfo.setText(getDetailGoods());
         aViewHolder.wWeight.setText(orderDetailEntry.getWeight()+"KG");
@@ -354,7 +363,10 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         bViewHolder.loCompany.setText(orderDetailEntry.getLgsName());
         bViewHolder.loWay.setText(orderDetailEntry.getProductName());
         bViewHolder.payWay.setText("1".equals(orderDetailEntry.getType())?"寄付":"到付");
-        bViewHolder.remark.setText(orderDetailEntry.getRemark());
+
+        String content = orderDetailEntry.getRemark();
+        bViewHolder.remark.setText(ZxStringUtil.isEmpty(content)?"暂无备注":content);
+
         bViewHolder.rTime.setText(orderDetailEntry.getReceiptTime());
         bViewHolder.vipservice.setText(orderDetailEntry.getAddedServices());
     }
@@ -380,7 +392,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     }
 
     private void dMethod(OrderDetailEntry orderDetailEntry){
-        dViewHolder.remark.setText(orderDetailEntry.getContent());
+        String content = orderDetailEntry.getContent();
+        dViewHolder.remark.setText(ZxStringUtil.isEmpty(content)?"暂无评语":content);
+
         dViewHolder.onTime.setText(orderDetailEntry.getTimelyGrade());
         dViewHolder.manner.setText(orderDetailEntry.getAttitudeGrade());
         dViewHolder.intact.setText(orderDetailEntry.getCompleteGrade());

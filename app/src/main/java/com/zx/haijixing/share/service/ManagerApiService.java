@@ -14,6 +14,6 @@ import retrofit2.http.Query;
  *@描述 管理员接口服务
  */
 public interface ManagerApiService {
-    @GET
+    @GET("api/")
     Observable<String> weatherApi(@Query("version") String version,@Query("cityId") String city);
 }

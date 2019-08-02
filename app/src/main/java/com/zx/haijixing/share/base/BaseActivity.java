@@ -62,7 +62,9 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
 
     @Override
     public void hideLoading() {
-        commonDialogFragment.dismissAllowingStateLoss();
+        if (commonDialogFragment != null){
+            commonDialogFragment.dismissAllowingStateLoss();
+        }
     }
 
     @Override
@@ -95,6 +97,9 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
         if (refreshLayout != null){
             refreshLayout.finishLoadMore(false);
             refreshLayout.finishRefresh(false);
+        }
+        if (commonDialogFragment != null){
+            commonDialogFragment.dismissAllowingStateLoss();
         }
     }
 

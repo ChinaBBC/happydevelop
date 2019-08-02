@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxToastUtil;
 
@@ -54,6 +55,7 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
     @BindView(R.id.change_truck_area)
     ConstraintLayout truckArea;
     private String token;
+    private String newHead;
 
     @Override
     protected void initView() {
@@ -103,6 +105,7 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
     private void takePic(){
         PictureSelector.create(this)
                 .openCamera(PictureMimeType.ofImage())
+                .compress(true)
                 .forResult(OtherConstants.UPLOAD_HEAD);
     }
     @Override
@@ -110,20 +113,24 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == OtherConstants.UPLOAD_HEAD){
             List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
-            String path = uris.get(0).getPath();
+            String path = uris.get(0).getCompressPath();
             mPresenter.changeMethod(path);
         }
     }
 
     @Override
-    public void changeSuccess(String head) {
+    public void changeSuccess(String head,String base) {
         mPresenter.changeHeadImgMethod(head,token);
         RequestOptions options = new RequestOptions().circleCrop();
-        Glide.with(this).load(head).apply(options).into(header);
+        newHead = base + head;
+        Glide.with(this).load(newHead).apply(options).into(header);
     }
 
     @Override
     public void changeHeadSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        instance.saveParam("user_head",newHead);
     }
 }

@@ -34,7 +34,7 @@ import zx.com.skytool.ZxToastUtil;
 /**
  * @作者 zx
  * @创建日期 2019/6/28 11:38
- * @描述 车辆信息
+ * @描述 驾驶证
  */
 @Route(path = PathConstant.CAR_INFO)
 public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements ICarInfoActivityContract.CarInfoView {
@@ -60,6 +60,10 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
 
     @Autowired(name = "driverId")
     public String driverId;
+    @Autowired(name = "name")
+    public String realName;
+    @Autowired(name = "phone")
+    public String phoneNum;
 
     private String strA ;
     private String strB ;
@@ -100,7 +104,11 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
 
     @Override
     public void carInfoSuccess() {
-        ARouter.getInstance().build(PathConstant.TRUCK).withString("driverId",driverId).navigation();
+        ARouter.getInstance().build(PathConstant.TRUCK)
+                .withString("driverId",driverId)
+                .withString("name",realName)
+                .withString("phone",phoneNum)
+                .navigation();
         finish();
     }
 

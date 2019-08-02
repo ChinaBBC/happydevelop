@@ -274,7 +274,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (flag == 0)
+        if (flag == 0 && receiveViewHolder != null)
             receiveViewHolder.total.setText("共：0单");
         page = 1;
         orderEntryList.clear();

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
+import zx.com.skytool.ZxLogUtil;
+
 /**
  *
  *@作者 zx
@@ -32,6 +34,7 @@ public class ChangeImp extends BasePresenter<ChangeContract.ChangeView> implemen
         list.add(path);
         Map<String,Object> params = new HashMap<>();
         params.put("files","path");
+        mView.showLoading();
         RxHttpUtils.uploadImagesWithParams(BuildConfig.homeUrl+"upload/files/uploadImages","files",params,list)
                 .compose(Transformer.<ResponseBody>switchSchedulers())
                 .subscribe(new CommonObserver<ResponseBody>() {
@@ -42,15 +45,18 @@ public class ChangeImp extends BasePresenter<ChangeContract.ChangeView> implemen
 
                     @Override
                     protected void onSuccess(ResponseBody responseBody) {
+                        mView.hideLoading();
                         try {
-                            JSONObject jsonObject = new JSONObject(responseBody.string());
+                            String string = responseBody.string().trim();
+                            ZxLogUtil.logError("<<<<<<<<<<<<<<"+ string);
+                            JSONObject jsonObject = new JSONObject(string);
                             if (jsonObject.getInt("code") == 0){
-                                mView.changeSuccess(jsonObject.getString("fileName"));
+                                mView.changeSuccess(jsonObject.getString("fileName"),jsonObject.getString("fastdfsProfix"));
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
                         }catch (IOException e){
-
+                            ZxLogUtil.logError("<<<<<<IOException<<<<<<<<"+e.getMessage());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -74,7 +80,7 @@ public class ChangeImp extends BasePresenter<ChangeContract.ChangeView> implemen
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
-                                mView.changeHeadSuccess(jsonObject.getString("data"));
+                                mView.changeHeadSuccess(jsonObject.getString("msg"));
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

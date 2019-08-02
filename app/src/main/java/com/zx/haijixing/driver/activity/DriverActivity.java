@@ -1,6 +1,8 @@
 package com.zx.haijixing.driver.activity;
 
 
+import android.view.KeyEvent;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -14,9 +16,11 @@ import com.zx.haijixing.driver.fragment.MineFragment;
 import com.zx.haijixing.driver.fragment.NewsFragment;
 import com.zx.haijixing.driver.fragment.OrderFragment;
 import com.zx.haijixing.driver.presenter.DriverImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.share.pub.entry.EventBusEntity;
+import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -27,6 +31,7 @@ import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
 
 @Route(path = PathConstant.DRIVER_MAIN)
 public class DriverActivity extends BaseActivity<DriverImp> implements DriverContract.DriverView,AMapLocationListener {
@@ -37,7 +42,6 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
     private AMapLocationClientOption mLocationOption;
 
     private String token = null;
-    private String city = "成都";
 
     @Override
     protected void initView() {
@@ -79,7 +83,8 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(EventBusEntity entity){
-        driverBbBottomMenu.switchTo(1);
+        if (entity.getMsg()==OtherConstants.EVENT_RECEIVE || entity.getMsg() == OtherConstants.EVENT_PRINT)
+            driverBbBottomMenu.switchTo(1);
     }
     @Override
     protected void initInjector() {
@@ -121,7 +126,7 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(10*1000);
+        mLocationOption.setInterval(10*60*1000);
         //给定位客户端对象设置定位参数
         mlocationClient.setLocationOption(mLocationOption);
         //启动定位
@@ -132,18 +137,17 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null){
             if (aMapLocation.getErrorCode() == 0){
-                city = aMapLocation.getCity();
-                ZxLogUtil.logError("<getLatitude>>>"+aMapLocation.getLatitude()+"<getLatitude>>>"+aMapLocation.getLatitude()+"<token>>>"+token+"<token>>>"+aMapLocation.getCity());
+                String city = aMapLocation.getCity();
+                EventBusEntity eventBusEntity = new EventBusEntity(OtherConstants.WEATHER_ENTRY);
+                eventBusEntity.setMessage(city);
+                EventBus.getDefault().post(eventBusEntity);
+                //ZxLogUtil.logError("<getLatitude>>>"+aMapLocation.getLatitude()+"<getLatitude>>>"+aMapLocation.getLatitude()+"<token>>>"+token+"<token>>>"+aMapLocation.getCity());
                 if (!ZxStringUtil.isEmpty(token))
                     mPresenter.driverMethod(token,aMapLocation.getLatitude()+"",aMapLocation.getLongitude()+"");
             }else {
                 ZxLogUtil.logError(aMapLocation.getErrorInfo()+"<<<<..>>>>"+aMapLocation.getErrorCode());
             }
         }
-    }
-
-    public String getCity() {
-        return city;
     }
 
     @Override
@@ -154,5 +158,18 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
             mlocationClient.startLocation();
             mlocationClient.onDestroy();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            if (HaiTool.isFastClick()){
+                finish();
+            }else {
+                ZxToastUtil.centerToast("再按一次退出星配送");
+            }
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

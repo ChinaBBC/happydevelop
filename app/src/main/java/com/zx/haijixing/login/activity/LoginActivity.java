@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
+import com.zx.haijixing.share.push.TagAliasOperatorHelper;
 import com.zx.haijixing.login.contract.ILoginActivityContract;
 import com.zx.haijixing.login.entry.LoginEntry;
 import com.zx.haijixing.login.presenter.LoginActivityImp;
@@ -167,6 +168,11 @@ public class LoginActivity extends BaseActivity<LoginActivityImp> implements ILo
     private void save(LoginEntry data){
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.setAction(TagAliasOperatorHelper.ACTION_SET);
+        tagAliasBean.setAlias(data.getPhonenumber());
+        tagAliasBean.setAliasAction(true);
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(),OtherConstants.SET_ALIAS,tagAliasBean);
         instance.saveParam("token",data.getToken());
         instance.saveParam("user_name",data.getUserName());
         instance.saveParam("user_head",data.getAvatar());

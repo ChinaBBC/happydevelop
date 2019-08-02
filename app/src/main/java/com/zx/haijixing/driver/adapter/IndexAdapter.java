@@ -25,6 +25,7 @@ import com.zx.haijixing.util.BannerUtil;
 import java.util.List;
 
 import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxStringUtil;
 
 /**
  *
@@ -40,6 +41,9 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<BannerEntry.BannerData> bannerData;
     private String bannerStr;
     private String baseStr ;
+    private String city ;
+    private String wea ;
+    private String tem ;
     private Context context;
     private String loginType = OtherConstants.LOGIN_DRIVER;
 
@@ -54,6 +58,13 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void setBannerData(List<BannerEntry.BannerData> bannerData,String bannerStr) {
         this.bannerData = bannerData;
         this.bannerStr = bannerStr;
+    }
+
+    public void setWeather(String city,String wea,String tem){
+        this.city = city;
+        this.wea = wea;
+        this.tem = tem;
+        notifyDataSetChanged();
     }
 
     public void setBaseStr(String baseStr) {
@@ -102,6 +113,14 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             indexHeadViewHolder.clock.setOnClickListener(clickListener);
             indexHeadViewHolder.services.setOnClickListener(clickListener);
             indexHeadViewHolder.notify.setOnClickListener(clickListener);
+
+            if (!ZxStringUtil.isEmpty(city))
+                indexHeadViewHolder.city.setText(city);
+            if (!ZxStringUtil.isEmpty(wea))
+                indexHeadViewHolder.weather.setText(wea);
+            if (!ZxStringUtil.isEmpty(tem))
+                indexHeadViewHolder.temperature.setText(tem);
+
             if (bannerData != null && bannerData.size()>0)
                 BannerUtil.initBannerScroll(indexHeadViewHolder.banner, bannerData,bannerStr, position -> {
                     BannerEntry.BannerData bannerData = this.bannerData.get(position);
@@ -118,7 +137,6 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             Glide.with(context).load(baseStr+newsData.getCoverImg()).apply(options).into(indexBodyViewHolder.img);
             indexBodyViewHolder.item.setOnClickListener(view->ARouter.getInstance().build(PathConstant.DRIVER_NEWS)
                     .withString("newId",newsData.getNewId())
-                    .withString("from","news")
                     .navigation());
         }
     }

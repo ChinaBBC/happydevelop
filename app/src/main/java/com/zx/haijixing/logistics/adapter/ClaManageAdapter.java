@@ -7,9 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.zx.haijixing.R;
+import com.zx.haijixing.logistics.entry.ClassManageEntry;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
+
+import java.util.List;
+
+import zx.com.skytool.ZxStringUtil;
 
 
 /**
@@ -19,11 +27,15 @@ import com.zx.haijixing.util.HaiDialogUtil;
  *@描述 班次管理
  */
 public class ClaManageAdapter extends RecyclerView.Adapter<ClaManageAdapter.ClaManageViewHolder> {
+    private List<ClassManageEntry> classManageEntries;
+    private ClaManageResultListener claManageResultListener;
 
-    private View.OnClickListener onClickListener;
+    public ClaManageAdapter(List<ClassManageEntry> classManageEntries) {
+        this.classManageEntries = classManageEntries;
+    }
 
-    public void setOnClickListener(View.OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
+    public void setClaManageResultListener(ClaManageResultListener claManageResultListener) {
+        this.claManageResultListener = claManageResultListener;
     }
 
     @NonNull
@@ -37,22 +49,48 @@ public class ClaManageAdapter extends RecyclerView.Adapter<ClaManageAdapter.ClaM
 
     @Override
     public void onBindViewHolder(@NonNull ClaManageViewHolder claManageViewHolder, int i) {
-        claManageViewHolder.editor.setOnClickListener(onClickListener);
+        if (classManageEntries.size()>0){
+            ClassManageEntry classManageEntry = classManageEntries.get(i);
+            claManageViewHolder.delete.setOnClickListener(v -> claManageResultListener.claManageResult(classManageEntry.getBakkiId(),OtherConstants.CLASS_DELETE));
+
+            claManageViewHolder.sendWay.setText(classManageEntry.getProductName());
+            claManageViewHolder.startT.setText(classManageEntry.getStartTime());
+            claManageViewHolder.endT.setText(classManageEntry.getEndTime());
+
+            String differTime = classManageEntry.getDifferTime();
+            long s = Long.parseLong(ZxStringUtil.isEmpty(differTime) ? "0" : differTime);
+            claManageViewHolder.totalT.setText(HaiTool.calculateTime(s>0?s:s+OtherConstants.TIME_ONE_DAY));
+
+            claManageViewHolder.nameNum.setText(classManageEntry.getDriverName()+" "+ classManageEntry.getDriverPhone());
+            claManageViewHolder.truckNum.setText(classManageEntry.getIdcard());
+            claManageViewHolder.remark.setText(classManageEntry.getRemark());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return classManageEntries.size();
     }
 
     class ClaManageViewHolder extends RecyclerView.ViewHolder{
 
-        LinearLayout add,editor,delete;
+        LinearLayout delete;
+        TextView sendWay,startT,endT,totalT,nameNum,truckNum,remark;
         public ClaManageViewHolder(@NonNull View itemView) {
             super(itemView);
-            add = itemView.findViewById(R.id.cla_manage_add);
-            editor = itemView.findViewById(R.id.cla_manage_editor);
             delete = itemView.findViewById(R.id.cla_manage_delete);
+
+            sendWay = itemView.findViewById(R.id.cla_manage_sendWay);
+            startT = itemView.findViewById(R.id.cla_manage_startT);
+            endT = itemView.findViewById(R.id.cla_manage_endT);
+            totalT = itemView.findViewById(R.id.cla_manage_totalT);
+            nameNum = itemView.findViewById(R.id.cla_manage_nameNum);
+            truckNum = itemView.findViewById(R.id.cla_manage_truckNum);
+            remark = itemView.findViewById(R.id.cla_manage_remark);
         }
+    }
+
+    public interface ClaManageResultListener{
+        void claManageResult(String bkId,int tag);
     }
 }

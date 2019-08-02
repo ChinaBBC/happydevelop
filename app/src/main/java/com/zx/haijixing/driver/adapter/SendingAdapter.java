@@ -56,14 +56,15 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
         if (list.size()>0){
             OrderTotalEntry.OrderEntry orderEntry = list.get(i);
 
-            sendingViewHolder.address.setText(orderEntry.getSenderAddress());
+            sendingViewHolder.receiveImg.setImageResource(R.mipmap.receive_man);
+            sendingViewHolder.address.setText(orderEntry.getIncomeAddress());
             sendingViewHolder.status.setText("配送中");
             sendingViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
             sendingViewHolder.orderNumber.setText("运单号："+orderEntry.getWaybillNo());
             sendingViewHolder.sendWay.setText(orderEntry.getProductName());
-            sendingViewHolder.receiveShop.setText(orderEntry.getSenderName());
+            sendingViewHolder.receiveShop.setText(orderEntry.getIncomeName());
             sendingViewHolder.line.setText(orderEntry.getLinkName());
-            sendingViewHolder.phone.setText(orderEntry.getSenderPhone());
+            sendingViewHolder.phone.setText(orderEntry.getIncomePhone());
             sendingViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
             sendingViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
             sendingViewHolder.address.setText(orderEntry.getSenderAddress());
@@ -72,7 +73,22 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
                     .withString("detailType",orderEntry.getStatus())
                     .navigation());
 
-            if (!loginType.equals(OtherConstants.LOGIN_DRIVER)){
+            if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
+                sendingViewHolder.button1.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,3));
+                sendingViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
+                sendingViewHolder.select.setVisibility(View.VISIBLE);
+                sendingViewHolder.select.setOnClickListener(v -> {
+                    if (orderEntry.isSelect()){
+                        sendingViewHolder.select.setImageResource(R.mipmap.select_no);
+                        orderEntry.setSelect(false);
+                    }else {
+                        sendingViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                        orderEntry.setSelect(true);
+                    }
+                    iResultPositionListener.positionResult(null,1);
+                });
+            }else {
+                sendingViewHolder.select.setVisibility(View.GONE);
                 sendingViewHolder.button2.setText("修改价格");
                 sendingViewHolder.button1.setText("查看物流");
                 sendingViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.CHECK_LOGISTICS)
@@ -80,20 +96,6 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
                         .navigation());
             }
             sendingViewHolder.button2.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,2));
-            sendingViewHolder.button1.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,3));
-
-            sendingViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
-            sendingViewHolder.select.setVisibility(View.VISIBLE);
-            sendingViewHolder.select.setOnClickListener(v -> {
-                if (orderEntry.isSelect()){
-                    sendingViewHolder.select.setImageResource(R.mipmap.select_no);
-                    orderEntry.setSelect(false);
-                }else {
-                    sendingViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
-                    orderEntry.setSelect(true);
-                }
-                iResultPositionListener.positionResult(null,1);
-            });
         }
 
     }
@@ -107,7 +109,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
 
         Button button1,button2;
         TextView createTime,orderNumber,sendWay,receiveShop,line,phone,count,address,pay,status;
-        ImageView select;
+        ImageView select,receiveImg;
         View item;
         public SendingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,6 +118,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
             createTime = itemView.findViewById(R.id.send_data_time);
             orderNumber = itemView.findViewById(R.id.send_data_order);
             sendWay = itemView.findViewById(R.id.send_data_way);
+            receiveImg = itemView.findViewById(R.id.send_data_img1);
             receiveShop = itemView.findViewById(R.id.send_data_shop);
             line = itemView.findViewById(R.id.send_data_lines);
             phone = itemView.findViewById(R.id.send_data_phone);
