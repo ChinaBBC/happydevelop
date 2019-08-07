@@ -44,6 +44,8 @@ public class PaperChangeImp extends BasePresenter<PaperChangeContract.PaperChang
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.changeInfoSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -71,6 +73,8 @@ public class PaperChangeImp extends BasePresenter<PaperChangeContract.PaperChang
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.changeInfoSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -103,6 +107,8 @@ public class PaperChangeImp extends BasePresenter<PaperChangeContract.PaperChang
                             JSONObject jsonObject = new JSONObject(string);
                             if (jsonObject.getInt("code") == 0){
                                 mView.uploadImgSuccess(jsonObject.getString("fileName"),tag);
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

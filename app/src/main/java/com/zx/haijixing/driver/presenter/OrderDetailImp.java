@@ -32,6 +32,11 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(OrderDetailEntry data) {
                         mView.orderDetailSuccess(data);
                     }
@@ -53,6 +58,8 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
                     protected void onSuccess(GoodsTypePriceEntry goodsTypePriceEntry) {
                         if (goodsTypePriceEntry.getCode() == 0){
                             mView.goodTypePriceSuccess(goodsTypePriceEntry);
+                        }else if (goodsTypePriceEntry.getCode() == 1001){
+                            mView.jumpToLogin();
                         }else {
                             mView.showFaild(goodsTypePriceEntry.getMsg());
                         }

@@ -13,12 +13,19 @@ import com.zx.haijixing.driver.fragment.CompleteFragment;
 import com.zx.haijixing.driver.fragment.ReceivedFragment;
 import com.zx.haijixing.driver.fragment.SendFragment;
 import com.zx.haijixing.driver.fragment.SendingFragment;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
 /**
  * @作者 zx
@@ -30,6 +37,7 @@ public class LogisticsCenterFragment extends BaseFragment {
     TextView title;
     @BindView(R.id.logistics_center_bottom)
     CustomBottomBar bottom;
+    private String loginType;
 
 
     @Override
@@ -44,8 +52,11 @@ public class LogisticsCenterFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        loginType = (String) instance.getParam("login_type", "4");
         setTitleTopMargin(title,0);
-
+        EventBus.getDefault().register(this);
         int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_14);
         int titleMar = getResources().getDimensionPixelSize(R.dimen.dp_6);
         int iconSize = getResources().getDimensionPixelSize(R.dimen.dp_40);
@@ -65,5 +76,17 @@ public class LogisticsCenterFragment extends BaseFragment {
                         R.mipmap.lines_manage_a,
                         R.mipmap.lines_manage_b)
                 .build();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg()==OtherConstants.EVENT_LOGISTICS && loginType.equals(OtherConstants.LOGIN_LOGISTICS))
+            bottom.switchTo(1);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

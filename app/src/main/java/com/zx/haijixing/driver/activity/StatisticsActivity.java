@@ -10,17 +10,26 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zx.haijixing.BuildConfig;
 import com.zx.haijixing.HaiNativeHelper;
 import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomGraphViewT;
+import com.zx.haijixing.driver.entry.MyPoint;
+import com.zx.haijixing.logistics.contract.FeeStatisticsContract;
+import com.zx.haijixing.logistics.entry.DriverEntry;
+import com.zx.haijixing.logistics.entry.FeeStatisticsEntry;
+import com.zx.haijixing.logistics.presenter.FeeStatisticsImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,7 +42,7 @@ import zx.com.skytool.ZxStatusBarCompat;
  * @描述 统计
  */
 @Route(path = PathConstant.STATISTICS)
-public class StatisticsActivity extends BaseActivity {
+public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implements FeeStatisticsContract.FeeStatisticsView {
 
     @BindView(R.id.statistics_back)
     ImageView back;
@@ -49,14 +58,17 @@ public class StatisticsActivity extends BaseActivity {
     TextView statisticsDay;
     @BindView(R.id.statistics_other)
     TextView statisticsOther;
+
     @BindView(R.id.statistics_bill)
     TextView statisticsBill;
     @BindView(R.id.statistics_line1)
     TextView statisticsLine1;
+
     @BindView(R.id.statistics_free)
     TextView statisticsFree;
     @BindView(R.id.statistics_line2)
     TextView statisticsLine2;
+
     @BindView(R.id.statistics_start_time)
     TextView startTime;
     @BindView(R.id.statistics_start_time_area)
@@ -71,16 +83,36 @@ public class StatisticsActivity extends BaseActivity {
     TextView addAll;
     @BindView(R.id.statistics_map)
     CustomGraphViewT statisticsMap;
-    private TimePickerView pvTime;
+    private TimePickerView sTime;
+    private TimePickerView eTime;
+
+    private Map<String,Object> params = new HashMap<>();
+    private int tag = 0;
 
     @Override
     protected void initView() {
         setTitleTopMargin(back);
-        pvTime = HaiTool.initTimePickers(this,startTime,endTime);
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        String name = (String)instance.getParam("user_name","null");
+        String phone = (String)instance.getParam("user_phone","null");
+        String head = (String)instance.getParam("user_head","null");
+        String token = (String)instance.getParam("token","null");
+
+        userName.setText(name);
+        userPhone.setText(phone);
+        RequestOptions options = new RequestOptions().circleCrop().error(R.mipmap.user_head);
+        Glide.with(this).load(head).apply(options).into(userHead);
+        sTime = HaiTool.initTimePickers(this,startTime,1000);
+        eTime = HaiTool.initTimePickers(this,endTime,0);
+
+        params.put("token",token);
+        mPresenter.todayStatisticsMethod(token);
+        mPresenter.orderStatisticsMethod(params);
     }
     @Override
     protected void initInjector() {
-
+        mPresenter = new FeeStatisticsImp();
     }
 
     @Override
@@ -95,92 +127,111 @@ public class StatisticsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.statistics_bill:
+                tag = 0;
+                changeStatus(tag);
                 break;
             case R.id.statistics_free:
+                tag = 1;
+                changeStatus(tag);
                 break;
             case R.id.statistics_start_time_area:
-                pvTime.show();
+                sTime.show();
                 break;
             case R.id.statistics_end_time_area:
+                eTime.show();
                 break;
             case R.id.statistics_search:
+                checkAndSearch();
+                break;
+        }
+    }
+    private void checkAndSearch(){
+        String sTime = startTime.getText().toString().trim();
+        String eTime = endTime.getText().toString().trim();
+        params.put("startTime",sTime);
+        params.put("endTime",eTime);
+        switch (tag){
+            case 0:
+                mPresenter.orderStatisticsMethod(params);
+                break;
+            case 1:
+                mPresenter.feeStatisticsMethod(params);
                 break;
         }
     }
 
+    private void changeStatus(int tag){
+        switch (tag){
+            case 0:
+                statisticsBill.setTextColor(getHaiColor(R.color.color_703f));
+                statisticsFree.setTextColor(getHaiColor(R.color.color_9999));
+                statisticsLine1.setVisibility(View.VISIBLE);
+                statisticsLine2.setVisibility(View.INVISIBLE);
+                mPresenter.orderStatisticsMethod(params);
+                break;
+            case 1:
+                statisticsBill.setTextColor(getHaiColor(R.color.color_9999));
+                statisticsFree.setTextColor(getHaiColor(R.color.color_703f));
+                statisticsLine1.setVisibility(View.INVISIBLE);
+                statisticsLine2.setVisibility(View.VISIBLE);
+                mPresenter.feeStatisticsMethod(params);
+                break;
+        }
+    }
     @Override
     public void setStatusBar() {
         ZxStatusBarCompat.translucentStatusBar(this,true);
     }
 
-    private void test(){
-        Log.i("<<<<<","<BuildConfig.homeUrl>"+BuildConfig.homeUrl+HaiNativeHelper.baseUrl());
+    @Override
+    public void orderStatisticsSuccess(FeeStatisticsEntry feeStatisticsEntry) {
+        setData(feeStatisticsEntry,"单");
+    }
 
-        List<String> list1 = new ArrayList<>();
-        list1.add("1");
-        list1.add("2");
-        list1.add("3");
-        list1.add("4");
-        list1.add("5");
-        list1.add("6");
-        list1.add("7");
-        list1.add("8");
-        list1.add("9");
-        list1.add("11");
-        list1.add("12");
-        list1.add("13");
-        list1.add("14");
-        list1.add("15");
-        list1.add("16");
-        list1.add("17");
+    @Override
+    public void feeStatisticsSuccess(FeeStatisticsEntry feeStatisticsEntry) {
+        setData(feeStatisticsEntry,"元");
+    }
 
-        List<String> list2 = new ArrayList<>();
-        list2.add("2千元");
-        list2.add("4千元");
-        list2.add("6千元");
-        list2.add("8千元");
-        list2.add("10千元");
-        list2.add("12千元");
+    @Override
+    public void receiveStatisticsSuccess(FeeStatisticsEntry feeStatisticsEntry) {
 
-        List<Point> points = new ArrayList<>();
-        points.add(new Point(0,2999));
-        points.add(new Point(1,2324));
-        points.add(new Point(2,1223));
-        points.add(new Point(3,4545));
-        points.add(new Point(4,6643));
-        points.add(new Point(5,7777));
-        points.add(new Point(6,8888));
-        points.add(new Point(7,1234));
-        points.add(new Point(8,2234));
-        points.add(new Point(9,3234));
-        points.add(new Point(10,3234));
-        points.add(new Point(11,3234));
-        points.add(new Point(12,3234));
-        points.add(new Point(13,3234));
-        points.add(new Point(14,3234));
-        points.add(new Point(15,3234));
-        points.add(new Point(16,3234));
-        points.add(new Point(17,3234));
+    }
 
-        ///customGraphView2.setXUnitValue(1).setYUnitValue(2000).setXTextUnits(list1).setYTextUnits(list2).setDateList(points).startDraw();
+    @Override
+    public void todayStatisticsSuccess(String countNum, String totalPrice, String toPayMoney) {
+        statisticsMonth.setText(countNum+"单");
+        statisticsDay.setText(totalPrice+"元");
+        statisticsOther.setText(toPayMoney+"元");
+    }
 
-        LinkedList<Double> yList = new LinkedList<>();
-        yList.add(200.203);
-        yList.add(400.05);
-        yList.add(600.60);
-        yList.add(300.08);
-        yList.add(400.32);
-        yList.add(220.0);
-        yList.add(550.0);
+    @Override
+    public void searchDriverSuccess(List<DriverEntry> driverEntries) {
 
-        LinkedList<String> xRawData = new LinkedList<>();
-        xRawData.add("05-19");
-        xRawData.add("05-20");
-        xRawData.add("05-21");
-        xRawData.add("05-22");
-        xRawData.add("05-23");
-        xRawData.add("05-24");
-        xRawData.add("05-25");
-        //customGraphView.setData(yList , xRawData , 10000 , 500);
+    }
+
+    private void setData(FeeStatisticsEntry feeStatisticsEntry,String text){
+        List<String> rows = feeStatisticsEntry.getRows();
+        List<MyPoint> points = new ArrayList<>();
+        List<String> yUnit = new ArrayList<>();
+        MyPoint point = null;
+        float temp = 0;
+        float total = 0;
+        for (int i = 0; i< rows.size();i++){
+            float y = Float.parseFloat(rows.get(i));
+            point = new MyPoint(i, y);
+            points.add(point);
+            total+=y;
+            if (temp<y)
+                temp = y;
+        }
+
+        int max = new Float(temp).intValue();
+        int num = (max-max%5+5)/5;
+        for (int i=1;i<6;i++){
+            yUnit.add(i*num+"");
+        }
+        addAll.setText(total+text);
+        statisticsMap.setXUnitValue(1).setYUnitValue(num).setXTextUnits(feeStatisticsEntry.getDays()).setYTextUnits(yUnit).setDateList(points).startDraw();
     }
 }

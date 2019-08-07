@@ -32,6 +32,11 @@ public class ReceiveImp extends BasePresenter<OrderContract.OrderView> implement
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(OrderTotalEntry data) {
                         mView.orderSuccess(data);
                     }
@@ -55,6 +60,8 @@ public class ReceiveImp extends BasePresenter<OrderContract.OrderView> implement
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.receiveOrderSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

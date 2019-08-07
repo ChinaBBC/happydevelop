@@ -62,6 +62,11 @@ public class AddClassImp extends BasePresenter<AddClassContract.AddClassView> im
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<DriverEntry> data) {
                         mView.driverPhoneSuccess(data);
                     }
@@ -77,6 +82,11 @@ public class AddClassImp extends BasePresenter<AddClassContract.AddClassView> im
                     @Override
                     protected void onError(String errorMsg) {
                         mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
                     }
 
                     @Override

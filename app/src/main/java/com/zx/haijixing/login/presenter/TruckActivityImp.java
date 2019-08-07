@@ -41,6 +41,11 @@ public class TruckActivityImp extends BasePresenter<ITruckActivityContract.Truck
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+
+                    }
+
+                    @Override
                     protected void onSuccess(List<TruckTypeEntry> data) {
                         mView.typeSuccess(data);
                     }

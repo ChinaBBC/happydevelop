@@ -1,5 +1,6 @@
 package com.zx.haijixing.share.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -10,13 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.allen.library.RxHttpUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxToastUtil;
 
@@ -142,8 +146,14 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     }
     @Override
     public void jumpToLogin() {
-        ARouter.getInstance().build(PathConstant.ROUTE_LOGIN)
-                .navigation();
+        RxHttpUtils.cancel(OtherConstants.CANCEL_REQUEST);
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        instance.setLogin(false);
+        Intent intent = new Intent();
+        intent.setAction(OtherConstants.LOGIN_OUT);
+        getContext().sendBroadcast(intent);
+        ARouter.getInstance().build(PathConstant.ROUTE_LOGIN).navigation();
     }
 
     //获取string

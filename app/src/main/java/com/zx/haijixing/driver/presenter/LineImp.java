@@ -30,6 +30,11 @@ public class LineImp extends BasePresenter<LinesContract.LinesView> implements L
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<DriverClassEntry> data) {
                         mView.linesSuccess(data);
                     }

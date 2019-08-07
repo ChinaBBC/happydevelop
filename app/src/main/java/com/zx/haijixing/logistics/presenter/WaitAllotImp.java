@@ -29,6 +29,11 @@ public class WaitAllotImp extends BasePresenter<WaitAllotContract.WaitAllotView>
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(OrderTotalEntry data) {
                         mView.waitAllotSuccess(data);
                     }

@@ -31,6 +31,11 @@ public class VersionImp extends BasePresenter<VersionContract.VersionView> imple
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+
+                    }
+
+                    @Override
                     protected void onSuccess(VersionEntry data) {
                         mView.versionSuccess(data);
                     }

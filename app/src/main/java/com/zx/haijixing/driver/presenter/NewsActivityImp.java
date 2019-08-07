@@ -30,6 +30,11 @@ public class NewsActivityImp extends BasePresenter<NewsActivityContract.NewDetai
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(NewsEntry.NewsData data) {
                         mView.detailSuccess(data.getContent());
                         mView.hideLoading();

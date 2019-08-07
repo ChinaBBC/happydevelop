@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zx.haijixing.R;
+import com.zx.haijixing.logistics.entry.RunTableEntry;
+
+import java.util.List;
+
+import zx.com.skytool.ZxStringUtil;
 
 /**
  *
@@ -17,7 +22,17 @@ import com.zx.haijixing.R;
  */
 public class RunTableAdapter extends RecyclerView.Adapter<RunTableAdapter.RunTableViewHolder> {
 
-    private int loginType = 0;//0是物流端 1是管理端
+    private String company;
+    private List<RunTableEntry> runTableEntries;
+
+    public RunTableAdapter(List<RunTableEntry> runTableEntries) {
+        this.runTableEntries = runTableEntries;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
     @NonNull
     @Override
     public RunTableViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -28,21 +43,31 @@ public class RunTableAdapter extends RecyclerView.Adapter<RunTableAdapter.RunTab
 
     @Override
     public void onBindViewHolder(@NonNull RunTableViewHolder runTableViewHolder, int i) {
-        if (loginType == 0)
-            runTableViewHolder.company.setVisibility(View.GONE);
+        if (runTableEntries.size()>0){
+            RunTableEntry runTableEntry = runTableEntries.get(i);
+            runTableViewHolder.company.setText(ZxStringUtil.isEmpty(company)?"":company);
+            runTableViewHolder.sendWay.setText(runTableEntry.getProductName());
+            runTableViewHolder.bill.setText(runTableEntry.getWaybillCount()+"单");
+            runTableViewHolder.fee.setText(runTableEntry.getSumrealPrice()+"元");
+            runTableViewHolder.brokerage.setText(runTableEntry.getCommission()+"元");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return runTableEntries.size();
     }
 
     class RunTableViewHolder extends RecyclerView.ViewHolder{
 
-        TextView company;
+        TextView company,sendWay,bill,fee,brokerage;
         public RunTableViewHolder(@NonNull View itemView) {
             super(itemView);
             company = itemView.findViewById(R.id.run_table_data_company);
+            sendWay = itemView.findViewById(R.id.run_table_data_sendWay);
+            bill = itemView.findViewById(R.id.run_table_data_bill);
+            fee = itemView.findViewById(R.id.run_table_data_fee);
+            brokerage = itemView.findViewById(R.id.run_table_data_brokerage);
         }
     }
 }

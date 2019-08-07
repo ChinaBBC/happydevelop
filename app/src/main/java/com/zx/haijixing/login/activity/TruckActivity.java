@@ -182,7 +182,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     protected void initView() {
         title.setText(getHaiString(R.string.register));
         mPresenter.truckTypeMethod();
-        pvTime = HaiTool.initTimePickers(this,cure,null);
+        pvTime = HaiTool.initTimePickers(this,cure,10);
     }
 
     @Override

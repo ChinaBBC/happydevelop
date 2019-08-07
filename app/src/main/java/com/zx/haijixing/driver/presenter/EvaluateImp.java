@@ -30,6 +30,11 @@ public class EvaluateImp extends BasePresenter<EvaluateContract.EvaluateView> im
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(TotalEvaluateEntry data) {
                         mView.totalEvaluateSuccess(data);
                     }
@@ -45,6 +50,11 @@ public class EvaluateImp extends BasePresenter<EvaluateContract.EvaluateView> im
                     @Override
                     protected void onError(String errorMsg) {
                         mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
                     }
 
                     @Override

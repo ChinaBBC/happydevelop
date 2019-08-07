@@ -33,6 +33,11 @@ public class NotifyImp extends BasePresenter<NotifyContract.NotifyView> implemen
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<NotifyEntry> data) {
                         mView.notifySuccess(data);
                     }

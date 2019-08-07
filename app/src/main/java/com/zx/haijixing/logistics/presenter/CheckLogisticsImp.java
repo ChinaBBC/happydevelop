@@ -36,6 +36,8 @@ public class CheckLogisticsImp extends BasePresenter<CheckLogisticsContract.Chec
                             if (jsonObject.getInt("code") == 0){
                                 JSONObject data1 = jsonObject.getJSONObject("data");
                                 mView.checkLogisticsSuccess(data1.getString("startPoint"),data1.getString("endPoint"),data1.getString("nowPoint"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

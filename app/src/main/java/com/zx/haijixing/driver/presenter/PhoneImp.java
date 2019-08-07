@@ -37,6 +37,8 @@ public class PhoneImp extends BasePresenter<PhoneContract.PhoneView> implements 
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.oldPhoneSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -64,6 +66,8 @@ public class PhoneImp extends BasePresenter<PhoneContract.PhoneView> implements 
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.newPhoneSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -91,6 +95,8 @@ public class PhoneImp extends BasePresenter<PhoneContract.PhoneView> implements 
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.codeSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

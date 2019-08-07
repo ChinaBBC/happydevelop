@@ -28,6 +28,11 @@ public class FeeImp extends BasePresenter<FeeContract.FeeView> implements FeeCon
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<List<String>> data) {
                         mView.feeSuccess(data);
                     }

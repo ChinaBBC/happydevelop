@@ -37,6 +37,11 @@ public class LoginActivityImp extends BasePresenter<ILoginActivityContract.Login
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+
+                    }
+
+                    @Override
                     protected void onSuccess(LoginEntry data) {
                         mView.hideLoading();
                         mView.loginSuccess(data);
@@ -55,6 +60,11 @@ public class LoginActivityImp extends BasePresenter<ILoginActivityContract.Login
                     protected void onError(String errorMsg) {
                         mView.hideLoading();
                         mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void LoginTimeOut() {
+
                     }
 
                     @Override

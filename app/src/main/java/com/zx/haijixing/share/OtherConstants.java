@@ -33,6 +33,7 @@ public final class OtherConstants {
 
     public final static int EVENT_RECEIVE = 1001;//接单
     public final static int EVENT_PRINT = 1002;//打单
+    public final static int EVENT_LOGISTICS = 1000;//打单
 
     public final static int UPLOAD_DRIVER_A = 1003;//驾驶证正面
     public final static int UPLOAD_DRIVER_B = 1004;//驾驶证副页

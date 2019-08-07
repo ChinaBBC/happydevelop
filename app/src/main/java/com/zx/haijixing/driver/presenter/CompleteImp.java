@@ -28,6 +28,11 @@ public class CompleteImp extends BasePresenter<CompleteContract.CompleteView> im
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(OrderTotalEntry data) {
                         mView.completeSuccess(data);
                     }

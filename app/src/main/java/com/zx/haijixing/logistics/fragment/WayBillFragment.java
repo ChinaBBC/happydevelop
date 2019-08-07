@@ -14,8 +14,14 @@ import com.zx.haijixing.driver.fragment.CompleteFragment;
 import com.zx.haijixing.driver.fragment.ReceivedFragment;
 import com.zx.haijixing.driver.fragment.SendFragment;
 import com.zx.haijixing.driver.fragment.SendingFragment;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,6 +62,7 @@ public class WayBillFragment extends BaseFragment {
     protected void initView(View view) {
         setTitleTopMargin(title,0);
 
+        EventBus.getDefault().register(this);
         int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_11);
         int titleMar = getResources().getDimensionPixelSize(R.dimen.dp_4);
         int iconSize = getResources().getDimensionPixelSize(R.dimen.dp_20);
@@ -104,5 +111,20 @@ public class WayBillFragment extends BaseFragment {
                 break;
 
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg() == OtherConstants.EVENT_RECEIVE){
+            bottomBar.switchTo(0);
+        }else if (entity.getMsg() == OtherConstants.EVENT_PRINT){
+            bottomBar.switchTo(2);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

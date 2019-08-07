@@ -33,6 +33,11 @@ public class PrintImp extends BasePresenter<PrintOrderContract.PrintOrderView> i
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(PrintEntry data) {
                         mView.printOrderSuccess(data);
                     }
@@ -56,6 +61,8 @@ public class PrintImp extends BasePresenter<PrintOrderContract.PrintOrderView> i
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.printStatusSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

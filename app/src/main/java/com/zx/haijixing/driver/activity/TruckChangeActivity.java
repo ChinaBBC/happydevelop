@@ -85,7 +85,7 @@ public class TruckChangeActivity extends BaseActivity<TruckChangeImp> implements
         mPresenter.truckInfoMethod(truckId);
         mPresenter.driverIdentifyMethod(token);
 
-        timePickerView = HaiTool.initTimePickers(this, cureTime, null);
+        timePickerView = HaiTool.initTimePickers(this, cureTime, 10);
         time = cureTime.getText().toString().trim();
     }
 

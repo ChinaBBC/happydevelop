@@ -33,6 +33,11 @@ public class ClassManageImp extends BasePresenter<ClaManageContract.ClaManageVie
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<ClassManageEntry> data) {
                         mView.claManageSuccess(data);
                     }
@@ -56,6 +61,8 @@ public class ClassManageImp extends BasePresenter<ClaManageContract.ClaManageVie
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.deleteClassSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

@@ -21,18 +21,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
-    <TextView
-        android:id="@+id/run_table_data_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="序号1"
-        android:textSize="@dimen/sp_14"
-        android:textColor="@color/color_6666"
-        app:layout_constraintLeft_toRightOf="@id/run_table_data_sendWay"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="@dimen/dp_6"
-        android:layout_marginTop="@dimen/dp_2"
-        />
+
     <TextView
         android:id="@+id/run_table_data_company"
         android:layout_width="wrap_content"
@@ -52,7 +41,7 @@
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_16"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/run_table_data_number"
+        app:layout_constraintTop_toBottomOf="@id/run_table_data_sendWay"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/run_table_data_fee"
         android:layout_marginTop="@dimen/dp_10"
@@ -65,7 +54,7 @@
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_16"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/run_table_data_number"
+        app:layout_constraintTop_toBottomOf="@id/run_table_data_sendWay"
         app:layout_constraintLeft_toRightOf="@id/run_table_data_bill"
         app:layout_constraintRight_toLeftOf="@id/run_table_data_brokerage"
         android:layout_marginTop="@dimen/dp_10"
@@ -78,7 +67,7 @@
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_16"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/run_table_data_number"
+        app:layout_constraintTop_toBottomOf="@id/run_table_data_sendWay"
         app:layout_constraintLeft_toRightOf="@id/run_table_data_fee"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/dp_10"

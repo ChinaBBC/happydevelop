@@ -27,6 +27,7 @@ import com.zx.haijixing.R;
 import com.zx.haijixing.driver.adapter.PrintAdapter;
 
 import java.security.MessageDigest;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -174,66 +175,13 @@ public final class HaiTool {
     }
 
 
-    public static TimePickerView initTimePickers(Context context, TextView view1, TextView view2) {
-        //选择出生年月日
-        //控制时间范围(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
-        //因为系统Calendar的月份是从0-11的,所以如果是调用Calendar的set方法来设置时间,月份的范围也要是从0-11
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        if (view1 != null)
-            view1.setText(getTime(curDate));
-        if (view2 != null)
-            view2.setText(getTime(curDate));
-
-        SimpleDateFormat formatter_year = new SimpleDateFormat("yyyy ");
-        String year_str = formatter_year.format(curDate);
-        int year_int = (int) Double.parseDouble(year_str);
-
-
-        SimpleDateFormat formatter_mouth = new SimpleDateFormat("MM ");
-        String mouth_str = formatter_mouth.format(curDate);
-        int mouth_int = (int) Double.parseDouble(mouth_str);
-
-        SimpleDateFormat formatter_day = new SimpleDateFormat("dd ");
-        String day_str = formatter_day.format(curDate);
-        int day_int = (int) Double.parseDouble(day_str);
-
-
-        Calendar selectedDate = Calendar.getInstance();//系统当前时间
-        Calendar startDate = Calendar.getInstance();
-        startDate.set(1900, 0, 1);
-        Calendar endDate = Calendar.getInstance();
-        endDate.set(year_int+10, mouth_int - 1, day_int);
-
-        //时间选择器
-        TimePickerView pvTime = new TimePickerBuilder(context, (date, v) -> view1.setText(getTime(date)))
-                .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
-                .setLabel("年", "月", "日", "", "", "")//默认设置为年月日时分秒
-                .isCenterLabel(false)
-                .setDividerColor(context.getResources().getColor(R.color.color_6666))
-                .setTextColorCenter(context.getResources().getColor(R.color.color_3333))//设置选中项的颜色
-                .setTextColorOut(context.getResources().getColor(R.color.color_9999))//设置没有被选中项的颜色
-                .setDate(selectedDate)
-                .setLineSpacingMultiplier(1.2f)
-                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
-                .setRangDate(startDate, endDate)
-//                .setBackgroundId(0x00FFFFFF) //设置外部遮罩颜色
-                .setDecorView(null)
-                .build();
-
-        return pvTime;
-
-    }
-
-    public static TimePickerView initTimeHourMin(Context context, TextView view1, TextView view2) {
+    public static TimePickerView initTimeHourMin(Context context, TextView view1) {
         //选择出生年月日
         //控制时间范围(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
         //因为系统Calendar的月份是从0-11的,所以如果是调用Calendar的set方法来设置时间,月份的范围也要是从0-11
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         if (view1 != null)
             view1.setText(getHourMin(curDate));
-        if (view2 != null)
-            view2.setText(getHourMin(curDate));
-
 
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
@@ -259,6 +207,68 @@ public final class HaiTool {
 
         return pvTime;
 
+    }
+
+    public static TimePickerView initTimePickers(Context context, TextView view,int add) {
+        //选择出生年月日
+        //控制时间范围(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
+        //因为系统Calendar的月份是从0-11的,所以如果是调用Calendar的set方法来设置时间,月份的范围也要是从0-11
+        long date1 = System.currentTimeMillis();
+        Date curDate = new Date(date1);//获取当前时间
+        view.setText(add>100?getOldDate(-7):getTime(curDate));
+
+        SimpleDateFormat formatter_year = new SimpleDateFormat("yyyy ");
+        String year_str = formatter_year.format(curDate);
+        int year_int = (int) Double.parseDouble(year_str);
+
+
+        SimpleDateFormat formatter_mouth = new SimpleDateFormat("MM ");
+        String mouth_str = formatter_mouth.format(curDate);
+        int mouth_int = (int) Double.parseDouble(mouth_str);
+
+        SimpleDateFormat formatter_day = new SimpleDateFormat("dd ");
+        String day_str = formatter_day.format(curDate);
+        int day_int = (int) Double.parseDouble(day_str);
+
+
+        Calendar selectedDate = Calendar.getInstance();//系统当前时间
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2016, 0, 1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(year_int+(add>100?0:add), mouth_int - 1, day_int);
+
+        //时间选择器
+        TimePickerView pvTime = new TimePickerBuilder(context, (date, v) -> view.setText(getTime(date)))
+                .setType(new boolean[]{true, true, true, false, false, false}) //年月日时分秒 的显示与否，不设置则默认全部显示
+                .setLabel("年", "月", "日", "", "", "")//默认设置为年月日时分秒
+                .isCenterLabel(false)
+                .setDividerColor(context.getResources().getColor(R.color.color_6666))
+                .setTextColorCenter(context.getResources().getColor(R.color.color_3333))//设置选中项的颜色
+                .setTextColorOut(context.getResources().getColor(R.color.color_9999))//设置没有被选中项的颜色
+                .setDate(selectedDate)
+                .setLineSpacingMultiplier(1.2f)
+                .setTextXOffset(-10, 0,10, 0, 0, 0)//设置X轴倾斜角度[ -90 , 90°]
+                .setRangDate(startDate, endDate)
+//                .setBackgroundId(0x00FFFFFF) //设置外部遮罩颜色
+                .setDecorView(null)
+                .build();
+
+        return pvTime;
+
+    }
+    public static String getOldDate(int distanceDay) {
+        SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+        Date beginDate = new Date();
+        Calendar date = Calendar.getInstance();
+        date.setTime(beginDate);
+        date.set(Calendar.DATE, date.get(Calendar.DATE) + distanceDay);
+        Date endDate = null;
+        try {
+            endDate = dft.parse(dft.format(date.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dft.format(endDate);
     }
     private static String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

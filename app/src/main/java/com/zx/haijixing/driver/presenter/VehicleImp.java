@@ -29,6 +29,11 @@ public class VehicleImp extends BasePresenter<VehicleContract.VehicleView> imple
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<TruckEntry> data) {
                         mView.vehicleSuccess(data);
                     }

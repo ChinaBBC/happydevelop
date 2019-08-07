@@ -94,8 +94,8 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
         instance.init(this);
         token = (String) instance.getParam("token", "null");
 
-        startPickerView = HaiTool.initTimeHourMin(this, startT, null);
-        endPickerView = HaiTool.initTimeHourMin(this, endT, null);
+        startPickerView = HaiTool.initTimeHourMin(this, startT);
+        endPickerView = HaiTool.initTimeHourMin(this, endT);
 
         params.put("token",token);
         params.put("lineId",linesId);

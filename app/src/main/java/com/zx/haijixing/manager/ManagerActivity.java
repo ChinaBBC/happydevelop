@@ -1,22 +1,27 @@
 package com.zx.haijixing.manager;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomBottomBar;
-import com.zx.haijixing.logistics.fragment.CompanyCenterFragment;
+import com.zx.haijixing.driver.fragment.IndexFragment;
 import com.zx.haijixing.logistics.fragment.LogisticMoveFragment;
-import com.zx.haijixing.logistics.fragment.LogisticsCenterFragment;
-import com.zx.haijixing.logistics.fragment.LogisticsIndexFragment;
 import com.zx.haijixing.logistics.fragment.WayBillFragment;
 import com.zx.haijixing.manager.fragment.ManagerCenterFragment;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
+import com.zx.haijixing.util.HaiTool;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import zx.com.skytool.ZxStatusBarCompat;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -31,6 +36,7 @@ public class ManagerActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_11);
         int titleMar = getResources().getDimensionPixelSize(R.dimen.dp_4);
         int iconSize = getResources().getDimensionPixelSize(R.dimen.dp_20);
@@ -41,7 +47,7 @@ public class ManagerActivity extends BaseActivity {
                 .setTitleIconMargin(titleMar)
                 .setIconHeight(iconSize)
                 .setIconWidth(iconSize)
-                .addItem(LogisticsIndexFragment.class,
+                .addItem(IndexFragment.class,
                         getHaiString(R.string.index),
                         R.mipmap.index_a_a,
                         R.mipmap.index_a_b)
@@ -59,7 +65,13 @@ public class ManagerActivity extends BaseActivity {
                         R.mipmap.index_mine_after)
                 .build();
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg()==OtherConstants.EVENT_RECEIVE || entity.getMsg() == OtherConstants.EVENT_PRINT)
+            bottomMenu.switchTo(1);
+        if (entity.getMsg()==OtherConstants.EVENT_LOGISTICS)
+            bottomMenu.switchTo(2);
+    }
     @Override
     protected void initInjector() {
 
@@ -75,4 +87,22 @@ public class ManagerActivity extends BaseActivity {
         ZxStatusBarCompat.translucentStatusBar(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            if (HaiTool.isFastClick()){
+                finish();
+            }else {
+                ZxToastUtil.centerToast("再按一次退出星配送");
+            }
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

@@ -32,6 +32,11 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(OrderTotalEntry data) {
                         mView.sendingSuccess(data);
                     }
@@ -55,6 +60,8 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.completeSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -82,6 +89,8 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.surePaySuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -109,6 +118,8 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.changePriceSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

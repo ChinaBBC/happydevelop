@@ -9,6 +9,14 @@ public class DriverEntry {
     String driverId;
     String driverName;
 
+    public DriverEntry() {
+    }
+
+    public DriverEntry(String driverId, String driverName) {
+        this.driverId = driverId;
+        this.driverName = driverName;
+    }
+
     @Override
     public String toString() {
         return "DriverEntry{" +

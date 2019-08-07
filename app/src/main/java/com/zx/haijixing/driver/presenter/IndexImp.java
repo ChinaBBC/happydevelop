@@ -39,7 +39,13 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
 
                     @Override
                     protected void onSuccess(NewsEntry data) {
-                        mView.newsDataSuccess(data.getData(),data.getFileHttpWW());
+                        if (data.getCode() == 1001){
+                            mView.jumpToLogin();
+                        }else if (data.getCode() == 0){
+                            mView.newsDataSuccess(data.getData(),data.getFileHttpWW());
+                        }else {
+                            mView.showFaild(data.getMsg());
+                        }
                     }
                 });
     }
@@ -57,7 +63,13 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
 
                     @Override
                     protected void onSuccess(BannerEntry data) {
-                        mView.newDataBannerSuccess(data.getData(),data.getFileHttpWW());
+                        if (data.getCode() == 1001){
+                            mView.jumpToLogin();
+                        }else if (data.getCode() == 0){
+                            mView.newDataBannerSuccess(data.getData(),data.getFileHttpWW());
+                        }else {
+                            mView.showFaild(data.getMsg());
+                        }
                     }
                 });
     }
@@ -79,6 +91,8 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.workSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

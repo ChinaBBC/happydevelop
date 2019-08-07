@@ -23,6 +23,10 @@ public abstract class HaiDataObserver<T> extends BaseObserver<HaiBaseData<T>> {
     protected abstract void onError(String errorMsg);
 
     /**
+     * 登录超时
+     */
+    protected abstract void LoginTimeOut();
+    /**
      * 成功回调
      *
      * @param data 结果
@@ -51,7 +55,11 @@ public abstract class HaiDataObserver<T> extends BaseObserver<HaiBaseData<T>> {
                 break;
             case 300:
             case 500:
+            case 1002:
                onError(data.getMsg());
+                break;
+            case 1001:
+                LoginTimeOut();
                 break;
             default:
         }

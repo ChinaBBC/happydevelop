@@ -29,6 +29,11 @@ public class LinesManageImp extends BasePresenter<LinesMangeContract.LinesManage
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<LinesManageEntry> data) {
                         mView.linesManageSuccess(data);
                     }

@@ -176,14 +176,14 @@ public final class HaiDialogUtil {
     }
 
     //车型选择/班次选择
-    public static CommonDialogFragment showTruck(FragmentManager fragmentManager, WheelAdapter truckAdapter, TruckResultListener truckResultListener){
+    public static CommonDialogFragment showTruck(FragmentManager fragmentManager, WheelAdapter adapter, TruckResultListener truckResultListener){
         CommonDialogFragment truckDialog = CommonDialogFragment.newInstance(context -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_truck_type, null);
             WheelView wheelView = view.findViewById(R.id.dialog_truck_wheel);
             TextView sure = view.findViewById(R.id.dialog_truck_sure);
             TextView cancel = view.findViewById(R.id.dialog_truck_cancel);
             wheelView.setCyclic(false);
-            wheelView.setAdapter(truckAdapter);
+            wheelView.setAdapter(adapter);
             sure.setOnClickListener(v -> truckResultListener.truckResult(-1));
             cancel.setOnClickListener(v -> truckResultListener.truckResult(-2) );
             wheelView.setOnItemSelectedListener(index -> truckResultListener.truckResult(index));

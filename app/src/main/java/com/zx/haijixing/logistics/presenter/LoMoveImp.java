@@ -33,6 +33,11 @@ public class LoMoveImp extends BasePresenter<LoMoveContract.LoMoveView> implemen
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<LinesClassEntry> data) {
                         mView.loMoveSuccess(data);
                     }
@@ -58,6 +63,8 @@ public class LoMoveImp extends BasePresenter<LoMoveContract.LoMoveView> implemen
                                 JSONObject data1 = jsonObject.getJSONObject("data");
                                 mView.countAllSuccess(data1.getString("allCount"),data1.getString("toStartCount"),
                                         data1.getString("deliveryCount"),data1.getString("countDone"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

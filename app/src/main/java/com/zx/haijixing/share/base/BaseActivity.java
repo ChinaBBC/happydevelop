@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.allen.library.RxHttpUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
@@ -19,6 +20,7 @@ import com.zx.haijixing.util.HaiDialogUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxToastUtil;
 
@@ -87,8 +89,15 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
      */
     @Override
     public void jumpToLogin() {
-        ARouter.getInstance().build(PathConstant.ROUTE_LOGIN)
-                .navigation();
+        //RxHttpUtils.cancel(OtherConstants.CANCEL_REQUEST);
+        RxHttpUtils.cancelAll();
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        instance.setLogin(false);
+        Intent intent = new Intent();
+        intent.setAction(OtherConstants.LOGIN_OUT);
+        sendBroadcast(intent);
+        ARouter.getInstance().build(PathConstant.ROUTE_LOGIN).navigation();
     }
 
     @Override

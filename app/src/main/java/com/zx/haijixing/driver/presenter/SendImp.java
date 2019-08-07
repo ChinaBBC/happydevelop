@@ -35,6 +35,11 @@ public class SendImp extends BasePresenter<SendContract.SendView> implements Sen
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(OrderTotalEntry data) {
                         mView.sendSuccess(data);
                     }
@@ -60,6 +65,8 @@ public class SendImp extends BasePresenter<SendContract.SendView> implements Sen
                                 mView.departSuccess(jsonObject.getString("msg"));
                             }else if (jsonObject.getInt("code") == 1010){
                                 mView.departSuccess("1010");
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -79,6 +86,11 @@ public class SendImp extends BasePresenter<SendContract.SendView> implements Sen
                     @Override
                     protected void onError(String errorMsg) {
                         mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
                     }
 
                     @Override

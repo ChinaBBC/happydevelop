@@ -104,7 +104,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (loginType.equals(OtherConstants.LOGIN_LOGISTICS) ||loginType.equals(OtherConstants.LOGIN_MANAGER)){
                 indexHeadViewHolder.word1.setText(context.getResources().getString(R.string.wait_allot_order));
                 indexHeadViewHolder.word2.setText(context.getResources().getString(R.string.wait_send));
-                indexHeadViewHolder.word3.setText(context.getResources().getString(R.string.classes_manage));
+                indexHeadViewHolder.word3.setText(loginType.equals(OtherConstants.LOGIN_MANAGER)?"物流中心":context.getResources().getString(R.string.classes_manage));
                 indexHeadViewHolder.clock.setImageResource(R.mipmap.classes_manage);
                 indexHeadViewHolder.services.setImageResource(R.mipmap.all_services_l);
             }
@@ -123,8 +123,8 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             if (bannerData != null && bannerData.size()>0)
                 BannerUtil.initBannerScroll(indexHeadViewHolder.banner, bannerData,bannerStr, position -> {
-                    BannerEntry.BannerData bannerData = this.bannerData.get(position);
-                    ZxLogUtil.logError("<banner data>"+bannerData.toString());
+                    //BannerEntry.BannerData bannerData = this.bannerData.get(position);
+                    //ZxLogUtil.logError("<banner data>"+bannerData.toString());
                 });
 
         }else {

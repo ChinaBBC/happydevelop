@@ -34,6 +34,11 @@ public class LinesClassImp extends BasePresenter<LinesClassContract.LinesClassVi
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(List<LinesClassEntry> data) {
                         mView.linesClassSuccess(data);
                     }
@@ -57,6 +62,8 @@ public class LinesClassImp extends BasePresenter<LinesClassContract.LinesClassVi
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.allotOrderSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

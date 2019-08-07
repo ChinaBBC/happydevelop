@@ -254,23 +254,46 @@
                     app:layout_constraintLeft_toRightOf="@id/fee_statistics_end"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <LinearLayout
                     android:id="@+id/fee_statistics_input"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/dp_30"
                     android:layout_marginRight="@dimen/dp_24"
-                    android:background="@drawable/shape_3dp_703f"
-                    android:hint="@string/driver_name"
-                    android:maxLength="8"
-                    android:paddingLeft="@dimen/dp_12"
-                    android:paddingRight="@dimen/dp_12"
-                    android:textColor="@color/color_3333"
-                    android:textColorHint="@color/color_9999"
-                    android:textSize="@dimen/sp_14"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/fee_statistics_search"
-                    app:layout_constraintTop_toBottomOf="@id/fee_statistics_start" />
+                    app:layout_constraintTop_toBottomOf="@id/fee_statistics_start"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_3dp_703f"
+                    android:paddingLeft="@dimen/dp_6"
+                    android:paddingRight="@dimen/dp_6"
+                    >
+                    <TextView
+                        android:id="@+id/fee_statistics_word6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="司机:"
+                        android:textColor="@color/color_6666"
+                        android:textSize="@dimen/dp_14"
+                        />
+                    <TextView
+                        android:id="@+id/fee_statistics_namePhone"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="全部"
+                        android:gravity="right"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/color_3333"
+                        android:layout_marginRight="@dimen/dp_4"
+                        />
+                    <ImageView
+                        android:layout_width="@dimen/dp_12"
+                        android:layout_height="@dimen/dp_12"
+                        android:src="@mipmap/arrows_down_a"
+                        />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/fee_statistics_search"

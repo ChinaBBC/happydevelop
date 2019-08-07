@@ -135,7 +135,11 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 scanQrCode();
                 break;
             case R.id.index_header_clock:
-                showClock = HaiDialogUtil.showClock(getFragmentManager(), this::onViewClicked);
+                if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
+                    showClock = HaiDialogUtil.showClock(getFragmentManager(), this::onViewClicked);
+                }else {
+                    EventBus.getDefault().post(new EventBusEntity(OtherConstants.EVENT_LOGISTICS));
+                }
                 break;
             case R.id.dialog_clock_yes:
                 mPresenter.workMethod(token);
@@ -148,7 +152,10 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 ARouter.getInstance().build(PathConstant.DRIVER_NOTIFY).navigation();
                 break;
             case R.id.index_header_services:
-                ARouter.getInstance().build(PathConstant.DRIVER_SERVICES).navigation();
+                ARouter.getInstance().build(PathConstant.DRIVER_SERVICES)
+                        .withString("loginType",loginType)
+                        .withString("token",token)
+                        .navigation();
                 break;
             case R.id.index_header_receive:
                 EventBus.getDefault().post(new EventBusEntity(OtherConstants.EVENT_RECEIVE));

@@ -1,8 +1,10 @@
 package com.zx.haijixing.logistics.contract;
 
+import com.zx.haijixing.logistics.entry.DriverEntry;
 import com.zx.haijixing.logistics.entry.FeeStatisticsEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +19,7 @@ public interface FeeStatisticsContract {
         void feeStatisticsSuccess(FeeStatisticsEntry feeStatisticsEntry);
         void receiveStatisticsSuccess(FeeStatisticsEntry feeStatisticsEntry);
         void todayStatisticsSuccess(String countNum,String totalPrice,String toPayMoney);
+        void searchDriverSuccess(List<DriverEntry> driverEntries);
     }
 
     interface FeeStatisticsPresenter extends IBaseContract.IBasePresenter<FeeStatisticsView>{
@@ -24,5 +27,6 @@ public interface FeeStatisticsContract {
         void feeStatisticsMethod(Map<String,Object> params);
         void todayStatisticsMethod(String token);
         void receiveStatisticsMethod(Map<String,Object> params);
+        void searchDriverMethod(String token);
     }
 }

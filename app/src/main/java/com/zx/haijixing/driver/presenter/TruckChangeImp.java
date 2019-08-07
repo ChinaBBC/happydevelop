@@ -38,6 +38,8 @@ public class TruckChangeImp extends BasePresenter<TruckChangeContract.TruckChang
                     protected void onSuccess(TruckDetailEntry truckDetailEntry) {
                         if (truckDetailEntry.getCode() == 0){
                             mView.truckInfoSuccess(truckDetailEntry.getData(),truckDetailEntry.getFileHttpWW());
+                        }else if (truckDetailEntry.getCode() == 1001){
+                            mView.jumpToLogin();
                         }else {
                             mView.showFaild(truckDetailEntry.getMsg());
                         }
@@ -63,6 +65,8 @@ public class TruckChangeImp extends BasePresenter<TruckChangeContract.TruckChang
                             if (jsonObject.getInt("code") == 0){
                                 JSONObject object = jsonObject.getJSONObject("data");
                                 mView.driverIdentifySuccess(object.getString("DRIVERIMAGEFRONTS"),object.getString("DRIVERIMAGEBACKS"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -90,6 +94,8 @@ public class TruckChangeImp extends BasePresenter<TruckChangeContract.TruckChang
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.changeTimeSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

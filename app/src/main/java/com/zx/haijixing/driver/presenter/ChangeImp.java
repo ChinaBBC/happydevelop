@@ -52,6 +52,8 @@ public class ChangeImp extends BasePresenter<ChangeContract.ChangeView> implemen
                             JSONObject jsonObject = new JSONObject(string);
                             if (jsonObject.getInt("code") == 0){
                                 mView.changeSuccess(jsonObject.getString("fileName"),jsonObject.getString("fastdfsProfix"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }
@@ -81,6 +83,8 @@ public class ChangeImp extends BasePresenter<ChangeContract.ChangeView> implemen
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.changeHeadSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
                             }else {
                                 mView.showFaild(jsonObject.getString("msg"));
                             }

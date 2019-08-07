@@ -2,7 +2,11 @@ package com.zx.haijixing.share.service;
 
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
+import com.zx.haijixing.logistics.entry.CompanyEntry;
+import com.zx.haijixing.logistics.entry.DriverEntry;
+import com.zx.haijixing.logistics.entry.DriverWordEntry;
 import com.zx.haijixing.logistics.entry.FeeStatisticsEntry;
+import com.zx.haijixing.logistics.entry.RunTableEntry;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.HaiBaseData;
 import com.zx.haijixing.share.pub.entry.NotifyEntry;
@@ -19,6 +23,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  *
@@ -66,7 +71,7 @@ public interface ShareApiService {
     //司机列表
     @FormUrlEncoded
     @POST("logistics/reports/driver/list")
-    Observable<String> driverListApi(@Field("token") String token);
+    Observable<HaiBaseData<List<DriverEntry>>> driverListApi(@Field("token") String token);
 
     //运费统计
     @FormUrlEncoded
@@ -77,4 +82,16 @@ public interface ShareApiService {
     @FormUrlEncoded
     @POST("logistics/reports/topay/price/waybill/list")
     Observable<HaiBaseData<FeeStatisticsEntry>> feeReceivedStatisticsApi(@FieldMap Map<String,Object> params);
+
+    //物流公司
+    @GET("reception/order/selectCompayByDeptId")
+    Observable<HaiBaseData<List<CompanyEntry>>> companyApi(@Query("token") String token);
+
+    //运营总表
+    @GET("reception/order/selectWaybillOrderCount")
+    Observable<HaiBaseData<List<RunTableEntry>>> runTableApi(@QueryMap Map<String,Object> params);
+
+    //司机评价
+    @GET("reception/orderComment/driverCommentScore")
+    Observable<HaiBaseData<List<DriverWordEntry>>> driverWordApi(@Query("driverName") String driverName);
 }

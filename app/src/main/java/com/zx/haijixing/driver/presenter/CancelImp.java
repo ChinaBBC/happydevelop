@@ -28,6 +28,11 @@ public class CancelImp extends BasePresenter<CancelContract.CancelView> implemen
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(OrderTotalEntry data) {
                         mView.cancelSuccess(data);
                     }

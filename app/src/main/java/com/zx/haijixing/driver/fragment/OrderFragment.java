@@ -123,4 +123,10 @@ public class OrderFragment extends BaseFragment {
             bottomBar.switchTo(1);
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

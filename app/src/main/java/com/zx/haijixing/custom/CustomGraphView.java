@@ -57,7 +57,7 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
 
     private LinkedList<String> xLastData = new LinkedList<>();
     private LinkedList<Double> yLastData = new LinkedList<>();
-    private int spacingHeight;
+    private int spacingHeight = 1;
 
     private SurfaceHolder holder;
     private boolean isRunning = true;

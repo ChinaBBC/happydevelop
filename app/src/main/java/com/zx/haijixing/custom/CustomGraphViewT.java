@@ -6,14 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.entry.MyPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +76,7 @@ public final class CustomGraphViewT extends View {
 
     private List<String> mYTextUnits = new ArrayList<>();
 
-    private List<Point> mDataLists = new ArrayList<>();
+    private List<MyPoint> mDataLists = new ArrayList<>();
 
     private int mWidth = 0;
     private int mHeight = 0;
@@ -103,7 +102,7 @@ public final class CustomGraphViewT extends View {
 
     public CustomGraphViewT(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initData();
+        //initData();
         initStyle(context,attrs);
         initPaint();
         initPath();
@@ -226,14 +225,14 @@ public final class CustomGraphViewT extends View {
         return this;
     }
 
-    public CustomGraphViewT setDateList(List<Point> dataList){
+    public CustomGraphViewT setDateList(List<MyPoint> dataList){
         mDataLists.clear();
         mDataLists.addAll(dataList);
         return this;
     }
 
     public void startDraw(){
-        //invalidate();
+        invalidate();
     }
 
     @Override
@@ -305,7 +304,7 @@ public final class CustomGraphViewT extends View {
         mSolidPath.reset();
         mSolidPath.moveTo(xPadding,mHeight - yPadding);
         for (int index=0;index<mDataLists.size();index++){
-            Point it = mDataLists.get(index);
+            MyPoint it = mDataLists.get(index);
             mSolidPath.lineTo(xPadding + xLittleUnit * it.x , mHeight - yPadding - yLittleUnit * it.y);
 
         }
@@ -318,7 +317,7 @@ public final class CustomGraphViewT extends View {
         float yLittleUnit = itemYWidth/mYUnitValue;
         mBrokenPath.reset();
         for (int index=0;index<mDataLists.size();index++){
-            Point point = mDataLists.get(index);
+            MyPoint point = mDataLists.get(index);
             if(index==0){
                 mBrokenPath.moveTo(xPadding + xLittleUnit * point.x , mHeight - yPadding - yLittleUnit * point.y);
             }else{
@@ -331,7 +330,7 @@ public final class CustomGraphViewT extends View {
         float xLittleUnit = itemXWidth/mXUnitValue;
         float yLittleUnit = itemYWidth/mYUnitValue;
         for (int index=0;index<mDataLists.size();index++){
-            Point it = mDataLists.get(index);
+            MyPoint it = mDataLists.get(index);
             if(mIsCircleSolid){
                 mCirclePaint.setStyle(Paint.Style.FILL);
                 mCirclePaint.setColor(Color.WHITE);

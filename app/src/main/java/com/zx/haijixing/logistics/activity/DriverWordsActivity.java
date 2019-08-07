@@ -12,45 +12,52 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.zx.haijixing.R;
 import com.zx.haijixing.logistics.adapter.DriverWordAdapter;
+import com.zx.haijixing.logistics.contract.DriverWordContract;
+import com.zx.haijixing.logistics.entry.DriverWordEntry;
+import com.zx.haijixing.logistics.presenter.DriverWordImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxStatusBarCompat;
+import zx.com.skytool.ZxToastUtil;
 
 @Route(path = PathConstant.DRIVER_EVALUATE)
-public class DriverWordsActivity extends BaseActivity {
+public class DriverWordsActivity extends BaseActivity<DriverWordImp> implements DriverWordContract.DriverWordView {
 
     @BindView(R.id.driver_words_back)
     ImageView back;
     @BindView(R.id.driver_words_title)
     TextView title;
-    @BindView(R.id.driver_words_start)
-    TextView start;
-    @BindView(R.id.driver_words_end)
-    TextView end;
     @BindView(R.id.driver_words_input)
     EditText input;
     @BindView(R.id.driver_words_search)
     Button search;
     @BindView(R.id.driver_words_data)
     RecyclerView data;
-    private TimePickerView timePickerView;
+    private DriverWordAdapter driverWordAdapter;
+    private List<DriverWordEntry> driverWordEntries = new ArrayList<>();
 
     @Override
     protected void initView() {
         setTitleTopMargin(back);
         setTitleTopMargin(title);
-        timePickerView = HaiTool.initTimePickers(this, start, end);
+
         data.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        data.setAdapter(new DriverWordAdapter());
+        driverWordAdapter = new DriverWordAdapter(driverWordEntries);
+        data.setAdapter(driverWordAdapter);
+
+        mPresenter.driverWordMethod("");
     }
 
     @Override
     protected void initInjector() {
-
+        mPresenter = new DriverWordImp();
     }
 
     @Override
@@ -58,19 +65,15 @@ public class DriverWordsActivity extends BaseActivity {
         return R.layout.activity_driver_words;
     }
 
-    @OnClick({R.id.driver_words_back, R.id.driver_words_start, R.id.driver_words_end, R.id.driver_words_search})
+    @OnClick({R.id.driver_words_back, R.id.driver_words_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.driver_words_back:
                 finish();
                 break;
-            case R.id.driver_words_start:
-                timePickerView.show();
-                break;
-            case R.id.driver_words_end:
-                timePickerView.show();
-                break;
             case R.id.driver_words_search:
+                String input = this.input.getText().toString().trim();
+                mPresenter.driverWordMethod(input);
                 break;
         }
     }
@@ -78,5 +81,16 @@ public class DriverWordsActivity extends BaseActivity {
     @Override
     public void setStatusBar() {
         ZxStatusBarCompat.translucentStatusBar(this,true);
+    }
+
+    @Override
+    public void driverWordSuccess(List<DriverWordEntry> driverWordEntries) {
+        if (driverWordEntries.size() == 0){
+            ZxToastUtil.centerToast("暂无此司机的评价");
+        }else {
+            this.driverWordEntries.clear();
+            this.driverWordEntries.addAll(driverWordEntries);
+            driverWordAdapter.notifyDataSetChanged();
+        }
     }
 }

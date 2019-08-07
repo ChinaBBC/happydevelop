@@ -4,6 +4,7 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.logistics.contract.FeeStatisticsContract;
+import com.zx.haijixing.logistics.entry.DriverEntry;
 import com.zx.haijixing.logistics.entry.FeeStatisticsEntry;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiDataObserver;
@@ -36,6 +37,11 @@ public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeSta
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(FeeStatisticsEntry data) {
                         mView.orderStatisticsSuccess(data);
                     }
@@ -51,6 +57,11 @@ public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeSta
                     @Override
                     protected void onError(String errorMsg) {
                         mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
                     }
 
                     @Override
@@ -100,8 +111,36 @@ public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeSta
                     }
 
                     @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
                     protected void onSuccess(FeeStatisticsEntry data) {
                         mView.receiveStatisticsSuccess(data);
+                    }
+                });
+    }
+
+    @Override
+    public void searchDriverMethod(String token) {
+        RxHttpUtils.createApi(ShareApiService.class)
+                .driverListApi(token)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new HaiDataObserver<List<DriverEntry>>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
+                    protected void onSuccess(List<DriverEntry> data) {
+                        mView.searchDriverSuccess(data);
                     }
                 });
     }
