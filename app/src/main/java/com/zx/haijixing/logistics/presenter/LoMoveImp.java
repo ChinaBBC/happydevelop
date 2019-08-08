@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class LoMoveImp extends BasePresenter<LoMoveContract.LoMoveView> implements LoMoveContract.LoMovePresenter {
     @Override
-    public void loMoveMethod(Map<String, Object> params) {
+    public void loMoveMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .allLinesApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -45,9 +45,9 @@ public class LoMoveImp extends BasePresenter<LoMoveContract.LoMoveView> implemen
     }
 
     @Override
-    public void countAllMethod(String token) {
+    public void countAllMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
-                .countAllApi(token)
+                .countAllApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override

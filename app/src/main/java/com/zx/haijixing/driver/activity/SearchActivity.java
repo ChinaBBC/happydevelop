@@ -22,6 +22,7 @@ import com.zx.haijixing.driver.presenter.CompleteImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
     @Autowired(name = "content")
     String content;
 
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
     private OrderAdapter orderAdapter;
 
@@ -78,9 +79,11 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
         params.put("token", token);
         //params.put("status", OtherConstants.DETAIL_SENDING);
         params.put("params",content);
-        params.put(OtherConstants.PAGE, page);
-        params.put(OtherConstants.SIZE, 5);
-
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.completeMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
     }
@@ -119,7 +122,10 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.completeMethod(params);
     }
 
@@ -128,7 +134,10 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
         page = 1;
         orderEntries.clear();
         orderAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.completeMethod(params);
     }
 

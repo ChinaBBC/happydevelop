@@ -67,9 +67,9 @@ public class ChangeImp extends BasePresenter<ChangeContract.ChangeView> implemen
     }
 
     @Override
-    public void changeHeadImgMethod(String path,String token) {
+    public void changeHeadImgMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LoginApiService.class)
-                .changeUserHead(path,token)
+                .changeUserHead(params)
                 .compose(Transformer.<String>switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override

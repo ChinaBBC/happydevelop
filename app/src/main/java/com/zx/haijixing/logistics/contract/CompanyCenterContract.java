@@ -4,6 +4,7 @@ import com.zx.haijixing.logistics.entry.CompanyEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +18,6 @@ public interface CompanyCenterContract {
     }
 
     interface CompanyCenterPresenter extends IBaseContract.IBasePresenter<CompanyCenterView>{
-        void companyMethod(String token);
+        void companyMethod(Map<String, String> params);
     }
 }

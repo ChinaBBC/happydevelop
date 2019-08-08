@@ -76,7 +76,7 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
     private TimePickerView endPickerView;
     private RunTableAdapter runTableAdapter;
     private List<RunTableEntry> runTableEntries = new ArrayList<>();
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
     private CommonDialogFragment showCompany;
     private int companyIndex = 0;
 
@@ -106,6 +106,10 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
         CompanyEntry companyEntry = companys.get(0);
         params.put("compayId", companyEntry.getLgsId());
         company.setText(companyEntry.getcName());
+
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.runTableMethod(params);
         //@Query("compayId") String compayId, @Query("startTime") String startTime, @Query("endTime") String endTime
     }
@@ -149,7 +153,9 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
 
         params.put("startTime",starts);
         params.put("endTime",ends);
-
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.runTableMethod(params);
     }
     @Override
@@ -193,6 +199,9 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
             CompanyEntry driverEntry = companys.get(companyIndex);
             params.put("compayId", driverEntry.getLgsId());
             company.setText(driverEntry.getcName());
+            params.put("timestamp",System.currentTimeMillis()+"");
+            params.put("sign","");
+            params.put("sign",HaiTool.sign(params));
             mPresenter.runTableMethod(params);
         }else if (index == -2){
             showCompany.dismissAllowingStateLoss();

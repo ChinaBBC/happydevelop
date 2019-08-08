@@ -28,9 +28,9 @@ import okhttp3.ResponseBody;
  */
 public class PaperChangeImp extends BasePresenter<PaperChangeContract.PaperChangeView> implements PaperChangeContract.PaperChangePresenter {
     @Override
-    public void changeDriverId(String token, String driverA, String driverB) {
+    public void changeDriverId(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .changeDriveIdentify(token,driverA,driverB)
+                .changeDriveIdentify(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override
@@ -57,7 +57,7 @@ public class PaperChangeImp extends BasePresenter<PaperChangeContract.PaperChang
     }
 
     @Override
-    public void changeTruckInfo(Map<String,Object> params) {
+    public void changeTruckInfo(Map<String,String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .changeTruckApi(params)
                 .compose(Transformer.switchSchedulers())

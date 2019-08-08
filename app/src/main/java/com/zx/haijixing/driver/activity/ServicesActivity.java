@@ -17,8 +17,12 @@ import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -91,14 +95,24 @@ public class ServicesActivity extends BaseActivity<ServicesImp> implements Servi
                 break;
             case R.id.services_clock:
                 if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
-                    showClock = HaiDialogUtil.showClock(getSupportFragmentManager(), this::onViewClicked);
+                    Map<String,String> param = new HashMap<>();
+                    param.put("token",token);
+                    param.put("timestamp",System.currentTimeMillis()+"");
+                    param.put("sign","");
+                    param.put("sign",HaiTool.sign(param));
+                    mPresenter.clockStatusMethod(param);
                 }else {
                     EventBus.getDefault().post(new EventBusEntity(OtherConstants.EVENT_LOGISTICS));
                     finish();
                 }
                 break;
             case R.id.dialog_clock_yes:
-                mPresenter.clockMethod(token);
+                Map<String,String> params = new HashMap<>();
+                params.put("token",token);
+                params.put("timestamp",System.currentTimeMillis()+"");
+                params.put("sign","");
+                params.put("sign",HaiTool.sign(params));
+                mPresenter.clockMethod(params);
                 break;
             case R.id.dialog_clock_no:
                 showClock.dismissAllowingStateLoss();
@@ -110,5 +124,14 @@ public class ServicesActivity extends BaseActivity<ServicesImp> implements Servi
     public void clockSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
         showClock.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void clockStatusSuccess(String msg) {
+        if ("1".equals(msg)){
+            showClock = HaiDialogUtil.showClock(getSupportFragmentManager(),"是否下班？", this::onViewClicked);
+        }else {
+            showClock = HaiDialogUtil.showClock(getSupportFragmentManager(),null, this::onViewClicked);
+        }
     }
 }

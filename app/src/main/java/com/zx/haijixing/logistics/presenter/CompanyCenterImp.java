@@ -9,6 +9,7 @@ import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.ShareApiService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,9 +19,9 @@ import java.util.List;
  */
 public class CompanyCenterImp extends BasePresenter<CompanyCenterContract.CompanyCenterView> implements CompanyCenterContract.CompanyCenterPresenter {
     @Override
-    public void companyMethod(String token) {
+    public void companyMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .companyApi(token)
+                .companyApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<CompanyEntry>>() {
                     @Override

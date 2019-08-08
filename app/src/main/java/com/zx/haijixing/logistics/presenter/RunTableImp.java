@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class RunTableImp extends BasePresenter<RunTableContact.RunTableView> implements RunTableContact.RunTablePresenter {
     @Override
-    public void runTableMethod(Map<String,Object> params) {
+    public void runTableMethod(Map<String,String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
                 .runTableApi(params)
                 .compose(Transformer.switchSchedulers())

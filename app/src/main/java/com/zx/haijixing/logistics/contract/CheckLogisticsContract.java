@@ -2,6 +2,8 @@ package com.zx.haijixing.logistics.contract;
 
 import com.zx.haijixing.share.base.IBaseContract;
 
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -14,6 +16,6 @@ public interface CheckLogisticsContract {
     }
 
     interface CheckLogisticsPresenter extends IBaseContract.IBasePresenter<CheckLogisticView>{
-        void checkLogisticsMethod(String token,String id);
+        void checkLogisticsMethod(Map<String, String> params);
     }
 }

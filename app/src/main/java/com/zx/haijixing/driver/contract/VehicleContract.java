@@ -4,6 +4,7 @@ import com.zx.haijixing.driver.entry.TruckEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +18,6 @@ public interface VehicleContract {
     }
 
     interface VehiclePresenter extends IBaseContract.IBasePresenter<VehicleView>{
-        void vehicleMethod(String token);
+        void vehicleMethod(Map<String, String> params);
     }
 }

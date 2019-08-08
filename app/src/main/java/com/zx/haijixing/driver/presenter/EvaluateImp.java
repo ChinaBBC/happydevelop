@@ -10,6 +10,7 @@ import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,9 +20,9 @@ import java.util.List;
  */
 public class EvaluateImp extends BasePresenter<EvaluateContract.EvaluateView> implements EvaluateContract.EvaluatePresenter {
     @Override
-    public void totalEvaluateMethod(String token) {
+    public void totalEvaluateMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .queryTotalEvaluateApi(token)
+                .queryTotalEvaluateApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<TotalEvaluateEntry>() {
                     @Override
@@ -42,9 +43,9 @@ public class EvaluateImp extends BasePresenter<EvaluateContract.EvaluateView> im
     }
 
     @Override
-    public void everyEvaluateMethod(String token, int page) {
+    public void everyEvaluateMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .queryEveryEvaluateApi(token,page,5)
+                .queryEveryEvaluateApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<EveryEvaluateEntry>>() {
                     @Override

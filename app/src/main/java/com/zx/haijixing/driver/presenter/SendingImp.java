@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class SendingImp extends BasePresenter<SendingContract.SendingView> implements SendingContract.SendingPresenter {
     @Override
-    public void sendingMethod(Map<String, Object> params) {
+    public void sendingMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .orderLists(params)
                 .compose(Transformer.switchSchedulers())
@@ -44,7 +44,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
     }
 
     @Override
-    public void completeMethod(Map<String, Object> params) {
+    public void completeMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .completeApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -73,7 +73,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
     }
 
     @Override
-    public void surePayMethod(Map<String, Object> params) {
+    public void surePayMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .receiveMoneyAPi(params)
                 .compose(Transformer.switchSchedulers())
@@ -102,7 +102,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
     }
 
     @Override
-    public void changePriceMethod(Map<String, Object> params) {
+    public void changePriceMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .changePrice(params)
                 .compose(Transformer.switchSchedulers())

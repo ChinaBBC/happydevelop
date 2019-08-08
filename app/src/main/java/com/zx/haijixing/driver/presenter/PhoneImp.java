@@ -21,9 +21,9 @@ import java.util.Map;
  */
 public class PhoneImp extends BasePresenter<PhoneContract.PhoneView> implements PhoneContract.PhonePresenter {
     @Override
-    public void oldPhoneMethod(String phone, String code) {
+    public void oldPhoneMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .phoneOldApi(phone,code)
+                .phoneOldApi(params)
                 .compose(Transformer.<String>switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override
@@ -50,7 +50,7 @@ public class PhoneImp extends BasePresenter<PhoneContract.PhoneView> implements 
     }
 
     @Override
-    public void newPhoneMethod(Map<String,Object> params) {
+    public void newPhoneMethod(Map<String,String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .phoneOrPassApi(params)
                 .compose(Transformer.<String>switchSchedulers())

@@ -9,6 +9,7 @@ import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,9 +20,9 @@ import java.util.List;
 public class LineImp extends BasePresenter<LinesContract.LinesView> implements LinesContract.LinesPresenter {
 
     @Override
-    public void linesMethod(String token) {
+    public void linesMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .driverClass(token)
+                .driverClass(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<DriverClassEntry>>() {
                     @Override

@@ -16,6 +16,6 @@ public interface CompleteContract {
         void completeSuccess(OrderTotalEntry orderTotalEntry);
     }
     interface CompletePresenter extends IBaseContract.IBasePresenter<CompleteView>{
-        void completeMethod(Map<String,Object> params);
+        void completeMethod(Map<String,String> params);
     }
 }

@@ -17,6 +17,7 @@ import com.zx.haijixing.logistics.presenter.LinesManageImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
 
     private LinesManageAdapter linesManageAdapter;
     private List<LinesManageEntry> linesManageEntries = new ArrayList<>();
-    private Map<String,Object> params = new HashMap<>();
+    private Map<String,String> params = new HashMap<>();
     private int page = 1;
 
     @Override
@@ -67,9 +68,11 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
         refresh.setOnRefreshLoadMoreListener(this);
 
         params.put("token",token);
-        params.put(OtherConstants.PAGE,page);
-        params.put(OtherConstants.SIZE,5);
-
+        params.put(OtherConstants.PAGE,page+"");
+        params.put(OtherConstants.SIZE,5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.linesManageMethod(params);
     }
 
@@ -78,7 +81,10 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.linesManageMethod(params);
     }
 
@@ -88,7 +94,10 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
         page = 1;
         linesManageEntries.clear();
         linesManageAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.linesManageMethod(params);
     }
 

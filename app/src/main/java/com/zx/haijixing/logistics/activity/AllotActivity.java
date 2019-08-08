@@ -24,6 +24,7 @@ import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,8 +61,8 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
 
     private LogisticsMoveAdapter logisticsMoveAdapter;
     private List<LinesClassEntry> linesClassEntries = new ArrayList<>();
-    private Map<String,Object> linesParams = new HashMap<>();
-    private Map<String,Object> allotParams = new HashMap<>();
+    private Map<String,String> linesParams = new HashMap<>();
+    private Map<String,String> allotParams = new HashMap<>();
     private int page = 1;
     private CommonDialogFragment showAllot;
 
@@ -82,14 +83,18 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
 
         linesParams.put("token",token);
         linesParams.put("lineId",linesId);
-        linesParams.put(OtherConstants.PAGE,page);
-        linesParams.put(OtherConstants.SIZE,5);
+        linesParams.put(OtherConstants.PAGE,page+"");
+        linesParams.put(OtherConstants.SIZE,5+"");
 
         allotParams.put("token",token);
         allotParams.put("waybillId",orderId);
         allotParams.put("lineId",linesId);
 
         refresh.setOnRefreshLoadMoreListener(this);
+
+        linesParams.put("timestamp",System.currentTimeMillis()+"");
+        linesParams.put("sign","");
+        linesParams.put("sign",HaiTool.sign(linesParams));
         mPresenter.linesClassMethod(linesParams);
     }
 
@@ -114,6 +119,9 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
                 break;
             case R.id.dialog_update_yes:
                 showAllot.dismissAllowingStateLoss();
+                allotParams.put("timestamp",System.currentTimeMillis()+"");
+                allotParams.put("sign","");
+                allotParams.put("sign",HaiTool.sign(allotParams));
                 mPresenter.allotOrderMethod(allotParams);
                 break;
             case R.id.dialog_update_no:
@@ -146,7 +154,10 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
         linesClassEntries.clear();
         logisticsMoveAdapter.notifyDataSetChanged();
         page = 1;
-        linesParams.put(OtherConstants.PAGE,page);
+        linesParams.put(OtherConstants.PAGE,page+"");
+        linesParams.put("timestamp",System.currentTimeMillis()+"");
+        linesParams.put("sign","");
+        linesParams.put("sign",HaiTool.sign(linesParams));
         mPresenter.linesClassMethod(linesParams);
     }
 
@@ -160,7 +171,10 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        linesParams.put(OtherConstants.PAGE, page);
+        linesParams.put(OtherConstants.PAGE, page+"");
+        linesParams.put("timestamp",System.currentTimeMillis()+"");
+        linesParams.put("sign","");
+        linesParams.put("sign",HaiTool.sign(linesParams));
         mPresenter.linesClassMethod(linesParams);
     }
 
@@ -170,7 +184,10 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
         page = 1;
         linesClassEntries.clear();
         logisticsMoveAdapter.notifyDataSetChanged();
-        linesParams.put(OtherConstants.PAGE, page);
+        linesParams.put(OtherConstants.PAGE, page+"");
+        linesParams.put("timestamp",System.currentTimeMillis()+"");
+        linesParams.put("sign","");
+        linesParams.put("sign",HaiTool.sign(linesParams));
         mPresenter.linesClassMethod(linesParams);
     }
 }

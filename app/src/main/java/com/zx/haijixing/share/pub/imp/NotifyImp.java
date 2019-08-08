@@ -10,6 +10,7 @@ import com.zx.haijixing.share.pub.entry.NotifyEntry;
 import com.zx.haijixing.share.service.ShareApiService;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -21,9 +22,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 public class NotifyImp extends BasePresenter<NotifyContract.NotifyView> implements NotifyContract.NotifyPresenter {
     @Override
-    public void notifyMethod(String token, String page, String size) {
+    public void notifyMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .notifyApi(token,page,size)
+                .notifyApi(params)
                 .compose(Transformer.<HaiBaseData<List<NotifyEntry>>>switchSchedulers())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new HaiDataObserver<List<NotifyEntry>>() {

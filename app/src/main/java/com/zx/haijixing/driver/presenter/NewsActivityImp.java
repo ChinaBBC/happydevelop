@@ -9,6 +9,8 @@ import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.ShareApiService;
 
+import java.util.Map;
+
 
 /**
  *
@@ -18,10 +20,10 @@ import com.zx.haijixing.share.service.ShareApiService;
  */
 public class NewsActivityImp extends BasePresenter<NewsActivityContract.NewDetailView> implements NewsActivityContract.NewsDetailPresenter {
     @Override
-    public void detailMethod(String token,String newId) {
+    public void detailMethod(Map<String, String> params) {
         mView.showLoading();
         RxHttpUtils.createApi(ShareApiService.class)
-                .newsOne(token,newId)
+                .newsOne(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<NewsEntry.NewsData>() {
                     @Override
@@ -43,9 +45,9 @@ public class NewsActivityImp extends BasePresenter<NewsActivityContract.NewDetai
     }
 
     @Override
-    public void orderDetailMethod(String token, String newId) {
+    public void orderDetailMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .qrOrderApi(token,newId)
+                .qrOrderApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override

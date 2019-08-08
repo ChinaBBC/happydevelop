@@ -26,6 +26,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
@@ -40,6 +43,7 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
     CustomBottomBar driverBbBottomMenu;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
+    private Map<String,String> params = new HashMap<>();
 
     private String token = null;
 
@@ -48,6 +52,7 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
         token = (String) instance.getParam("token", "token");
+        params.put("token",token);
 
         EventBus.getDefault().register(this);
         int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_11);
@@ -142,8 +147,14 @@ public class DriverActivity extends BaseActivity<DriverImp> implements DriverCon
                 eventBusEntity.setMessage(city);
                 EventBus.getDefault().post(eventBusEntity);
                 //ZxLogUtil.logError("<getLatitude>>>"+aMapLocation.getLatitude()+"<getLatitude>>>"+aMapLocation.getLatitude()+"<token>>>"+token+"<token>>>"+aMapLocation.getCity());
-                if (!ZxStringUtil.isEmpty(token))
-                    mPresenter.driverMethod(token,aMapLocation.getLatitude()+"",aMapLocation.getLongitude()+"");
+                if (!ZxStringUtil.isEmpty(token)){
+                    params.put("lng",aMapLocation.getLongitude()+"");
+                    params.put("lat",aMapLocation.getLatitude()+"");
+                    params.put("timestamp",System.currentTimeMillis()+"");
+                    params.put("sign","");
+                    params.put("sign",HaiTool.sign(params));
+                    mPresenter.driverMethod(params);
+                }
             }else {
                 ZxLogUtil.logError(aMapLocation.getErrorInfo()+"<<<<..>>>>"+aMapLocation.getErrorCode());
             }

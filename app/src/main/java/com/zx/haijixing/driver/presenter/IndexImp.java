@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 import zx.com.skytool.ZxLogUtil;
 
 /**
@@ -27,9 +29,9 @@ import zx.com.skytool.ZxLogUtil;
  */
 public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements IIndexContract.IndexPresenter {
     @Override
-    public void newsDataMethod(int page) {
+    public void newsDataMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .newsList(page,5)
+                .newsList(params)
                 .compose(Transformer.<NewsEntry>switchSchedulers())
                 .subscribe(new CommonObserver<NewsEntry>() {
                     @Override
@@ -51,9 +53,9 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
     }
 
     @Override
-    public void newsDataBanner() {
+    public void newsDataBanner(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .bannerApi()
+                .bannerApi(params)
                 .compose(Transformer.<BannerEntry>switchSchedulers())
                 .subscribe(new CommonObserver<BannerEntry>() {
                     @Override
@@ -75,9 +77,9 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
     }
 
     @Override
-    public void workMethod(String token) {
+    public void workMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .workApi(token)
+                .workApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override
@@ -91,6 +93,35 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.workSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void workStatusMethod(Map<String, String> params) {
+        RxHttpUtils.createApi(DriverApiService.class)
+                .workStatusApi(params)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.workStatusSuccess(jsonObject.getString("data"));
                             }else if (jsonObject.getInt("code") == 1001){
                                 mView.jumpToLogin();
                             }else {

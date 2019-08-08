@@ -2,6 +2,8 @@ package com.zx.haijixing.driver.contract;
 
 import com.zx.haijixing.share.base.IBaseContract;
 
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -16,6 +18,6 @@ public interface ChangeContract {
 
     interface ChangePresenter extends IBaseContract.IBasePresenter<ChangeView>{
         void changeMethod(String path);
-        void changeHeadImgMethod(String path,String token);
+        void changeHeadImgMethod(Map<String, String> params);
     }
 }

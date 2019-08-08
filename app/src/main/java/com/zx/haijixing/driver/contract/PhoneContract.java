@@ -18,8 +18,8 @@ public interface PhoneContract {
     }
 
     interface PhonePresenter extends IBaseContract.IBasePresenter<PhoneView>{
-        void oldPhoneMethod(String phone,String code);
-        void newPhoneMethod(Map<String,Object> params);
+        void oldPhoneMethod(Map<String, String> params);
+        void newPhoneMethod(Map<String,String> params);
         void codeMethod(String phone,int type);
     }
 }

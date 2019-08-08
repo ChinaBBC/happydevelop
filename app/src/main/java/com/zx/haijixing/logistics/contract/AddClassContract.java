@@ -21,8 +21,8 @@ public interface AddClassContract {
     }
 
     interface AddClassPresenter extends IBaseContract.IBasePresenter<AddClassView>{
-        void addClassMethod(Map<String,Object> params);
-        void driverPhoneMethod(String token,String linesId);
-        void truckNumMethod(String token,String driverId);
+        void addClassMethod(Map<String,String> params);
+        void driverPhoneMethod(Map<String, String> params);
+        void truckNumMethod(Map<String, String> params);
     }
 }

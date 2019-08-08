@@ -11,6 +11,7 @@ import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,9 +22,9 @@ import java.util.List;
 public class DriverImp extends BasePresenter<DriverContract.DriverView> implements DriverContract.DriverPresenter {
 
     @Override
-    public void driverMethod(String token,String latitude,String longitude) {
+    public void driverMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .uploadLocate(token,longitude,latitude)
+                .uploadLocate(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override

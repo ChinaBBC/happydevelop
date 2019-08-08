@@ -86,7 +86,7 @@ public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implement
     private TimePickerView sTime;
     private TimePickerView eTime;
 
-    private Map<String,Object> params = new HashMap<>();
+    private Map<String,String> params = new HashMap<>();
     private int tag = 0;
 
     @Override
@@ -107,7 +107,11 @@ public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implement
         eTime = HaiTool.initTimePickers(this,endTime,0);
 
         params.put("token",token);
-        mPresenter.todayStatisticsMethod(token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+
+        mPresenter.todayStatisticsMethod(params);
         mPresenter.orderStatisticsMethod(params);
     }
     @Override
@@ -150,6 +154,9 @@ public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implement
         String eTime = endTime.getText().toString().trim();
         params.put("startTime",sTime);
         params.put("endTime",eTime);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         switch (tag){
             case 0:
                 mPresenter.orderStatisticsMethod(params);

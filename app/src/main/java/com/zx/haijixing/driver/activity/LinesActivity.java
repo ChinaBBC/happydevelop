@@ -13,9 +13,12 @@ import com.zx.haijixing.driver.entry.DriverClassEntry;
 import com.zx.haijixing.driver.presenter.LineImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,17 +43,22 @@ public class LinesActivity extends BaseActivity<LineImp> implements LinesContrac
     private List<DriverClassEntry> driverClassEntries = new ArrayList<>();
     private LinesAdapter linesAdapter;
     private String token;
+    private Map<String, String> params = new HashMap<>();
+
     @Override
     protected void initView() {
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
-        token = (String)instance.getParam("token","null");
+        String token = (String)instance.getParam("token","null");
         title.setText(getHaiString(R.string.car_and_lines));
         linesData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         linesAdapter = new LinesAdapter(driverClassEntries);
         linesData.setAdapter(linesAdapter);
 
-        mPresenter.linesMethod(token);
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.linesMethod(params);
     }
 
     @Override

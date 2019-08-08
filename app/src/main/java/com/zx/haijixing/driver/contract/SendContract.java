@@ -21,8 +21,8 @@ public interface SendContract {
     }
 
     interface SendPresenter extends IBaseContract.IBasePresenter<SendView>{
-        void sendMethod(Map<String,Object> params);
-        void departMethod(Map<String,Object> params);
-        void driverClassMethod(String token);
+        void sendMethod(Map<String,String> params);
+        void departMethod(Map<String,String> params);
+        void driverClassMethod(Map<String, String> params);
     }
 }

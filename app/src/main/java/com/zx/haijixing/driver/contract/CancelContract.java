@@ -16,6 +16,6 @@ public interface CancelContract {
         void cancelSuccess(OrderTotalEntry orderTotalEntry);
     }
     interface CancelPresenter extends IBaseContract.IBasePresenter<CancelView>{
-        void cancelMethod(Map<String,Object> params);
+        void cancelMethod(Map<String,String> params);
     }
 }

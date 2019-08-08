@@ -29,8 +29,13 @@ import com.zx.haijixing.driver.adapter.PrintAdapter;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxStringUtil;
@@ -42,6 +47,12 @@ import zx.com.skytool.ZxStringUtil;
  *@描述 工具类
  */
 public final class HaiTool {
+
+    /** 加密密钥 */
+    private final static String APP_KEY = "e96t9";
+
+    /** 字符编码 */
+    private final static String INPUT_CHARSET = "UTF-8";
     /**
      * 获取应用版本名称
      * @param context
@@ -106,6 +117,64 @@ public final class HaiTool {
         int d1 = n / 16;
         int d2 = n % 16;
         return hexDigits[d1] + hexDigits[d2];
+    }
+
+    /**
+     * 生成要请求的签名参数数组
+     * @param sParaTemp 需要签名的参数
+     * @return 要请求的签名参数数组
+     */
+    public static String sign(Map<String, String> sParaTemp) {
+        //时间戳加入签名参数组中
+        sParaTemp.put("timestamp", String.valueOf(System.currentTimeMillis()));
+        //除去数组中的空值和签名参数
+        Map<String, String> sPara = paraFilter(sParaTemp);
+        //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+        String prestr = createLinkString(sPara);
+        ZxLogUtil.logError("<<<prestr"+prestr);
+        //生成签名结果
+        String mysign = md5Method(prestr+APP_KEY);
+        return mysign;
+    }
+    /**
+     * 把数组所有元素排序，并按照“参数=参数值”的模式用“&”字符拼接成字符串
+     * @param params 需要排序并参与字符拼接的参数组
+     * @return 拼接后字符串
+     */
+    public static String createLinkString(Map<String, String> params) {
+        List<String> keys = new ArrayList<>(params.keySet());
+        Collections.sort(keys);
+        String prestr = "";
+        for (int i = 0; i < keys.size(); i++) {
+            String key = keys.get(i);
+            String value = params.get(key);
+
+            if (i == keys.size() - 1) {//拼接时，不包括最后一个&字符
+                prestr = prestr + key + "=" + value.replace(":","=");
+            } else {
+                prestr = prestr + key + "=" + value + "&";
+            }
+        }
+        return prestr;
+    }
+    /**
+     * 除去数组中的空值和签名参数
+     * @param sArray 签名参数组5
+     * @return 去掉空值与签名参数后的新签名参数组
+     */
+    public static Map<String, String> paraFilter(Map<String, String> sArray) {
+        Map<String, String> result = new HashMap<>();
+        if (sArray == null || sArray.size() <= 0) {
+            return result;
+        }
+        for (String key : sArray.keySet()) {
+            String value = sArray.get(key);
+            if (key.equalsIgnoreCase("sign")) {
+                continue;
+            }
+            result.put(key, value);
+        }
+        return result;
     }
     private static final String TEL_REGEX = "^[1][3-9][0-9]{9}$";
     private static final String IDENTIFY_CARD = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";

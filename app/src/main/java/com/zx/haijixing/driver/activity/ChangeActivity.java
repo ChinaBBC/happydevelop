@@ -20,8 +20,11 @@ import com.zx.haijixing.driver.presenter.ChangeImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -120,7 +123,13 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
 
     @Override
     public void changeSuccess(String head,String base) {
-        mPresenter.changeHeadImgMethod(head,token);
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("headImg",head);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.changeHeadImgMethod(params);
+
         RequestOptions options = new RequestOptions().circleCrop();
         newHead = base + head;
         Glide.with(this).load(newHead).apply(options).into(header);

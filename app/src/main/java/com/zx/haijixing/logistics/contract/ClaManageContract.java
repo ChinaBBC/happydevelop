@@ -4,6 +4,7 @@ import com.zx.haijixing.logistics.entry.ClassManageEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,7 +18,7 @@ public interface ClaManageContract {
         void deleteClassSuccess(String msg);
     }
     interface ClaManagePresenter extends IBaseContract.IBasePresenter<ClaManageView>{
-        void claManageMethod(String token,String linesId);
-        void deleteClassMethod(String token,String bkId);
+        void claManageMethod(Map<String, String> params);
+        void deleteClassMethod(Map<String, String> params);
     }
 }

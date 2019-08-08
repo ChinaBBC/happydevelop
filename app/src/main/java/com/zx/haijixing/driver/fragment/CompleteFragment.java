@@ -17,6 +17,7 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.driver.presenter.CompleteImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
     RecyclerView completeData;
     @BindView(R.id.fragment_complete_refresh)
     SmartRefreshLayout refresh;
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
     private CcAdapter ccAdapter;
     private String token;
@@ -68,10 +69,13 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
         completeData.setAdapter(ccAdapter);
 
         params.put("token", token);
-        params.put("status", OtherConstants.DETAIL_COMPLETE);
+        params.put("status", OtherConstants.DETAIL_COMPLETE+"");
         //params.put("params")
-        params.put(OtherConstants.PAGE, page);
-        params.put(OtherConstants.SIZE, 5);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
 
         mPresenter.completeMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -86,7 +90,10 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.completeMethod(params);
     }
 
@@ -96,7 +103,10 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
         page = 1;
         orderEntries.clear();
         ccAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.completeMethod(params);
     }
 

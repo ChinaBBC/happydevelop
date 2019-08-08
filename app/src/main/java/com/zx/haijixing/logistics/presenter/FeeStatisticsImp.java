@@ -26,7 +26,7 @@ import java.util.Map;
 public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeStatisticsView> implements FeeStatisticsContract.FeeStatisticsPresenter {
 
     @Override
-    public void orderStatisticsMethod(Map<String, Object> params) {
+    public void orderStatisticsMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
                 .orderStatisticsApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -49,7 +49,7 @@ public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeSta
     }
 
     @Override
-    public void feeStatisticsMethod(Map<String, Object> params) {
+    public void feeStatisticsMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
                 .feeStatisticsApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -72,9 +72,9 @@ public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeSta
     }
 
     @Override
-    public void todayStatisticsMethod(String token) {
+    public void todayStatisticsMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .todayDataApi(token)
+                .todayDataApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override
@@ -100,7 +100,7 @@ public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeSta
     }
 
     @Override
-    public void receiveStatisticsMethod(Map<String,Object> params) {
+    public void receiveStatisticsMethod(Map<String,String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
                 .feeReceivedStatisticsApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -123,9 +123,9 @@ public class FeeStatisticsImp extends BasePresenter<FeeStatisticsContract.FeeSta
     }
 
     @Override
-    public void searchDriverMethod(String token) {
+    public void searchDriverMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .driverListApi(token)
+                .driverListApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<DriverEntry>>() {
                     @Override

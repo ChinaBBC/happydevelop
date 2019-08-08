@@ -17,6 +17,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  *
@@ -27,62 +28,62 @@ import retrofit2.http.Query;
 public interface LogisticsApiService {
 
     //查看物流
-    @GET("reception/order/queryWayPoint")
-    Observable<String> checkLogisticsApi(@Query("token") String token, @Query("waybillNo") String waybillNo);
+    @GET("api/reception/order/queryWayPoint")
+    Observable<String> checkLogisticsApi(@QueryMap Map<String, String> params);
 
     //线路班次
     @FormUrlEncoded
-    @POST("reception/waybill/line/bkki")
-    Observable<HaiBaseData<List<LinesClassEntry>>> linesClassApi(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/line/bkki")
+    Observable<HaiBaseData<List<LinesClassEntry>>> linesClassApi(@FieldMap Map<String, String> params);
 
     //派单
     @FormUrlEncoded
-    @POST("reception/waybill/pai/waybill")
-    Observable<String> allotOrderApi(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/pai/waybill")
+    Observable<String> allotOrderApi(@FieldMap Map<String, String> params);
 
     //班次
     @FormUrlEncoded
-    @POST("reception/waybill/back/bkki")
-    Observable<HaiBaseData<List<LinesClassEntry>>> allLinesApi(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/back/bkki")
+    Observable<HaiBaseData<List<LinesClassEntry>>> allLinesApi(@FieldMap Map<String, String> params);
 
     //班次统计
     @FormUrlEncoded
-    @POST("reception/waybill/back/bkki/count")
-    Observable<String> countAllApi(@Field("token") String token);
+    @POST("api/reception/waybill/back/bkki/count")
+    Observable<String> countAllApi(@FieldMap Map<String, String> params);
 
     //线路管理
     @FormUrlEncoded
-    @POST("logistics/line/list")
-    Observable<HaiBaseData<List<LinesManageEntry>>> linesManageApi(@FieldMap Map<String, Object> params);
+    @POST("api/logistics/line/list")
+    Observable<HaiBaseData<List<LinesManageEntry>>> linesManageApi(@FieldMap Map<String, String> params);
 
     //班次维护
     @FormUrlEncoded
-    @POST("logistics/line/bkki/list")
-    Observable<HaiBaseData<List<ClassManageEntry>>> classManageApi(@Field("token") String token, @Field("lineId") String lineId);
+    @POST("api/logistics/line/bkki/list")
+    Observable<HaiBaseData<List<ClassManageEntry>>> classManageApi(@FieldMap Map<String, String> params);
 
     //查询线路下的司机
     @FormUrlEncoded
-    @POST("logistics/line/driver/list")
-    Observable<HaiBaseData<List<DriverEntry>>> linesDriverApi(@Field("token") String token, @Field("lineId") String lineId);
+    @POST("api/logistics/line/driver/list")
+    Observable<HaiBaseData<List<DriverEntry>>> linesDriverApi(@FieldMap Map<String, String> params);
 
     //查询司机名下车辆
     @FormUrlEncoded
-    @POST("logistics/line/driver/car/list")
-    Observable<HaiBaseData<List<TruckInfoEntry>>> driverTruckApi(@Field("token") String token, @Field("driverId") String driverId);
+    @POST("api/logistics/line/driver/car/list")
+    Observable<HaiBaseData<List<TruckInfoEntry>>> driverTruckApi(@FieldMap Map<String, String> params);
 
     //新增班次
     @FormUrlEncoded
-    @POST("logistics/line/save/bkki")
-    Observable<String> addClassApi(@FieldMap Map<String, Object> params);
+    @POST("api/logistics/line/save/bkki")
+    Observable<String> addClassApi(@FieldMap Map<String, String> params);
 
     //删除班次
     @FormUrlEncoded
-    @POST("logistics/line/del/bkki")
-    Observable<String> deleteClassApi(@Field("token") String token, @Field("bakkiId") String bakkiId);
+    @POST("api/logistics/line/del/bkki")
+    Observable<String> deleteClassApi(@FieldMap Map<String, String> params);
 
     //品类价格
     @FormUrlEncoded
-    @POST("logistics/line/getprice/details")
-    Observable<HaiBaseData<List<List<String>>>> typePriceApi(@Field("token") String token, @Field("lineId") String lineId);
+    @POST("api/logistics/line/getprice/details")
+    Observable<HaiBaseData<List<List<String>>>> typePriceApi(@FieldMap Map<String, String> params);
 
 }

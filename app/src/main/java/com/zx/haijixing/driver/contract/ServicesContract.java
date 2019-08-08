@@ -2,6 +2,8 @@ package com.zx.haijixing.driver.contract;
 
 import com.zx.haijixing.share.base.IBaseContract;
 
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -11,9 +13,11 @@ import com.zx.haijixing.share.base.IBaseContract;
 public interface ServicesContract {
     interface ServicesView extends IBaseContract.IBaseView{
         void clockSuccess(String msg);
+        void clockStatusSuccess(String msg);
     }
 
     interface ServicesPresenter extends IBaseContract.IBasePresenter<ServicesView>{
-        void clockMethod(String token);
+        void clockMethod(Map<String, String> params);
+        void clockStatusMethod(Map<String, String> params);
     }
 }

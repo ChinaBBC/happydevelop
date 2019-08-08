@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class CompleteImp extends BasePresenter<CompleteContract.CompleteView> implements CompleteContract.CompletePresenter {
     @Override
-    public void completeMethod(Map<String, Object> params) {
+    public void completeMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .orderLists(params)
                 .compose(Transformer.switchSchedulers())

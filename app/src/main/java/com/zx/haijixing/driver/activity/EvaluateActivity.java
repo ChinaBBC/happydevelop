@@ -18,11 +18,15 @@ import com.zx.haijixing.driver.contract.EvaluateContract;
 import com.zx.haijixing.driver.entry.EveryEvaluateEntry;
 import com.zx.haijixing.driver.entry.TotalEvaluateEntry;
 import com.zx.haijixing.driver.presenter.EvaluateImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,8 +51,9 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
 
     private List<EveryEvaluateEntry> everyEvaluateEntries = new ArrayList<>();
     private EvaluateAdapter evaluateAdapter;
-    private String token;
     private int page = 1;
+    private Map<String, String> params = new HashMap<>();
+
 
     @Override
     protected void initView() {
@@ -56,7 +61,7 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
         instance.init(this);
         String name = (String)instance.getParam("user_name","null");
         String head = (String)instance.getParam("user_head","null");
-        token = (String)instance.getParam("token","null");
+        String token = (String)instance.getParam("token","null");
 
 
         title.setText(getHaiString(R.string.evaluate));
@@ -64,8 +69,19 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
         evaluateAdapter = new EvaluateAdapter(everyEvaluateEntries,name,head,this);
         evaluateData.setAdapter(evaluateAdapter);
 
-        mPresenter.everyEvaluateMethod(token,page);
-        mPresenter.totalEvaluateMethod(token);
+        params.put(OtherConstants.PAGE,page+"");
+        params.put(OtherConstants.SIZE,5+"");
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign",HaiTool.sign(params));
+
+        mPresenter.everyEvaluateMethod(params);
+
+        Map<String,String> toMap = new HashMap<>();
+        toMap.put("token",token);
+        toMap.put("timestamp",System.currentTimeMillis()+"");
+        toMap.put("sign",HaiTool.sign(toMap));
+        mPresenter.totalEvaluateMethod(toMap);
     }
 
     @Override
@@ -107,14 +123,22 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
-        mPresenter.everyEvaluateMethod(token,page);
+        params.put(OtherConstants.PAGE,page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.everyEvaluateMethod(params);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
+        params.put(OtherConstants.PAGE,page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         everyEvaluateEntries.clear();
         evaluateAdapter.notifyDataSetChanged();
-        mPresenter.everyEvaluateMethod(token,page);
+        mPresenter.everyEvaluateMethod(params);
     }
 }

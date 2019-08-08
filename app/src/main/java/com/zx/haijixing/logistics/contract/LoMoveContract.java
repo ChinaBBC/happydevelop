@@ -19,7 +19,7 @@ public interface LoMoveContract {
     }
 
     interface LoMovePresenter extends IBaseContract.IBasePresenter<LoMoveView>{
-        void loMoveMethod(Map<String,Object> params);
-        void countAllMethod(String token);
+        void loMoveMethod(Map<String,String> params);
+        void countAllMethod(Map<String, String> params);
     }
 }

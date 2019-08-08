@@ -82,8 +82,20 @@ public class TruckChangeActivity extends BaseActivity<TruckChangeImp> implements
         instance.init(this);
         token = (String) instance.getParam("token", "null");
         title.setText(truckName);
-        mPresenter.truckInfoMethod(truckId);
-        mPresenter.driverIdentifyMethod(token);
+
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.driverIdentifyMethod(params);
+
+        params.put("applyId",truckId);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.truckInfoMethod(params);
+
 
         timePickerView = HaiTool.initTimePickers(this, cureTime, 10);
         time = cureTime.getText().toString().trim();
@@ -162,10 +174,13 @@ public class TruckChangeActivity extends BaseActivity<TruckChangeImp> implements
                 if (time.equals(value2)){
                     ZxToastUtil.centerToast("您还未修改数据");
                 }else {
-                    Map<String,Object> params = new HashMap<>();
+                    Map<String,String> params = new HashMap<>();
                     params.put("token",token);
                     params.put("applyId",truckId);
                     params.put("safeEnd", value2);
+                    params.put("timestamp",System.currentTimeMillis()+"");
+                    params.put("sign","");
+                    params.put("sign",HaiTool.sign(params));
                     mPresenter.changeTimeMethod(params);
                 }
                 break;

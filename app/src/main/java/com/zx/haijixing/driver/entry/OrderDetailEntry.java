@@ -88,6 +88,27 @@ public class OrderDetailEntry {
     /**  货物数量详情 */
     private List<AppWaybillGoodsVo> goods;
 
+    /**  优惠券抵扣金额  */
+    private String couponMoney;
+    /**  积分抵扣金额   */
+    private String integralMoney;
+
+    public String getCouponMoney() {
+        return couponMoney;
+    }
+
+    public void setCouponMoney(String couponMoney) {
+        this.couponMoney = couponMoney;
+    }
+
+    public String getIntegralMoney() {
+        return integralMoney;
+    }
+
+    public void setIntegralMoney(String integralMoney) {
+        this.integralMoney = integralMoney;
+    }
+
     public String getStartPrice() {
         return startPrice;
     }
@@ -396,6 +417,7 @@ public class OrderDetailEntry {
                 ", senderPhone='" + senderPhone + '\'' +
                 ", senderAddress='" + senderAddress + '\'' +
                 ", category='" + category + '\'' +
+                ", startPrice='" + startPrice + '\'' +
                 ", totalNum=" + totalNum +
                 ", price='" + price + '\'' +
                 ", type='" + type + '\'' +
@@ -423,6 +445,8 @@ public class OrderDetailEntry {
                 ", allGrade='" + allGrade + '\'' +
                 ", content='" + content + '\'' +
                 ", goods=" + goods +
+                ", couponMoney='" + couponMoney + '\'' +
+                ", integralMoney='" + integralMoney + '\'' +
                 '}';
     }
 

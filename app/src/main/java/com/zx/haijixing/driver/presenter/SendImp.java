@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class SendImp extends BasePresenter<SendContract.SendView> implements SendContract.SendPresenter {
     @Override
-    public void sendMethod(Map<String, Object> params) {
+    public void sendMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .orderLists(params)
                 .compose(Transformer.switchSchedulers())
@@ -47,7 +47,7 @@ public class SendImp extends BasePresenter<SendContract.SendView> implements Sen
     }
 
     @Override
-    public void departMethod(Map<String, Object> params) {
+    public void departMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .sendApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -78,9 +78,9 @@ public class SendImp extends BasePresenter<SendContract.SendView> implements Sen
     }
 
     @Override
-    public void driverClassMethod(String token) {
+    public void driverClassMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .driverClass(token)
+                .driverClass(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<DriverClassEntry>>() {
                     @Override

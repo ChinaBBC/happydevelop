@@ -4,6 +4,7 @@ import com.zx.haijixing.share.base.IBaseContract;
 import com.zx.haijixing.share.pub.entry.NotifyEntry;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +18,6 @@ public interface NotifyContract {
     }
 
     interface NotifyPresenter extends IBaseContract.IBasePresenter<NotifyView>{
-        void notifyMethod(String token,String page,String size);
+        void notifyMethod(Map<String, String> params);
     }
 }

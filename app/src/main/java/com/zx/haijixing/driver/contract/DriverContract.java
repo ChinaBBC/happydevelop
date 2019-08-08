@@ -2,6 +2,8 @@ package com.zx.haijixing.driver.contract;
 
 import com.zx.haijixing.share.base.IBaseContract;
 
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -13,6 +15,6 @@ public interface DriverContract  {
         void driverSuccess(String msg);
     }
     interface DriverPresenter extends IBaseContract.IBasePresenter<DriverView>{
-        void driverMethod(String token,String latitude,String longitude);
+        void driverMethod(Map<String, String> params);
     }
 }

@@ -24,9 +24,9 @@ import java.util.Map;
  */
 public class TruckChangeImp extends BasePresenter<TruckChangeContract.TruckChangeView> implements TruckChangeContract.TruckChangePresenter {
     @Override
-    public void truckInfoMethod(String id) {
+    public void truckInfoMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .queryTruckDetailApi(id)
+                .queryTruckDetailApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new CommonObserver<TruckDetailEntry>() {
                     @Override
@@ -48,9 +48,9 @@ public class TruckChangeImp extends BasePresenter<TruckChangeContract.TruckChang
     }
 
     @Override
-    public void driverIdentifyMethod(String token) {
+    public void driverIdentifyMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .queryDriverCardApi(token)
+                .queryDriverCardApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override
@@ -78,7 +78,7 @@ public class TruckChangeImp extends BasePresenter<TruckChangeContract.TruckChang
     }
 
     @Override
-    public void changeTimeMethod(Map<String, Object> params) {
+    public void changeTimeMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .changeTruckApi(params)
                 .compose(Transformer.switchSchedulers())

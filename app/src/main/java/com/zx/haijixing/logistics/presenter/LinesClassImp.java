@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class LinesClassImp extends BasePresenter<LinesClassContract.LinesClassView> implements LinesClassContract.LinesClassPresenter {
     @Override
-    public void linesClassMethod(Map<String, Object> params) {
+    public void linesClassMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .linesClassApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -46,7 +46,7 @@ public class LinesClassImp extends BasePresenter<LinesClassContract.LinesClassVi
     }
 
     @Override
-    public void allotOrderMethod(Map<String, Object> params) {
+    public void allotOrderMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .allotOrderApi(params)
                 .compose(Transformer.switchSchedulers())

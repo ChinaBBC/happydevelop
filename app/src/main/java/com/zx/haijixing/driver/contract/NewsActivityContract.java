@@ -1,6 +1,9 @@
 package com.zx.haijixing.driver.contract;
 
 import com.zx.haijixing.share.base.IBaseContract;
+
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -13,7 +16,7 @@ public interface NewsActivityContract {
         void orderDetail(String data);
     }
     interface NewsDetailPresenter extends IBaseContract.IBasePresenter<NewDetailView>{
-        void detailMethod(String token,String newId);
-        void orderDetailMethod(String token,String newId);
+        void detailMethod(Map<String, String> params);
+        void orderDetailMethod(Map<String, String> params);
     }
 }

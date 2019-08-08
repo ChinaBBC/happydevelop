@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -22,9 +23,9 @@ import java.util.List;
  */
 public class ClassManageImp extends BasePresenter<ClaManageContract.ClaManageView> implements ClaManageContract.ClaManagePresenter {
     @Override
-    public void claManageMethod(String token, String linesId) {
+    public void claManageMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
-                .classManageApi(token,linesId)
+                .classManageApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<ClassManageEntry>>() {
                     @Override
@@ -45,9 +46,9 @@ public class ClassManageImp extends BasePresenter<ClaManageContract.ClaManageVie
     }
 
     @Override
-    public void deleteClassMethod(String token, String bkId) {
+    public void deleteClassMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
-                .deleteClassApi(token,bkId)
+                .deleteClassApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override

@@ -21,11 +21,14 @@ import com.zx.haijixing.share.pub.contract.NotifyContract;
 import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.share.pub.entry.NotifyEntry;
 import com.zx.haijixing.share.pub.imp.NotifyImp;
+import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,8 +54,8 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
 
     private int page = 1;
     private NotifyAdapter notifyAdapter;
-    private String token = null;
     private List<NotifyEntry> notifyEntries = new ArrayList<>();
+    private Map<String, String> params = new HashMap<>();
 
     @Override
     protected void initView() {
@@ -65,8 +68,15 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
 
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
-        token = (String) instance.getParam("token","null");
-        mPresenter.notifyMethod(token,page+"",8+"");
+        String token = (String) instance.getParam("token","null");
+
+        params.put("token",token);
+        params.put(OtherConstants.PAGE,page+"");
+        params.put(OtherConstants.SIZE,8+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign",HaiTool.sign(params));
+
+        mPresenter.notifyMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
     }
 
@@ -103,15 +113,23 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
-        mPresenter.notifyMethod(token,page+"",8+"");
+        params.put(OtherConstants.PAGE,page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.notifyMethod(params);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         page = 1;
+        params.put(OtherConstants.PAGE,page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         notifyEntries.clear();
         notifyAdapter.notifyDataSetChanged();
-        mPresenter.notifyMethod(token,page+"",8+"");
+        mPresenter.notifyMethod(params);
     }
 
     @Override

@@ -18,7 +18,7 @@ public interface PrintOrderContract {
     }
 
     interface PrintOrderPresenter extends IBaseContract.IBasePresenter<PrintOrderView>{
-        void printOrderMethod(String token,String id);
-        void printStatusMethod(Map<String,Object> params);
+        void printOrderMethod(Map<String, String> params);
+        void printStatusMethod(Map<String,String> params);
     }
 }

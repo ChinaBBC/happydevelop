@@ -34,64 +34,64 @@ import retrofit2.http.QueryMap;
 public interface ShareApiService {
 
     //新闻列表
-    @GET("news/newList")
-    Observable<NewsEntry> newsList(@Query(OtherConstants.PAGE) int num, @Query(OtherConstants.SIZE) int size);
+    @GET("api/news/newList")
+    Observable<NewsEntry> newsList(@QueryMap Map<String,String> params);
 
     //新闻详情
-    @GET("news/selectNewById")
-    Observable<HaiBaseData<NewsEntry.NewsData>> newsOne(@Query("token") String token,@Query("newId") String newId);
+    @GET("api/news/selectNewById")
+    Observable<HaiBaseData<NewsEntry.NewsData>> newsOne(@QueryMap Map<String,String> params);
 
     //版本
-    @GET("version/newVersion")
+    @GET("open/version/newVersion")
     Observable<HaiBaseData<VersionEntry>> versionApi();
 
     //轮播
-    @GET("banner/allBanners")
-    Observable<BannerEntry> bannerApi();
+    @GET("api/banner/allBanners")
+    Observable<BannerEntry> bannerApi(@QueryMap Map<String,String> params);
 
     //消息中心
-    @GET("notice/page/list")
-    Observable<HaiBaseData<List<NotifyEntry>>> notifyApi(@Query("token") String token, @Query(OtherConstants.PAGE) String pageNum, @Query(OtherConstants.SIZE) String pageSize);
+    @GET("api/notice/page/list")
+    Observable<HaiBaseData<List<NotifyEntry>>> notifyApi(@QueryMap Map<String,String> params);
 
 
     //二维码运单信息
-    @GET("logistics/common/orderInfoByQR")
-    Observable<String> qrOrderApi(@Query("token") String token, @Query("code") String code);
+    @GET("api/logistics/common/orderInfoByQR")
+    Observable<String> qrOrderApi(@QueryMap Map<String,String> params);
 
     //今日数据统计
     @FormUrlEncoded
-    @POST("logistics/reports/count/day/num")
-    Observable<String> todayDataApi(@Field("token") String token);
+    @POST("api/logistics/reports/count/day/num")
+    Observable<String> todayDataApi(@FieldMap Map<String,String> params);
 
     //运单统计
     @FormUrlEncoded
-    @POST("logistics/reports/count/waybill/list")
-    Observable<HaiBaseData<FeeStatisticsEntry>> orderStatisticsApi(@FieldMap Map<String,Object> params);
+    @POST("api/logistics/reports/count/waybill/list")
+    Observable<HaiBaseData<FeeStatisticsEntry>> orderStatisticsApi(@FieldMap Map<String,String> params);
 
     //司机列表
     @FormUrlEncoded
-    @POST("logistics/reports/driver/list")
-    Observable<HaiBaseData<List<DriverEntry>>> driverListApi(@Field("token") String token);
+    @POST("api/logistics/reports/driver/list")
+    Observable<HaiBaseData<List<DriverEntry>>> driverListApi(@FieldMap Map<String,String> params);
 
     //运费统计
     @FormUrlEncoded
-    @POST("logistics/reports/price/waybill/list")
-    Observable<HaiBaseData<FeeStatisticsEntry>> feeStatisticsApi(@FieldMap Map<String,Object> params);
+    @POST("api/logistics/reports/price/waybill/list")
+    Observable<HaiBaseData<FeeStatisticsEntry>> feeStatisticsApi(@FieldMap Map<String,String> params);
 
     //到付运费统计
     @FormUrlEncoded
-    @POST("logistics/reports/topay/price/waybill/list")
-    Observable<HaiBaseData<FeeStatisticsEntry>> feeReceivedStatisticsApi(@FieldMap Map<String,Object> params);
+    @POST("api/logistics/reports/topay/price/waybill/list")
+    Observable<HaiBaseData<FeeStatisticsEntry>> feeReceivedStatisticsApi(@FieldMap Map<String,String> params);
 
     //物流公司
-    @GET("reception/order/selectCompayByDeptId")
-    Observable<HaiBaseData<List<CompanyEntry>>> companyApi(@Query("token") String token);
+    @GET("api/reception/order/selectCompayByDeptId")
+    Observable<HaiBaseData<List<CompanyEntry>>> companyApi(@QueryMap Map<String,String> params);
 
     //运营总表
-    @GET("reception/order/selectWaybillOrderCount")
-    Observable<HaiBaseData<List<RunTableEntry>>> runTableApi(@QueryMap Map<String,Object> params);
+    @GET("api/reception/order/selectWaybillOrderCount")
+    Observable<HaiBaseData<List<RunTableEntry>>> runTableApi(@QueryMap Map<String,String> params);
 
     //司机评价
-    @GET("reception/orderComment/driverCommentScore")
-    Observable<HaiBaseData<List<DriverWordEntry>>> driverWordApi(@Query("driverName") String driverName);
+    @GET("api/reception/orderComment/driverCommentScore")
+    Observable<HaiBaseData<List<DriverWordEntry>>> driverWordApi(@QueryMap Map<String,String> params);
 }

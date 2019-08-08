@@ -24,6 +24,7 @@ import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
 
     private AllotAdapter allotAdapter;
 
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
     private String loginType;
     private String token;
@@ -84,11 +85,13 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         rvData.setAdapter(allotAdapter);
 
         params.put("token", token);
-        params.put("status", OtherConstants.DETAIL_WAIT_SEND);
+        params.put("status", OtherConstants.DETAIL_WAIT_SEND+"");
         //params.put("params")
-        params.put(OtherConstants.PAGE, page);
-        params.put(OtherConstants.SIZE, 5);
-
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.waitAllotMethod(params);
 
         refresh.setOnRefreshLoadMoreListener(this);
@@ -131,7 +134,10 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.waitAllotMethod(params);
     }
 
@@ -141,7 +147,10 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         page = 1;
         orderEntries.clear();
         allotAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.waitAllotMethod(params);
     }
 

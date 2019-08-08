@@ -53,7 +53,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
     @BindView(R.id.fragment_send_refresh)
     SmartRefreshLayout refresh;
 
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
     private String loginType;
     private SendViewHolder sendViewHolder;
@@ -99,13 +99,22 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         }
 
         params.put("token", token);
-        params.put("status", OtherConstants.DETAIL_WAIT_SEND);
+        params.put("status", OtherConstants.DETAIL_WAIT_SEND+"");
         //params.put("params")
-        params.put(OtherConstants.PAGE, page);
-        params.put(OtherConstants.SIZE, 5);
-
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.sendMethod(params);
-        mPresenter.driverClassMethod(token);
+
+        Map<String,String> param = new HashMap<>();
+        param.put("token",token);
+        param.put("timestamp",System.currentTimeMillis()+"");
+        param.put("sign","");
+        param.put("sign",HaiTool.sign(param));
+        mPresenter.driverClassMethod(param);
+
         refresh.setOnRefreshLoadMoreListener(this);
 
         skeletonScreen = Skeleton.bind(sendData).adapter(sendAdapter)
@@ -184,7 +193,10 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
             ZxToastUtil.centerToast(msg);
             orderEntries.clear();
             sendAdapter.notifyDataSetChanged();
-            params.put(OtherConstants.PAGE,1);
+            params.put(OtherConstants.PAGE,1+"");
+            params.put("timestamp",System.currentTimeMillis()+"");
+            params.put("sign","");
+            params.put("sign",HaiTool.sign(params));
             mPresenter.sendMethod(params);
             /*sendViewHolder.word1.setText(getString(R.string.select_all));
             sendViewHolder.selectAll.setImageResource(R.mipmap.select_no);
@@ -200,9 +212,9 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
     //出发
     private void depart() {
-        Map<String, Object> param = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
         param.put("token", token);
-        param.put("selectAllFlag", flag);
+        param.put("selectAllFlag", flag+"");
 
         /*StringBuilder idBuilder = new StringBuilder();
         for (int i = 0; i < orderEntries.size(); i++) {
@@ -224,6 +236,9 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         //ZxLogUtil.logError("<<<<selectId>>"+selectId+"<>"+flag);
         //param.put("waybillIds", selectId);
         bakkiId = null;
+        param.put("timestamp",System.currentTimeMillis()+"");
+        param.put("sign","");
+        param.put("sign",HaiTool.sign(param));
         mPresenter.departMethod(param);
     }
 
@@ -231,7 +246,10 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.sendMethod(params);
     }
 
@@ -243,7 +261,10 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         page = 1;
         orderEntries.clear();
         sendAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.sendMethod(params);
     }
 

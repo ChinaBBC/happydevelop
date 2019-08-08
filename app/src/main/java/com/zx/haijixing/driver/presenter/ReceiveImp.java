@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class ReceiveImp extends BasePresenter<OrderContract.OrderView> implements OrderContract.OrderPresenter {
     @Override
-    public void orderMethod(Map<String, Object> params) {
+    public void orderMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .orderLists(params)
                 .compose(Transformer.switchSchedulers())
@@ -44,7 +44,7 @@ public class ReceiveImp extends BasePresenter<OrderContract.OrderView> implement
     }
 
     @Override
-    public void receiveOrderMethod(Map<String, Object> params) {
+    public void receiveOrderMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .receiveOrders(params)
                 .compose(Transformer.switchSchedulers())

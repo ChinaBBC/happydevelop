@@ -23,6 +23,7 @@ import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     private SendingAdapter sendingAdapter;
     private SendingViewHolder sendingViewHolder;
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
     private String loginType;
     private int page = 1;
@@ -101,11 +102,13 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         sendingData.setAdapter(sendingAdapter);
 
         params.put("token", token);
-        params.put("status", OtherConstants.DETAIL_SENDING);
+        params.put("status", OtherConstants.DETAIL_SENDING+"");
         //params.put("params")
-        params.put(OtherConstants.PAGE, page);
-        params.put(OtherConstants.SIZE, 5);
-
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.sendingMethod(params);
         refresh.setOnRefreshLoadMoreListener(this);
 
@@ -167,7 +170,10 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     public void completeSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
         orderEntries.clear();
-        params.put(OtherConstants.PAGE,1);
+        params.put(OtherConstants.PAGE,1+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.sendingMethod(params);
         sendingViewHolder.word1.setText(getString(R.string.select_all));
         sendingViewHolder.selectAll.setImageResource(R.mipmap.select_no);
@@ -178,10 +184,13 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     @Override
     public void surePaySuccess(String msg) {
-        Map<String, Object> param = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
         param.put("token", token);
-        param.put("selectAllFlag", flag);
+        param.put("selectAllFlag", flag+"");
         param.put("waybillIds", selectId);
+        param.put("timestamp",System.currentTimeMillis()+"");
+        param.put("sign","");
+        param.put("sign",HaiTool.sign(param));
         mPresenter.completeMethod(param);
     }
 
@@ -194,7 +203,10 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.sendingMethod(params);
 
     }
@@ -206,7 +218,10 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
-        params.put(OtherConstants.PAGE, page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.sendingMethod(params);
     }
 
@@ -244,19 +259,22 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
             ZxToastUtil.centerToast("请输入运费");
         }else {
             showChangeMoney.dismissAllowingStateLoss();
-            Map<String,Object> params = new HashMap<>();
-            params.put("token",token);
-            params.put("waybillId",waybillId);
-            params.put("realPrice",ZxStringUtil.multiplication(result,"100",0));
-            mPresenter.changePriceMethod(params);
+            Map<String,String> param = new HashMap<>();
+            param.put("token",token);
+            param.put("waybillId",waybillId);
+            param.put("realPrice",ZxStringUtil.multiplication(result,"100",0));
+            param.put("timestamp",System.currentTimeMillis()+"");
+            param.put("sign","");
+            param.put("sign",HaiTool.sign(param));
+            mPresenter.changePriceMethod(param);
         }
     }
 
     //出发
     private void complete() {
-        Map<String, Object> param = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
         param.put("token", token);
-        param.put("selectAllFlag", flag);
+        param.put("selectAllFlag", flag+"");
         if (isTotal){
             isTotal = false;
             StringBuilder idBuilder = new StringBuilder();
@@ -275,7 +293,10 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
                 selectId = selectId.substring(0, selectId.length() - 1);
         }
         param.put("waybillIds", selectId);
-        param.put("payType",payType);
+        param.put("payType",payType+"");
+        param.put("timestamp",System.currentTimeMillis()+"");
+        param.put("sign","");
+        param.put("sign",HaiTool.sign(param));
         mPresenter.surePayMethod(param);
 
     }

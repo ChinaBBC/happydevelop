@@ -22,6 +22,7 @@ import com.zx.haijixing.driver.presenter.PaperChangeImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.HashMap;
 import java.util.List;
@@ -178,7 +179,7 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
                 takePic(OtherConstants.UPLOAD_TRUCK_C);
                 break;
             case R.id.papers_change_save:
-                Map<String,Object> params = new HashMap<>();
+                Map<String,String> params = new HashMap<>();
                 params.put("token",token);
                 params.put("applyId",truckId);
                 switch (tag){
@@ -186,7 +187,14 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
                         if (ZxStringUtil.isEmpty(strA) || ZxStringUtil.isEmpty(strB)){
                             ZxToastUtil.centerToast("请上传新驾驶证");
                         }else {
-                            mPresenter.changeDriverId(token,strA,strB);
+                            Map<String,String> driverMap = new HashMap<>();
+                            driverMap.put("token",token);
+                            driverMap.put("driverCardFront",strA);
+                            driverMap.put("driverCardBack",strB);
+                            driverMap.put("timestamp",System.currentTimeMillis()+"");
+                            driverMap.put("sign","");
+                            driverMap.put("sign",HaiTool.sign(driverMap));
+                            mPresenter.changeDriverId(driverMap);
                         }
                         break;
                     case OtherConstants.CHANGE_TRUCK_ID:
@@ -195,6 +203,9 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
                         }else {
                             params.put("drivingFront",drivingA);
                             params.put("drivingBack",drivingB);
+                            params.put("timestamp",System.currentTimeMillis()+"");
+                            params.put("sign","");
+                            params.put("sign",HaiTool.sign(params));
                             mPresenter.changeTruckInfo(params);
                         }
                         break;
@@ -205,6 +216,9 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
                             params.put("carImageFront",truckFor);
                             params.put("carImageLeft",truckLef);
                             params.put("carImageRight",truckRig);
+                            params.put("timestamp",System.currentTimeMillis()+"");
+                            params.put("sign","");
+                            params.put("sign",HaiTool.sign(params));
                             mPresenter.changeTruckInfo(params);
                         }
                         break;
@@ -213,6 +227,9 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
                             ZxToastUtil.centerToast("请上传保单");
                         }else {
                             params.put("safeImage",cureDan);
+                            params.put("timestamp",System.currentTimeMillis()+"");
+                            params.put("sign","");
+                            params.put("sign",HaiTool.sign(params));
                             mPresenter.changeTruckInfo(params);
                         }
                         break;
@@ -221,6 +238,9 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
                             ZxToastUtil.centerToast("请上传其他信息");
                         }else {
                             params.put("annex",otherPic);
+                            params.put("timestamp",System.currentTimeMillis()+"");
+                            params.put("sign","");
+                            params.put("sign",HaiTool.sign(params));
                             mPresenter.changeTruckInfo(params);
                         }
                         break;

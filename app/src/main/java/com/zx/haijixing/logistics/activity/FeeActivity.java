@@ -17,9 +17,12 @@ import com.zx.haijixing.logistics.contract.FeeContract;
 import com.zx.haijixing.logistics.presenter.FeeImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,8 +53,13 @@ public class FeeActivity extends BaseActivity<FeeImp> implements FeeContract.Fee
         instance.init(this);
         String token = (String) instance.getParam("token", "null");
         title.setText(getHaiString(R.string.type_price));
-
-        mPresenter.feeMethod(token,linesId);
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("lineId",linesId);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.feeMethod(params);
     }
 
     @Override

@@ -80,7 +80,7 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
     private CommonDialogFragment showDriverSelect;
     private CommonDialogFragment showTruckSelect;
 
-    private Map<String,Object> params = new HashMap<>();
+    private Map<String,String> params = new HashMap<>();
 
     private int type = OtherConstants.SELECT_DRIVER;
     private int driverIndex = 0;
@@ -99,7 +99,10 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
 
         params.put("token",token);
         params.put("lineId",linesId);
-        mPresenter.driverPhoneMethod(token,linesId);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.driverPhoneMethod(params);
     }
 
     @Override
@@ -147,6 +150,9 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
                 break;
             case R.id.dialog_update_yes:
                 showAddSure.dismissAllowingStateLoss();
+                params.put("timestamp",System.currentTimeMillis()+"");
+                params.put("sign","");
+                params.put("sign",HaiTool.sign(params));
                 mPresenter.addClassMethod(params);
                 break;
             case R.id.dialog_update_no:
@@ -193,7 +199,12 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
             this.driverEntries = driverEntries;
             DriverEntry driverEntry = driverEntries.get(driverIndex);
             namePhone.setText(driverEntry.getDriverName());
-            mPresenter.truckNumMethod(token, driverEntry.getDriverId());
+            Map<String,String> params = new HashMap<>();
+            params.put("token",token);
+            params.put("driverId",driverEntry.getDriverId());
+            params.put("timestamp",System.currentTimeMillis()+"");
+            params.put("sign",HaiTool.sign(params));
+            mPresenter.truckNumMethod(params);
             params.put("driverId", driverEntry.getDriverId());
             driverAdapter = new DriverTruckAdapter(driverEntries, null, OtherConstants.SELECT_DRIVER);
         }else {
@@ -225,7 +236,12 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
             if (type == OtherConstants.SELECT_DRIVER){
                 showDriverSelect.dismissAllowingStateLoss();
                 DriverEntry driverEntry = driverEntries.get(driverIndex);
-                mPresenter.truckNumMethod(token, driverEntry.getDriverId());
+                Map<String,String> params = new HashMap<>();
+                params.put("token",token);
+                params.put("driverId",driverEntry.getDriverId());
+                params.put("timestamp",System.currentTimeMillis()+"");
+                params.put("sign",HaiTool.sign(params));
+                mPresenter.truckNumMethod(params);
                 params.put("driverId", driverEntry.getDriverId());
                 namePhone.setText(driverEntry.getDriverName());
             }else {

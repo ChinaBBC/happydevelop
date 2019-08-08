@@ -19,8 +19,8 @@ public interface TruckChangeContract {
     }
 
     interface TruckChangePresenter extends IBaseContract.IBasePresenter<TruckChangeView>{
-        void truckInfoMethod(String id);
-        void driverIdentifyMethod(String token);
-        void changeTimeMethod(Map<String,Object> params);
+        void truckInfoMethod(Map<String, String> params);
+        void driverIdentifyMethod(Map<String, String> params);
+        void changeTimeMethod(Map<String,String> params);
     }
 }

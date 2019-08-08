@@ -17,8 +17,8 @@ public interface PaperChangeContract {
     }
 
     interface PaperChangePresenter extends IBaseContract.IBasePresenter<PaperChangeView>{
-        void changeDriverId(String token,String driverA,String driverB);
-        void changeTruckInfo(Map<String,Object> params);
+        void changeDriverId(Map<String, String> params);
+        void changeTruckInfo(Map<String,String> params);
         void uploadImg(String path,int tag);
     }
 }

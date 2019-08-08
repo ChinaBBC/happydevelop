@@ -18,6 +18,6 @@ public interface LinesMangeContract {
     }
 
     interface LinesManagePresenter extends IBaseContract.IBasePresenter<LinesManageView>{
-        void linesManageMethod(Map<String,Object> params);
+        void linesManageMethod(Map<String,String> params);
     }
 }

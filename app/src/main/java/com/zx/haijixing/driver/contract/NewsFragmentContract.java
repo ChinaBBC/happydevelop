@@ -5,6 +5,7 @@ import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,7 +20,7 @@ public interface NewsFragmentContract {
     }
 
     interface NewsFragmentPresenter extends IBaseContract.IBasePresenter<NewsFragmentView>{
-        void newsFragmentMethod(int page);
-        void newsFragmentBanner();
+        void newsFragmentMethod(Map<String, String> params);
+        void newsFragmentBanner(Map<String, String> params);
     }
 }

@@ -4,6 +4,7 @@ import com.zx.haijixing.logistics.entry.DriverWordEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +18,6 @@ public interface DriverWordContract {
     }
 
     interface DriverWordPresenter extends IBaseContract.IBasePresenter<DriverWordView>{
-        void driverWordMethod(String name);
+        void driverWordMethod(Map<String, String> params);
     }
 }

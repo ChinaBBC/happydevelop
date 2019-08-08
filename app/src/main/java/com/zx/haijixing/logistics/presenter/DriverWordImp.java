@@ -9,6 +9,7 @@ import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.ShareApiService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,9 +19,9 @@ import java.util.List;
  */
 public class DriverWordImp extends BasePresenter<DriverWordContract.DriverWordView> implements DriverWordContract.DriverWordPresenter {
     @Override
-    public void driverWordMethod(String name) {
+    public void driverWordMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .driverWordApi(name)
+                .driverWordApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<DriverWordEntry>>() {
                     @Override

@@ -115,7 +115,13 @@ public class PhoneActivity extends BaseActivity<PhoneImp> implements PhoneContra
             case R.id.phone_next:
                 String myOldCode = oldCode.getText().toString().trim();
                 if (!ZxStringUtil.isEmpty(myOldCode)){
-                    mPresenter.oldPhoneMethod(phone,myOldCode);
+                    Map<String,String> phoneMap = new HashMap<>();
+                    phoneMap.put("token",token);
+                    phoneMap.put("vcode",myOldCode);
+                    phoneMap.put("timestamp",System.currentTimeMillis()+"");
+                    phoneMap.put("sign","");
+                    phoneMap.put("sign",HaiTool.sign(phoneMap));
+                    mPresenter.oldPhoneMethod(phoneMap);
                 }else {
                     ZxToastUtil.centerToast("请输入验证码！");
                 }
@@ -152,13 +158,15 @@ public class PhoneActivity extends BaseActivity<PhoneImp> implements PhoneContra
             ZxToastUtil.centerToast("密码输入不一致！");
         }else {
 
-            Map<String,Object> param = new HashMap<>();
+            Map<String,String> param = new HashMap<>();
             param.put("phone",newP);
             param.put("vcode",newC);
             param.put("loginKey",HaiTool.md5Method(pass));
             param.put("token",token);
-            param.put("type",5);
-
+            param.put("type",5+"");
+            param.put("timestamp",System.currentTimeMillis()+"");
+            param.put("sign","");
+            param.put("sign",HaiTool.sign(param));
             mPresenter.newPhoneMethod(param);
         }
     }

@@ -17,6 +17,6 @@ public interface WaitAllotContract {
     }
 
     interface WaitAllotPresenter extends IBaseContract.IBasePresenter<WaitAllotView>{
-        void waitAllotMethod(Map<String,Object> params);
+        void waitAllotMethod(Map<String,String> params);
     }
 }

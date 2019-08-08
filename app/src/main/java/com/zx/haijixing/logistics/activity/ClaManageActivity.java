@@ -22,9 +22,12 @@ import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,6 +57,7 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
     private String token;
     private CommonDialogFragment showDelete;
     private String bkId;
+    private Map<String,String> params = new HashMap<>();
 
     @Override
     protected void initView() {
@@ -70,7 +74,12 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
         claManageAdapter.setClaManageResultListener(this::claManageResult);
         claData.setAdapter(claManageAdapter);
 
-        mPresenter.claManageMethod(token,linesId);
+        params.put("token",token);
+        params.put("lineId",linesId);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.claManageMethod(params);
     }
 
     @Override
@@ -94,7 +103,13 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
                 break;
             case R.id.dialog_update_yes:
                 showDelete.dismissAllowingStateLoss();
-                mPresenter.deleteClassMethod(token,bkId);
+                Map<String,String> param = new HashMap<>();
+                param.put("token",token);
+                param.put("bakkiId",bkId);
+                param.put("timestamp",System.currentTimeMillis()+"");
+                param.put("sign","");
+                param.put("sign",HaiTool.sign(param));
+                mPresenter.deleteClassMethod(param);
                 break;
             case R.id.dialog_update_no:
                 showDelete.dismissAllowingStateLoss();
@@ -115,7 +130,10 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
     public void deleteClassSuccess(String msg) {
         classManageEntries.clear();
         claManageAdapter.notifyDataSetChanged();
-        mPresenter.claManageMethod(token,linesId);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.claManageMethod(params);
     }
 
     @Override
@@ -130,7 +148,10 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
         if (resultCode == RESULT_OK && requestCode == OtherConstants.REQUEST_ADD_CLASS){
             classManageEntries.clear();
             claManageAdapter.notifyDataSetChanged();
-            mPresenter.claManageMethod(token,linesId);
+            params.put("timestamp",System.currentTimeMillis()+"");
+            params.put("sign","");
+            params.put("sign",HaiTool.sign(params));
+            mPresenter.claManageMethod(params);
         }
     }
 }

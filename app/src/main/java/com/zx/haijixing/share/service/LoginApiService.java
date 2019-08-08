@@ -24,17 +24,17 @@ import retrofit2.http.PUT;
 public interface LoginApiService {
     //登录密码
     @FormUrlEncoded
-    @POST("app/loginByPassword")
+    @POST("open/app/loginByPassword")
     Observable<HaiBaseData<LoginEntry>> loginApiPass(@Field("phone") String phone, @Field("password") String password);
 
     //登录验证码
     @FormUrlEncoded
-    @POST("app/loginBySmsCode")
+    @POST("open/app/loginBySmsCode")
     Observable<HaiBaseData<LoginEntry>> loginApiCode(@Field("phone") String phone, @Field("smsCode") String code);
 
     //忘记密码
     @FormUrlEncoded
-    @POST("app/loginBySmsCode")
+    @POST("open/app/loginBySmsCode")
     Observable<String> forgetPass(@Field("phone") String phone, @Field("smsCode") String code,@Field("password") String password);
 
     //注册基本信息
@@ -44,26 +44,26 @@ public interface LoginApiService {
 
     //发送验证码
     @FormUrlEncoded
-    @POST("app/appSendSms")
+    @POST("open/app/appSendSms")
     Observable<String> sendRegisterCode(@Field("phone") String phone, @Field("type") int type);
 
     //注册基本信息
     @FormUrlEncoded
-    @POST("driver/driverCard")
+    @POST("open/driver/driverCard")
     Observable<String> drivingCard(@FieldMap Map<String,String> params);
 
     //选择车辆类型
-    @GET("logistics/carType/selectAllCarType")
+    @GET("open/logistics/carType/selectAllCarType")
     Observable<HaiBaseData<List<TruckTypeEntry>>> truckTypeApi();
 
     ///添加车辆
     @FormUrlEncoded
-    @POST("logistics/carApply/addApply")
+    @POST("open/logistics/carApply/addApply")
     Observable<String> truckApplyApi(@FieldMap Map<String,String> params);
 
     //修改上传头像,
     @FormUrlEncoded
-    @PUT("driver/updateDriverHeadImageByUserId")
-    Observable<String> changeUserHead(@Field("headImg") String headImg,@Field("token") String token);
+    @PUT("api/driver/updateDriverHeadImageByUserId")
+    Observable<String> changeUserHead(@FieldMap Map<String,String> params);
 
 }

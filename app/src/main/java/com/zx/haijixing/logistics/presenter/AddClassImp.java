@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class AddClassImp extends BasePresenter<AddClassContract.AddClassView> implements AddClassContract.AddClassPresenter {
     @Override
-    public void addClassMethod(Map<String, Object> params) {
+    public void addClassMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .addClassApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -51,9 +51,9 @@ public class AddClassImp extends BasePresenter<AddClassContract.AddClassView> im
     }
 
     @Override
-    public void driverPhoneMethod(String token, String linesId) {
+    public void driverPhoneMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
-                .linesDriverApi(token,linesId)
+                .linesDriverApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<DriverEntry>>() {
                     @Override
@@ -74,9 +74,9 @@ public class AddClassImp extends BasePresenter<AddClassContract.AddClassView> im
     }
 
     @Override
-    public void truckNumMethod(String token, String driverId) {
+    public void truckNumMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
-                .driverTruckApi(token,driverId)
+                .driverTruckApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<TruckInfoEntry>>() {
                     @Override

@@ -17,9 +17,12 @@ import com.zx.haijixing.logistics.entry.CompanyEntry;
 import com.zx.haijixing.logistics.presenter.CompanyCenterImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,7 +75,13 @@ public class ManagerCenterFragment extends BaseFragment<CompanyCenterImp> implem
         content.setText(phone);
         RequestOptions options = new RequestOptions().circleCrop().error(R.mipmap.user_head);
         Glide.with(this).load(head).apply(options).into(this.head);
-        mPresenter.companyMethod(token);
+
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.companyMethod(params);
     }
 
     @OnClick({R.id.company_center_fee, R.id.company_center_table, R.id.company_center_driver_words, R.id.company_center_setting})

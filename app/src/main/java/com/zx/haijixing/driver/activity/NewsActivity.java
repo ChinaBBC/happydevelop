@@ -11,6 +11,10 @@ import com.zx.haijixing.driver.contract.NewsActivityContract;
 import com.zx.haijixing.driver.presenter.NewsActivityImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,7 +46,14 @@ public class NewsActivity extends BaseActivity<NewsActivityImp> implements NewsA
         instance.init(this);
         String token = (String) instance.getParam("token","null");
         title.setText(R.string.news_detail);
-        mPresenter.detailMethod(token,newId);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("newId",newId);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign",HaiTool.sign(params));
+
+        mPresenter.detailMethod(params);
     }
 
     @Override

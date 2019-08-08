@@ -86,7 +86,7 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
     private TimePickerView startPickerView;
     private TimePickerView endPickerView;
 
-    private Map<String,Object> params = new HashMap<>();
+    private Map<String,String> params = new HashMap<>();
     private int tag = 0;
     private DriverTruckAdapter driverAdapter;
     private List<DriverEntry> driverEntries = new ArrayList<>();
@@ -108,7 +108,9 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
         endPickerView = HaiTool.initTimePickers(this, end, 0);
 
         params.put("token",token);
-
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         if (loginType.equals(OtherConstants.LOGIN_MANAGER)){
             arrive.setVisibility(View.GONE);
             line3.setVisibility(View.GONE);
@@ -116,10 +118,10 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
             companyEntries.add(new CompanyEntry("","","全部"));
             companyEntries.addAll(companys);
         }else {
-            mPresenter.searchDriverMethod(token);
+            mPresenter.searchDriverMethod(params);
         }
 
-        mPresenter.todayStatisticsMethod(token);
+        mPresenter.todayStatisticsMethod(params);
         mPresenter.orderStatisticsMethod(params);
     }
 
@@ -182,6 +184,9 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
         String eTime = end.getText().toString().trim();
         params.put("startTime",sTime);
         params.put("endTime",eTime);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         switch (tag){
             case 0:
                 mPresenter.orderStatisticsMethod(params);
@@ -196,6 +201,9 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
     }
 
     private void changeStatus(int tag){
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         switch (tag){
             case 0:
                 bills.setTextColor(getHaiColor(R.color.color_703f));

@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetailView> implements OrderDetailContract.OrderDetailPresenter {
     @Override
-    public void orderDetailMethod(Map<String,Object> params) {
+    public void orderDetailMethod(Map<String,String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .orderDetails(params)
                 .compose(Transformer.switchSchedulers())
@@ -44,9 +44,9 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
     }
 
     @Override
-    public void goodTypePriceMethod(String token, String lineId) {
+    public void goodTypePriceMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .queryTypePriceInfo(token,lineId)
+                .queryTypePriceInfo(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new CommonObserver<GoodsTypePriceEntry>() {
                     @Override
@@ -68,7 +68,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
     }
 
     @Override
-    public void changeOrderMethod(Map<String, Object> params) {
+    public void changeOrderMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .changeOrderApi(params)
                 .compose(Transformer.switchSchedulers())

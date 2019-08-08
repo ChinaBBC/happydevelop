@@ -3,6 +3,7 @@ package com.zx.haijixing.logistics.contract;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,6 +17,6 @@ public interface FeeContract {
     }
 
     interface FeePresenter extends IBaseContract.IBasePresenter<FeeView>{
-        void feeMethod(String token,String lineId);
+        void feeMethod(Map<String, String> params);
     }
 }

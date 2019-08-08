@@ -27,6 +27,7 @@ import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,8 +116,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private List<GoodsTypePriceEntry.GoodType> goodTypeList;
     private Map<String,String> mathMap = new HashMap<>();
     private Map<String,String> upMap = new HashMap<>();
-    private Map<String,Object> params = new HashMap<>();
-    private Map<String,Object> detailParams = new HashMap<>();
+    private Map<String,String> params = new HashMap<>();
+    private Map<String,String> detailParams = new HashMap<>();
 
     @Override
     protected void initView() {
@@ -145,7 +146,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 break;
             case OtherConstants.CHANGE_ORDER:
                 title.setText(getHaiString(R.string.change_order));
-                mPresenter.goodTypePriceMethod(token,linesId);
+                Map<String,String> changeMap = new HashMap<>();
+                changeMap.put("token",token);
+                changeMap.put("lineId",linesId);
+                changeMap.put("timestamp",System.currentTimeMillis()+"");
+                changeMap.put("sign",HaiTool.sign(changeMap));
+                mPresenter.goodTypePriceMethod(changeMap);
                 break;
         }
         params.put("token",token);
@@ -157,6 +163,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         }else {
             detailParams.put("waybillNo",orderId);
         }
+        detailParams.put("timestamp",System.currentTimeMillis()+"");
+        detailParams.put("sign",HaiTool.sign(detailParams));
         mPresenter.orderDetailMethod(detailParams);
     }
 
@@ -177,6 +185,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 finish();
                 break;
             case R.id.order_detail_sure_change:
+                params.put("timestamp",System.currentTimeMillis()+"");
+                params.put("sign","");
+                params.put("sign",HaiTool.sign(params));
                 mPresenter.changeOrderMethod(params);
                 break;
         }
@@ -196,7 +207,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
             mathMap.put(goodsVo.getDictCode(),goodsVo.getDwMoney()+","+goodsVo.getDwAvg());
             upMap.put(goodsVo.getDictCode(),goodsVo.getGoodsId());
         }
-
+        mathMap.put("coupon",orderDetailEntry.getCouponMoney());
+        mathMap.put("integral",orderDetailEntry.getIntegralMoney());
         String timeEnd = orderDetailEntry.getTimeEnd();
         long timeStamp = Long.parseLong(ZxStringUtil.isEmpty(timeEnd)?"0":timeEnd);
         duration.setText(HaiTool.calculateTime(timeStamp));
@@ -338,10 +350,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         int intTotalMoney = new Double(fMoney*100).intValue();
         int intTotalNumber = new Double(totalNumber).intValue();
         ZxLogUtil.logError("<<<<totalWeight"+totalWeight+"<<<<intTotalMoney"+intTotalMoney+"<<<<intTotalNumber"+intTotalNumber);
+        int coupon = Integer.parseInt(ZxStringUtil.isEmpty(mathMap.get("coupon"))?"0":mathMap.get("coupon"));
+        int integral = Integer.parseInt(ZxStringUtil.isEmpty(mathMap.get("integral"))?"0":mathMap.get("integral"));
 
-        params.put("weight",totalWeight);
-        params.put("totalNum",intTotalNumber);
-        params.put("price",intTotalMoney);
+        params.put("weight",totalWeight+"");
+        params.put("totalNum",intTotalNumber+"");
+        params.put("price",(intTotalMoney-coupon-integral)+"");
         params.put("goodsArray",goodsArray);
     }
 
@@ -375,13 +389,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private void cMethod(OrderDetailEntry orderDetailEntry){
         cViewHolder.cMoney.setText("￥"+orderDetailEntry.getPrice()+"("+("1".equals(orderDetailEntry.getType())?"寄付)":"到付)"));
         cViewHolder.cType.setText(orderDetailEntry.getCategory());
-        cViewHolder.cType.setOnClickListener(v -> {
+        /*cViewHolder.cType.setOnClickListener(v -> {
             if (goodTypeWheel != null) {
                 showTruck = HaiDialogUtil.showTruck(getSupportFragmentManager(), goodTypeWheel, this::truckResult);
             }else {
                 ZxToastUtil.centerToast("请稍候重试");
             }
-        });
+        });*/
         cViewHolder.cWeight.setText(orderDetailEntry.getWeight()+"KG");
         cViewHolder.countList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         PriceAdapter priceAdapter = new PriceAdapter(appWaybillGoodsVos);

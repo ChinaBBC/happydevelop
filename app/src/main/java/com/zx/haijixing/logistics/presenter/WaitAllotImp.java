@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class WaitAllotImp extends BasePresenter<WaitAllotContract.WaitAllotView> implements WaitAllotContract.WaitAllotPresenter {
     @Override
-    public void waitAllotMethod(Map<String, Object> params) {
+    public void waitAllotMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .orderLists(params)
                 .compose(Transformer.switchSchedulers())

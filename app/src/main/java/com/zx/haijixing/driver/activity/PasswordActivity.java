@@ -105,13 +105,15 @@ public class PasswordActivity extends BaseActivity<PhoneImp> implements PhoneCon
         }else if (!pass.equals(rePass)){
             ZxToastUtil.centerToast("密码输入不一致！");
         }else {
-            Map<String,Object> param = new HashMap<>();
+            Map<String,String> param = new HashMap<>();
             param.put("phone",phone);
             param.put("vcode",newC);
             param.put("loginKey",HaiTool.md5Method(pass));
             param.put("token",token);
-            param.put("type",3);
-
+            param.put("type",3+"");
+            param.put("timestamp",System.currentTimeMillis()+"");
+            param.put("sign","");
+            param.put("sign",HaiTool.sign(param));
             mPresenter.newPhoneMethod(param);
         }
     }

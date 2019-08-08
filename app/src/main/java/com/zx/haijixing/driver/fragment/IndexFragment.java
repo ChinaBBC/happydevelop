@@ -34,13 +34,16 @@ import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -79,6 +82,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     private boolean isHide = false;
     private String token = null;
     private String loginType;
+    private  Map<String,String> params = new HashMap<>();
 
     @Override
     protected int getLayoutId() {
@@ -109,8 +113,21 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         rvBody.setAdapter(indexAdapter);
         indexAdapter.setClickListener(this::onViewClicked);
 
-        mPresenter.newsDataBanner();
-        mPresenter.newsDataMethod(page);
+        params.put("token",token);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.newsDataMethod(params);
+
+        Map<String,String> paramsBanner = new HashMap<>();
+        paramsBanner.put("token",token);
+        paramsBanner.put("timestamp",System.currentTimeMillis()+"");
+        paramsBanner.put("sign","");
+        paramsBanner.put("sign",HaiTool.sign(paramsBanner));
+        mPresenter.newsDataBanner(paramsBanner);
+
         refresh.setOnRefreshLoadMoreListener(this);
         skeletonScreen = Skeleton.bind(rvBody).adapter(indexAdapter)
                 .shimmer(true)
@@ -136,13 +153,23 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 break;
             case R.id.index_header_clock:
                 if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
-                    showClock = HaiDialogUtil.showClock(getFragmentManager(), this::onViewClicked);
+                    Map<String,String> param = new HashMap<>();
+                    param.put("token",token);
+                    param.put("timestamp",System.currentTimeMillis()+"");
+                    param.put("sign","");
+                    param.put("sign",HaiTool.sign(param));
+                    mPresenter.workStatusMethod(param);
                 }else {
                     EventBus.getDefault().post(new EventBusEntity(OtherConstants.EVENT_LOGISTICS));
                 }
                 break;
             case R.id.dialog_clock_yes:
-                mPresenter.workMethod(token);
+                Map<String,String> param = new HashMap<>();
+                param.put("token",token);
+                param.put("timestamp",System.currentTimeMillis()+"");
+                param.put("sign","");
+                param.put("sign",HaiTool.sign(param));
+                mPresenter.workMethod(param);
                 //showClock.dismissAllowingStateLoss();
                 break;
             case R.id.dialog_clock_no:
@@ -206,10 +233,23 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     }
 
     @Override
+    public void workStatusSuccess(String msg) {
+        if ("1".equals(msg)){
+            showClock = HaiDialogUtil.showClock(getFragmentManager(),"是否下班？", this::onViewClicked);
+        }else {
+            showClock = HaiDialogUtil.showClock(getFragmentManager(),null, this::onViewClicked);
+        }
+    }
+
+    @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
-        mPresenter.newsDataMethod(page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.newsDataMethod(params);
     }
 
     @Override
@@ -218,7 +258,11 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         page = 1;
         newsData.clear();
         indexAdapter.notifyDataSetChanged();
-        mPresenter.newsDataMethod(page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.newsDataMethod(params);
     }
 
     @Override

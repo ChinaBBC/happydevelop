@@ -8,6 +8,7 @@ import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.LogisticsApiService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,9 +18,9 @@ import java.util.List;
  */
 public class FeeImp extends BasePresenter<FeeContract.FeeView> implements FeeContract.FeePresenter {
     @Override
-    public void feeMethod(String token, String lineId) {
+    public void feeMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
-                .typePriceApi(token,lineId)
+                .typePriceApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<List<String>>>() {
                     @Override

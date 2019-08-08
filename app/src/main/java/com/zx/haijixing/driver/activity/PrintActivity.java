@@ -99,8 +99,14 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
         token = (String) instance.getParam("token","null");
-        
-        mPresenter.printOrderMethod(token,waybillId);
+
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("waybillId",waybillId);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.printOrderMethod(params);
         adapter = new BluetoothDataAdapter(mBlueList);
     }
 
@@ -324,10 +330,13 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
      * 打印XML
      */
     public void printXml() {
-        Map<String,Object> params = new HashMap<>();
+        Map<String,String> params = new HashMap<>();
         params.put("token",token);
         params.put("waybillId",waybillId);
         params.put("dadanFlag",ZxStringUtil.isEmpty(printStatus)?"0":printStatus);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.printStatusMethod(params);
 
         threadPool = ThreadPool.getInstantiation();

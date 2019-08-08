@@ -9,6 +9,7 @@ import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,9 +19,9 @@ import java.util.List;
  */
 public class VehicleImp extends BasePresenter<VehicleContract.VehicleView> implements VehicleContract.VehiclePresenter {
     @Override
-    public void vehicleMethod(String token) {
+    public void vehicleMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .queryTruckApi(token)
+                .queryTruckApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<List<TruckEntry>>() {
                     @Override

@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class LinesManageImp extends BasePresenter<LinesMangeContract.LinesManageView> implements LinesMangeContract.LinesManagePresenter {
     @Override
-    public void linesManageMethod(Map<String, Object> params) {
+    public void linesManageMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .linesManageApi(params)
                 .compose(Transformer.switchSchedulers())

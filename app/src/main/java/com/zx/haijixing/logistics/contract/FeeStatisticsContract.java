@@ -23,10 +23,10 @@ public interface FeeStatisticsContract {
     }
 
     interface FeeStatisticsPresenter extends IBaseContract.IBasePresenter<FeeStatisticsView>{
-        void orderStatisticsMethod(Map<String,Object> params);
-        void feeStatisticsMethod(Map<String,Object> params);
-        void todayStatisticsMethod(String token);
-        void receiveStatisticsMethod(Map<String,Object> params);
-        void searchDriverMethod(String token);
+        void orderStatisticsMethod(Map<String,String> params);
+        void feeStatisticsMethod(Map<String,String> params);
+        void todayStatisticsMethod(Map<String, String> params);
+        void receiveStatisticsMethod(Map<String,String> params);
+        void searchDriverMethod(Map<String, String> params);
     }
 }

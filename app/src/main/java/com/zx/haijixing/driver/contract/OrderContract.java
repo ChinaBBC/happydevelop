@@ -18,7 +18,7 @@ public interface OrderContract {
     }
 
     interface OrderPresenter extends IBaseContract.IBasePresenter<OrderView>{
-        void orderMethod(Map<String,Object> params);
-        void receiveOrderMethod(Map<String,Object> params);
+        void orderMethod(Map<String,String> params);
+        void receiveOrderMethod(Map<String,String> params);
     }
 }

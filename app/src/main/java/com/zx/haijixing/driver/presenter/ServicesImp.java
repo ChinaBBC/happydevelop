@@ -10,6 +10,8 @@ import com.zx.haijixing.share.service.DriverApiService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -18,9 +20,9 @@ import org.json.JSONObject;
  */
 public class ServicesImp extends BasePresenter<ServicesContract.ServicesView> implements ServicesContract.ServicesPresenter {
     @Override
-    public void clockMethod(String token) {
+    public void clockMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .workApi(token)
+                .workApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override
@@ -34,6 +36,35 @@ public class ServicesImp extends BasePresenter<ServicesContract.ServicesView> im
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
                                 mView.clockSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void clockStatusMethod(Map<String, String> params) {
+        RxHttpUtils.createApi(DriverApiService.class)
+                .workStatusApi(params)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.clockStatusSuccess(jsonObject.getString("data"));
                             }else if (jsonObject.getInt("code") == 1001){
                                 mView.jumpToLogin();
                             }else {

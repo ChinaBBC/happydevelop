@@ -18,6 +18,6 @@ public interface RunTableContact {
     }
 
     interface RunTablePresenter extends IBaseContract.IBasePresenter<RunTableView>{
-        void runTableMethod(Map<String,Object> params);
+        void runTableMethod(Map<String,String> params);
     }
 }

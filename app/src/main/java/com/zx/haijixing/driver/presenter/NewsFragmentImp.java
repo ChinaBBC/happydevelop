@@ -9,6 +9,8 @@ import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.service.ShareApiService;
 
+import java.util.Map;
+
 import zx.com.skytool.ZxLogUtil;
 
 /**
@@ -19,9 +21,9 @@ import zx.com.skytool.ZxLogUtil;
  */
 public class NewsFragmentImp extends BasePresenter<NewsFragmentContract.NewsFragmentView> implements NewsFragmentContract.NewsFragmentPresenter {
     @Override
-    public void newsFragmentMethod(int page) {
+    public void newsFragmentMethod(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .newsList(page,5)
+                .newsList(params)
                 .compose(Transformer.<NewsEntry>switchSchedulers())
                 .subscribe(new CommonObserver<NewsEntry>() {
                     @Override
@@ -31,15 +33,25 @@ public class NewsFragmentImp extends BasePresenter<NewsFragmentContract.NewsFrag
 
                     @Override
                     protected void onSuccess(NewsEntry data) {
-                        mView.newsFragmentSuccess(data.getData(),data.getFileHttpWW());
+                        switch (data.getCode()){
+                            case 0:
+                                mView.newsFragmentSuccess(data.getData(),data.getFileHttpWW());
+                                break;
+                            case 1001:
+                                mView.jumpToLogin();
+                                break;
+                            default:
+                                mView.showFaild(data.getMsg());
+                                break;
+                        }
                     }
                 });
     }
 
     @Override
-    public void newsFragmentBanner() {
+    public void newsFragmentBanner(Map<String, String> params) {
         RxHttpUtils.createApi(ShareApiService.class)
-                .bannerApi()
+                .bannerApi(params)
                 .compose(Transformer.<BannerEntry>switchSchedulers())
                 .subscribe(new CommonObserver<BannerEntry>() {
                     @Override
@@ -49,7 +61,18 @@ public class NewsFragmentImp extends BasePresenter<NewsFragmentContract.NewsFrag
 
                     @Override
                     protected void onSuccess(BannerEntry data) {
-                        mView.newsFragmentBannerSuccess(data.getData(),data.getFileHttpWW());
+                        switch (data.getCode()){
+                            case 0:
+                                mView.newsFragmentBannerSuccess(data.getData(),data.getFileHttpWW());
+                                break;
+                            case 1001:
+                                mView.jumpToLogin();
+                                break;
+                            default:
+                                mView.showFaild(data.getMsg());
+                                break;
+                        }
+
                     }
                 });
     }

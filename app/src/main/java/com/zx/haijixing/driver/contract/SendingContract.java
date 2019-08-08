@@ -19,9 +19,9 @@ public interface SendingContract {
     }
 
     interface SendingPresenter extends IBaseContract.IBasePresenter<SendingView>{
-        void sendingMethod(Map<String,Object> params);
-        void completeMethod(Map<String,Object> params);
-        void surePayMethod(Map<String,Object> params);
-        void changePriceMethod(Map<String,Object> params);
+        void sendingMethod(Map<String,String> params);
+        void completeMethod(Map<String,String> params);
+        void surePayMethod(Map<String,String> params);
+        void changePriceMethod(Map<String,String> params);
     }
 }

@@ -4,6 +4,7 @@ import com.zx.haijixing.driver.entry.DriverClassEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,6 +18,6 @@ public interface LinesContract {
     }
 
     interface LinesPresenter extends IBaseContract.IBasePresenter<LinesView>{
-        void linesMethod(String token);
+        void linesMethod(Map<String, String> params);
     }
 }

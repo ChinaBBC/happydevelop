@@ -22,9 +22,9 @@ import java.util.Map;
  */
 public class PrintImp extends BasePresenter<PrintOrderContract.PrintOrderView> implements PrintOrderContract.PrintOrderPresenter {
     @Override
-    public void printOrderMethod(String token, String id) {
+    public void printOrderMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
-                .printOrderApi(token,id)
+                .printOrderApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<PrintEntry>() {
                     @Override
@@ -45,7 +45,7 @@ public class PrintImp extends BasePresenter<PrintOrderContract.PrintOrderView> i
     }
 
     @Override
-    public void printStatusMethod(Map<String, Object> params) {
+    public void printStatusMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .changePrint(params)
                 .compose(Transformer.switchSchedulers())

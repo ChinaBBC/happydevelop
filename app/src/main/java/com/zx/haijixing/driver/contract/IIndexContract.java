@@ -5,6 +5,7 @@ import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,12 +19,14 @@ public interface IIndexContract {
         void newDataBannerSuccess(List<BannerEntry.BannerData> bannerDataList,String bannerStr);
         void workSuccess(String msg);
         void weatherSuccess(String city,String weather,String temp);
+        void workStatusSuccess(String msg);
     }
 
     interface IndexPresenter extends IBaseContract.IBasePresenter<IndexView>{
-        void newsDataMethod(int page);
-        void newsDataBanner();
-        void workMethod(String token);
+        void newsDataMethod(Map<String, String> params);
+        void newsDataBanner(Map<String, String> params);
+        void workMethod(Map<String, String> params);
+        void workStatusMethod(Map<String, String> params);
         void weatherMethod(String city);
     }
 }

@@ -19,7 +19,7 @@ public interface LinesClassContract {
     }
 
     interface LinesClassPresenter extends IBaseContract.IBasePresenter<LinesClassView>{
-        void linesClassMethod(Map<String,Object> params);
-        void allotOrderMethod(Map<String,Object> params);
+        void linesClassMethod(Map<String,String> params);
+        void allotOrderMethod(Map<String,String> params);
     }
 }

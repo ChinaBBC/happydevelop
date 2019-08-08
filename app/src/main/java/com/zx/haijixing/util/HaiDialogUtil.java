@@ -45,11 +45,14 @@ public final class HaiDialogUtil {
     }
 
     //弹出打卡
-    public static CommonDialogFragment showClock(FragmentManager fragmentManager, View.OnClickListener clickListener){
+    public static CommonDialogFragment showClock(FragmentManager fragmentManager,String contents, View.OnClickListener clickListener){
         CommonDialogFragment progressDialog = CommonDialogFragment.newInstance(context -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_clock_in, null);
             TextView yes = view.findViewById(R.id.dialog_clock_yes);
             TextView no = view.findViewById(R.id.dialog_clock_no);
+            TextView content = view.findViewById(R.id.dialog_clock_content);
+            if (!ZxStringUtil.isEmpty(contents))
+                content.setText(contents);
             yes.setOnClickListener(clickListener);
             no.setOnClickListener(clickListener);
             AlertDialog.Builder builder = new AlertDialog.Builder(context,ROB_RED_THEME);

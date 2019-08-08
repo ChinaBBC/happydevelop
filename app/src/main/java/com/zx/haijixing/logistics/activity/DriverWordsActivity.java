@@ -20,10 +20,13 @@ import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxToastUtil;
 
@@ -42,17 +45,24 @@ public class DriverWordsActivity extends BaseActivity<DriverWordImp> implements 
     RecyclerView data;
     private DriverWordAdapter driverWordAdapter;
     private List<DriverWordEntry> driverWordEntries = new ArrayList<>();
-
+    private  Map<String,String> params = new HashMap<>();
     @Override
     protected void initView() {
         setTitleTopMargin(back);
         setTitleTopMargin(title);
-
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        String token = (String) instance.getParam("token", "null");
         data.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         driverWordAdapter = new DriverWordAdapter(driverWordEntries);
         data.setAdapter(driverWordAdapter);
 
-        mPresenter.driverWordMethod("");
+        params.put("token",token);
+        params.put("driverName","");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.driverWordMethod(params);
     }
 
     @Override
@@ -73,7 +83,11 @@ public class DriverWordsActivity extends BaseActivity<DriverWordImp> implements 
                 break;
             case R.id.driver_words_search:
                 String input = this.input.getText().toString().trim();
-                mPresenter.driverWordMethod(input);
+                params.put("driverName",input);
+                params.put("timestamp",System.currentTimeMillis()+"");
+                params.put("sign","");
+                params.put("sign",HaiTool.sign(params));
+                mPresenter.driverWordMethod(params);
                 break;
         }
     }

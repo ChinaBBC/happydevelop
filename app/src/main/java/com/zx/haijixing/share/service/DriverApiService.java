@@ -34,111 +34,116 @@ import retrofit2.http.QueryMap;
 public interface DriverApiService {
 
     //订单列表
-    @GET("reception/waybill/params/list")
-    Observable<HaiBaseData<OrderTotalEntry>> orderLists(@QueryMap Map<String, Object> params);
+    @GET("api/reception/waybill/params/list")
+    Observable<HaiBaseData<OrderTotalEntry>> orderLists(@QueryMap Map<String, String> params);
 
     //接单
     @FormUrlEncoded
-    @POST("reception/waybill/receipt")
-    Observable<String> receiveOrders(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/receipt")
+    Observable<String> receiveOrders(@FieldMap Map<String, String> params);
 
     //订单详情
-    @GET("reception/waybill/details")
-    Observable<HaiBaseData<OrderDetailEntry>> orderDetails(@QueryMap Map<String, Object> params);
+    @GET("api/reception/waybill/details")
+    Observable<HaiBaseData<OrderDetailEntry>> orderDetails(@QueryMap Map<String, String> params);
 
     //出发
     @FormUrlEncoded
-    @POST("reception/waybill/batchdepart")
-    Observable<String> sendApi(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/batchdepart")
+    Observable<String> sendApi(@FieldMap Map<String, String> params);
 
     //完成
     @FormUrlEncoded
-    @POST("reception/waybill/done")
-    Observable<String> completeApi(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/done")
+    Observable<String> completeApi(@FieldMap Map<String, String> params);
 
     //收款
     @FormUrlEncoded
-    @POST("reception/waybill/makeprice")
-    Observable<String> receiveMoneyAPi(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/makeprice")
+    Observable<String> receiveMoneyAPi(@FieldMap Map<String, String> params);
 
     //订单打印
-    @GET("reception/waybill/dadan")
-    Observable<HaiBaseData<PrintEntry>> printOrderApi(@Query("token") String token, @Query("waybillId") String waybillId);
+    @GET("api/reception/waybill/dadan")
+    Observable<HaiBaseData<PrintEntry>> printOrderApi(@QueryMap Map<String, String> params);
 
     //改变打单状态
     @FormUrlEncoded
-    @POST("reception/waybill/upd/dadanflag")
-    Observable<String> changePrint(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/upd/dadanflag")
+    Observable<String> changePrint(@FieldMap Map<String, String> params);
 
     //司机班次信息、车辆及路线
     @FormUrlEncoded
-    @POST("reception/waybill/driver/bkki")
-    Observable<HaiBaseData<List<DriverClassEntry>>> driverClass(@Field("token") String token);
+    @POST("api/reception/waybill/driver/bkki")
+    Observable<HaiBaseData<List<DriverClassEntry>>> driverClass(@FieldMap Map<String, String> params);
 
     //修改运单价格
     @FormUrlEncoded
-    @POST("reception/waybill/upd/realprice")
-    Observable<String> changePrice(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/upd/realprice")
+    Observable<String> changePrice(@FieldMap Map<String, String> params);
 
 
     //位置上传
     @FormUrlEncoded
-    @POST("reception/order/insertWayPoint")
-    Observable<String> uploadLocate(@Field("token") String token,@Field("lng") String lng,@Field("lat") String lat);
+    @POST("api/reception/waybill/insertWayPoint")
+    Observable<String> uploadLocate(@FieldMap Map<String, String> params);
 
     //上班打卡
     @FormUrlEncoded
-    @POST("user/info/in/click")
-    Observable<String> workApi(@Field("token") String token);
+    @POST("api/user/info/in/click")
+    Observable<String> workApi(@FieldMap Map<String, String> params);
+
+    //检查打卡状态
+    @FormUrlEncoded
+    @POST("api/user/info/in/click/status")
+    Observable<String> workStatusApi(@FieldMap Map<String, String> params);
 
     //修改手机号验证
     @FormUrlEncoded
-    @POST("driver/editPhoneCheckVcode")
-    Observable<String> phoneOldApi(@Field("phone") String phone,@Field("vcode") String code);
+    @POST("api/driver/editPhoneCheckVcode")
+    Observable<String> phoneOldApi(@FieldMap Map<String, String> params);
 
     //修改手机号或者修改密码
     @FormUrlEncoded
-    @PUT("driver/confirmEdit")
-    Observable<String> phoneOrPassApi(@FieldMap Map<String, Object> params);
+    @PUT("api/driver/confirmEdit")
+    Observable<String> phoneOrPassApi(@FieldMap Map<String, String> params);
 
     //查询司机名下车辆
-    @GET("car/carMaster/selectAllCarByUserId")
-    Observable<HaiBaseData<List<TruckEntry>>> queryTruckApi(@Query("token") String token);
+    @GET("api/car/carMaster/selectAllCarByUserId")
+    Observable<HaiBaseData<List<TruckEntry>>> queryTruckApi(@QueryMap Map<String, String> params);
 
     //查询车辆详细信息
-    @GET("car/carMaster/selectCarMasterVoById")
-    Observable<TruckDetailEntry> queryTruckDetailApi(@Query("carId") String carId);
+    @GET("api/car/carMaster/selectCarMasterVoById")
+    Observable<TruckDetailEntry> queryTruckDetailApi(@QueryMap Map<String, String> params);
 
     //查询司机驾驶证
-    @GET("driver/queryMyDriverImage")
-    Observable<String> queryDriverCardApi(@Query("token") String token);
+    @GET("api/driver/queryMyDriverImage")
+    Observable<String> queryDriverCardApi(@QueryMap Map<String, String> params);
 
     //修改驾驶证
     @FormUrlEncoded
-    @PUT("driver/updateDriverImageByUserId")
-    Observable<String> changeDriveIdentify(@Field("token") String token,@Field("driverCardFront") String driverCardFront,@Field("driverCardBack") String driverCardBack);
+    @PUT("api/driver/updateDriverImageByUserId")
+    Observable<String> changeDriveIdentify(@FieldMap Map<String, String> params);
 
 
     //根据线路查询品类价格规格
-    @GET("reception/waybill/linemaster")
-    Observable<GoodsTypePriceEntry> queryTypePriceInfo(@Query("token") String token, @Query("lineMasterId") String lineMasterId);
+    @GET("api/reception/waybill/linemaster")
+    Observable<GoodsTypePriceEntry> queryTypePriceInfo(@QueryMap Map<String, String> params);
 
     //修改订单
     @FormUrlEncoded
-    @POST("reception/waybill/upd")
-    Observable<String> changeOrderApi(@FieldMap Map<String, Object> params);
+    @POST("api/reception/waybill/upd")
+    Observable<String> changeOrderApi(@FieldMap Map<String, String> params);
 
     //司机总评价
-    @GET("reception/orderComment/selectComment")
-    Observable<HaiBaseData<TotalEvaluateEntry>> queryTotalEvaluateApi(@Query("token") String token);
+    @GET("api/reception/orderComment/selectComment")
+    Observable<HaiBaseData<TotalEvaluateEntry>> queryTotalEvaluateApi(@QueryMap Map<String, String> params);
 
     //司机运单评价
-    @GET("reception/orderComment/selectCommentByUserId")
-    Observable<HaiBaseData<List<EveryEvaluateEntry>>> queryEveryEvaluateApi(@Query("token") String token, @Query(OtherConstants.PAGE) int pageNum, @Query(OtherConstants.SIZE) int pageSize);
+    @GET("api/reception/orderComment/selectCommentByUserId")
+    Observable<HaiBaseData<List<EveryEvaluateEntry>>> queryEveryEvaluateApi(@QueryMap Map<String, String> params);
 
     //修改车辆信息
     @FormUrlEncoded
-    @POST("logistics/carApply/updateApply")
-    Observable<String> changeTruckApi(@FieldMap Map<String, Object> params);
+    @POST("api/logistics/carApply/updateApply")
+    Observable<String> changeTruckApi(@FieldMap Map<String, String> params);
 
 }

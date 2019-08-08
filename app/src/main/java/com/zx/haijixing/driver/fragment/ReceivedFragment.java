@@ -24,6 +24,7 @@ import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
 
     private ReceiveAdapter receiveAdapter;
 
-    private Map<String, Object> params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntryList = new ArrayList<>();
     private int page = 1;
     private ReceiveViewHolder receiveViewHolder;
@@ -162,7 +163,11 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         ZxToastUtil.centerToast(msg);
         selectId = "";
         orderEntryList.clear();
-        params.put(OtherConstants.PAGE,1);
+        params.put(OtherConstants.PAGE,1+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+
         mPresenter.orderMethod(params);
         receiveViewHolder.word1.setText(getString(R.string.select_all));
         receiveViewHolder.selectAll.setImageResource(R.mipmap.select_no);
@@ -172,9 +177,9 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
 
     //下单
     private void overbooking() {
-        Map<String,Object> param = new HashMap<>();
+        Map<String,String> param = new HashMap<>();
         param.put("token",token);
-        param.put("selectAllFlag",flag);
+        param.put("selectAllFlag",flag+"");
         if (isTotal){
             isTotal = false;
             StringBuilder idBuilder = new StringBuilder();
@@ -194,6 +199,9 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         }
         ZxLogUtil.logError("<vflag>"+flag+"<selectId>"+selectId);
         param.put("waybillIds",selectId);
+        param.put("timestamp",System.currentTimeMillis()+"");
+        param.put("sign","");
+        param.put("sign",HaiTool.sign(param));
         mPresenter.receiveOrderMethod(param);
     }
 
@@ -268,7 +276,10 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
-        params.put(OtherConstants.PAGE,page);
+        params.put(OtherConstants.PAGE,page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.orderMethod(params);
     }
 
@@ -279,7 +290,10 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         page = 1;
         orderEntryList.clear();
         receiveAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE,page);
+        params.put(OtherConstants.PAGE,page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         mPresenter.orderMethod(params);
     }
 
@@ -361,9 +375,12 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         receiveAdapter.setLoginType(loginType);
         ZxLogUtil.logError("<<<<<on resume" + token);
         params.put("token", token);
-        params.put("status",OtherConstants.DETAIL_WAIT_RECEIVE);
-        params.put(OtherConstants.PAGE, page);
-        params.put(OtherConstants.SIZE, 5);
+        params.put("status",OtherConstants.DETAIL_WAIT_RECEIVE+"");
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
         orderEntryList.clear();
         mPresenter.orderMethod(params);
         updateTime();

@@ -17,13 +17,18 @@ import com.zx.haijixing.driver.contract.NewsFragmentContract;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.driver.presenter.NewsFragmentImp;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
 /**
  *
@@ -44,6 +49,7 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
     private int page = 1;
     private RecyclerViewSkeletonScreen skeletonScreen;
     private boolean isHide = false;
+    private Map<String, String> params = new HashMap<>();
 
     @Override
     protected int getLayoutId() {
@@ -58,12 +64,29 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
     @Override
     protected void initView(View view) {
         setTitleTopMargin(title,0);
+
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        String token = (String) instance.getParam("token","null");
+
         newsRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         newsAdapter = new NewsAdapter(newsData);
         newsRvData.setAdapter(newsAdapter);
 
-        mPresenter.newsFragmentBanner();
-        mPresenter.newsFragmentMethod(page);
+        params.put("token",token);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put(OtherConstants.SIZE, 5+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.newsFragmentMethod(params);
+
+        Map<String,String> paramsBanner = new HashMap<>();
+        paramsBanner.put("token",token);
+        paramsBanner.put("timestamp",System.currentTimeMillis()+"");
+        paramsBanner.put("sign","");
+        paramsBanner.put("sign",HaiTool.sign(paramsBanner));
+        mPresenter.newsFragmentBanner(paramsBanner);
 
         skeletonScreen = Skeleton.bind(newsRvData).adapter(newsAdapter)
                 .shimmer(true)
@@ -74,7 +97,6 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
 
     @Override
     public void newsFragmentSuccess(List<NewsEntry.NewsData> newsEntries, String base) {
-        ZxLogUtil.logError("<<news>>"+newsEntries.toString());
         if (!isHide){
             isHide = true;
             skeletonScreen.hide();
@@ -97,7 +119,11 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
-        mPresenter.newsFragmentMethod(page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.newsFragmentMethod(params);
     }
 
     @Override
@@ -105,7 +131,11 @@ public class NewsFragment extends BaseFragment<NewsFragmentImp> implements NewsF
         page = 1;
         newsData.clear();
         newsAdapter.notifyDataSetChanged();
-        mPresenter.newsFragmentMethod(page);
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.newsFragmentMethod(params);
     }
 
     @Override

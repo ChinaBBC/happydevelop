@@ -20,6 +20,7 @@ import com.zx.haijixing.logistics.entry.LinesClassEntry;
 import com.zx.haijixing.logistics.presenter.LoMoveImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
 
     private List<LinesClassEntry> linesClassEntries = new ArrayList<>();
     private LogisticsMoveAdapter logisticsMoveAdapter;
-    private Map<String,Object> allParams = new HashMap<>();
+    private Map<String,String> allParams = new HashMap<>();
     private int page = 1;
 
     @Override
@@ -96,13 +97,21 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
         logisticsMoveData.setAdapter(logisticsMoveAdapter);
 
         allParams.put("token",token);
-        allParams.put(OtherConstants.PAGE,page);
-        allParams.put(OtherConstants.SIZE,5);
-
+        allParams.put(OtherConstants.PAGE,page+"");
+        allParams.put(OtherConstants.SIZE,5+"");
+        allParams.put("timestamp",System.currentTimeMillis()+"");
+        allParams.put("sign","");
+        allParams.put("sign",HaiTool.sign(allParams));
         refresh.setOnRefreshLoadMoreListener(this);
 
         mPresenter.loMoveMethod(allParams);
-        mPresenter.countAllMethod(token);
+
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.countAllMethod(params);
 
     }
 
@@ -132,7 +141,10 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page < 1000)
             page++;
-        allParams.put(OtherConstants.PAGE, page);
+        allParams.put(OtherConstants.PAGE, page+"");
+        allParams.put("timestamp",System.currentTimeMillis()+"");
+        allParams.put("sign","");
+        allParams.put("sign",HaiTool.sign(allParams));
         mPresenter.loMoveMethod(allParams);
     }
 
@@ -142,7 +154,10 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
         page = 1;
         linesClassEntries.clear();
         logisticsMoveAdapter.notifyDataSetChanged();
-        allParams.put(OtherConstants.PAGE, page);
+        allParams.put(OtherConstants.PAGE, page+"");
+        allParams.put("timestamp",System.currentTimeMillis()+"");
+        allParams.put("sign","");
+        allParams.put("sign",HaiTool.sign(allParams));
         mPresenter.loMoveMethod(allParams);
     }
 

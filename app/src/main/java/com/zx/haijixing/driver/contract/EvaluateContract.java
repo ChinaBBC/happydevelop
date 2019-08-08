@@ -5,6 +5,7 @@ import com.zx.haijixing.driver.entry.TotalEvaluateEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,8 +20,8 @@ public interface EvaluateContract {
     }
 
     interface EvaluatePresenter extends IBaseContract.IBasePresenter<EvaluateView>{
-        void totalEvaluateMethod(String token);
-        void everyEvaluateMethod(String token,int page);
+        void totalEvaluateMethod(Map<String, String> params);
+        void everyEvaluateMethod(Map<String, String> params);
     }
 
 }

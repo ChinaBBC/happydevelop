@@ -11,6 +11,8 @@ import com.zx.haijixing.share.service.LogisticsApiService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 /**
  *
  *@作者 zx
@@ -19,9 +21,9 @@ import org.json.JSONObject;
  */
 public class CheckLogisticsImp extends BasePresenter<CheckLogisticsContract.CheckLogisticView> implements CheckLogisticsContract.CheckLogisticsPresenter {
     @Override
-    public void checkLogisticsMethod(String token, String id) {
+    public void checkLogisticsMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
-                .checkLogisticsApi(token,id)
+                .checkLogisticsApi(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override

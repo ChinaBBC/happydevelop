@@ -42,9 +42,12 @@ import com.zx.haijixing.logistics.contract.CheckLogisticsContract;
 import com.zx.haijixing.logistics.presenter.CheckLogisticsImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -178,8 +181,14 @@ public class CheckLogisticsActivity extends BaseActivity<CheckLogisticsImp> impl
         ZxToastUtil.centerToast("<<<<<onInitNaviSuccess" );
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
-        String token = (String)instance.getParam("token", "token");
-        mPresenter.checkLogisticsMethod(token,"Y1152104120669310976");
+        String token = (String)instance.getParam("token", "null");
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("waybillNo",waybillNo);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.checkLogisticsMethod(params);
     }
 
     @Override

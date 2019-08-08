@@ -14,8 +14,11 @@ import com.zx.haijixing.driver.entry.TruckEntry;
 import com.zx.haijixing.driver.presenter.VehicleImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.util.HaiTool;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,7 +52,12 @@ public class VehicleActivity extends BaseActivity<VehicleImp> implements Vehicle
         instance.init(this);
         String token = (String) instance.getParam("token", "null");
 
-        mPresenter.vehicleMethod(token);
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.vehicleMethod(params);
     }
 
     @Override

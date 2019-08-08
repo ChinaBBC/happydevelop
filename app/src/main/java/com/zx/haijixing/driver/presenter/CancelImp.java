@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class CancelImp extends BasePresenter<CancelContract.CancelView> implements CancelContract.CancelPresenter {
     @Override
-    public void cancelMethod(Map<String, Object> params) {
+    public void cancelMethod(Map<String, String> params) {
         RxHttpUtils.createApi(DriverApiService.class)
                 .orderLists(params)
                 .compose(Transformer.switchSchedulers())
