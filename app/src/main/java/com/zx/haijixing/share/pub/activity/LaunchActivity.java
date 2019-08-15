@@ -91,7 +91,10 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
                 break;
             case R.id.dialog_update_yes:
                 if (tag == 0){
-                    ARouter.getInstance().build(PathConstant.APK_ACTIVITY).withString("path", versionEntry.getDownloadUrl()).navigation();
+                    ARouter.getInstance().build(PathConstant.APK_ACTIVITY)
+                            .withString("path", versionEntry.getDownloadUrl())
+                            .withString("content",versionEntry.getRemark())
+                            .navigation();
                 }else {
                     //引导用户到设置中去进行设置
                     Intent intent = new Intent();

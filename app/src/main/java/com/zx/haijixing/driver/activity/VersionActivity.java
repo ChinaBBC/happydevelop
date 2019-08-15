@@ -19,6 +19,7 @@ import com.zx.haijixing.util.HaiTool;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -50,7 +51,7 @@ public class VersionActivity extends BaseActivity<VersionImp> implements Version
 
     @Override
     protected void initInjector() {
-        ARouter.getInstance().inject(this);
+        mPresenter = new VersionImp();
     }
 
     @Override
@@ -65,6 +66,7 @@ public class VersionActivity extends BaseActivity<VersionImp> implements Version
                 finish();
                 break;
             case R.id.version_version_update_area:
+                mPresenter.versionMethod();
                 break;
             case R.id.dialog_update_no:
                 showUpdate.dismissAllowingStateLoss();
@@ -80,6 +82,8 @@ public class VersionActivity extends BaseActivity<VersionImp> implements Version
         this.versionEntry = versionEntry;
         if (HaiTool.packageCode(this)<versionEntry.getVersionNum()) {
             showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(),null, this::onViewClicked);
+        }else {
+            ZxToastUtil.centerToast("您已经是最新版本了");
         }
     }
 }

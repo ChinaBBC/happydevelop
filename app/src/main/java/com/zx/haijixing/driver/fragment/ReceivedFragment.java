@@ -22,9 +22,12 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.driver.presenter.ReceiveImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -173,6 +176,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         receiveViewHolder.selectAll.setImageResource(R.mipmap.select_no);
         flag = 0;
         receiveViewHolder.total.setText("共：0单");
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
     }
 
     //下单
@@ -285,16 +289,8 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        if (flag == 0 && receiveViewHolder != null)
-            receiveViewHolder.total.setText("共：0单");
-        page = 1;
-        orderEntryList.clear();
-        receiveAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE,page+"");
-        params.put("timestamp",System.currentTimeMillis()+"");
-        params.put("sign","");
-        params.put("sign",HaiTool.sign(params));
-        mPresenter.orderMethod(params);
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
+        doRefresh();
     }
 
 
@@ -402,6 +398,20 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        ZxLogUtil.logError("<<isHidden>>"+hidden);
+        if (!hidden)
+            doRefresh();
+
+    }
+    private void doRefresh(){
+        if (flag == 0 && receiveViewHolder != null)
+            receiveViewHolder.total.setText("共：0单");
+        page = 1;
+        orderEntryList.clear();
+        receiveAdapter.notifyDataSetChanged();
+        params.put(OtherConstants.PAGE,page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.orderMethod(params);
     }
 }

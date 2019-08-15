@@ -99,6 +99,16 @@ public class CancelFragment extends BaseFragment<CancelImp> implements CancelCon
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+       doRefresh();
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            doRefresh();
+    }
+
+    private void doRefresh(){
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
@@ -109,7 +119,6 @@ public class CancelFragment extends BaseFragment<CancelImp> implements CancelCon
         params.put("sign",HaiTool.sign(params));
         mPresenter.cancelMethod(params);
     }
-
     @Override
     public void cancelSuccess(OrderTotalEntry orderTotalEntry) {
         if (!isHide){

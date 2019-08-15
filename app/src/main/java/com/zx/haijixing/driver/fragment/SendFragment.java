@@ -23,9 +23,12 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.driver.presenter.SendImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,6 +95,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
         sendData.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         sendAdapter = new SendAdapter(orderEntries);
+        sendAdapter.setLoginType(loginType);
         sendAdapter.setiResultPositionListener(this::positionResult);
         sendData.setAdapter(sendAdapter);
         if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {
@@ -198,6 +202,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
             params.put("sign","");
             params.put("sign",HaiTool.sign(params));
             mPresenter.sendMethod(params);
+            EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
             /*sendViewHolder.word1.setText(getString(R.string.select_all));
             sendViewHolder.selectAll.setImageResource(R.mipmap.select_no);
             flag = 0;
@@ -255,17 +260,8 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        refresh.setNoMoreData(false);
-        /*if (flag == 0)
-            sendViewHolder.total.setText("共：0单");*/
-        page = 1;
-        orderEntries.clear();
-        sendAdapter.notifyDataSetChanged();
-        params.put(OtherConstants.PAGE, page+"");
-        params.put("timestamp",System.currentTimeMillis()+"");
-        params.put("sign","");
-        params.put("sign",HaiTool.sign(params));
-        mPresenter.sendMethod(params);
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
+        doRefresh();
     }
 
     @Override
@@ -375,4 +371,24 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            doRefresh();
+    }
+
+    private void doRefresh(){
+        refresh.setNoMoreData(false);
+        /*if (flag == 0)
+            sendViewHolder.total.setText("共：0单");*/
+        page = 1;
+        orderEntries.clear();
+        sendAdapter.notifyDataSetChanged();
+        params.put(OtherConstants.PAGE, page+"");
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.sendMethod(params);
+    }
 }

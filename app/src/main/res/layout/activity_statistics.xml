@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/this_month"
                 android:textColor="@color/color_6666"
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_13"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintTop_toBottomOf="@id/statistics_month"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/this_day"
                 android:textColor="@color/color_6666"
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_13"
                 app:layout_constraintTop_toBottomOf="@id/statistics_day"
                 app:layout_constraintLeft_toRightOf="@id/statistics_word1"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/this_other_month"
                 android:textColor="@color/color_6666"
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_13"
                 app:layout_constraintTop_toBottomOf="@id/statistics_day"
                 app:layout_constraintLeft_toRightOf="@id/statistics_word2"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -303,7 +303,7 @@
             android:layout_marginRight="@dimen/dp_12"
             android:layout_marginTop="@dimen/dp_5"
             />
-        <com.zx.haijixing.custom.CustomGraphViewT
+        <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/statistics_map"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_250"

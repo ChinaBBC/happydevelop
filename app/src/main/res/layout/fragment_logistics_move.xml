@@ -27,6 +27,7 @@
         app:layout_constraintTop_toBottomOf="@+id/logistics_move_title"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
         android:scaleType="fitXY"
         />
     <TextView
@@ -41,7 +42,7 @@
         android:gravity="center"
         app:layout_constraintRight_toLeftOf="@id/logistics_move_num2"
         android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         />
     <TextView
         android:id="@+id/logistics_move_word1"
@@ -67,7 +68,7 @@
         app:layout_constraintLeft_toRightOf="@id/logistics_move_num1"
         app:layout_constraintRight_toLeftOf="@id/logistics_move_num3"
         app:layout_constraintTop_toBottomOf="@id/logistics_move_title"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         />
     <TextView
         android:id="@+id/logistics_move_word2"
@@ -92,7 +93,7 @@
         app:layout_constraintLeft_toRightOf="@id/logistics_move_num2"
         app:layout_constraintRight_toLeftOf="@id/logistics_move_num4"
         app:layout_constraintTop_toBottomOf="@id/logistics_move_title"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         />
     <TextView
         android:id="@+id/logistics_move_word3"
@@ -118,7 +119,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logistics_move_title"
         android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
         />
     <TextView
         android:id="@+id/logistics_move_word4"

@@ -69,6 +69,7 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
     private List<LinesClassEntry> linesClassEntries = new ArrayList<>();
     private LogisticsMoveAdapter logisticsMoveAdapter;
     private Map<String,String> allParams = new HashMap<>();
+    private Map<String,String> params = new HashMap<>();
     private int page = 1;
 
     @Override
@@ -106,7 +107,6 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
 
         mPresenter.loMoveMethod(allParams);
 
-        Map<String,String> params = new HashMap<>();
         params.put("token",token);
         params.put("timestamp",System.currentTimeMillis()+"");
         params.put("sign","");
@@ -159,6 +159,10 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
         allParams.put("sign","");
         allParams.put("sign",HaiTool.sign(allParams));
         mPresenter.loMoveMethod(allParams);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.countAllMethod(params);
     }
 
     @Override
@@ -183,5 +187,24 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
         num2.setText(waitSend);
         num3.setText(sending);
         num4.setText(complete);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            page = 1;
+            linesClassEntries.clear();
+            logisticsMoveAdapter.notifyDataSetChanged();
+            allParams.put(OtherConstants.PAGE, page+"");
+            allParams.put("timestamp",System.currentTimeMillis()+"");
+            allParams.put("sign","");
+            allParams.put("sign",HaiTool.sign(allParams));
+            mPresenter.loMoveMethod(allParams);
+            params.put("timestamp",System.currentTimeMillis()+"");
+            params.put("sign","");
+            params.put("sign",HaiTool.sign(params));
+            mPresenter.countAllMethod(params);
+        }
     }
 }

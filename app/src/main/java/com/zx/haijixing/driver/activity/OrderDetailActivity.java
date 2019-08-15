@@ -1,5 +1,10 @@
 package com.zx.haijixing.driver.activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -109,7 +114,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private BViewHolder bViewHolder;//底部
     private CViewHolder cViewHolder;//修改
     private DViewHolder dViewHolder;
-    private String priceInput;
+
     private GoodTypeWheel goodTypeWheel = null;
     private CommonDialogFragment showTruck;
     private int temp = 0;
@@ -118,12 +123,17 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private Map<String,String> upMap = new HashMap<>();
     private Map<String,String> params = new HashMap<>();
     private Map<String,String> detailParams = new HashMap<>();
+    private String loginTpe;
 
     @Override
     protected void initView() {
+        setTitleTopMargin(back);
+        setTitleTopMargin(title);
+
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
-        token = (String) instance.getParam("token", "token");
+        token = (String) instance.getParam("token", "null");
+        loginTpe = (String) instance.getParam("login_type", "null");
         int bg = Integer.parseInt(ZxStringUtil.isEmpty(detailType)?"0":detailType);
         switch (bg){
             case OtherConstants.DETAIL_WAIT_ALLOT:
@@ -148,7 +158,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 title.setText(getHaiString(R.string.change_order));
                 Map<String,String> changeMap = new HashMap<>();
                 changeMap.put("token",token);
-                changeMap.put("lineId",linesId);
+                changeMap.put("lineMasterId",linesId);
                 changeMap.put("timestamp",System.currentTimeMillis()+"");
                 changeMap.put("sign",HaiTool.sign(changeMap));
                 mPresenter.goodTypePriceMethod(changeMap);
@@ -156,6 +166,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         }
         params.put("token",token);
         params.put("waybillId",orderId);
+        params.put("category","");
 
         detailParams.put("token",token);
         if (orderId.length()>20){
@@ -178,7 +189,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         return R.layout.activity_order_detail;
     }
 
-    @OnClick({R.id.order_detail_back,R.id.order_detail_sure_change})
+    @OnClick({R.id.order_detail_back,R.id.order_detail_sure_change,R.id.order_detail_send_phone,R.id.order_detail_receive_phone})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.order_detail_back:
@@ -190,9 +201,37 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 params.put("sign",HaiTool.sign(params));
                 mPresenter.changeOrderMethod(params);
                 break;
+            case R.id.order_detail_send_phone:
+                call(sendPhone.getText().toString().trim());
+                break;
+            case R.id.order_detail_receive_phone:
+                call(receivePhone.getText().toString().trim());
+                break;
+            case R.id.change_dan_down:
+            case R.id.change_dan_cType:
+                if (goodTypeWheel != null) {
+                    showTruck = HaiDialogUtil.showTruck(getSupportFragmentManager(), goodTypeWheel, this::truckResult);
+                }else {
+                    ZxToastUtil.centerToast("请稍候重试");
+                }
+                break;
+
         }
     }
-
+    private void call(String phone){
+        Intent call = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            //
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(call);
+    }
     @Override
     public void setStatusBar() {
         ZxStatusBarCompat.translucentStatusBar(this, true);
@@ -230,11 +269,14 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
             case OtherConstants.DETAIL_WAIT_ALLOT:
                 aViewHolder = new AViewHolder(stubNormalDan.inflate());
                 aMethod(orderDetailEntry);
-                //bViewHolder = new BViewHolder(stubNormalDownB.inflate());
                 break;
             case OtherConstants.DETAIL_WAIT_RECEIVE:
                 aViewHolder = new AViewHolder(stubNormalDan.inflate());
                 aMethod(orderDetailEntry);
+                if (!OtherConstants.LOGIN_DRIVER.equals(loginTpe)){
+                    dViewHolder = new DViewHolder(stubHasComplete.inflate());
+                    dMethod(orderDetailEntry);
+                }
                 break;
             case OtherConstants.DETAIL_WAIT_SEND:
             case OtherConstants.DETAIL_SENDING:
@@ -284,6 +326,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         }else if (index == -1){
             GoodsTypePriceEntry.GoodType goodType = goodTypeList.get(temp);
             mathMap.put("startMoney", goodType.getStartPrice()+"");
+            params.put("category", goodType.getClassName());
             List<GoodsTypePriceEntry.GoodType.LinePriceGtVo> linePriceGtVos = goodType.getLinePriceGtVos();
             for (GoodsTypePriceEntry.GoodType.LinePriceGtVo linePriceGtVo : linePriceGtVos){
                 ZxLogUtil.logError(linePriceGtVo.getDwMoney()+","+linePriceGtVo.getDwAvg()+","+linePriceGtVo.getDictCode());
@@ -382,6 +425,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         bViewHolder.remark.setText(ZxStringUtil.isEmpty(content)?"暂无备注":content);
 
         bViewHolder.rTime.setText(orderDetailEntry.getReceiptTime());
+        bViewHolder.gTime.setText(orderDetailEntry.getGoTime());
+        bViewHolder.doneTime.setText(orderDetailEntry.getDoneTime());
         bViewHolder.vipservice.setText(orderDetailEntry.getAddedServices());
     }
 
@@ -389,20 +434,16 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private void cMethod(OrderDetailEntry orderDetailEntry){
         cViewHolder.cMoney.setText("￥"+orderDetailEntry.getPrice()+"("+("1".equals(orderDetailEntry.getType())?"寄付)":"到付)"));
         cViewHolder.cType.setText(orderDetailEntry.getCategory());
-        /*cViewHolder.cType.setOnClickListener(v -> {
-            if (goodTypeWheel != null) {
-                showTruck = HaiDialogUtil.showTruck(getSupportFragmentManager(), goodTypeWheel, this::truckResult);
-            }else {
-                ZxToastUtil.centerToast("请稍候重试");
-            }
-        });*/
+        cViewHolder.cType.setOnClickListener(this::onViewClicked);
+        cViewHolder.down.setOnClickListener(this::onViewClicked);
+
         cViewHolder.cWeight.setText(orderDetailEntry.getWeight()+"KG");
         cViewHolder.countList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         PriceAdapter priceAdapter = new PriceAdapter(appWaybillGoodsVos);
         priceAdapter.setPriceChangeListener(this::priceChangeResult);
         cViewHolder.countList.setAdapter(priceAdapter);
         cViewHolder.inputFree.setText(orderDetailEntry.getPrice());
-        priceInput = cViewHolder.inputFree.getText().toString();
+        //priceInput = cViewHolder.inputFree.getText().toString();
     }
 
     private void dMethod(OrderDetailEntry orderDetailEntry){
@@ -453,6 +494,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         TextView cMoney;
         @BindView(R.id.change_dan_cType)
         TextView cType;
+        @BindView(R.id.change_dan_down)
+        ImageView down;
         @BindView(R.id.change_dan_cWeight)
         TextView cWeight;
         @BindView(R.id.change_dan_count_list)
@@ -467,6 +510,10 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     class BViewHolder{
         @BindView(R.id.normal_down_rTime)
         TextView rTime;
+        @BindView(R.id.normal_down_gTime)
+        TextView gTime;
+        @BindView(R.id.normal_down_doneTime)
+        TextView doneTime;
         @BindView(R.id.normal_down_pay_way)
         TextView payWay;
         @BindView(R.id.normal_down_vip_service)

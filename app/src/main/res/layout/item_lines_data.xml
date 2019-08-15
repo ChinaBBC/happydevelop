@@ -6,8 +6,10 @@
     android:layout_marginTop="@dimen/dp_10"
     android:layout_marginLeft="@dimen/dp_12"
     android:layout_marginRight="@dimen/dp_12"
-    android:padding="@dimen/dp_10"
-    android:background="@drawable/shape_2dp_59ff">
+    android:paddingRight="@dimen/dp_14"
+    android:paddingBottom="@dimen/dp_14"
+    android:paddingTop="@dimen/dp_10"
+    android:background="@drawable/shape_shadow">
 
     <TextView
         android:id="@+id/lines_data_send_way"

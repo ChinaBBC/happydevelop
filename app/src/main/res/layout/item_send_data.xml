@@ -22,6 +22,7 @@
         app:layout_constraintTop_toBottomOf="@id/send_data_common"
         android:layout_marginTop="@dimen/dp_29"
         />
+
     <Button
         android:id="@+id/send_data_print_order"
         android:layout_width="@dimen/dp_60"
@@ -36,9 +37,9 @@
         />
     <Button
         android:id="@+id/send_data_change_order"
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_30"
-        android:text="@string/change_order"
+        android:text="改单"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
         android:background="@drawable/shape_5dp_a47f"
@@ -46,6 +47,20 @@
         app:layout_constraintRight_toLeftOf="@id/send_data_print_order"
         android:layout_marginTop="@dimen/dp_22"
         android:layout_marginRight="@dimen/dp_5"
+        />
+    <Button
+        android:id="@+id/send_data_change_allot"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_30"
+        android:text="@string/change_allot"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14"
+        android:background="@drawable/shape_5dp_a45b"
+        app:layout_constraintTop_toBottomOf="@id/send_data_common"
+        app:layout_constraintRight_toLeftOf="@id/send_data_change_order"
+        android:layout_marginTop="@dimen/dp_22"
+        android:layout_marginRight="@dimen/dp_5"
+        android:visibility="gone"
         />
 
 </android.support.constraint.ConstraintLayout>

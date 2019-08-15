@@ -6,6 +6,7 @@ import com.allen.library.observer.CommonObserver;
 import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.BuildConfig;
 import com.zx.haijixing.driver.contract.PaperChangeContract;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.service.DriverApiService;
 
@@ -92,7 +93,7 @@ public class PaperChangeImp extends BasePresenter<PaperChangeContract.PaperChang
         list.add(path);
         Map<String,Object> params = new HashMap<>();
         params.put("files","path");
-        RxHttpUtils.uploadImagesWithParams(BuildConfig.homeUrl+"upload/files/uploadImages","files",params,list)
+        RxHttpUtils.uploadImagesWithParams(BuildConfig.homeUrl+OtherConstants.UPLOAD_PATH,"files",params,list)
                 .compose(Transformer.<ResponseBody>switchSchedulers())
                 .subscribe(new CommonObserver<ResponseBody>() {
                     @Override

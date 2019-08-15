@@ -42,6 +42,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private String bannerStr;
     private String baseStr ;
     private String city ;
+    private String notice;
     private String wea ;
     private String tem ;
     private Context context;
@@ -65,6 +66,10 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.wea = wea;
         this.tem = tem;
         notifyDataSetChanged();
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 
     public void setBaseStr(String baseStr) {
@@ -113,6 +118,7 @@ public class IndexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             indexHeadViewHolder.clock.setOnClickListener(clickListener);
             indexHeadViewHolder.services.setOnClickListener(clickListener);
             indexHeadViewHolder.notify.setOnClickListener(clickListener);
+            indexHeadViewHolder.notify.setText(ZxStringUtil.isEmpty(notice)?"暂无新消息":notice);
 
             if (!ZxStringUtil.isEmpty(city))
                 indexHeadViewHolder.city.setText(city);

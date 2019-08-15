@@ -11,6 +11,9 @@ import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Map;
 
 /**
@@ -80,7 +83,18 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
                     @Override
                     protected void onSuccess(String data) {
-                        mView.changeOrderMethodSuccess(data);
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.changeOrderMethodSuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }

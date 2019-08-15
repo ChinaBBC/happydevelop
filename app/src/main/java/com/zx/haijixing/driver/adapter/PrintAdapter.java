@@ -92,8 +92,8 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printHeadViewHolder.sendLocate.setText(printEntry.getSenderAddress());
                 printHeadViewHolder.receiveMan.setText(printEntry.getIncomeName());
                 printHeadViewHolder.receiveLocate.setText(printEntry.getIncomeAddress());
-                String priceFlag = printEntry.getMakepriceFlag();
-                printHeadViewHolder.freight.setText(("1".equals(priceFlag)?"已付":"未付"));
+                String priceFlag = printEntry.getType();
+                printHeadViewHolder.freight.setText(("1".equals(priceFlag)?"寄付":"到付"));
                 printHeadViewHolder.type.setText(printEntry.getCategory());
                 printHeadViewHolder.number.setText(printEntry.getTotalNum()+"件");
                 printHeadViewHolder.detail.setText("("+printEntry.getGoodsNum()+")");

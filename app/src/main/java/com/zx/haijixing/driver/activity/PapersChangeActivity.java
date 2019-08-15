@@ -251,7 +251,8 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
 
     private void takePic(int request){
         PictureSelector.create(this)
-                .openCamera(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofImage())
+                .compress(true)
                 .forResult(request);
     }
 
@@ -268,7 +269,7 @@ public class PapersChangeActivity extends BaseActivity<PaperChangeImp> implement
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
-            String path = uris.get(0).getPath();
+            String path = uris.get(0).getCompressPath();
             switch (requestCode){
                 case OtherConstants.UPLOAD_DRIVER_A:
                     strA = path;

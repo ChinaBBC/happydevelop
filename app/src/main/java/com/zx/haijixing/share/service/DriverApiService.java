@@ -146,4 +146,8 @@ public interface DriverApiService {
     @POST("api/logistics/carApply/updateApply")
     Observable<String> changeTruckApi(@FieldMap Map<String, String> params);
 
+    //客服电话/
+    @GET("api/logistics/common/service/phone")
+    Observable<String> servicePhoneApi(@QueryMap Map<String, String> params);
+
 }

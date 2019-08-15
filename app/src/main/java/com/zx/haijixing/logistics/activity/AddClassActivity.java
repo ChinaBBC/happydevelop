@@ -97,6 +97,7 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
         startPickerView = HaiTool.initTimeHourMin(this, startT);
         endPickerView = HaiTool.initTimeHourMin(this, endT);
 
+
         params.put("token",token);
         params.put("lineId",linesId);
         params.put("timestamp",System.currentTimeMillis()+"");
@@ -205,7 +206,7 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
             params.put("timestamp",System.currentTimeMillis()+"");
             params.put("sign",HaiTool.sign(params));
             mPresenter.truckNumMethod(params);
-            params.put("driverId", driverEntry.getDriverId());
+            this.params.put("driverId", driverEntry.getDriverId());
             driverAdapter = new DriverTruckAdapter(driverEntries, null, OtherConstants.SELECT_DRIVER);
         }else {
             ZxToastUtil.centerToast("此线路下暂无司机");
@@ -236,12 +237,12 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
             if (type == OtherConstants.SELECT_DRIVER){
                 showDriverSelect.dismissAllowingStateLoss();
                 DriverEntry driverEntry = driverEntries.get(driverIndex);
-                Map<String,String> params = new HashMap<>();
-                params.put("token",token);
-                params.put("driverId",driverEntry.getDriverId());
-                params.put("timestamp",System.currentTimeMillis()+"");
-                params.put("sign",HaiTool.sign(params));
-                mPresenter.truckNumMethod(params);
+                Map<String,String> param = new HashMap<>();
+                param.put("token",token);
+                param.put("driverId",driverEntry.getDriverId());
+                param.put("timestamp",System.currentTimeMillis()+"");
+                param.put("sign",HaiTool.sign(param));
+                mPresenter.truckNumMethod(param);
                 params.put("driverId", driverEntry.getDriverId());
                 namePhone.setText(driverEntry.getDriverName());
             }else {

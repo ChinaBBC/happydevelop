@@ -140,7 +140,7 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
-            String path = uris.get(0).getPath();
+            String path = uris.get(0).getCompressPath();
             switch (requestCode){
                 case OtherConstants.UPLOAD_DRIVER_A:
                     Glide.with(this).load(path).into(licenseA);
@@ -162,7 +162,8 @@ public class CarInfoActivity extends BaseActivity<CarInfoActivityImp> implements
     //拍照
     private void takePic(int requestCode){
         PictureSelector.create(this)
-                .openCamera(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofImage())
+                .compress(true)
                 .forResult(requestCode);
     }
 

@@ -33,6 +33,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxSharePreferenceUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -106,6 +107,8 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
             refresh.finishRefresh(true);
         }
         this.notifyEntries.addAll(notifyEntries);
+        if (this.notifyEntries.size() == 0)
+            ZxToastUtil.centerToast("暂无新消息");
         notifyAdapter.notifyDataSetChanged();
     }
 

@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/shape_2dp_59ff"
+    android:background="@drawable/shape_shadow"
     android:layout_marginTop="@dimen/dp_10"
     android:layout_marginLeft="@dimen/dp_12"
     android:layout_marginRight="@dimen/dp_12"
-    android:padding="@dimen/dp_10">
+    android:padding="@dimen/dp_14">
 
     <TextView
         android:id="@+id/lines_manage_sendType"

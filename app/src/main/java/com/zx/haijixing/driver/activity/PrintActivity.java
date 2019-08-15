@@ -132,6 +132,7 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
                 break;
             case R.id.print_print:
                 if (totalNum>0){
+                    initBluetooth();
                     show();
                 }else {
                     ZxToastUtil.centerToast("请选择需要打印的运单");

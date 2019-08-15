@@ -3,6 +3,10 @@ package com.zx.haijixing.manager;
 import android.view.KeyEvent;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomBottomBar;
 import com.zx.haijixing.driver.fragment.IndexFragment;
@@ -20,7 +24,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxStatusBarCompat;
+import zx.com.skytool.ZxStringUtil;
 import zx.com.skytool.ZxToastUtil;
 
 /**
@@ -30,10 +36,12 @@ import zx.com.skytool.ZxToastUtil;
  *@描述 管理员端
  */
 @Route(path = PathConstant.MANAGER)
-public class ManagerActivity extends BaseActivity {
+public class ManagerActivity extends BaseActivity implements AMapLocationListener {
     @BindView(R.id.manager_Bb_bottomMenu)
     CustomBottomBar bottomMenu;
 
+    private AMapLocationClient mlocationClient;
+    private AMapLocationClientOption mLocationOption;
     @Override
     protected void initView() {
         EventBus.getDefault().register(this);
@@ -64,6 +72,7 @@ public class ManagerActivity extends BaseActivity {
                         R.mipmap.index_mine_before,
                         R.mipmap.index_mine_after)
                 .build();
+        initLocateOnce();
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(EventBusEntity entity){
@@ -87,12 +96,56 @@ public class ManagerActivity extends BaseActivity {
         ZxStatusBarCompat.translucentStatusBar(this);
     }
 
+    //初始化定位
+    private void initLocateOnce() {
+        mlocationClient = new AMapLocationClient(this);
+        //设置定位回调监听
+        mlocationClient.setLocationListener(this);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位场景为出行
+        mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.Transport);
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        mLocationOption.setOnceLocation(true);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        //mLocationOption.setInterval(10*60*1000);
+        //给定位客户端对象设置定位参数
+        mlocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mlocationClient.startLocation();
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if (aMapLocation != null){
+            if (aMapLocation.getErrorCode() == 0){
+                String city = aMapLocation.getCity();
+                EventBusEntity eventBusEntity = new EventBusEntity(OtherConstants.WEATHER_ENTRY);
+                eventBusEntity.setMessage(city);
+                EventBus.getDefault().post(eventBusEntity);
+            }else {
+                ZxLogUtil.logError(aMapLocation.getErrorInfo()+"<<<<..>>>>"+aMapLocation.getErrorCode());
+            }
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mlocationClient != null){
+            mlocationClient.startLocation();
+            mlocationClient.onDestroy();
+        }
     }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK){

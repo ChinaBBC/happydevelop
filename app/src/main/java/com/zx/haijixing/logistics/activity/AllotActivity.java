@@ -1,5 +1,6 @@
 package com.zx.haijixing.logistics.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -151,14 +152,18 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
     @Override
     public void allotOrderSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
-        linesClassEntries.clear();
+        /*linesClassEntries.clear();
         logisticsMoveAdapter.notifyDataSetChanged();
         page = 1;
         linesParams.put(OtherConstants.PAGE,page+"");
         linesParams.put("timestamp",System.currentTimeMillis()+"");
         linesParams.put("sign","");
         linesParams.put("sign",HaiTool.sign(linesParams));
-        mPresenter.linesClassMethod(linesParams);
+        mPresenter.linesClassMethod(linesParams);*/
+
+        Intent intent = new Intent();
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
     @Override

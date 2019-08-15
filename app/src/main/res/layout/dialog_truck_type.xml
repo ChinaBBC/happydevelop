@@ -7,10 +7,10 @@
     android:background="@drawable/shape_2dp_ffff">
 
     <TextView
-        android:id="@+id/dialog_truck_sure"
+        android:id="@+id/dialog_truck_cancel"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_30"
-        android:text="@string/sure"
+        android:text="@string/cancel"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16"
         android:gravity="center"
@@ -21,10 +21,10 @@
         android:layout_marginTop="@dimen/dp_10"
         />
     <TextView
-        android:id="@+id/dialog_truck_cancel"
+        android:id="@+id/dialog_truck_sure"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_30"
-        android:text="@string/cancel"
+        android:text="@string/sure"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16"
         android:gravity="center"

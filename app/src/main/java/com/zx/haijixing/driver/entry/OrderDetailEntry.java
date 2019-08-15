@@ -92,6 +92,26 @@ public class OrderDetailEntry {
     private String couponMoney;
     /**  积分抵扣金额   */
     private String integralMoney;
+    //出发时间
+    private String goTime;
+    //完成时间
+    private String doneTime;
+
+    public String getDoneTime() {
+        return doneTime;
+    }
+
+    public void setDoneTime(String doneTime) {
+        this.doneTime = doneTime;
+    }
+
+    public String getGoTime() {
+        return goTime;
+    }
+
+    public void setGoTime(String goTime) {
+        this.goTime = goTime;
+    }
 
     public String getCouponMoney() {
         return couponMoney;

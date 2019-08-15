@@ -1,6 +1,7 @@
 package com.zx.haijixing.driver.activity;
 
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.mikephil.charting.charts.LineChart;
 import com.zx.haijixing.BuildConfig;
 import com.zx.haijixing.HaiNativeHelper;
 import com.zx.haijixing.R;
@@ -21,6 +23,7 @@ import com.zx.haijixing.logistics.contract.FeeStatisticsContract;
 import com.zx.haijixing.logistics.entry.DriverEntry;
 import com.zx.haijixing.logistics.entry.FeeStatisticsEntry;
 import com.zx.haijixing.logistics.presenter.FeeStatisticsImp;
+import com.zx.haijixing.manager.LineChartManager;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
@@ -82,12 +85,13 @@ public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implement
     @BindView(R.id.statistics_add_all)
     TextView addAll;
     @BindView(R.id.statistics_map)
-    CustomGraphViewT statisticsMap;
+    LineChart statisticsMap;
     private TimePickerView sTime;
     private TimePickerView eTime;
 
     private Map<String,String> params = new HashMap<>();
     private int tag = 0;
+    private LineChartManager lineChartManager;
 
     @Override
     protected void initView() {
@@ -98,6 +102,8 @@ public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implement
         String phone = (String)instance.getParam("user_phone","null");
         String head = (String)instance.getParam("user_head","null");
         String token = (String)instance.getParam("token","null");
+
+        lineChartManager = new LineChartManager(statisticsMap);
 
         userName.setText(name);
         userPhone.setText(phone);
@@ -219,26 +225,20 @@ public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implement
 
     private void setData(FeeStatisticsEntry feeStatisticsEntry,String text){
         List<String> rows = feeStatisticsEntry.getRows();
-        List<MyPoint> points = new ArrayList<>();
-        List<String> yUnit = new ArrayList<>();
-        MyPoint point = null;
-        float temp = 0;
+
         float total = 0;
         for (int i = 0; i< rows.size();i++){
             float y = Float.parseFloat(rows.get(i));
-            point = new MyPoint(i, y);
-            points.add(point);
             total+=y;
-            if (temp<y)
-                temp = y;
-        }
-
-        int max = new Float(temp).intValue();
-        int num = (max-max%5+5)/5;
-        for (int i=1;i<6;i++){
-            yUnit.add(i*num+"");
         }
         addAll.setText(total+text);
-        statisticsMap.setXUnitValue(1).setYUnitValue(num).setXTextUnits(feeStatisticsEntry.getDays()).setYTextUnits(yUnit).setDateList(points).startDraw();
+        //展示图表
+        lineChartManager.setXAxisData(feeStatisticsEntry.getDays(),7);
+        lineChartManager.setYAxisData(feeStatisticsEntry.getRows(),8);
+        lineChartManager.showLineChart(feeStatisticsEntry.getRows(),feeStatisticsEntry.getDays(), text,getResources().getColor(R.color.blue));
+        //设置曲线填充色 以及 MarkerView
+        Drawable drawable = getResources().getDrawable(R.drawable.shape_fee_statistics);
+        lineChartManager.setChartFillDrawable(drawable);
+        lineChartManager.setMarkerView(this);
     }
 }

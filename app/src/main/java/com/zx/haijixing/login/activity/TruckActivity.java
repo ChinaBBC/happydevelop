@@ -174,6 +174,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     private String truckLef;
     private String truckRig;
     private String otherPic;
+    private String carLoad;
 
     private boolean isAdd = false;
 
@@ -268,7 +269,8 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
     //拍照
     private void takePic(int requestCode){
         PictureSelector.create(this)
-                .openCamera(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofImage())
+                .compress(true)
                 .forResult(requestCode);
     }
 
@@ -418,6 +420,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
         }else if (index == -1){
             TruckTypeEntry truckTypeEntry = typeEntryList.get(temp);
             typeId = truckTypeEntry.getTypeId();
+            carLoad = truckTypeEntry.getLoad()+"";
             type.setText(truckTypeEntry.getName());
             weight.setText(truckTypeEntry.getLoad()+"KG");
             showTruck.dismissAllowingStateLoss();
@@ -431,7 +434,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
-            String path = uris.get(0).getPath();
+            String path = uris.get(0).getCompressPath();
             switch (requestCode){
                 case OtherConstants.UPLOAD_DRIVING_A:
                     Glide.with(this).load(path).into(driveA);
@@ -505,6 +508,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
         }else {
             params.put("userId",driverId);
             params.put("caeType",typeId);
+            params.put("carLoad",carLoad);
             params.put("safeEnd",cureTime);
             params.put("idcard",truckNum);
             params.put("name",realName);
@@ -512,7 +516,8 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
             params.put("carImgFront",truckFor);
             params.put("carImgLeft",truckLef);
             params.put("carImgRight",truckRig);
-            params.put("otherImg",otherPic);
+            if (!ZxStringUtil.isEmpty(otherPic))
+                params.put("otherImg",otherPic);
             mPresenter.truckApplyMethod(params);
         }
 

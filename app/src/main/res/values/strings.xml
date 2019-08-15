@@ -93,6 +93,7 @@
     <string name="sure_receive">确认接单</string>
     <string name="go_now">立即出发</string>
     <string name="change_order">订单修改</string>
+    <string name="change_allot">改派</string>
     <string name="sure_change">确认修改</string>
     <string name="complete_send">配送完成</string>
     <string name="type">品类</string>

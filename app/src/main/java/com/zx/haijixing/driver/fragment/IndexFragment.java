@@ -32,6 +32,7 @@ import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.share.pub.entry.EventBusEntity;
+import com.zx.haijixing.share.pub.entry.NotifyEntry;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
@@ -83,6 +84,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     private String token = null;
     private String loginType;
     private  Map<String,String> params = new HashMap<>();
+    private  Map<String,String> paramsBanner = new HashMap<>();
 
     @Override
     protected int getLayoutId() {
@@ -121,7 +123,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         params.put("sign",HaiTool.sign(params));
         mPresenter.newsDataMethod(params);
 
-        Map<String,String> paramsBanner = new HashMap<>();
+
         paramsBanner.put("token",token);
         paramsBanner.put("timestamp",System.currentTimeMillis()+"");
         paramsBanner.put("sign","");
@@ -133,6 +135,14 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 .shimmer(true)
                 .load(R.layout.skeleton_index_data)
                 .show();
+
+        Map<String,String> notifyMap = new HashMap<>();
+        notifyMap.put("token",token);
+        notifyMap.put(OtherConstants.PAGE,1+"");
+        notifyMap.put(OtherConstants.SIZE,3+"");
+        notifyMap.put("timestamp",System.currentTimeMillis()+"");
+        notifyMap.put("sign",HaiTool.sign(notifyMap));
+        mPresenter.notifyMethod(notifyMap);
     }
 
     @OnClick({R.id.index_search, R.id.index_scan_code})
@@ -242,6 +252,16 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     }
 
     @Override
+    public void notifySuccess(List<NotifyEntry> notifyEntries) {
+        if (notifyEntries.size()>0){
+            indexAdapter.setNotice(notifyEntries.get(0).getTitle());
+        }else {
+            indexAdapter.setNotice("暂无新消息");
+        }
+        indexAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if (page<1000)
             page++;
@@ -263,6 +283,10 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         params.put("sign","");
         params.put("sign",HaiTool.sign(params));
         mPresenter.newsDataMethod(params);
+        paramsBanner.put("timestamp",System.currentTimeMillis()+"");
+        paramsBanner.put("sign","");
+        paramsBanner.put("sign",HaiTool.sign(paramsBanner));
+        mPresenter.newsDataBanner(paramsBanner);
     }
 
     @Override
@@ -276,10 +300,14 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
-                            .withString("orderId",result)
-                            .withString("detailType",OtherConstants.DETAIL_WAIT_SEND+"")
-                            .navigation();
+                    if (result.length() == 18){
+                        ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                                .withString("orderId",result)
+                                .withString("detailType",OtherConstants.DETAIL_WAIT_SEND+"")
+                                .navigation();
+                    }else {
+                        ZxToastUtil.centerToast("请扫描正确的二维码");
+                    }
                     ZxLogUtil.logError("onActivityResult: " + result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ZxToastUtil.centerToast("识别二维码失败");

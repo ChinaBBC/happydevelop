@@ -2,6 +2,7 @@ package com.zx.haijixing.driver.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,8 @@ public class VehicleActivity extends BaseActivity<VehicleImp> implements Vehicle
 
     @BindView(R.id.common_title_back)
     ImageView back;
+    @BindView(R.id.common_title_add)
+    ImageView add;
     @BindView(R.id.common_title_title)
     TextView title;
     @BindView(R.id.vehicle_data)
@@ -44,6 +47,7 @@ public class VehicleActivity extends BaseActivity<VehicleImp> implements Vehicle
     @Override
     protected void initView() {
         title.setText(getHaiString(R.string.truck_manager));
+        //add.setVisibility(View.VISIBLE);
         vehicleData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         vehicleAdapter = new VehicleAdapter();
         vehicleData.setAdapter(vehicleAdapter);
@@ -70,9 +74,13 @@ public class VehicleActivity extends BaseActivity<VehicleImp> implements Vehicle
         return R.layout.activity_vehicle;
     }
 
-    @OnClick(R.id.common_title_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.common_title_back,R.id.common_title_add})
+    public void onViewClicked(View view) {
+        if (view.getId() == R.id.common_title_add){
+            ARouter.getInstance().build(PathConstant.TRUCK).navigation();
+        }else {
+            finish();
+        }
     }
 
     @Override

@@ -15,6 +15,6 @@ public interface ApkContract {
     }
 
     interface ApkPresenter extends IBaseContract.IBasePresenter<ApkView>{
-        void apkMethod(String path);
+        void apkMethod(String path,String destPath);
     }
 }

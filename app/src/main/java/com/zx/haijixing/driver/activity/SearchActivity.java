@@ -110,6 +110,10 @@ public class SearchActivity extends BaseActivity<CompleteImp> implements Complet
                     ZxToastUtil.centerToast("请输入搜索内容");
                 }else {
                     params.put("params",trim);
+                    params.put(OtherConstants.PAGE, 1+"");
+                    params.put("timestamp",System.currentTimeMillis()+"");
+                    params.put("sign","");
+                    params.put("sign",HaiTool.sign(params));
                     orderEntries.clear();
                     orderAdapter.notifyDataSetChanged();
                     mPresenter.completeMethod(params);

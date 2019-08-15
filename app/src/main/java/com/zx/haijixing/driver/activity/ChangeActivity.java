@@ -107,7 +107,7 @@ public class ChangeActivity extends BaseActivity<ChangeImp> implements ChangeCon
     }
     private void takePic(){
         PictureSelector.create(this)
-                .openCamera(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofImage())
                 .compress(true)
                 .forResult(OtherConstants.UPLOAD_HEAD);
     }

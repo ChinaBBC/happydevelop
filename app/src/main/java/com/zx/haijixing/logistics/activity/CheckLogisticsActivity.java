@@ -178,7 +178,7 @@ public class CheckLogisticsActivity extends BaseActivity<CheckLogisticsImp> impl
 
     @Override
     public void onInitNaviSuccess() {
-        ZxToastUtil.centerToast("<<<<<onInitNaviSuccess" );
+        ZxLogUtil.logError("<<<<<onInitNaviSuccess" );
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
         String token = (String)instance.getParam("token", "null");
@@ -193,7 +193,7 @@ public class CheckLogisticsActivity extends BaseActivity<CheckLogisticsImp> impl
 
     @Override
     public void onCalculateRouteSuccess(AMapCalcRouteResult aMapCalcRouteResult) {
-        ZxToastUtil.centerToast("<<<<<onCalculateRouteSuccess"+aMapCalcRouteResult.getCalcRouteType());
+        ZxLogUtil.logError("<<<<<onCalculateRouteSuccess"+aMapCalcRouteResult.getCalcRouteType());
         AMapNaviPath naviPath = mAMapNavi.getNaviPath();
         drawRoutes(naviPath);
     }
@@ -210,14 +210,14 @@ public class CheckLogisticsActivity extends BaseActivity<CheckLogisticsImp> impl
             String[] ends = end.split(",");
             String[] nows = now.split(",");
             if (starts.length>1 && ends.length>1 && nows.length>1){
-                NaviLatLng startLatlng = new NaviLatLng(Double.parseDouble(starts[0]), Double.parseDouble(starts[1]));
+                NaviLatLng startLatlng = new NaviLatLng(Double.parseDouble(starts[1]), Double.parseDouble(starts[0]));
                 startList.clear();
                 startList.add(startLatlng);
-                NaviLatLng endLatlng = new NaviLatLng(Double.parseDouble(ends[0]), Double.parseDouble(ends[1]));
+                NaviLatLng endLatlng = new NaviLatLng(Double.parseDouble(ends[1]), Double.parseDouble(ends[0]));
                 endList.clear();
                 endList.add(endLatlng);
 
-                addMark(Double.parseDouble(nows[0]), Double.parseDouble(nows[1]));
+                addMark(Double.parseDouble(nows[1]), Double.parseDouble(nows[0]));
                 calculateRoute();
             }
 
@@ -227,7 +227,7 @@ public class CheckLogisticsActivity extends BaseActivity<CheckLogisticsImp> impl
     //车辆位置
     private void addMark(double latitude,double longitude){
         MarkerOptions options = new MarkerOptions();
-        options.anchor(0.5f, 1.1f);
+        options.anchor(0.5f, 0.5f);
         LatLng ll = new LatLng(latitude, longitude);//设置经纬度
         options.position(ll);
         BitmapDescriptor commonDes = BitmapDescriptorFactory.fromResource(R.mipmap.map_car);

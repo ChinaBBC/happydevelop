@@ -118,6 +118,7 @@ public class PhoneActivity extends BaseActivity<PhoneImp> implements PhoneContra
                     Map<String,String> phoneMap = new HashMap<>();
                     phoneMap.put("token",token);
                     phoneMap.put("vcode",myOldCode);
+                    phoneMap.put("phone",phone);
                     phoneMap.put("timestamp",System.currentTimeMillis()+"");
                     phoneMap.put("sign","");
                     phoneMap.put("sign",HaiTool.sign(phoneMap));

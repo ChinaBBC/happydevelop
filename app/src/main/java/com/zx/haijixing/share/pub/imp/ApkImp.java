@@ -4,6 +4,9 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.download.DownloadObserver;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.pub.contract.ApkContract;
+
+import zx.com.skytool.ZxLogUtil;
+
 /**
  *
  *@作者 zx
@@ -13,9 +16,9 @@ import com.zx.haijixing.share.pub.contract.ApkContract;
 public class ApkImp extends BasePresenter<ApkContract.ApkView> implements ApkContract.ApkPresenter {
 
     @Override
-    public void apkMethod(String path) {
+    public void apkMethod(String path,String destPath) {
         RxHttpUtils.downloadFile(path)
-                .subscribe(new DownloadObserver("s2f43fda") {
+                .subscribe(new DownloadObserver("haijixing.apk",destPath) {
                     @Override
                     protected void onError(String errorMsg) {
                         mView.showFaild(errorMsg);

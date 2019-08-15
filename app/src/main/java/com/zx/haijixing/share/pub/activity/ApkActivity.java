@@ -39,6 +39,8 @@ public class ApkActivity extends BaseActivity<ApkImp> implements ApkContract.Apk
 
     @Autowired(name = "path")
     public String url;
+    @Autowired(name = "content")
+    public String contents;
 
     private Dialog mDialog1;
     private ProgressBar mProgressBar;
@@ -47,6 +49,7 @@ public class ApkActivity extends BaseActivity<ApkImp> implements ApkContract.Apk
     @Override
     protected void initView() {
         title.setText(getHaiString(R.string.version_update));
+        content.setText(contents);
     }
 
     @Override
@@ -67,7 +70,7 @@ public class ApkActivity extends BaseActivity<ApkImp> implements ApkContract.Apk
                 break;
             case R.id.apk_update:
                 show();
-                mPresenter.apkMethod(url);
+                mPresenter.apkMethod(url,this.getCacheDir().getPath());
                 break;
         }
     }

@@ -12,6 +12,7 @@ public final class OtherConstants {
     public final static String LOGIN_OUT = "exit";//退出
     public final static String CANCEL_REQUEST = "cancel";//取消请求
     public final static String WEATHER_API = "https://www.tianqiapi.com/";//取消请求
+    public final static String UPLOAD_PATH = "open/upload/files/uploadImages";//取消请求
 
     public final static String PAGE = "num";//页数
     public final static String SIZE = "size";//条数
@@ -56,6 +57,9 @@ public final class OtherConstants {
     public final static int PERMISSION_REQUEST = 1019;//权限请求
     public final static int WEATHER_ENTRY = 1020;//event 天气
     public final static int READ_QR = 1021;//识别二维码
+
+    public final static int RED_BOT = 1022;//红点更新
+    public final static int ALLOT_REQUEST = 1023;//派单
 
 
     public final static int SELECT_DRIVER = 0;//选择司机

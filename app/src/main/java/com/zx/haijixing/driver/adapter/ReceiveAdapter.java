@@ -106,10 +106,15 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
                 });
             }else {
                 receiveViewHolder.select.setVisibility(View.GONE);
-                receiveViewHolder.sure.setText("修改订单");
+                receiveViewHolder.sure.setText("改单");
                 receiveViewHolder.sure.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                         .withString("orderId",orderEntry.getWaybillId())
                         .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                        .withString("linesId",orderEntry.getLineId())
+                        .navigation());
+                receiveViewHolder.allot.setVisibility(View.VISIBLE);
+                receiveViewHolder.allot.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.ALLOT)
+                        .withString("orderId",orderEntry.getWaybillId())
                         .withString("linesId",orderEntry.getLineId())
                         .navigation());
             }
@@ -129,13 +134,14 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
 
     class ReceiveViewHolder extends RecyclerView.ViewHolder{
 
-        Button sure;
+        Button sure,allot;
         TextView createTime,orderNumber,sendWay,receiveShop,line,phone,count,address,pay,downTime,status;
         ImageView select;
         View item;
         public ReceiveViewHolder(@NonNull View itemView) {
             super(itemView);
             sure = itemView.findViewById(R.id.receive_data_sure_receive);
+            allot = itemView.findViewById(R.id.receive_data_change_allot);
             item = itemView.findViewById(R.id.receive_data_item);
             downTime = itemView.findViewById(R.id.receive_data_sTime);
             select = itemView.findViewById(R.id.receive_data_select);

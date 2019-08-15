@@ -28,7 +28,7 @@ import retrofit2.http.QueryMap;
 public interface LogisticsApiService {
 
     //查看物流
-    @GET("api/reception/order/queryWayPoint")
+    @GET("api/reception/waybill/queryWayPoint")
     Observable<String> checkLogisticsApi(@QueryMap Map<String, String> params);
 
     //线路班次
@@ -85,5 +85,10 @@ public interface LogisticsApiService {
     @FormUrlEncoded
     @POST("api/logistics/line/getprice/details")
     Observable<HaiBaseData<List<List<String>>>> typePriceApi(@FieldMap Map<String, String> params);
+
+
+    //小红点
+    @GET("api/reception/waybill/tag/num")
+    Observable<String> botApi(@QueryMap Map<String, String> params);
 
 }

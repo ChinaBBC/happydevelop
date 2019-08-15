@@ -22,12 +22,12 @@
             />
         <ImageView
             android:id="@+id/order_detail_back"
-            android:layout_width="@dimen/dp_40"
+            android:layout_width="@dimen/dp_60"
             android:layout_height="@dimen/dp_20"
             android:src="@mipmap/back_white"
+            android:scaleType="centerInside"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/dp_30"
             />
         <TextView
             android:id="@+id/order_detail_title"
@@ -39,108 +39,120 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/dp_30"
             />
-        <TextView
-            android:id="@+id/order_detail_start"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/order_detail_lay0"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="双流百家"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dp_18"
-            android:textStyle="bold"
-            android:gravity="right"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_detail_title"
-            app:layout_constraintRight_toLeftOf="@id/order_detail_img1"
-            android:layout_marginTop="@dimen/dp_60"
-            />
-        <TextView
-            android:id="@+id/order_detail_sTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="07:09"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/white"
-            android:gravity="right"
-            android:paddingRight="@dimen/dp_4"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_detail_start"
-            app:layout_constraintRight_toLeftOf="@id/order_detail_duration"
-            />
-        <ImageView
-            android:id="@+id/order_detail_img1"
-            android:layout_width="@dimen/dp_70"
-            android:layout_height="@dimen/dp_7"
-            android:src="@mipmap/arrows"
-            app:layout_constraintLeft_toRightOf="@id/order_detail_start"
-            app:layout_constraintTop_toBottomOf="@id/order_detail_title"
-            app:layout_constraintRight_toLeftOf="@id/order_detail_end"
-            android:layout_marginTop="@dimen/dp_70"
-            />
-        <TextView
-            android:id="@+id/order_detail_duration"
-            android:layout_width="@dimen/dp_84"
-            android:layout_height="wrap_content"
-            android:text="(02天52时00分)"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_10"
-            android:gravity="center"
-            app:layout_constraintLeft_toRightOf="@id/order_detail_sTime"
-            app:layout_constraintTop_toBottomOf="@id/order_detail_img1"
-            app:layout_constraintRight_toLeftOf="@id/order_detail_eTime"
-            />
-        <TextView
-            android:id="@+id/order_detail_end"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="重启南岸"
-            android:textColor="@color/white"
-            android:textSize="@dimen/dp_18"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/order_detail_img1"
-            app:layout_constraintTop_toBottomOf="@id/order_detail_title"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_detail_title"
             android:layout_marginTop="@dimen/dp_60"
-            />
-        <TextView
-            android:id="@+id/order_detail_eTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="12:00"
-            android:textSize="@dimen/sp_14"
-            android:textColor="@color/white"
-            android:paddingLeft="@dimen/dp_4"
-            app:layout_constraintLeft_toRightOf="@id/order_detail_duration"
-            app:layout_constraintTop_toBottomOf="@id/order_detail_end"
-            app:layout_constraintRight_toRightOf="parent"
-            />
+            android:background="@color/color_0000"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingBottom="@dimen/dp_6"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_12"
+            >
+            <TextView
+                android:id="@+id/order_detail_start"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="双流百家"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_18"
+                android:textStyle="bold"
+                android:gravity="right"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/order_detail_img1"
+                />
+            <TextView
+                android:id="@+id/order_detail_sTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="07:09"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/white"
+                android:gravity="right"
+                android:paddingRight="@dimen/dp_4"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/order_detail_start"
+                app:layout_constraintRight_toLeftOf="@id/order_detail_duration"
+                />
+            <ImageView
+                android:id="@+id/order_detail_img1"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_7"
+                android:src="@mipmap/arrows"
+                app:layout_constraintLeft_toRightOf="@id/order_detail_start"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/order_detail_end"
+                android:layout_marginTop="@dimen/dp_10"
+                />
+            <TextView
+                android:id="@+id/order_detail_duration"
+                android:layout_width="@dimen/dp_84"
+                android:layout_height="wrap_content"
+                android:text="(02天52时00分)"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10"
+                android:gravity="center"
+                app:layout_constraintLeft_toRightOf="@id/order_detail_sTime"
+                app:layout_constraintTop_toBottomOf="@id/order_detail_img1"
+                app:layout_constraintRight_toLeftOf="@id/order_detail_eTime"
+                />
+            <TextView
+                android:id="@+id/order_detail_end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="重启南岸"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_18"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/order_detail_img1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+            <TextView
+                android:id="@+id/order_detail_eTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="12:00"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/white"
+                android:paddingLeft="@dimen/dp_4"
+                app:layout_constraintLeft_toRightOf="@id/order_detail_duration"
+                app:layout_constraintTop_toBottomOf="@id/order_detail_end"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+        </android.support.constraint.ConstraintLayout>
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/order_detail_lay1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_detail_eTime"
+            app:layout_constraintTop_toBottomOf="@id/order_detail_lay0"
             android:layout_marginRight="@dimen/dp_12"
             android:layout_marginLeft="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_8"
             android:background="@drawable/shape_2dp_59ff"
             android:padding="@dimen/dp_10"
             >
+
             <TextView
                 android:id="@+id/order_detail_number"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="19dp"
+                android:paddingRight="@dimen/dp_4"
                 android:text="运单号：3423423424212"
                 android:textColor="@color/color_6666"
                 android:textSize="@dimen/sp_14"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/order_detail_cTime"
-                android:paddingRight="@dimen/dp_4"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/order_detail_cTime"

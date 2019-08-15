@@ -32,10 +32,10 @@
 
             <solid android:color="#FFFFFF" />
 
-            <!--<gradient
+          <!--  <gradient
                 android:angle="270"
-                android:endColor="#FFFFFF"
-                android:startColor="#FFFFFF" />-->
+                android:endColor="#03000000"
+                android:startColor="#1A000000" />-->
 
             <corners android:radius="@dimen/dp_2" />
         </shape>

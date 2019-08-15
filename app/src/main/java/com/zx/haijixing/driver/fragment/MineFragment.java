@@ -14,8 +14,14 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.contract.MineContract;
+import com.zx.haijixing.driver.presenter.MineImp;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.util.HaiTool;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,7 +34,7 @@ import zx.com.skytool.ZxSharePreferenceUtil;
  * @time 2019/7/7 10:09
  **/
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment<MineImp> implements MineContract.MineView {
     @BindView(R.id.mine_count_area)
     ConstraintLayout mineCountArea;
     @BindView(R.id.mine_word_area)
@@ -57,12 +63,20 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        mPresenter = new MineImp();
     }
 
     @Override
     protected void initView(View view) {
-
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        String token = (String)instance.getParam("token","null");
+        Map<String,String> params = new HashMap<>();
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.servicePhoneMethod(params);
     }
 
     @OnClick({R.id.mine_count_area, R.id.mine_word_area, R.id.mine_shifts_area, R.id.mine_change_area, R.id.mine_customer_area, R.id.mine_set_area})
@@ -117,5 +131,10 @@ public class MineFragment extends BaseFragment {
         userPhone.setText(phone);
         RequestOptions options = new RequestOptions().circleCrop().error(R.mipmap.user_head);
         Glide.with(this).load(head).apply(options).into(userHead);
+    }
+
+    @Override
+    public void servicePhoneSuccess(String phone) {
+        customerPhone.setText(phone);
     }
 }

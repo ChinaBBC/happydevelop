@@ -21,9 +21,12 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.driver.presenter.SendingImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BaseFragment;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -180,6 +183,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         flag = 0;
         selectId = "";
         sendingViewHolder.total.setText("共：0单");
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
     }
 
     @Override
@@ -213,6 +217,17 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
+        doRefresh();
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            doRefresh();
+    }
+
+    private void doRefresh(){
         if (flag == 0 && sendingViewHolder != null)
             sendingViewHolder.total.setText("共：0单");
         refresh.setNoMoreData(false);
@@ -224,7 +239,6 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         params.put("sign",HaiTool.sign(params));
         mPresenter.sendingMethod(params);
     }
-
     @Override
     public void positionResult(OrderTotalEntry.OrderEntry orderEntry, int tag) {
         if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {

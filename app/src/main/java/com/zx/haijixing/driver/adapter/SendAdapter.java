@@ -32,6 +32,7 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
 
     private List<OrderTotalEntry.OrderEntry> list;
     private IResultPositionListener iResultPositionListener;
+    private String loginType = OtherConstants.LOGIN_DRIVER;
 
     public SendAdapter(List<OrderTotalEntry.OrderEntry> list) {
         this.list = list;
@@ -39,6 +40,10 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
 
     public void setiResultPositionListener(IResultPositionListener iResultPositionListener) {
         this.iResultPositionListener = iResultPositionListener;
+    }
+
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
     }
 
     @NonNull
@@ -73,9 +78,17 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
             if (dadanFlag == 0){
                 sendViewHolder.button1.setVisibility(View.VISIBLE);
                 sendViewHolder.button2.setText("打单");
+                if (!loginType.equals(OtherConstants.LOGIN_DRIVER)){
+                    sendViewHolder.allot.setVisibility(View.VISIBLE);
+                    sendViewHolder.allot.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.ALLOT)
+                            .withString("orderId",orderEntry.getWaybillId())
+                            .withString("linesId",orderEntry.getLineId())
+                            .navigation());
+                }
             }else {
                 sendViewHolder.button2.setText("补打单");
                 sendViewHolder.button1.setVisibility(View.GONE);
+                sendViewHolder.allot.setVisibility(View.GONE);
             }
             sendViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())
@@ -87,6 +100,8 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
                     .withString("printStatus",orderEntry.getDadanFlag())
                     .navigation());
             sendViewHolder.select.setVisibility(View.GONE);
+
+
 
            /* sendViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
             sendViewHolder.select.setOnClickListener(v -> {
@@ -114,7 +129,7 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
     }
 
     class SendViewHolder extends RecyclerView.ViewHolder{
-        Button button1,button2;
+        Button button1,button2,allot;
         TextView createTime,orderNumber,sendWay,receiveShop,line,phone,count,address,pay,status;
         ImageView select;
         View item;
@@ -123,6 +138,9 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
             super(itemView);
             button1 = itemView.findViewById(R.id.send_data_change_order);
             button2 = itemView.findViewById(R.id.send_data_print_order);
+            allot = itemView.findViewById(R.id.send_data_change_allot);
+
+
             createTime = itemView.findViewById(R.id.send_data_time);
             orderNumber = itemView.findViewById(R.id.send_data_order);
             sendWay = itemView.findViewById(R.id.send_data_way);

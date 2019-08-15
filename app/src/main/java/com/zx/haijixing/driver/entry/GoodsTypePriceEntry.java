@@ -77,8 +77,19 @@ public class GoodsTypePriceEntry {
          private String className;
          //品类对应起步价
          private Integer startPrice;
-         //货物规格信息
+        //物流品类码表id
+        private String category;
+
+        //货物规格信息
          private List<LinePriceGtVo> linePriceGtVos;
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
 
         public String getPriceId() {
             return priceId;

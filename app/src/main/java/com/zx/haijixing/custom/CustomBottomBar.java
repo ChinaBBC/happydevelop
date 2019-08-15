@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -244,8 +245,10 @@ public class CustomBottomBar extends View {
                 String title = titleList.get(i);
                 if (i == currentCheckedIndex) {
                     paint.setColor(titleColorAfter);
+                    paint.setTypeface(Typeface.create(Typeface.DEFAULT,Typeface.BOLD));
                 } else {
                     paint.setColor(titleColorBefore);
+                    paint.setTypeface(Typeface.DEFAULT);
                 }
                 int x = titleXList.get(i);
                 canvas.drawText(title, x, titleBaseLine, paint);

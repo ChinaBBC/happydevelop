@@ -41,7 +41,7 @@ public final class BannerUtil {
         //设置是否为自动轮播，默认是“是”。
         banner.isAutoPlay(true);
         //设置指示器的位置，小点点，左中右。
-        banner.setIndicatorGravity(BannerConfig.RIGHT)
+        banner.setIndicatorGravity(BannerConfig.CENTER)
                 //以上内容都可写成链式布局，这是轮播图的监听。比较重要。方法在下面。
                 .setOnBannerListener(bannerListener)
                 //必须最后调用的方法，启动轮播图。

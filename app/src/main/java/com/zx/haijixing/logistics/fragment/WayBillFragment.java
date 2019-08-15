@@ -14,17 +14,25 @@ import com.zx.haijixing.driver.fragment.CompleteFragment;
 import com.zx.haijixing.driver.fragment.ReceivedFragment;
 import com.zx.haijixing.driver.fragment.SendFragment;
 import com.zx.haijixing.driver.fragment.SendingFragment;
+import com.zx.haijixing.logistics.contract.BotContract;
+import com.zx.haijixing.logistics.presenter.BotImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.share.pub.entry.EventBusEntity;
+import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxLogUtil;
+import zx.com.skytool.ZxSharePreferenceUtil;
 
 /**
  *
@@ -32,7 +40,7 @@ import butterknife.OnClick;
  *@创建日期 2019/7/16 10:17
  *@描述 运单管理
  */
-public class WayBillFragment extends BaseFragment {
+public class WayBillFragment extends BaseFragment<BotImp> implements BotContract.BotView {
     @BindView(R.id.order_input)
     EditText orderInput;
     @BindView(R.id.order_search)
@@ -41,6 +49,14 @@ public class WayBillFragment extends BaseFragment {
     TextView orderTotalOrders;
     @BindView(R.id.order_check_all)
     TextView orderCheckAll;
+    @BindView(R.id.order_tv_receiveBot)
+    TextView receiveBot;
+    @BindView(R.id.order_tv_sendBot)
+    TextView sendBot;
+    @BindView(R.id.order_tv_sendingBot)
+    TextView sendingBot;
+    @BindView(R.id.order_tv_allotBot)
+    TextView allotBot;
 
     @BindView(R.id.order_rp_lay)
     FrameLayout replace;
@@ -48,6 +64,9 @@ public class WayBillFragment extends BaseFragment {
     LinearLayout title;
     @BindView(R.id.order_bottom_bar)
     CustomBottomBar bottomBar;
+
+    private Map<String,String> params = new HashMap<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_order;
@@ -55,12 +74,22 @@ public class WayBillFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        mPresenter = new BotImp();
     }
 
     @Override
     protected void initView(View view) {
         setTitleTopMargin(title,0);
+
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(getContext());
+        String token = (String) instance.getParam("token", "null");
+
+        params.put("token",token);
+        params.put("timestamp",System.currentTimeMillis()+"");
+        params.put("sign","");
+        params.put("sign",HaiTool.sign(params));
+        mPresenter.botMethod(params);
 
         EventBus.getDefault().register(this);
         int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_11);
@@ -107,7 +136,7 @@ public class WayBillFragment extends BaseFragment {
                 ARouter.getInstance().build(PathConstant.PRINT).navigation();
                 break;
             case R.id.order_check_all:
-                ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL).navigation();
+                ARouter.getInstance().build(PathConstant.DRIVER_ORDER).navigation();
                 break;
 
         }
@@ -115,10 +144,19 @@ public class WayBillFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(EventBusEntity entity){
-        if (entity.getMsg() == OtherConstants.EVENT_RECEIVE){
-            bottomBar.switchTo(0);
-        }else if (entity.getMsg() == OtherConstants.EVENT_PRINT){
-            bottomBar.switchTo(2);
+        switch (entity.getMsg()){
+            case OtherConstants.EVENT_RECEIVE:
+                bottomBar.switchTo(0);
+                break;
+            case OtherConstants.EVENT_PRINT:
+                bottomBar.switchTo(2);
+                break;
+            case OtherConstants.RED_BOT:
+                params.put("timestamp",System.currentTimeMillis()+"");
+                params.put("sign","");
+                params.put("sign",HaiTool.sign(params));
+                mPresenter.botMethod(params);
+                break;
         }
     }
 
@@ -126,5 +164,30 @@ public class WayBillFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void botSuccess(int allot, int receive, int send, int sending) {
+        allotBot.setVisibility(allot == 0 ?View.INVISIBLE:View.VISIBLE);
+        receiveBot.setVisibility(receive == 0 ?View.INVISIBLE:View.VISIBLE);
+        sendBot.setVisibility(send == 0 ?View.INVISIBLE:View.VISIBLE);
+        sendingBot.setVisibility(sending == 0 ?View.INVISIBLE:View.VISIBLE);
+
+        allotBot.setText(allot+"");
+        receiveBot.setText(receive+"");
+        sendBot.setText(send+"");
+        sendingBot.setText(sending+"");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        ZxLogUtil.logError("in the way bill hidden");
+        if (!hidden && !HaiTool.isFastClick()){
+            params.put("timestamp",System.currentTimeMillis()+"");
+            params.put("sign","");
+            params.put("sign",HaiTool.sign(params));
+            mPresenter.botMethod(params);
+        }
     }
 }

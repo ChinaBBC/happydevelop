@@ -1,5 +1,6 @@
 package com.zx.haijixing.logistics.fragment;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.zx.haijixing.R;
-import com.zx.haijixing.driver.adapter.ReceiveAdapter;
 import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.logistics.adapter.AllotAdapter;
 import com.zx.haijixing.logistics.contract.WaitAllotContract;
@@ -23,8 +23,10 @@ import com.zx.haijixing.logistics.presenter.WaitAllotImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
-import com.zx.haijixing.util.HaiDialogUtil;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.HaiTool;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +36,10 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxToastUtil;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  *
@@ -78,14 +81,13 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         instance.init(getContext());
         token = (String) instance.getParam("token", "null");
         loginType = (String) instance.getParam("login_type", "4");
-        ZxLogUtil.logError("<<<<<" + token);
 
         rvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         allotAdapter = new AllotAdapter(orderEntries);
         rvData.setAdapter(allotAdapter);
 
         params.put("token", token);
-        params.put("status", OtherConstants.DETAIL_WAIT_SEND+"");
+        params.put("status", OtherConstants.DETAIL_WAIT_ALLOT+"");
         //params.put("params")
         params.put(OtherConstants.PAGE, page+"");
         params.put(OtherConstants.SIZE, 5+"");
@@ -143,6 +145,27 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
+        doRefresh();
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            doRefresh();
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == OtherConstants.ALLOT_REQUEST && resultCode == RESULT_OK){
+            EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
+            doRefresh();
+        }
+    }
+
+    private void doRefresh(){
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
@@ -153,7 +176,6 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         params.put("sign",HaiTool.sign(params));
         mPresenter.waitAllotMethod(params);
     }
-
     class AllotViewHolder{
         @BindView(R.id.fragment_receive_selectAll)
         ImageView selectAll;
@@ -174,7 +196,7 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
                 case R.id.fragment_receive_word1:
                     break;
                 case R.id.fragment_receive_receive:
-                    ARouter.getInstance().build(PathConstant.ALLOT).navigation();
+                    ARouter.getInstance().build(PathConstant.ALLOT).navigation(getActivity(),OtherConstants.ALLOT_REQUEST);
                     break;
             }
         }

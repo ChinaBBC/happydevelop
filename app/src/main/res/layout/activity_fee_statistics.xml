@@ -46,7 +46,7 @@
                 android:gravity="center"
                 android:text="@string/this_month"
                 android:textColor="@color/color_6666"
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_14"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/fee_statistics_word2"
@@ -71,7 +71,7 @@
                 android:gravity="center"
                 android:text="@string/this_day"
                 android:textColor="@color/color_6666"
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_14"
                 app:layout_constraintLeft_toRightOf="@id/fee_statistics_word1"
                 app:layout_constraintRight_toLeftOf="@id/fee_statistics_word3"
                 app:layout_constraintTop_toBottomOf="@id/fee_statistics_day" />
@@ -95,7 +95,7 @@
                 android:gravity="center"
                 android:text="@string/this_other_month"
                 android:textColor="@color/color_6666"
-                android:textSize="@dimen/sp_10"
+                android:textSize="@dimen/sp_14"
                 app:layout_constraintLeft_toRightOf="@id/fee_statistics_word2"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fee_statistics_day" />
@@ -171,7 +171,8 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@id/fee_statistics_free"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fee_statistics_word3" />
+                app:layout_constraintTop_toBottomOf="@id/fee_statistics_word3"
+                />
 
             <View
                 android:id="@+id/fee_statistics_line3"
@@ -182,7 +183,8 @@
                 android:visibility="invisible"
                 app:layout_constraintLeft_toRightOf="@id/fee_statistics_line2"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fee_statistics_arrive" />
+                app:layout_constraintTop_toBottomOf="@id/fee_statistics_arrive"
+                />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/fee_statistics_lay1"
@@ -328,7 +330,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginRight="@dimen/dp_12"
-                android:text="1224单"
+                android:text="0单"
                 android:textColor="@color/color_703f"
                 android:textSize="@dimen/sp_14"
                 android:textStyle="bold"
@@ -346,7 +348,36 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fee_statistics_add_all" />
+                app:layout_constraintTop_toBottomOf="@id/fee_statistics_add_all"
+                android:visibility="gone"
+                />
+            <com.zx.haijixing.custom.CustomGraphView
+                android:id="@+id/fee_statistics_map2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_250"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginBottom="@dimen/dp_30"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fee_statistics_add_all"
+                android:visibility="gone"
+                />
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/fee_statistics_maps"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_250"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginBottom="@dimen/dp_30"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fee_statistics_add_all"
+                />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

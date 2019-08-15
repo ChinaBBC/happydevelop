@@ -1,6 +1,7 @@
 package com.zx.haijixing.logistics.activity;
 
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,7 +10,9 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.github.mikephil.charting.charts.LineChart;
 import com.zx.haijixing.R;
+import com.zx.haijixing.custom.CustomGraphView;
 import com.zx.haijixing.custom.CustomGraphViewT;
 import com.zx.haijixing.driver.entry.MyPoint;
 import com.zx.haijixing.logistics.adapter.CompanyWheel;
@@ -19,6 +22,7 @@ import com.zx.haijixing.logistics.entry.CompanyEntry;
 import com.zx.haijixing.logistics.entry.DriverEntry;
 import com.zx.haijixing.logistics.entry.FeeStatisticsEntry;
 import com.zx.haijixing.logistics.presenter.FeeStatisticsImp;
+import com.zx.haijixing.manager.LineChartManager;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
@@ -28,6 +32,7 @@ import com.zx.haijixing.util.HaiTool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -77,8 +82,8 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
     TextView word6;
     @BindView(R.id.fee_statistics_search)
     Button search;
-    @BindView(R.id.fee_statistics_map)
-    CustomGraphViewT statisticsMap;
+    @BindView(R.id.fee_statistics_maps)
+    LineChart statisticsMaps;
 
     @Autowired(name = "companys")
     public ArrayList<CompanyEntry> companys;
@@ -95,6 +100,7 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
     private String loginType;
 
     private ArrayList<CompanyEntry> companyEntries = new ArrayList<>();
+    private LineChartManager lineChartManager;
 
     @Override
     protected void initView() {
@@ -106,6 +112,10 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
         title.setText(getHaiString(R.string.statistics));
         startPickerView = HaiTool.initTimePickers(this, start, 1111);
         endPickerView = HaiTool.initTimePickers(this, end, 0);
+
+        lineChartManager = new LineChartManager(statisticsMaps);
+
+
 
         params.put("token",token);
         params.put("timestamp",System.currentTimeMillis()+"");
@@ -211,7 +221,8 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
                 arrive.setTextColor(getHaiColor(R.color.color_9999));
                 line1.setVisibility(View.VISIBLE);
                 line2.setVisibility(View.INVISIBLE);
-                line3.setVisibility(View.INVISIBLE);
+                if (loginType.equals(OtherConstants.LOGIN_LOGISTICS))
+                    line3.setVisibility(View.INVISIBLE);
                 mPresenter.orderStatisticsMethod(params);
                 break;
             case 1:
@@ -220,7 +231,8 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
                 arrive.setTextColor(getHaiColor(R.color.color_9999));
                 line1.setVisibility(View.INVISIBLE);
                 line2.setVisibility(View.VISIBLE);
-                line3.setVisibility(View.INVISIBLE);
+                if (loginType.equals(OtherConstants.LOGIN_LOGISTICS))
+                    line3.setVisibility(View.INVISIBLE);
                 mPresenter.feeStatisticsMethod(params);
                 break;
             case 2:
@@ -259,34 +271,27 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
 
     @Override
     public void searchDriverSuccess(List<DriverEntry> driverEntries) {
-        this.driverEntries.add(new DriverEntry(null,"全部"));
+        this.driverEntries.add(new DriverEntry("","全部"));
         this.driverEntries.addAll(driverEntries);
         driverAdapter = new DriverTruckAdapter(this.driverEntries, null, OtherConstants.SELECT_DRIVER);
     }
 
     private void setData(FeeStatisticsEntry feeStatisticsEntry,String text){
         List<String> rows = feeStatisticsEntry.getRows();
-        List<MyPoint> points = new ArrayList<>();
-        List<String> yUnit = new ArrayList<>();
-        MyPoint point = null;
-        float temp = 0;
-        float total = 0;
+        double total = 0;
         for (int i = 0; i< rows.size();i++){
-            float y = Float.parseFloat(rows.get(i));
-            point = new MyPoint(i, y);
-            points.add(point);
+            double y = Double.parseDouble(rows.get(i));
             total+=y;
-            if (temp<y)
-                temp = y;
-        }
-
-        int max = new Float(temp).intValue();
-        int num = (max-max%5+5)/5;
-        for (int i=1;i<6;i++){
-            yUnit.add(i*num+"");
         }
         addAll.setText(total+text);
-        statisticsMap.setXUnitValue(1).setYUnitValue(num).setXTextUnits(feeStatisticsEntry.getDays()).setYTextUnits(yUnit).setDateList(points).startDraw();
+        //展示图表
+        lineChartManager.setXAxisData(feeStatisticsEntry.getDays(),7);
+        lineChartManager.setYAxisData(feeStatisticsEntry.getRows(),8);
+        lineChartManager.showLineChart(feeStatisticsEntry.getRows(),feeStatisticsEntry.getDays(), text,getResources().getColor(R.color.blue));
+        //设置曲线填充色 以及 MarkerView
+        Drawable drawable = getResources().getDrawable(R.drawable.shape_fee_statistics);
+        lineChartManager.setChartFillDrawable(drawable);
+        lineChartManager.setMarkerView(this);
     }
 
     @Override

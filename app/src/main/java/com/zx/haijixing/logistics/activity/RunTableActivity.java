@@ -85,7 +85,7 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
 
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
-        //String token = (String) instance.getParam("token", "null");
+        String token = (String) instance.getParam("token", "null");
         String loginType = (String) instance.getParam("login_type", "4");
 
         title.setText(getHaiString(R.string.statistics));
@@ -106,7 +106,7 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
         CompanyEntry companyEntry = companys.get(0);
         params.put("compayId", companyEntry.getLgsId());
         company.setText(companyEntry.getcName());
-
+        params.put("token",token);
         params.put("timestamp",System.currentTimeMillis()+"");
         params.put("sign","");
         params.put("sign",HaiTool.sign(params));

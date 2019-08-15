@@ -88,7 +88,7 @@
         android:textColor="@color/color_6666"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
-        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_8"
         />
     <TextView
         android:id="@+id/print_header_send_man"
@@ -99,7 +99,7 @@
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toRightOf="@id/print_header_img3"
         app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_10"
         />
 
@@ -113,7 +113,7 @@
         app:layout_constraintLeft_toRightOf="@id/print_header_send_man"
         app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_8"
         />
     <TextView
@@ -125,7 +125,7 @@
         android:textColor="@color/color_6666"
         app:layout_constraintTop_toBottomOf="@id/print_header_send_locate"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_8"
         />
     <TextView
         android:id="@+id/print_header_receive_man"
@@ -136,7 +136,7 @@
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toRightOf="@id/print_header_img4"
         app:layout_constraintTop_toBottomOf="@id/print_header_send_locate"
-        android:layout_marginTop="@dimen/dp_13"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_10"
         />
 
@@ -150,7 +150,7 @@
         app:layout_constraintLeft_toRightOf="@id/print_header_receive_man"
         app:layout_constraintTop_toBottomOf="@id/print_header_send_locate"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_8"
         />
     <TextView
@@ -161,8 +161,8 @@
         android:textColor="@color/color_6666"
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@id/print_header_img4"
-        app:layout_constraintTop_toBottomOf="@id/print_header_receive_man"
-        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@id/print_header_receive_locate"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_10"
         />
     <TextView
@@ -173,8 +173,8 @@
         android:textSize="@dimen/sp_14"
         android:textColor="@color/color_3333"
         app:layout_constraintLeft_toRightOf="@id/print_header_word2"
-        app:layout_constraintTop_toBottomOf="@id/print_header_receive_man"
-        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@id/print_header_receive_locate"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_8"
         />
     <TextView
@@ -186,7 +186,7 @@
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@id/print_header_img4"
         app:layout_constraintTop_toBottomOf="@id/print_header_word2"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_10"
         />
     <TextView
@@ -198,7 +198,7 @@
         android:textColor="@color/color_3333"
         app:layout_constraintLeft_toRightOf="@id/print_header_word3"
         app:layout_constraintTop_toBottomOf="@id/print_header_freight"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_8"
         />
     <TextView
@@ -210,7 +210,7 @@
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@id/print_header_img4"
         app:layout_constraintTop_toBottomOf="@id/print_header_word3"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_10"
         />
     <TextView
@@ -222,7 +222,7 @@
         android:textColor="@color/color_3333"
         app:layout_constraintLeft_toRightOf="@id/print_header_word4"
         app:layout_constraintTop_toBottomOf="@id/print_header_type"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_8"
         />
     <TextView
@@ -235,6 +235,6 @@
         app:layout_constraintLeft_toRightOf="@id/print_header_number"
         app:layout_constraintTop_toBottomOf="@id/print_header_type"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_8"
         />
 </android.support.constraint.ConstraintLayout>

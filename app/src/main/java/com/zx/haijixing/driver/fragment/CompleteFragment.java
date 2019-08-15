@@ -99,6 +99,16 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        doRefresh();
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            doRefresh();
+    }
+
+    private void doRefresh(){
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
@@ -109,7 +119,6 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
         params.put("sign",HaiTool.sign(params));
         mPresenter.completeMethod(params);
     }
-
     @Override
     public void completeSuccess(OrderTotalEntry orderTotalEntry) {
         if (!isHide){

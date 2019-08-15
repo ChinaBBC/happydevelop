@@ -95,7 +95,8 @@ public class SetActivity extends BaseActivity {
 
     private void loginOut(){
         showUpdate.dismissAllowingStateLoss();
-        RxHttpUtils.cancel(OtherConstants.CANCEL_REQUEST);
+        //RxHttpUtils.cancel(OtherConstants.CANCEL_REQUEST);
+        RxHttpUtils.cancelAll();
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(this);
         instance.setLogin(false);

@@ -194,7 +194,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
 
     private void takePic(){
         PictureSelector.create(this)
-                .openCamera(PictureMimeType.ofImage())
+                .openGallery(PictureMimeType.ofImage())
                 .compress(true)
                 .forResult(OtherConstants.UPLOAD_HEAD);
     }

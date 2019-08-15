@@ -90,11 +90,13 @@ public class TruckChangeActivity extends BaseActivity<TruckChangeImp> implements
         params.put("sign",HaiTool.sign(params));
         mPresenter.driverIdentifyMethod(params);
 
-        params.put("applyId",truckId);
-        params.put("timestamp",System.currentTimeMillis()+"");
-        params.put("sign","");
-        params.put("sign",HaiTool.sign(params));
-        mPresenter.truckInfoMethod(params);
+        Map<String,String> param = new HashMap<>();
+        param.put("carId",truckId);
+        param.put("token",token);
+        param.put("timestamp",System.currentTimeMillis()+"");
+        param.put("sign","");
+        param.put("sign",HaiTool.sign(param));
+        mPresenter.truckInfoMethod(param);
 
 
         timePickerView = HaiTool.initTimePickers(this, cureTime, 10);
@@ -141,12 +143,11 @@ public class TruckChangeActivity extends BaseActivity<TruckChangeImp> implements
                 }
                 break;
             case R.id.truck_change_drive:
-                if (truckInfoBean != null)
-                    if (truckInfoBean != null){
-                        goPapers(getHaiString(R.string.truck_drive),path+truckInfoBean.getDrivingFront(),path+truckInfoBean.getDrivingBack(),null,OtherConstants.CHANGE_TRUCK_ID);
-                    }else {
-                        ZxToastUtil.centerToast("请稍后再试");
-                    }
+                if (truckInfoBean != null){
+                    goPapers(getHaiString(R.string.truck_drive),path+truckInfoBean.getDrivingFront(),path+truckInfoBean.getDrivingBack(),null,OtherConstants.CHANGE_TRUCK_ID);
+                }else {
+                    ZxToastUtil.centerToast("请稍后再试");
+                }
                 break;
             case R.id.truck_change_ensure:
                 if (truckInfoBean != null){

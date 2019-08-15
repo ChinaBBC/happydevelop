@@ -39,7 +39,7 @@ public class ApkUtils {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".update.provider", apkFile);
+            Uri uri = UpdateApkFileProvider.getUriForFile(context, "com.zx.haijixing.update.provider", apkFile);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {

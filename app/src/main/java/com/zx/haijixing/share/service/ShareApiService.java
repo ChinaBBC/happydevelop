@@ -84,11 +84,11 @@ public interface ShareApiService {
     Observable<HaiBaseData<FeeStatisticsEntry>> feeReceivedStatisticsApi(@FieldMap Map<String,String> params);
 
     //物流公司
-    @GET("api/reception/order/selectCompayByDeptId")
+    @GET("api/reception/orderComment/selectCompayByDeptId")
     Observable<HaiBaseData<List<CompanyEntry>>> companyApi(@QueryMap Map<String,String> params);
 
     //运营总表
-    @GET("api/reception/order/selectWaybillOrderCount")
+    @GET("/api/logistics/reports/selectWaybillOrderCount")
     Observable<HaiBaseData<List<RunTableEntry>>> runTableApi(@QueryMap Map<String,String> params);
 
     //司机评价

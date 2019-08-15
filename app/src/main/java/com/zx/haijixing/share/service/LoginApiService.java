@@ -39,7 +39,7 @@ public interface LoginApiService {
 
     //注册基本信息
     @FormUrlEncoded
-    @POST("driver/normalInfo")
+    @POST("open/app/normalInfo")
     Observable<String> registerBase(@FieldMap Map<String,String> params);
 
     //发送验证码
@@ -49,7 +49,7 @@ public interface LoginApiService {
 
     //注册基本信息
     @FormUrlEncoded
-    @POST("open/driver/driverCard")
+    @POST("open/app/driverCard")
     Observable<String> drivingCard(@FieldMap Map<String,String> params);
 
     //选择车辆类型

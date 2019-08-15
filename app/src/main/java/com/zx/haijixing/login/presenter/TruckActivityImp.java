@@ -7,6 +7,7 @@ import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.BuildConfig;
 import com.zx.haijixing.login.contract.ITruckActivityContract;
 import com.zx.haijixing.login.entry.TruckTypeEntry;
+import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.LoginApiService;
@@ -85,7 +86,7 @@ public class TruckActivityImp extends BasePresenter<ITruckActivityContract.Truck
         list.add(path);
         Map<String,Object> params = new HashMap<>();
         params.put("files","path");
-        RxHttpUtils.uploadImagesWithParams(BuildConfig.homeUrl+"upload/files/uploadImages","files",params,list)
+        RxHttpUtils.uploadImagesWithParams(BuildConfig.homeUrl+OtherConstants.UPLOAD_PATH,"files",params,list)
                 .compose(Transformer.<ResponseBody>switchSchedulers())
                 .subscribe(new CommonObserver<ResponseBody>() {
                     @Override

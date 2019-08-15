@@ -53,15 +53,12 @@ public abstract class HaiDataObserver<T> extends BaseObserver<HaiBaseData<T>> {
             case 0:
                onSuccess(data.getData());
                 break;
-            case 300:
-            case 500:
-            case 1002:
-               onError(data.getMsg());
-                break;
             case 1001:
                 LoginTimeOut();
                 break;
             default:
+                onError(data.getMsg());
+                break;
         }
     }
 

@@ -47,7 +47,7 @@
         android:id="@+id/dialog_pay_crash_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pay_online"
+        android:text="@string/pay_crash"
         android:textColor="@color/color_9999"
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toRightOf="@id/dialog_pay_crash"

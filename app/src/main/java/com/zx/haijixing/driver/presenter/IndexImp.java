@@ -9,6 +9,9 @@ import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.base.BasePresenter;
+import com.zx.haijixing.share.base.HaiBaseData;
+import com.zx.haijixing.share.base.HaiDataObserver;
+import com.zx.haijixing.share.pub.entry.NotifyEntry;
 import com.zx.haijixing.share.service.DriverApiService;
 import com.zx.haijixing.share.service.ManagerApiService;
 import com.zx.haijixing.share.service.ShareApiService;
@@ -17,8 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import zx.com.skytool.ZxLogUtil;
 
 /**
@@ -162,6 +167,30 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void notifyMethod(Map<String, String> params) {
+        RxHttpUtils.createApi(ShareApiService.class)
+                .notifyApi(params)
+                .compose(Transformer.<HaiBaseData<List<NotifyEntry>>>switchSchedulers())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HaiDataObserver<List<NotifyEntry>>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void LoginTimeOut() {
+                        mView.jumpToLogin();
+                    }
+
+                    @Override
+                    protected void onSuccess(List<NotifyEntry> data) {
+                        mView.notifySuccess(data);
                     }
                 });
     }

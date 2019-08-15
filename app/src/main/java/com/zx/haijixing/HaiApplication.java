@@ -36,7 +36,6 @@ public class HaiApplication extends Application {
         super.onCreate();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        MultiDex.install(this);
         haiApp = getApplicationContext();
         SkyTool.init(this);
         configBugly();
@@ -112,5 +111,11 @@ public class HaiApplication extends Application {
                 //开启全局配置
                 .setOkClient(okHttpClient);
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

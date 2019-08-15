@@ -3,6 +3,7 @@ package com.zx.haijixing.driver.contract;
 import com.zx.haijixing.driver.entry.BannerEntry;
 import com.zx.haijixing.driver.entry.NewsEntry;
 import com.zx.haijixing.share.base.IBaseContract;
+import com.zx.haijixing.share.pub.entry.NotifyEntry;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ public interface IIndexContract {
         void workSuccess(String msg);
         void weatherSuccess(String city,String weather,String temp);
         void workStatusSuccess(String msg);
+        void notifySuccess(List<NotifyEntry> notifyEntries);
     }
 
     interface IndexPresenter extends IBaseContract.IBasePresenter<IndexView>{
@@ -28,5 +30,6 @@ public interface IIndexContract {
         void workMethod(Map<String, String> params);
         void workStatusMethod(Map<String, String> params);
         void weatherMethod(String city);
+        void notifyMethod(Map<String, String> params);
     }
 }

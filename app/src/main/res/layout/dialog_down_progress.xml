@@ -31,7 +31,7 @@
             android:layout_width="@dimen/dp_272"
             android:layout_height="@dimen/dp_14"
             android:max="100"
-            android:progress="10"
+            android:progress="0"
             android:progressDrawable="@drawable/layer_dialog_down"
             />
     </LinearLayout>

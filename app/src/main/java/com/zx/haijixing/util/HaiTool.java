@@ -339,6 +339,17 @@ public final class HaiTool {
         }
         return dft.format(endDate);
     }
+    public static String formatDateToMD(String str) {
+        SimpleDateFormat sf1 = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sf2 = new SimpleDateFormat("MM-dd");
+        String formatStr = "";
+        try {
+            formatStr = sf2.format(sf1.parse(str));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatStr;
+    }
     private static String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);

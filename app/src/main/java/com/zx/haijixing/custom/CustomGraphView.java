@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -17,13 +18,15 @@ import android.view.WindowManager;
 import com.zx.haijixing.R;
 import java.util.LinkedList;
 
+import zx.com.skytool.ZxLogUtil;
+
 /**
  *
  *@作者 zx
  *@创建日期 2019/6/18 15:30
  *@描述 自定义曲线图
  */
-public final class CustomGraphView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
+public final class CustomGraphView extends SurfaceView implements SurfaceHolder.Callback {
     private Context mContext;
     private Paint mPaint;
     private Resources res;
@@ -47,22 +50,22 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
     //曲线上的总点数
     private Point[] mPoints;
     //纵坐标值
-    private LinkedList<Double> yRawData;
+    private LinkedList<Double> yRawData = new LinkedList<>();
     //横坐标值
-    private LinkedList<String> xRawData;
+    private LinkedList<String> xRawData = new LinkedList<>();
     //根据间隔计算出的每个X的值
     private LinkedList<Integer> xList = new LinkedList<>();
-    private LinkedList<String> xPreData = new LinkedList<>();
+
+   /* private LinkedList<String> xPreData = new LinkedList<>();
     private LinkedList<Double> yPreData = new LinkedList<>();
 
     private LinkedList<String> xLastData = new LinkedList<>();
-    private LinkedList<Double> yLastData = new LinkedList<>();
+    private LinkedList<Double> yLastData = new LinkedList<>();*/
     private int spacingHeight = 1;
 
     private SurfaceHolder holder;
-    private boolean isRunning = true;
-    private int lastX;
-    private int offSet;
+    private int lastX = 0;
+    private int offSet = 0;
     private Rect mRect;
 
     private int xAverageValue = 0;
@@ -85,7 +88,7 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(dm);
 
-        xPreData.add("05-18");
+        /*xPreData.add("05-18");
         xPreData.add("05-17");
         xPreData.add("05-16");
         xPreData.add("05-15");
@@ -111,10 +114,11 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
         yLastData.add(6000.23);
         yLastData.add(7000.33);
         yLastData.add(3000.45);
-        yLastData.add(2000.45);
+        yLastData.add(2000.45);*/
 
         holder = this.getHolder();
         holder.addCallback(this);
+        ZxLogUtil.logError("<<<<init draw view");
     }
 
     @Override
@@ -128,20 +132,6 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
             bWidth = dip2px(30);
             xAverageValue = (canvasWidth - bWidth) / 7;
             isMeasure = false;
-        }
-    }
-
-
-    @Override
-    public void run() {
-        while (isRunning) {
-            drawView();
-            try {
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -170,6 +160,7 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
         }
 
         holder.unlockCanvasAndPost(canvas);
+
     }
 
     //绘制折线图
@@ -219,7 +210,7 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        new Thread(this).start();
+        //new Thread(this).start();
         Log.d("OOK" , "Created");
     }
 
@@ -230,13 +221,6 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        isRunning = false;
-        try {
-            Thread.sleep(500);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -249,31 +233,15 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
                 break;
             case MotionEvent.ACTION_MOVE:
                 int offsetX = rawX - lastX;
-                if (xPreData.size() == 0 && offSet > 0) {
-                    offSet = 0;
-                    canScrollRight = false;
-                }
-                if (xLastData.size() == 0 && offSet < 0) {
-                    offSet = 0;
-                    canScrollLeft = false;
-                }
                 offSet = offSet + offsetX;
                 if (offSet > xAverageValue && canScrollRight) {
                     offSet = offSet % xAverageValue;
-                    xRawData.addFirst(xPreData.pollFirst());
-                    yRawData.addFirst(yPreData.pollFirst());
-                    xLastData.addFirst(xRawData.removeLast());
-                    yLastData.addFirst(yRawData.removeLast());
                     canScrollLeft = true;
                 }
 
 
                 if (offSet < -xAverageValue && canScrollLeft) {
                     offSet = offSet % xAverageValue;
-                    xRawData.addLast(xLastData.pollFirst());
-                    yRawData.addLast(yLastData.pollFirst());
-                    xPreData.addFirst(xRawData.removeFirst());
-                    yPreData.addFirst(yRawData.removeFirst());
                     canScrollRight = true;
                 }
                 lastX = rawX;
@@ -295,12 +263,16 @@ public final class CustomGraphView extends SurfaceView implements SurfaceHolder.
     }
 
     public void setData(LinkedList<Double> yRawData , LinkedList<String> xRawData , int maxValue , int averageValue) {
+        Canvas canvas = holder.lockCanvas();
+        canvas.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR);
+        holder.unlockCanvasAndPost(canvas);
         this.maxValue = maxValue;
         this.averageValue = averageValue;
         this.mPoints = new Point[yRawData.size()];
         this.yRawData = yRawData;
         this.xRawData = xRawData;
         this.spacingHeight = maxValue / averageValue;
+        drawView();
     }
 
     private int dip2px(float dpValue) {
