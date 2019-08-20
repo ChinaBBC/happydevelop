@@ -114,8 +114,19 @@ public class PrintAdapter extends RecyclerView.Adapter {
                         }
                         totalPrintListener.totalResult(selectTag,selectHead);
                     });
+                    printHeadViewHolder.start.setOnClickListener(v -> {
+                        if (selectHead == 0){
+                            printHeadViewHolder.select.setImageResource(R.mipmap.select_no);
+                            selectHead = 1;
+                            selectTag--;
+                        }else {
+                            printHeadViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                            selectHead = 0;
+                            selectTag++;
+                        }
+                        totalPrintListener.totalResult(selectTag,selectHead);
+                    });
                 }
-
             }else {
                 PrintViewHolder printViewHolder = (PrintViewHolder) viewHolder;
                 printViewHolder.start.setText(printEntry.getLineStartName());
@@ -138,6 +149,18 @@ public class PrintAdapter extends RecyclerView.Adapter {
                     SelectEntry selectEntry = selectEntries.get(realPosition<0?0:realPosition);
                     printViewHolder.select.setImageResource(selectEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
                     printViewHolder.select.setOnClickListener(v -> {
+                        if (selectEntry.isSelect()){
+                            printViewHolder.select.setImageResource(R.mipmap.select_no);
+                            selectEntry.setSelect(false);
+                            selectTag--;
+                        }else {
+                            printViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                            selectEntry.setSelect(true);
+                            selectTag++;
+                        }
+                        totalPrintListener.totalResult(selectTag,selectHead);
+                    });
+                    printViewHolder.page.setOnClickListener(v -> {
                         if (selectEntry.isSelect()){
                             printViewHolder.select.setImageResource(R.mipmap.select_no);
                             selectEntry.setSelect(false);

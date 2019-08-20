@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
@@ -40,6 +41,9 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
     RecyclerView completeData;
     @BindView(R.id.fragment_complete_refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.fragment_complete_noData)
+    TextView noData;
+
     private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
     private CcAdapter ccAdapter;
@@ -136,7 +140,6 @@ public class CompleteFragment extends BaseFragment<CompleteImp> implements Compl
 
         orderEntries.addAll(orderTotalEntry.getRows());
         ccAdapter.notifyDataSetChanged();
-        if (orderEntries.size() == 0)
-            ZxToastUtil.centerToast("没有已完成的订单");
+        noData.setVisibility(orderEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 }

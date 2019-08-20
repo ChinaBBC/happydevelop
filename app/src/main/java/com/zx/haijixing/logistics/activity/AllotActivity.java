@@ -23,9 +23,12 @@ import com.zx.haijixing.logistics.presenter.LinesClassImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +53,8 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
 
     @BindView(R.id.common_title_title)
     TextView title;
+    @BindView(R.id.allot_noData)
+    TextView noData;
     @BindView(R.id.allot_rv_data)
     RecyclerView allotRvData;
     @BindView(R.id.allot_srl_refresh)
@@ -145,8 +150,7 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
         }
         this.linesClassEntries.addAll(linesClassEntries);
         logisticsMoveAdapter.notifyDataSetChanged();
-        if (this.linesClassEntries.size() == 0)
-            ZxToastUtil.centerToast("没有可选的班次");
+        noData.setVisibility(this.linesClassEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -160,9 +164,7 @@ public class AllotActivity extends BaseActivity<LinesClassImp> implements LinesC
         linesParams.put("sign","");
         linesParams.put("sign",HaiTool.sign(linesParams));
         mPresenter.linesClassMethod(linesParams);*/
-
-        Intent intent = new Intent();
-        setResult(RESULT_OK,intent);
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.ALLOT_REQUEST));
         finish();
     }
 

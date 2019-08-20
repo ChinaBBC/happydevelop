@@ -321,7 +321,7 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
         /* 打开端口 */
         threadPool = ThreadPool.getInstantiation();
         threadPool.addTask(() -> {
-                    ZxLogUtil.logError("<<<<address>>"+address);
+                    //ZxLogUtil.logError("<<<<address>>"+address);
                     DeviceConnectManager.getDeviceConnectManagers().setMacAddress(address).openPort();
                 }
                );
@@ -378,6 +378,11 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
                     DeviceConnectManager.getDeviceConnectManagers().sendDataImmediately(esc.getCommand());
                 }
             });
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
     }

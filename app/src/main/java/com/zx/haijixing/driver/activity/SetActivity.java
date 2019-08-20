@@ -80,6 +80,7 @@ public class SetActivity extends BaseActivity {
                 }
                 break;
             case R.id.set_private_area:
+                ARouter.getInstance().build(PathConstant.PROTOCOL).withInt("type",2).navigation();
                 break;
             case R.id.set_out_login:
                 showUpdate = HaiDialogUtil.showUpdate(getSupportFragmentManager(), "是否退出登录？", this::onViewClicked);

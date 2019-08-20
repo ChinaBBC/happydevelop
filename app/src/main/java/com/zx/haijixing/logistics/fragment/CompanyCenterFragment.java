@@ -81,13 +81,17 @@ public class CompanyCenterFragment extends BaseFragment<CompanyCenterImp> implem
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.company_center_fee:
-                ARouter.getInstance().build(PathConstant.FEE_STATISTICS)
-                        .withParcelableArrayList("companys",companyEntries)
-                        .navigation();
+                if (companyEntries == null || companyEntries.size() == 0){
+                    ZxToastUtil.centerToast("未查询到公司信息");
+                }else {
+                    ARouter.getInstance().build(PathConstant.FEE_STATISTICS)
+                            .withParcelableArrayList("companys",companyEntries)
+                            .navigation();
+                }
                 break;
             case R.id.company_center_table:
                 if (companyEntries == null || companyEntries.size() == 0){
-                    ZxToastUtil.centerToast("未查询到您的公司信息");
+                    ZxToastUtil.centerToast("未查询到公司信息");
                 }else {
                     ARouter.getInstance().build(PathConstant.RUN_TABLE)
                             .withParcelableArrayList("companys",companyEntries)
@@ -105,10 +109,13 @@ public class CompanyCenterFragment extends BaseFragment<CompanyCenterImp> implem
 
     @Override
     public void companySuccess(List<CompanyEntry> companyEntries) {
-        if (companyEntries.size()>0){
-            CompanyEntry companyEntry = companyEntries.get(0);
-            this.company.setText(companyEntry.getcName());
-            this.companyEntries = (ArrayList<CompanyEntry>) companyEntries;
+        if (companyEntries != null){
+            if (companyEntries.size()>0){
+                CompanyEntry companyEntry = companyEntries.get(0);
+                this.company.setText(companyEntry.getcName());
+                this.companyEntries = (ArrayList<CompanyEntry>) companyEntries;
+            }
         }
+
     }
 }

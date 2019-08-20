@@ -43,6 +43,8 @@ public class DriverWordsActivity extends BaseActivity<DriverWordImp> implements 
     Button search;
     @BindView(R.id.driver_words_data)
     RecyclerView data;
+    @BindView(R.id.driver_words_noData)
+    TextView noData;
     private DriverWordAdapter driverWordAdapter;
     private List<DriverWordEntry> driverWordEntries = new ArrayList<>();
     private  Map<String,String> params = new HashMap<>();
@@ -100,11 +102,15 @@ public class DriverWordsActivity extends BaseActivity<DriverWordImp> implements 
     @Override
     public void driverWordSuccess(List<DriverWordEntry> driverWordEntries) {
         if (driverWordEntries.size() == 0){
-            ZxToastUtil.centerToast("暂无此司机的评价");
+            this.driverWordEntries.clear();
+            driverWordAdapter.notifyDataSetChanged();
+            noData.setVisibility(View.VISIBLE);
         }else {
             this.driverWordEntries.clear();
+            driverWordAdapter.notifyDataSetChanged();
             this.driverWordEntries.addAll(driverWordEntries);
             driverWordAdapter.notifyDataSetChanged();
+            noData.setVisibility(View.GONE);
         }
     }
 }

@@ -255,4 +255,18 @@
         app:layout_constraintTop_toBottomOf="@id/run_table_lay1"
         app:layout_constraintBottom_toBottomOf="parent"
         ></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/run_table_noData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无数据"
+        android:textColor="@color/color_3333"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/run_table_lay1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        />
 </android.support.constraint.ConstraintLayout>

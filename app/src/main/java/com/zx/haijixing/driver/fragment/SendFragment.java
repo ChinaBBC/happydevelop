@@ -29,6 +29,8 @@ import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +57,8 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
     ViewStub viewStub;
     @BindView(R.id.fragment_send_refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.fragment_send_noData)
+    TextView noData;
 
     private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
@@ -91,7 +95,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         instance.init(getContext());
         token = (String) instance.getParam("token", "token");
         loginType = (String) instance.getParam("login_type", "4");
-        ZxLogUtil.logError("<<<<<" + token);
+        EventBus.getDefault().register(this);
 
         sendData.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         sendAdapter = new SendAdapter(orderEntries);
@@ -183,8 +187,7 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
        }
         orderEntries.addAll(orderTotalEntry.getRows());
         sendAdapter.notifyDataSetChanged();
-        if (orderEntries.size() == 0)
-            ZxToastUtil.centerToast("没有待出发的订单");
+        noData.setVisibility(orderEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -260,7 +263,6 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         doRefresh();
     }
 
@@ -377,8 +379,20 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         if (!hidden)
             doRefresh();
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg() == OtherConstants.ALLOT_REQUEST){
+            doRefresh();
+        }
+    }
 
     private void doRefresh(){
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         refresh.setNoMoreData(false);
         /*if (flag == 0)
             sendViewHolder.total.setText("共：0单");*/

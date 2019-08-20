@@ -27,9 +27,12 @@ import com.zx.haijixing.driver.presenter.OrderDetailImp;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
+import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -210,6 +213,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
             case R.id.change_dan_down:
             case R.id.change_dan_cType:
                 if (goodTypeWheel != null) {
+                    temp = 0;
                     showTruck = HaiDialogUtil.showTruck(getSupportFragmentManager(), goodTypeWheel, this::truckResult);
                 }else {
                     ZxToastUtil.centerToast("请稍候重试");
@@ -221,13 +225,6 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private void call(String phone){
         Intent call = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            //
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         startActivity(call);
@@ -242,12 +239,24 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         mathMap.put("startMoney",orderDetailEntry.getStartPrice());
         List<OrderDetailEntry.AppWaybillGoodsVo> goods = orderDetailEntry.getGoods();
         appWaybillGoodsVos.addAll(goods);
+        StringBuilder valueArray = new StringBuilder();
         for (OrderDetailEntry.AppWaybillGoodsVo goodsVo:goods){
             mathMap.put(goodsVo.getDictCode(),goodsVo.getDwMoney()+","+goodsVo.getDwAvg());
             upMap.put(goodsVo.getDictCode(),goodsVo.getGoodsId());
+            valueArray.append(goodsVo.getGoodsId()+","+goodsVo.getDwValue()+","+goodsVo.getDwMoney()+","+goodsVo.getDwAvg()+":");
         }
+        String goodsArray = valueArray.toString().substring(0, valueArray.length() - 1);
+
         mathMap.put("coupon",orderDetailEntry.getCouponMoney());
         mathMap.put("integral",orderDetailEntry.getIntegralMoney());
+
+        params.put("weight",orderDetailEntry.getWeight());
+        params.put("totalNum",orderDetailEntry.getTotalNum()+"");
+        double v = Double.parseDouble((ZxStringUtil.isEmpty(orderDetailEntry.getPrice()) ? "0" : orderDetailEntry.getPrice())) * 100;
+        int p = new Double(v).intValue();
+        params.put("price", p +"");
+        params.put("goodsArray",goodsArray);
+
         String timeEnd = orderDetailEntry.getTimeEnd();
         long timeStamp = Long.parseLong(ZxStringUtil.isEmpty(timeEnd)?"0":timeEnd);
         duration.setText(HaiTool.calculateTime(timeStamp));
@@ -316,6 +325,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     @Override
     public void changeOrderMethodSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.ALLOT_REQUEST));
         finish();
     }
 

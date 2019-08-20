@@ -68,6 +68,8 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
     Button search;
     @BindView(R.id.run_table_data)
     RecyclerView data;
+    @BindView(R.id.run_table_noData)
+    TextView noData;
 
     @Autowired(name = "companys")
     public ArrayList<CompanyEntry> companys;
@@ -168,12 +170,12 @@ public class RunTableActivity extends BaseActivity<RunTableImp> implements RunTa
         if (runTableEntries.size()==0){
             this.runTableEntries.clear();
             runTableAdapter.notifyDataSetChanged();
-            ZxToastUtil.centerToast("此物流公司暂无信息");
+            noData.setVisibility(View.VISIBLE);
         }else {
             this.runTableEntries.clear();
             this.runTableEntries.addAll(runTableEntries);
             runTableAdapter.notifyDataSetChanged();
-
+            noData.setVisibility(View.GONE);
             int orderNum = 0;
             double real = 0;
             double salary = 0;

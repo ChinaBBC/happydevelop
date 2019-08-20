@@ -17,6 +17,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.zx.haijixing.R;
 import com.zx.haijixing.driver.entry.OrderTotalEntry;
+import com.zx.haijixing.logistics.activity.AllotActivity;
 import com.zx.haijixing.logistics.adapter.AllotAdapter;
 import com.zx.haijixing.logistics.contract.WaitAllotContract;
 import com.zx.haijixing.logistics.presenter.WaitAllotImp;
@@ -27,6 +28,8 @@ import com.zx.haijixing.share.pub.entry.EventBusEntity;
 import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +39,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
-import zx.com.skytool.ZxToastUtil;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -54,6 +57,11 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
     ViewStub viewStub;
     @BindView(R.id.fragment_receive_refresh)
     SmartRefreshLayout refresh;
+
+    @BindView(R.id.fragment_receive_noData)
+    TextView noData;
+
+
 
     private AllotAdapter allotAdapter;
 
@@ -77,6 +85,7 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
     @Override
     protected void initView(View view) {
 
+        EventBus.getDefault().register(this);
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());
         token = (String) instance.getParam("token", "null");
@@ -128,8 +137,8 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         }
         orderEntries.addAll(orderTotalEntry.getRows());
         allotAdapter.notifyDataSetChanged();
-        if (orderEntries.size() == 0)
-            ZxToastUtil.centerToast("没有待派单的订单");
+
+        noData.setVisibility(orderEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -145,7 +154,6 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         doRefresh();
     }
     @Override
@@ -153,19 +161,11 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         super.onHiddenChanged(hidden);
         if (!hidden)
             doRefresh();
-
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == OtherConstants.ALLOT_REQUEST && resultCode == RESULT_OK){
-            EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
-            doRefresh();
-        }
-    }
 
     private void doRefresh(){
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
@@ -176,6 +176,20 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         params.put("sign",HaiTool.sign(params));
         mPresenter.waitAllotMethod(params);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg() == OtherConstants.ALLOT_REQUEST){
+            doRefresh();
+        }
+    }
+
     class AllotViewHolder{
         @BindView(R.id.fragment_receive_selectAll)
         ImageView selectAll;
@@ -196,7 +210,7 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
                 case R.id.fragment_receive_word1:
                     break;
                 case R.id.fragment_receive_receive:
-                    ARouter.getInstance().build(PathConstant.ALLOT).navigation(getActivity(),OtherConstants.ALLOT_REQUEST);
+                    ARouter.getInstance().build(PathConstant.ALLOT).navigation();
                     break;
             }
         }

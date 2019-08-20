@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
@@ -39,6 +40,8 @@ public class CancelFragment extends BaseFragment<CancelImp> implements CancelCon
     RecyclerView cancelData;
     @BindView(R.id.fragment_cancel_refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.fragment_cancel_noData)
+    TextView noData;
 
     private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
@@ -136,7 +139,6 @@ public class CancelFragment extends BaseFragment<CancelImp> implements CancelCon
 
         orderEntries.addAll(orderTotalEntry.getRows());
         ccAdapter.notifyDataSetChanged();
-        if (orderEntries.size() == 0)
-            ZxToastUtil.centerToast("没有已取消的订单");
+        noData.setVisibility(orderEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 }

@@ -3,6 +3,7 @@ package com.zx.haijixing.driver.activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
     ImageView back;
     @BindView(R.id.common_title_title)
     TextView title;
+    @BindView(R.id.order_center_noData)
+    TextView noData;
     @BindView(R.id.order_rv_data)
     RecyclerView data;
     @BindView(R.id.order_center_refresh)
@@ -128,5 +131,6 @@ public class OrderActivity extends BaseActivity<CompleteImp> implements OnRefres
         }
         orderEntries.addAll(orderTotalEntry.getRows());
         orderAdapter.notifyDataSetChanged();
+        noData.setVisibility(orderEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 }

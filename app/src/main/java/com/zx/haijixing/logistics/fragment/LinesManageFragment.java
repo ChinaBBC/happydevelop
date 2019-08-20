@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -39,6 +40,8 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
     RecyclerView lineData;
     @BindView(R.id.fragment_cancel_refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.fragment_cancel_noData)
+    TextView noData;
 
     private LinesManageAdapter linesManageAdapter;
     private List<LinesManageEntry> linesManageEntries = new ArrayList<>();
@@ -113,7 +116,6 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
         }
         this.linesManageEntries.addAll(linesManageEntries);
         linesManageAdapter.notifyDataSetChanged();
-        if (this.linesManageEntries.size() == 0)
-            ZxToastUtil.centerToast("暂无可管理线路");
+        noData.setVisibility(this.linesManageEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 }

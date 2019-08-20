@@ -10,7 +10,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.zx.haijixing.R;
 import com.zx.haijixing.custom.CustomBottomBar;
 import com.zx.haijixing.driver.fragment.IndexFragment;
-import com.zx.haijixing.logistics.fragment.LogisticMoveFragment;
+import com.zx.haijixing.logistics.fragment.LogisticsCenterFragment;
 import com.zx.haijixing.logistics.fragment.WayBillFragment;
 import com.zx.haijixing.manager.fragment.ManagerCenterFragment;
 import com.zx.haijixing.share.OtherConstants;
@@ -26,7 +26,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxStatusBarCompat;
-import zx.com.skytool.ZxStringUtil;
 import zx.com.skytool.ZxToastUtil;
 
 /**
@@ -63,7 +62,7 @@ public class ManagerActivity extends BaseActivity implements AMapLocationListene
                         getHaiString(R.string.order_center),
                         R.mipmap.index_order_before,
                         R.mipmap.index_order_after)
-                .addItem(LogisticMoveFragment.class,
+                .addItem(LogisticsCenterFragment.class,
                         getHaiString(R.string.logistics_center),
                         R.mipmap.index_index_before,
                         R.mipmap.index_index_after)

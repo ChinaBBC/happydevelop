@@ -54,6 +54,8 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     ViewStub viewStub;
     @BindView(R.id.fragment_sending_refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.fragment_sending_noData)
+    TextView noData;
 
     private SendingAdapter sendingAdapter;
     private SendingViewHolder sendingViewHolder;
@@ -165,8 +167,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
         orderEntries.addAll(orderTotalEntry.getRows());
         sendingAdapter.notifyDataSetChanged();
-        if (orderEntries.size() == 0)
-            ZxToastUtil.centerToast("没有配送中订单");
+        noData.setVisibility(orderEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -201,6 +202,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     @Override
     public void changePriceSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
+        doRefresh();
     }
 
     @Override
@@ -217,7 +219,6 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         doRefresh();
     }
     @Override
@@ -228,6 +229,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     }
 
     private void doRefresh(){
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         if (flag == 0 && sendingViewHolder != null)
             sendingViewHolder.total.setText("共：0单");
         refresh.setNoMoreData(false);

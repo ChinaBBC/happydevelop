@@ -3,6 +3,7 @@ package com.zx.haijixing.driver.activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +45,8 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
     ImageView back;
     @BindView(R.id.common_title_title)
     TextView title;
+    @BindView(R.id.evaluate_noData)
+    TextView noData;
     @BindView(R.id.evaluate_data)
     RecyclerView evaluateData;
     @BindView(R.id.evaluate_refresh)
@@ -117,6 +120,7 @@ public class EvaluateActivity extends BaseActivity<EvaluateImp> implements Evalu
         }
         this.everyEvaluateEntries.addAll(everyEvaluateEntries);
         evaluateAdapter.notifyDataSetChanged();
+        noData.setVisibility(this.everyEvaluateEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override

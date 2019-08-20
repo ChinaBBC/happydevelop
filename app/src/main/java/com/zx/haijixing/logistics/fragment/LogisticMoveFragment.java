@@ -61,6 +61,8 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
     TextView word4;
     @BindView(R.id.logistics_move_title)
     TextView title;
+    @BindView(R.id.logistics_move_noData)
+    TextView noData;
     @BindView(R.id.logistics_move_data)
     RecyclerView logisticsMoveData;
     @BindView(R.id.logistics_move_refresh)
@@ -87,12 +89,12 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());
         String token = (String) instance.getParam("token", "null");
-        String loginType = (String) instance.getParam("login_type", "4");
+        /*String loginType = (String) instance.getParam("login_type", "4");
         ZxLogUtil.logError("<<<<<" + token);
         if (OtherConstants.LOGIN_MANAGER.equals(loginType)){
             title.setVisibility(View.VISIBLE);
             setTitleTopMargin(title,0);
-        }
+        }*/
         logisticsMoveData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         logisticsMoveAdapter = new LogisticsMoveAdapter(linesClassEntries);
         logisticsMoveData.setAdapter(logisticsMoveAdapter);
@@ -177,8 +179,7 @@ public class LogisticMoveFragment extends BaseFragment<LoMoveImp> implements LoM
         }
         this.linesClassEntries.addAll(linesClassEntries);
         logisticsMoveAdapter.notifyDataSetChanged();
-        if (this.linesClassEntries.size() == 0)
-            ZxToastUtil.centerToast("没有可选的班次");
+        noData.setVisibility(this.linesClassEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override

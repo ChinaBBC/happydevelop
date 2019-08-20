@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import zx.com.skytool.ZxSharePreferenceUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  * @作者 zx
@@ -50,7 +51,7 @@ public class ManagerCenterFragment extends BaseFragment<CompanyCenterImp> implem
     ConstraintLayout driverWords;
     @BindView(R.id.company_center_setting)
     ConstraintLayout setting;
-    private ArrayList<CompanyEntry> companyEntries;
+    private ArrayList<CompanyEntry> companyEntries = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -88,14 +89,24 @@ public class ManagerCenterFragment extends BaseFragment<CompanyCenterImp> implem
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.company_center_fee:
-                ARouter.getInstance().build(PathConstant.FEE_STATISTICS)
-                        .withParcelableArrayList("companys",companyEntries)
-                        .navigation();
+                if (companyEntries.size()>0){
+                    ARouter.getInstance().build(PathConstant.FEE_STATISTICS)
+                            .withParcelableArrayList("companys",companyEntries)
+                            .navigation();
+                }else {
+                    ZxToastUtil.centerToast("未查询到公司信息");
+                }
+
                 break;
             case R.id.company_center_table:
-                ARouter.getInstance().build(PathConstant.RUN_TABLE)
-                        .withParcelableArrayList("companys",companyEntries)
-                        .navigation();
+                if (companyEntries.size()>0){
+                    ARouter.getInstance().build(PathConstant.RUN_TABLE)
+                            .withParcelableArrayList("companys",companyEntries)
+                            .navigation();
+                }else {
+                    ZxToastUtil.centerToast("未查询到公司信息");
+                }
+
                 break;
             case R.id.company_center_driver_words:
                 ARouter.getInstance().build(PathConstant.DRIVER_EVALUATE).navigation();
@@ -108,8 +119,11 @@ public class ManagerCenterFragment extends BaseFragment<CompanyCenterImp> implem
 
     @Override
     public void companySuccess(List<CompanyEntry> companyEntries) {
-        if (companyEntries.size()>0){
-            this.companyEntries = (ArrayList<CompanyEntry>) companyEntries;
+        if (companyEntries != null){
+            if (companyEntries.size()>0){
+                this.companyEntries = (ArrayList<CompanyEntry>) companyEntries;
+            }
         }
+
     }
 }

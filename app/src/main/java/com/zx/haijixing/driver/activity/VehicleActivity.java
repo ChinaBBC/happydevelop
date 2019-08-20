@@ -39,6 +39,8 @@ public class VehicleActivity extends BaseActivity<VehicleImp> implements Vehicle
     ImageView add;
     @BindView(R.id.common_title_title)
     TextView title;
+    @BindView(R.id.vehicle_noData)
+    TextView noData;
     @BindView(R.id.vehicle_data)
     RecyclerView vehicleData;
 
@@ -87,5 +89,6 @@ public class VehicleActivity extends BaseActivity<VehicleImp> implements Vehicle
     public void vehicleSuccess(List<TruckEntry> truckEntries) {
         vehicleAdapter.setTruckEntries(truckEntries);
         vehicleAdapter.notifyDataSetChanged();
+        noData.setVisibility(truckEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 }

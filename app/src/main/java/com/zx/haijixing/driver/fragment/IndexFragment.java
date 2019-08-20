@@ -85,6 +85,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
     private String loginType;
     private  Map<String,String> params = new HashMap<>();
     private  Map<String,String> paramsBanner = new HashMap<>();
+    private Map<String,String> notifyMap = new HashMap<>();
 
     @Override
     protected int getLayoutId() {
@@ -136,7 +137,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 .load(R.layout.skeleton_index_data)
                 .show();
 
-        Map<String,String> notifyMap = new HashMap<>();
+
         notifyMap.put("token",token);
         notifyMap.put(OtherConstants.PAGE,1+"");
         notifyMap.put(OtherConstants.SIZE,3+"");
@@ -287,6 +288,9 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
         paramsBanner.put("sign","");
         paramsBanner.put("sign",HaiTool.sign(paramsBanner));
         mPresenter.newsDataBanner(paramsBanner);
+        notifyMap.put("timestamp",System.currentTimeMillis()+"");
+        notifyMap.put("sign",HaiTool.sign(notifyMap));
+        mPresenter.notifyMethod(notifyMap);
     }
 
     @Override

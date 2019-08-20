@@ -66,4 +66,10 @@ public interface LoginApiService {
     @PUT("api/driver/updateDriverHeadImageByUserId")
     Observable<String> changeUserHead(@FieldMap Map<String,String> params);
 
+    //用户协议
+    @GET("open/app/service/user/protocol")
+    Observable<String> protocolApi();
+    //隐私政策
+    @GET("open/app/service/privacy/policy")
+    Observable<String> privateApi();
 }

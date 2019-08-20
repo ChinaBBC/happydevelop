@@ -124,9 +124,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
                 }
                 break;
             case R.id.base_info_protocol:
-                hasRead = true;
-                isRead = true;
-                agree.setImageResource(R.mipmap.register_agree);
+                ARouter.getInstance().build(PathConstant.PROTOCOL).withInt("type",1).navigation(this,OtherConstants.PROTOCOL_REQUEST);
                 break;
             case R.id.base_info_send:
                 String trim = phone.getText().toString().trim();
@@ -138,7 +136,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
                 }
                 break;
             case R.id.base_info_next:
-                //ARouter.getInstance().build(PathConstant.CAR_INFO).withString("driverId","dsdsd").navigation();
+
                 checkInput();
                 break;
         }
@@ -182,13 +180,20 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoActivityImp> implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == OtherConstants.UPLOAD_HEAD){
-            List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
-            String path = uris.get(0).getCompressPath();
-            RequestOptions options = new RequestOptions().circleCrop();
-            Glide.with(this).load(path).apply(options).into(head);
-            upHead.setText("头像上传中...");
-            mPresenter.uploadImgMethod(path,1);
+        if (resultCode == RESULT_OK){
+            if (requestCode == OtherConstants.UPLOAD_HEAD){
+                List<LocalMedia> uris = PictureSelector.obtainMultipleResult(data);
+                String path = uris.get(0).getCompressPath();
+                RequestOptions options = new RequestOptions().circleCrop();
+                Glide.with(this).load(path).apply(options).into(head);
+                upHead.setText("头像上传中...");
+                mPresenter.uploadImgMethod(path,1);
+            }else {
+                hasRead = true;
+                isRead = true;
+                agree.setImageResource(R.mipmap.register_agree);
+            }
+
         }
     }
 

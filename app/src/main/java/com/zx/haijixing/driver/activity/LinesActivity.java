@@ -2,6 +2,7 @@ package com.zx.haijixing.driver.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ public class LinesActivity extends BaseActivity<LineImp> implements LinesContrac
     ImageView back;
     @BindView(R.id.common_title_title)
     TextView title;
+    @BindView(R.id.lines_noData)
+    TextView noData;
 
     private List<DriverClassEntry> driverClassEntries = new ArrayList<>();
     private LinesAdapter linesAdapter;
@@ -80,5 +83,6 @@ public class LinesActivity extends BaseActivity<LineImp> implements LinesContrac
     public void linesSuccess(List<DriverClassEntry> driverClassEntries) {
         this.driverClassEntries.addAll(driverClassEntries);
         linesAdapter.notifyDataSetChanged();
+        noData.setVisibility(this.driverClassEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 }

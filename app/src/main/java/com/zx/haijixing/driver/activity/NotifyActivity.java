@@ -3,6 +3,7 @@ package com.zx.haijixing.driver.activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
     ImageView back;
     @BindView(R.id.common_title_title)
     TextView title;
+    @BindView(R.id.notify_noData)
+    TextView noData;
     @BindView(R.id.notify_data)
     RecyclerView notifyData;
     @BindView(R.id.notify_refresh)
@@ -107,9 +110,8 @@ public class NotifyActivity extends BaseActivity<NotifyImp> implements NotifyCon
             refresh.finishRefresh(true);
         }
         this.notifyEntries.addAll(notifyEntries);
-        if (this.notifyEntries.size() == 0)
-            ZxToastUtil.centerToast("暂无新消息");
         notifyAdapter.notifyDataSetChanged();
+        noData.setVisibility(this.notifyEntries.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override

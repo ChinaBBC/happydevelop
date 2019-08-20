@@ -15,6 +15,7 @@ public final class PathConstant {
     public final static String CAR_INFO = "/login/activity/CarInfoActivity";//车辆信息
     public final static String TRUCK = "/login/activity/TruckActivity";//车辆详细信息
     public final static String CHECKING = "/login/activity/CheckingActivity";//后台审核
+    public final static String PROTOCOL = "/login/activity/ProtocolActivity";//后台审核
 
     public final static String DRIVER_MAIN = "/driver/activity/DriverActivity";//司机端
     public final static String DRIVER_NOTIFY = "/driver/activity/NotifyActivity";//司机端消息中心

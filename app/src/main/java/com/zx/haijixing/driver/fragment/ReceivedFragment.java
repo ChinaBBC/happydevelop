@@ -28,6 +28,8 @@ import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +62,9 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     ViewStub viewStub;
     @BindView(R.id.fragment_receive_refresh)
     SmartRefreshLayout refresh;
+
+    @BindView(R.id.fragment_receive_noData)
+    TextView noData;
 
     private ReceiveAdapter receiveAdapter;
 
@@ -157,8 +162,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         orderEntryList.addAll(list.getRows());
         receiveAdapter.setRefresh(false);
         receiveAdapter.notifyDataSetChanged();
-        if (orderEntryList.size() == 0)
-            ZxToastUtil.centerToast("没有未接的订单");
+        noData.setVisibility(orderEntryList.size() == 0?View.VISIBLE:View.GONE);
     }
 
     @Override
@@ -289,7 +293,6 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         doRefresh();
     }
 
@@ -358,6 +361,8 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
 
 
     private void someData(){
+
+        EventBus.getDefault().register(this);
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());
         token = (String) instance.getParam("token", "token");
@@ -379,7 +384,8 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         params.put("sign",HaiTool.sign(params));
         orderEntryList.clear();
         mPresenter.orderMethod(params);
-        updateTime();
+        //
+        // dateTime();
     }
 
     @Override
@@ -393,16 +399,31 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     public void onDestroy() {
         super.onDestroy();
         receiveViewHolder = null;
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTime();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        ZxLogUtil.logError("in the receive hidden change");
         if (!hidden)
             doRefresh();
-
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg() == OtherConstants.ALLOT_REQUEST){
+            doRefresh();
+        }
     }
     private void doRefresh(){
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
         if (flag == 0 && receiveViewHolder != null)
             receiveViewHolder.total.setText("共：0单");
         page = 1;

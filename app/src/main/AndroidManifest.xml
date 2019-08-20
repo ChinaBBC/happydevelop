@@ -63,7 +63,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
-        <activity android:name=".driver.activity.NewsActivity"  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".driver.activity.NewsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".share.pub.activity.LaunchActivity"
             android:launchMode="singleTop"
@@ -77,68 +79,97 @@
         </activity>
         <activity
             android:name=".login.activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"
-            />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".driver.activity.DriverActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".logistics.LogisticsActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".manager.ManagerActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.activity.ForgetActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"
-            />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".login.activity.BaseInfoActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".login.activity.CarInfoActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".login.activity.CheckingActivity"  android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".login.activity.CarInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.activity.CheckingActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".driver.activity.NotifyActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".driver.activity.ServicesActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.SearchActivity"  android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.ServicesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.SearchActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".driver.activity.OrderDetailActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".driver.activity.OrderActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.PrintActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.SetActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.VersionActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.EvaluateActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.LinesActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.StatisticsActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.ChangeActivity"  android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".driver.activity.OrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.PrintActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.SetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.VersionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.EvaluateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.LinesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.StatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.ChangeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.activity.TruckActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".driver.activity.PhoneActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.PasswordActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.VehicleActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.TruckChangeActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.PapersActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".driver.activity.PapersChangeActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".share.pub.activity.ApkActivity"  android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".driver.activity.PhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.PasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.VehicleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.TruckChangeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.PapersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".driver.activity.PapersChangeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".share.pub.activity.ApkActivity"
+            android:screenOrientation="portrait" />
         <!-- 下载apk -->
         <provider
             android:name=".util.UpdateApkFileProvider"
@@ -193,19 +224,33 @@
         <!-- 高德地图定位服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".logistics.activity.ClaManageActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".logistics.activity.FeeActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".logistics.activity.RunTableActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".logistics.activity.DriverWordsActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".logistics.activity.FeeStatisticsActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".logistics.activity.AllotActivity"  android:screenOrientation="portrait"/>
-        <activity android:name=".logistics.activity.CheckLogisticsActivity"  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".logistics.activity.ClaManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".logistics.activity.FeeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".logistics.activity.RunTableActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".logistics.activity.DriverWordsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".logistics.activity.FeeStatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".logistics.activity.AllotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".logistics.activity.CheckLogisticsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".logistics.activity.AddClassActivity"
-            android:theme="@style/Hai_AlertDialog"
             android:label=" "
             android:screenOrientation="portrait"
-            ></activity>
+            android:theme="@style/Hai_AlertDialog" />
+        <activity android:name=".login.activity.ProtocolActivity"></activity>
     </application>
 
 </manifest>
