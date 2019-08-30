@@ -13,6 +13,7 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.zx.haijixing.R;
 import com.zx.haijixing.logistics.adapter.DriverTruckAdapter;
 import com.zx.haijixing.logistics.contract.AddClassContract;
+import com.zx.haijixing.logistics.entry.ClassManageEntry;
 import com.zx.haijixing.logistics.entry.DriverEntry;
 import com.zx.haijixing.logistics.entry.TruckInfoEntry;
 import com.zx.haijixing.logistics.presenter.AddClassImp;
@@ -44,6 +45,8 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
 
     @BindView(R.id.add_editor_startT)
     TextView startT;
+    @BindView(R.id.add_editor_title)
+    TextView title;
     @BindView(R.id.add_editor_startArea)
     LinearLayout startArea;
     @BindView(R.id.add_editor_endT)
@@ -69,6 +72,10 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
 
     @Autowired(name = "linesId")
     public String linesId;
+    @Autowired(name = "from")
+    public int from;
+    @Autowired(name = "editor")
+    public ClassManageEntry classManageEntry;
 
     private TimePickerView startPickerView;
     private TimePickerView endPickerView;
@@ -97,13 +104,26 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
         startPickerView = HaiTool.initTimeHourMin(this, startT);
         endPickerView = HaiTool.initTimeHourMin(this, endT);
 
+        if (from == OtherConstants.SKIP_EDITOR){
+            startT.setText(classManageEntry.getStartTime());
+            endT.setText(classManageEntry.getEndTime());
+            namePhone.setText(classManageEntry.getDriverName()+classManageEntry.getDriverPhone());
+            truckNum.setText(classManageEntry.getIdcard());
+            remark.setText(classManageEntry.getRemark());
+            title.setText("编辑");
+            params.put("bakkiId",classManageEntry.getBakkiId());
+        }
 
         params.put("token",token);
         params.put("lineId",linesId);
-        params.put("timestamp",System.currentTimeMillis()+"");
-        params.put("sign","");
-        params.put("sign",HaiTool.sign(params));
-        mPresenter.driverPhoneMethod(params);
+
+        Map<String,String> dParam = new HashMap<>();
+        dParam.put("token",token);
+        dParam.put("lineId",linesId);
+        dParam.put("timestamp",System.currentTimeMillis()+"");
+        dParam.put("sign","");
+        dParam.put("sign",HaiTool.sign(dParam));
+        mPresenter.driverPhoneMethod(dParam);
     }
 
     @Override
@@ -177,18 +197,29 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
             params.put("startTime", trim);
             params.put("endTime", trim1);
             params.put("remark",remark.getText().toString().trim());
-            showAddSure = HaiDialogUtil.showUpdate(getSupportFragmentManager(), "是否确认新增班次？", this::onViewClicked);
+            sure.setClickable(false);
+            if (from == OtherConstants.SKIP_ADD){
+                showAddSure = HaiDialogUtil.showUpdate(getSupportFragmentManager(), "是否确认新增班次？", this::onViewClicked);
+            }else {
+                params.put("timestamp",System.currentTimeMillis()+"");
+                params.put("sign","");
+                params.put("sign",HaiTool.sign(params));
+                mPresenter.editorClassMethod(params);
+            }
+
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ZxLogUtil.logError("<<<<add class onDestroy>>");
-    }
 
     @Override
     public void addClassSuccess(String msg) {
+        ZxToastUtil.centerToast(msg);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void editorClassSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
         setResult(RESULT_OK);
         finish();
@@ -199,14 +230,16 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
         if (driverEntries.size()>0){
             this.driverEntries = driverEntries;
             DriverEntry driverEntry = driverEntries.get(driverIndex);
-            namePhone.setText(driverEntry.getDriverName());
             Map<String,String> params = new HashMap<>();
             params.put("token",token);
             params.put("driverId",driverEntry.getDriverId());
             params.put("timestamp",System.currentTimeMillis()+"");
             params.put("sign",HaiTool.sign(params));
             mPresenter.truckNumMethod(params);
-            this.params.put("driverId", driverEntry.getDriverId());
+            if (from == OtherConstants.SKIP_ADD){
+                namePhone.setText(driverEntry.getDriverName());
+                this.params.put("driverId", driverEntry.getDriverId());
+            }
             driverAdapter = new DriverTruckAdapter(driverEntries, null, OtherConstants.SELECT_DRIVER);
         }else {
             ZxToastUtil.centerToast("此线路下暂无司机");
@@ -220,8 +253,10 @@ public class AddClassActivity extends BaseActivity<AddClassImp> implements AddCl
         if (truckInfoEntries.size()>0){
             this.truckInfoEntries = truckInfoEntries;
             TruckInfoEntry truckInfoEntry = truckInfoEntries.get(truckIndex);
-            params.put("carId", truckInfoEntry.getCarId());
-            truckNum.setText(truckInfoEntry.getIdcard());
+            if (from == OtherConstants.SKIP_ADD){
+                params.put("carId", truckInfoEntry.getCarId());
+                truckNum.setText(truckInfoEntry.getIdcard());
+            }
             truckAdapter = new DriverTruckAdapter(null, truckInfoEntries, OtherConstants.SELECT_TRUCK);
         }else {
             ZxToastUtil.centerToast("此司机下暂无车辆");

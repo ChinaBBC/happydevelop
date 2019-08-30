@@ -51,6 +51,33 @@ public class AddClassImp extends BasePresenter<AddClassContract.AddClassView> im
     }
 
     @Override
+    public void editorClassMethod(Map<String, String> params) {
+        RxHttpUtils.createApi(LogisticsApiService.class)
+                .editorClassApi(params)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.editorClassSuccess(jsonObject.getString("msg"));
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void driverPhoneMethod(Map<String, String> params) {
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .linesDriverApi(params)

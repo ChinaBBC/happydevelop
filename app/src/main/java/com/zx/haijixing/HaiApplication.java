@@ -34,7 +34,7 @@ public class HaiApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(BuildConfig.DEBUG);
         JPushInterface.init(this);
         haiApp = getApplicationContext();
         SkyTool.init(this);

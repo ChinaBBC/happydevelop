@@ -1,5 +1,6 @@
 package com.zx.haijixing.logistics.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
 import com.zx.haijixing.logistics.entry.ClassManageEntry;
 import com.zx.haijixing.share.OtherConstants;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
@@ -29,13 +32,20 @@ import zx.com.skytool.ZxStringUtil;
 public class ClaManageAdapter extends RecyclerView.Adapter<ClaManageAdapter.ClaManageViewHolder> {
     private List<ClassManageEntry> classManageEntries;
     private ClaManageResultListener claManageResultListener;
+    private String linesId;
+    private Activity activity;
 
-    public ClaManageAdapter(List<ClassManageEntry> classManageEntries) {
+    public ClaManageAdapter(List<ClassManageEntry> classManageEntries,String linesId) {
         this.classManageEntries = classManageEntries;
+        this.linesId = linesId;
     }
 
     public void setClaManageResultListener(ClaManageResultListener claManageResultListener) {
         this.claManageResultListener = claManageResultListener;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     @NonNull
@@ -52,6 +62,12 @@ public class ClaManageAdapter extends RecyclerView.Adapter<ClaManageAdapter.ClaM
         if (classManageEntries.size()>0){
             ClassManageEntry classManageEntry = classManageEntries.get(i);
             claManageViewHolder.delete.setOnClickListener(v -> claManageResultListener.claManageResult(classManageEntry.getBakkiId(),OtherConstants.CLASS_DELETE));
+            claManageViewHolder.editor.setOnClickListener(v ->  ARouter.getInstance().build(PathConstant.ADD_CLASS)
+                    .withString("linesId",linesId)
+                    .withSerializable("editor",classManageEntry)
+                    .withInt("from",OtherConstants.SKIP_EDITOR)
+                    .navigation(activity,OtherConstants.REQUEST_ADD_CLASS)
+                    );
 
             claManageViewHolder.sendWay.setText(classManageEntry.getProductName());
             claManageViewHolder.startT.setText(classManageEntry.getStartTime());
@@ -74,11 +90,12 @@ public class ClaManageAdapter extends RecyclerView.Adapter<ClaManageAdapter.ClaM
 
     class ClaManageViewHolder extends RecyclerView.ViewHolder{
 
-        LinearLayout delete;
+        LinearLayout delete,editor;
         TextView sendWay,startT,endT,totalT,nameNum,truckNum,remark;
         public ClaManageViewHolder(@NonNull View itemView) {
             super(itemView);
             delete = itemView.findViewById(R.id.cla_manage_delete);
+            editor = itemView.findViewById(R.id.cla_manage_editor);
 
             sendWay = itemView.findViewById(R.id.cla_manage_sendWay);
             startT = itemView.findViewById(R.id.cla_manage_startT);

@@ -199,10 +199,19 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 finish();
                 break;
             case R.id.order_detail_sure_change:
-                params.put("timestamp",System.currentTimeMillis()+"");
-                params.put("sign","");
-                params.put("sign",HaiTool.sign(params));
-                mPresenter.changeOrderMethod(params);
+                String trim = cViewHolder.inputFree.getText().toString().trim();
+                if (!ZxStringUtil.isEmpty(trim)){
+                    double d = Double.parseDouble(trim);
+                    int m = new Double(d*100).intValue();
+                    params.put("price",m+"");
+                    params.put("timestamp",System.currentTimeMillis()+"");
+                    params.put("sign","");
+                    params.put("sign",HaiTool.sign(params));
+                    mPresenter.changeOrderMethod(params);
+                }else {
+                    ZxToastUtil.centerToast("请输入价格！");
+                }
+
                 break;
             case R.id.order_detail_send_phone:
                 call(sendPhone.getText().toString().trim());
@@ -394,21 +403,26 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 totalMoney = (totalMoney-startMoney)*dy/10+startMoney;
             }
         }
-        cViewHolder.inputFree.setText(totalMoney/100+"");
+
         cViewHolder.cWeight.setText(totalWeight+"KG");
 
-        String trim = cViewHolder.inputFree.getText().toString().trim();
+        //String trim = cViewHolder.inputFree.getText().toString().trim();
 
-        double fMoney =Double.parseDouble(ZxStringUtil.isEmpty(trim) ? "0" : trim);
-        int intTotalMoney = new Double(fMoney*100).intValue();
+        //double fMoney =Double.parseDouble(ZxStringUtil.isEmpty(totalMoney) ? "0" : trim);
+        int intTotalMoney = new Double(totalMoney).intValue();
         int intTotalNumber = new Double(totalNumber).intValue();
         ZxLogUtil.logError("<<<<totalWeight"+totalWeight+"<<<<intTotalMoney"+intTotalMoney+"<<<<intTotalNumber"+intTotalNumber);
         int coupon = Integer.parseInt(ZxStringUtil.isEmpty(mathMap.get("coupon"))?"0":mathMap.get("coupon"));
         int integral = Integer.parseInt(ZxStringUtil.isEmpty(mathMap.get("integral"))?"0":mathMap.get("integral"));
 
+
+        int finalMoney = intTotalMoney-coupon-integral;
+
+        cViewHolder.inputFree.setText(finalMoney/100+"");
+
         params.put("weight",totalWeight+"");
         params.put("totalNum",intTotalNumber+"");
-        params.put("price",(intTotalMoney-coupon-integral)+"");
+        //params.put("price",(intTotalMoney-coupon-integral)+"");
         params.put("goodsArray",goodsArray);
     }
 

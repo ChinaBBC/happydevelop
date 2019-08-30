@@ -76,6 +76,11 @@ public interface LogisticsApiService {
     @POST("api/logistics/line/save/bkki")
     Observable<String> addClassApi(@FieldMap Map<String, String> params);
 
+    //修改班次
+    @FormUrlEncoded
+    @POST("/api/logistics/line/upd/bakki")
+    Observable<String> editorClassApi(@FieldMap Map<String, String> params);
+
     //删除班次
     @FormUrlEncoded
     @POST("api/logistics/line/del/bkki")

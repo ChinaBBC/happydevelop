@@ -31,6 +31,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxToastUtil;
 
@@ -70,7 +71,8 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
         add.setVisibility(View.VISIBLE);
 
         claData.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        claManageAdapter = new ClaManageAdapter(classManageEntries);
+        claManageAdapter = new ClaManageAdapter(classManageEntries,linesId);
+        claManageAdapter.setActivity(this);
         claManageAdapter.setClaManageResultListener(this::claManageResult);
         claData.setAdapter(claManageAdapter);
 
@@ -99,7 +101,11 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
                 finish();
                 break;
             case R.id.common_title_add:
-                ARouter.getInstance().build(PathConstant.ADD_CLASS).withString("linesId",linesId).navigation(this,OtherConstants.REQUEST_ADD_CLASS);
+                ARouter.getInstance().build(PathConstant.ADD_CLASS)
+                        .withString("linesId",linesId)
+                        .withInt("from",OtherConstants.SKIP_ADD)
+                        .withSerializable("editor",null)
+                        .navigation(this,OtherConstants.REQUEST_ADD_CLASS);
                 break;
             case R.id.dialog_update_yes:
                 showDelete.dismissAllowingStateLoss();
@@ -145,6 +151,7 @@ public class ClaManageActivity extends BaseActivity<ClassManageImp> implements C
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        /*&& requestCode == OtherConstants.REQUEST_ADD_CLASS*/
         if (resultCode == RESULT_OK && requestCode == OtherConstants.REQUEST_ADD_CLASS){
             classManageEntries.clear();
             claManageAdapter.notifyDataSetChanged();

@@ -22,8 +22,8 @@ android {
         applicationId "com.zx.haijixing"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 14
-        versionName "1.1.4"
+        versionCode 5
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.shape_shadow.runner.AndroidJUnitRunner"
         multiDexEnabled true
         javaCompileOptions {
@@ -107,9 +107,6 @@ dependencies {
 
     //事件传递
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
-
-    //图片选择
-    implementation 'com.aliyun.dpa:oss-android-sdk:+'
 
     //oss
     implementation 'com.wang.avi:library:2.1.3'

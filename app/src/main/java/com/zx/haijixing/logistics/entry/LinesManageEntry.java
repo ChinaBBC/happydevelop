@@ -22,6 +22,9 @@ public class LinesManageEntry {
     private String startAddress;
     /**  终点地址 */
     private String endAddress;
+    /**  备注  */
+    private String remark;
+
 
     @Override
     public String toString() {
@@ -34,7 +37,16 @@ public class LinesManageEntry {
                 ", toPay=" + toPay +
                 ", startAddress='" + startAddress + '\'' +
                 ", endAddress='" + endAddress + '\'' +
+                ", remark='" + remark + '\'' +
                 '}';
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getLineId() {

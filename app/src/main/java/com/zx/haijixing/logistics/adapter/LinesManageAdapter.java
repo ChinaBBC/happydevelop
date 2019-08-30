@@ -56,6 +56,7 @@ public class LinesManageAdapter extends RecyclerView.Adapter<LinesManageAdapter.
             linesManageViewHolder.end.setText(linesManageEntry.getEndName());
             linesManageViewHolder.endLo.setText(linesManageEntry.getEndAddress());
             linesManageViewHolder.sendType.setText(linesManageEntry.getProductName());
+            linesManageViewHolder.remark.setText(linesManageEntry.getRemark());
 
             int toPay = linesManageEntry.getToPay();
             int deposit = linesManageEntry.getDeposit();
@@ -76,7 +77,7 @@ public class LinesManageAdapter extends RecyclerView.Adapter<LinesManageAdapter.
 
     class LinesManageViewHolder extends RecyclerView.ViewHolder{
         LinearLayout fee,manage;
-        TextView sendType,start,end,payWay,startLo,endLo;
+        TextView sendType,start,end,payWay,startLo,endLo,remark;
         public LinesManageViewHolder(@NonNull View itemView) {
             super(itemView);
             fee = itemView.findViewById(R.id.lines_manage_fee);
@@ -88,6 +89,7 @@ public class LinesManageAdapter extends RecyclerView.Adapter<LinesManageAdapter.
             payWay = itemView.findViewById(R.id.lines_manage_pay_way);
             startLo = itemView.findViewById(R.id.lines_manage_locate1);
             endLo = itemView.findViewById(R.id.lines_manage_locate2);
+            remark = itemView.findViewById(R.id.lines_manage_remark);
         }
     }
 }

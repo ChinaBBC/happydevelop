@@ -33,6 +33,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
+import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -133,7 +135,14 @@ public class WayBillFragment extends BaseFragment<BotImp> implements BotContract
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_search:
-                ARouter.getInstance().build(PathConstant.PRINT).navigation();
+                String trim = orderInput.getText().toString().trim();
+                if (ZxStringUtil.isEmpty(trim)){
+                    ZxToastUtil.centerToast("请输入查询内容");
+                }else {
+                    ARouter.getInstance().build(PathConstant.DRIVER_SEARCH)
+                            .withString("content",trim)
+                            .navigation();
+                }
                 break;
             case R.id.order_check_all:
                 ARouter.getInstance().build(PathConstant.DRIVER_ORDER).navigation();

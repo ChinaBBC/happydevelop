@@ -1,11 +1,14 @@
 package com.zx.haijixing.logistics.entry;
+
+import java.io.Serializable;
+
 /**
  *
  *@作者 zx
  *@创建日期 2019/8/1 15:48
  *@描述 班次维护
  */
-public class ClassManageEntry {
+public class ClassManageEntry implements Serializable {
     /**  班次主键  */
     private String bakkiId;
     /**  开始时间  */

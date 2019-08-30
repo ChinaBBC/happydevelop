@@ -130,7 +130,7 @@
             android:layout_marginLeft="@dimen/dp_2"
             />
     </LinearLayout>
-    <!--<LinearLayout
+    <LinearLayout
         android:id="@+id/cla_manage_editor"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_30"
@@ -156,7 +156,7 @@
             android:layout_marginLeft="@dimen/dp_2"
             />
     </LinearLayout>
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/cla_manage_add"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_30"

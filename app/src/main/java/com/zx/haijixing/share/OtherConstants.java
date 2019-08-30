@@ -68,6 +68,8 @@ public final class OtherConstants {
     public final static int SELECT_TRUCK = 1;//选择车辆
 
     public final static int CLASS_DELETE = 2;//删除班次
+    public final static int SKIP_ADD = 1;//添加班次
+    public final static int SKIP_EDITOR = 2;//修改班次
 
     public final static int REQUEST_ADD_CLASS = 1022;//新增的onActivityResult回调
 
