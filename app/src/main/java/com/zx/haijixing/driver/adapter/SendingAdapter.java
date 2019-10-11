@@ -18,6 +18,9 @@ import com.zx.haijixing.share.PathConstant;
 
 import java.util.List;
 
+import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
+
 /**
  *
  *@作者 zx
@@ -56,8 +59,6 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
         if (list.size()>0){
             OrderTotalEntry.OrderEntry orderEntry = list.get(i);
 
-            sendingViewHolder.receiveImg.setImageResource(R.mipmap.receive_man);
-            sendingViewHolder.address.setText(orderEntry.getIncomeAddress());
             sendingViewHolder.status.setText("配送中");
             sendingViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
             sendingViewHolder.orderNumber.setText("运单号："+orderEntry.getWaybillNo());
@@ -67,12 +68,26 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
             sendingViewHolder.phone.setText(orderEntry.getIncomePhone());
             sendingViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
             sendingViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
-            sendingViewHolder.address.setText(orderEntry.getSenderAddress());
+            sendingViewHolder.address.setText(orderEntry.getIncomeAddress());
             sendingViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())
                     .withString("detailType",orderEntry.getStatus())
+                    .withString("priceFlag",orderEntry.getMakepriceFlag())
+                    .withString("linesId",orderEntry.getLineId())
                     .navigation());
-
+            int dadanFlag = Integer.parseInt(ZxStringUtil.isEmpty(orderEntry.getDadanFlag())?"0":orderEntry.getDadanFlag());
+            sendingViewHolder.print.setText(dadanFlag==0?"打单":"补打单");
+            sendingViewHolder.print.setOnClickListener(v ->{
+                        if ("1".equals(orderEntry.getType()) && "0".equals(orderEntry.getMakepriceFlag())){
+                            ZxToastUtil.centerToast("请联系管理员确认收款");
+                        }else {
+                            ARouter.getInstance().build(PathConstant.PRINT)
+                                    .withString("waybillId",orderEntry.getWaybillId())
+                                    .withString("printStatus",orderEntry.getDadanFlag())
+                                    .navigation();
+                        }
+                    }
+            );
             if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
                 sendingViewHolder.button1.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,3));
                 sendingViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
@@ -107,7 +122,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
 
     class SendingViewHolder extends RecyclerView.ViewHolder{
 
-        Button button1,button2;
+        Button button1,button2,print;
         TextView createTime,orderNumber,sendWay,receiveShop,line,phone,count,address,pay,status;
         ImageView select,receiveImg;
         View item;
@@ -115,6 +130,8 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
             super(itemView);
             button1 = itemView.findViewById(R.id.sending_data_sure_pay);
             button2 = itemView.findViewById(R.id.sending_data_send_complete);
+            print = itemView.findViewById(R.id.sending_data_print_order);
+
             createTime = itemView.findViewById(R.id.send_data_time);
             orderNumber = itemView.findViewById(R.id.send_data_order);
             sendWay = itemView.findViewById(R.id.send_data_way);

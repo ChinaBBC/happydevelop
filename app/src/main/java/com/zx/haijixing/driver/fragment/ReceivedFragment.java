@@ -85,6 +85,8 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
     private String loginType;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private String sureWayBill;
+    private CommonDialogFragment showSureMoney;
 
 
     @Override
@@ -128,6 +130,19 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
                 isTotal = false;
                 flag = temp;
                 showReceive.dismissAllowingStateLoss();
+                break;
+            case R.id.dialog_update_yes:
+                showSureMoney.dismissAllowingStateLoss();
+                Map<String,String> moneyParams = new HashMap<>();
+                moneyParams.put("token",token);
+                moneyParams.put("waybillId",sureWayBill);
+                moneyParams.put("timestamp",System.currentTimeMillis()+"");
+                moneyParams.put("sign","");
+                moneyParams.put("sign",HaiTool.sign(moneyParams));
+                mPresenter.sureMoneyMethod(moneyParams);
+                break;
+            case R.id.dialog_update_no:
+                showSureMoney.dismissAllowingStateLoss();
                 break;
         }
     }
@@ -181,6 +196,12 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         flag = 0;
         receiveViewHolder.total.setText("共：0单");
         EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
+    }
+
+    @Override
+    public void sureMoneySuccess(String msg) {
+        ZxToastUtil.centerToast(msg);
+        doRefresh();
     }
 
     //下单
@@ -272,11 +293,14 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
             }
             canReceive = (all>0);
 
-        }else {
+        }else if (tag == 0){
             selectId = orderEntry.getWaybillId();
             temp = flag;
             flag = 0;
             showReceive = HaiDialogUtil.showReceive(getFragmentManager(), this::onViewClicked, "共:1单");
+        }else {
+            sureWayBill = orderEntry.getWaybillId();
+            showSureMoney = HaiDialogUtil.showUpdate(getFragmentManager(), "是否确认收款？", this::onViewClicked);
         }
     }
 

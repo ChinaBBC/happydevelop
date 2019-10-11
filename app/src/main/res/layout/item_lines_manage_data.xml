@@ -26,13 +26,16 @@
         android:id="@+id/lines_manage_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="垂搜和第三"
+        android:text="垂搜和"
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toRightOf="@id/lines_manage_sendType"
+        app:layout_constraintRight_toLeftOf="@+id/lines_manage_img1"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="@dimen/dp_6"
-        android:maxLength="5"
+        android:lines="1"
+        android:ellipsize="end"
+        android:maxLength="8"
         />
     <ImageView
         android:id="@+id/lines_manage_img1"
@@ -40,21 +43,24 @@
         android:layout_height="@dimen/dp_17"
         android:src="@mipmap/arrows_short"
         app:layout_constraintLeft_toRightOf="@id/lines_manage_start"
+        app:layout_constraintRight_toLeftOf="@+id/lines_manage_end"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_3"
         />
     <TextView
         android:id="@+id/lines_manage_end"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="是多少"
+        android:text="是多少还好客户"
         android:textSize="@dimen/sp_16"
         android:textColor="@color/color_3333"
         app:layout_constraintLeft_toRightOf="@id/lines_manage_img1"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/lines_manage_pay_way"
         android:layout_marginLeft="@dimen/dp_6"
-        android:maxLength="5"
+        android:lines="1"
+        android:ellipsize="end"
         />
     <TextView
         android:id="@+id/lines_manage_pay_way"
@@ -75,6 +81,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lines_manage_start"
         android:layout_marginTop="@dimen/dp_18"
+        android:visibility="gone"
         />
     <View
         android:id="@+id/lines_manage_point2"
@@ -84,6 +91,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lines_manage_locate1"
         android:layout_marginTop="@dimen/dp_19"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/lines_manage_word1"
@@ -96,6 +104,7 @@
         app:layout_constraintLeft_toRightOf="@id/lines_manage_point1"
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginLeft="@dimen/dp_6"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/lines_manage_word2"
@@ -108,6 +117,7 @@
         app:layout_constraintLeft_toRightOf="@id/lines_manage_point2"
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginLeft="@dimen/dp_6"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/lines_manage_locate1"
@@ -121,6 +131,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginLeft="@dimen/dp_6"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/lines_manage_locate2"
@@ -134,6 +145,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginLeft="@dimen/dp_6"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/lines_manage_remark"

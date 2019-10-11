@@ -43,24 +43,17 @@ public class CcAdapter extends RecyclerView.Adapter<CcAdapter.CcViewHolder> {
     public void onBindViewHolder(@NonNull CcViewHolder ccViewHolder, int i) {
         if (orderEntries.size()>0){
             OrderTotalEntry.OrderEntry orderEntry = orderEntries.get(i);
-
-            ccViewHolder.address.setText(orderEntry.getSenderAddress());
             String status = orderEntry.getStatus();
             if ((OtherConstants.DETAIL_COMPLETE+"").equals(status)){
-                ccViewHolder.sendImg.setImageResource(R.mipmap.receive_man);
                 ccViewHolder.status.setText("已完成");
                 ccViewHolder.status.setTextColor(Color.parseColor("#30703f"));
-                ccViewHolder.receiveShop.setText(orderEntry.getIncomeName());
-                ccViewHolder.phone.setText(orderEntry.getIncomePhone());
-                ccViewHolder.address.setText(orderEntry.getIncomeAddress());
             }else {
                 ccViewHolder.status.setText("已取消");
-                ccViewHolder.sendImg.setImageResource(R.mipmap.send_man);
                 ccViewHolder.status.setTextColor(Color.parseColor("#666666"));
-                ccViewHolder.receiveShop.setText(orderEntry.getSenderName());
-                ccViewHolder.phone.setText(orderEntry.getSenderPhone());
-                ccViewHolder.address.setText(orderEntry.getSenderAddress());
             }
+            ccViewHolder.receiveShop.setText(orderEntry.getIncomeName());
+            ccViewHolder.phone.setText(orderEntry.getIncomePhone());
+            ccViewHolder.address.setText(orderEntry.getIncomeAddress());
             ccViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
             ccViewHolder.orderNumber.setText("运单号："+orderEntry.getWaybillNo());
             ccViewHolder.sendWay.setText(orderEntry.getProductName());

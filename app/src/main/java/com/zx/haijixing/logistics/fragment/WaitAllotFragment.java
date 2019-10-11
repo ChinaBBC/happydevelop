@@ -1,6 +1,5 @@
 package com.zx.haijixing.logistics.fragment;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +15,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.contract.IResultPositionListener;
 import com.zx.haijixing.driver.entry.OrderTotalEntry;
-import com.zx.haijixing.logistics.activity.AllotActivity;
 import com.zx.haijixing.logistics.adapter.AllotAdapter;
 import com.zx.haijixing.logistics.contract.WaitAllotContract;
 import com.zx.haijixing.logistics.presenter.WaitAllotImp;
@@ -25,6 +24,8 @@ import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.share.pub.entry.EventBusEntity;
+import com.zx.haijixing.util.CommonDialogFragment;
+import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,10 +40,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
-
-import static android.app.Activity.RESULT_OK;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -50,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
  *@创建日期 2019/7/16 10:59
  *@描述 待派单
  */
-public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements WaitAllotContract.WaitAllotView,OnRefreshLoadMoreListener {
+public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements WaitAllotContract.WaitAllotView,OnRefreshLoadMoreListener,IResultPositionListener {
     @BindView(R.id.fragment_receive_data)
     RecyclerView rvData;
     @BindView(R.id.fragment_receive_lay1)
@@ -72,6 +71,9 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
     private int page = 1;
     private RecyclerViewSkeletonScreen skeletonScreen;
     private boolean isHide = false;
+    private String sureWayBill = null;
+    private CommonDialogFragment showSureMoney;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_receive;
@@ -94,6 +96,7 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         rvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         allotAdapter = new AllotAdapter(orderEntries);
         rvData.setAdapter(allotAdapter);
+        allotAdapter.setiResultPositionListener(this::positionResult);
 
         params.put("token", token);
         params.put("status", OtherConstants.DETAIL_WAIT_ALLOT+"");
@@ -117,6 +120,19 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
+            case R.id.dialog_update_yes:
+                showSureMoney.dismissAllowingStateLoss();
+                Map<String,String> moneyParams = new HashMap<>();
+                moneyParams.put("token",token);
+                moneyParams.put("waybillId",sureWayBill);
+                moneyParams.put("timestamp",System.currentTimeMillis()+"");
+                moneyParams.put("sign","");
+                moneyParams.put("sign",HaiTool.sign(moneyParams));
+                mPresenter.sureMoneyMethod(moneyParams);
+                break;
+            case R.id.dialog_update_no:
+                showSureMoney.dismissAllowingStateLoss();
+                break;
         }
     }
 
@@ -139,6 +155,12 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         allotAdapter.notifyDataSetChanged();
 
         noData.setVisibility(orderEntries.size() == 0?View.VISIBLE:View.GONE);
+    }
+
+    @Override
+    public void sureMoneySuccess(String msg) {
+        ZxToastUtil.centerToast(msg);
+        doRefresh();
     }
 
     @Override
@@ -188,6 +210,12 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         if (entity.getMsg() == OtherConstants.ALLOT_REQUEST){
             doRefresh();
         }
+    }
+
+    @Override
+    public void positionResult(OrderTotalEntry.OrderEntry orderEntry, int tag) {
+        sureWayBill = orderEntry.getWaybillId();
+        showSureMoney = HaiDialogUtil.showUpdate(getFragmentManager(), "是否确认收款？", this::onViewClicked);
     }
 
     class AllotViewHolder{

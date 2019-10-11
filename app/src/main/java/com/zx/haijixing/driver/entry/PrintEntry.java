@@ -47,30 +47,25 @@ public class PrintEntry {
     private String incomeAddress;
     //发件地址
     private String senderAddress;
+    //价格
+    private String payMoney;
+    //备注
+    private String remark;
 
-    @Override
-    public String toString() {
-        return "PrintEntry{" +
-                "waybillNo='" + waybillNo + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", senderName='" + senderName + '\'' +
-                ", senderPhone='" + senderPhone + '\'' +
-                ", incomeName='" + incomeName + '\'' +
-                ", incomePhone='" + incomePhone + '\'' +
-                ", category='" + category + '\'' +
-                ", lineStartName='" + lineStartName + '\'' +
-                ", lineEndName='" + lineEndName + '\'' +
-                ", idcard='" + idcard + '\'' +
-                ", type='" + type + '\'' +
-                ", weight='" + weight + '\'' +
-                ", goodsNum='" + goodsNum + '\'' +
-                ", qrCodeUrl='" + qrCodeUrl + '\'' +
-                ", goodsList=" + goodsList +
-                ", totalNum='" + totalNum + '\'' +
-                ", makepriceFlag='" + makepriceFlag + '\'' +
-                ", incomeAddress='" + incomeAddress + '\'' +
-                ", senderAddress='" + senderAddress + '\'' +
-                '}';
+    public String getPayMoney() {
+        return payMoney;
+    }
+
+    public void setPayMoney(String payMoney) {
+        this.payMoney = payMoney;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getMakepriceFlag() {

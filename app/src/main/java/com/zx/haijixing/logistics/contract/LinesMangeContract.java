@@ -1,6 +1,7 @@
 package com.zx.haijixing.logistics.contract;
 
 import com.zx.haijixing.logistics.entry.LinesManageEntry;
+import com.zx.haijixing.logistics.entry.ProductEntry;
 import com.zx.haijixing.share.base.IBaseContract;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.Map;
 public interface LinesMangeContract {
     interface LinesManageView extends IBaseContract.IBaseView{
         void linesManageSuccess(List<LinesManageEntry> linesManageEntries);
+        void logisticsWaySuccess(List<ProductEntry> data);
     }
 
     interface LinesManagePresenter extends IBaseContract.IBasePresenter<LinesManageView>{
         void linesManageMethod(Map<String,String> params);
+        void logisticsWayMethod(Map<String,String> params);
     }
 }

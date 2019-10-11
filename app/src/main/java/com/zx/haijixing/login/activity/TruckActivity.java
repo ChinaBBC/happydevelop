@@ -488,9 +488,9 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
         String truckNum = number.getText().toString().trim();
         String cureTime = cure.getText().toString().trim();
         if (ZxStringUtil.isEmpty(truckNum)){
-
-        }else if (ZxStringUtil.isEmpty(cureTime)){
             ZxToastUtil.centerToast(getHaiString(R.string.input_drive_number));
+        }else if (ZxStringUtil.isEmpty(cureTime)){
+            ZxToastUtil.centerToast(getHaiString(R.string.choice_cure_time));
         }else if (ZxStringUtil.isEmpty(typeId)){
             ZxToastUtil.centerToast(getHaiString(R.string.select_type));
         }else if (ZxStringUtil.isEmpty(drivingA)){

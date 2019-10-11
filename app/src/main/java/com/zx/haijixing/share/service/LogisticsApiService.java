@@ -4,6 +4,7 @@ import com.zx.haijixing.logistics.entry.ClassManageEntry;
 import com.zx.haijixing.logistics.entry.DriverEntry;
 import com.zx.haijixing.logistics.entry.LinesClassEntry;
 import com.zx.haijixing.logistics.entry.LinesManageEntry;
+import com.zx.haijixing.logistics.entry.ProductEntry;
 import com.zx.haijixing.logistics.entry.TruckInfoEntry;
 import com.zx.haijixing.share.base.HaiBaseData;
 
@@ -96,4 +97,12 @@ public interface LogisticsApiService {
     @GET("api/reception/waybill/tag/num")
     Observable<String> botApi(@QueryMap Map<String, String> params);
 
+    //查询物流方式
+    @GET("api/logistics/line/selectProduct")
+    Observable<HaiBaseData<List<ProductEntry>>> logisticsWaysApi(@QueryMap Map<String, String> params);
+
+    //确认收款
+    @FormUrlEncoded
+    @POST("api/reception/waybill/upd/make/price/flag")
+    Observable<String> sureMoneyApi(@FieldMap Map<String, String> params);
 }

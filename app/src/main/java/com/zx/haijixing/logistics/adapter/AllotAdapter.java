@@ -11,11 +11,15 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.zx.haijixing.R;
+import com.zx.haijixing.driver.contract.IResultPositionListener;
 import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 
 import java.util.List;
+
+import zx.com.skytool.ZxStringUtil;
+import zx.com.skytool.ZxToastUtil;
 
 /**
  *
@@ -26,9 +30,14 @@ import java.util.List;
 public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHolder> {
 
     private List<OrderTotalEntry.OrderEntry> list;
+    private IResultPositionListener iResultPositionListener;
 
     public AllotAdapter(List<OrderTotalEntry.OrderEntry> list) {
         this.list = list;
+    }
+
+    public void setiResultPositionListener(IResultPositionListener iResultPositionListener) {
+        this.iResultPositionListener = iResultPositionListener;
     }
 
     @NonNull
@@ -44,24 +53,22 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
 
         if (list.size()>0){
             OrderTotalEntry.OrderEntry orderEntry = list.get(i);
-            allotViewHolder.address.setText(orderEntry.getSenderAddress());
             allotViewHolder.status.setText("待派单");
-
             allotViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
             allotViewHolder.orderNumber.setText("运单号："+orderEntry.getWaybillNo());
             allotViewHolder.sendWay.setText(orderEntry.getProductName());
-            allotViewHolder.receiveShop.setText(orderEntry.getSenderName());
+            allotViewHolder.receiveShop.setText(orderEntry.getIncomeName());
             allotViewHolder.line.setText(orderEntry.getLinkName());
-            allotViewHolder.phone.setText(orderEntry.getSenderPhone());
+            allotViewHolder.phone.setText(orderEntry.getIncomePhone());
             allotViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
             allotViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
-            allotViewHolder.address.setText(orderEntry.getSenderAddress());
+            allotViewHolder.address.setText(orderEntry.getIncomeAddress());
             allotViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())
                     .withString("detailType",orderEntry.getStatus())
+                    .withString("priceFlag",orderEntry.getMakepriceFlag())
+                    .withString("linesId",orderEntry.getLineId())
                     .navigation());
-
-
             allotViewHolder.allot.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.ALLOT)
                     .withString("orderId",orderEntry.getWaybillId())
                     .withString("linesId",orderEntry.getLineId())
@@ -71,6 +78,26 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
                     .withString("detailType",OtherConstants.CHANGE_ORDER+"")
                     .withString("linesId",orderEntry.getLineId())
                     .navigation());
+            if (orderEntry.getType().equals("1") && orderEntry.getMakepriceFlag().equals("0")){
+                allotViewHolder.sureMoney.setVisibility(View.VISIBLE);
+                allotViewHolder.sureMoney.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,1));
+            }else {
+                allotViewHolder.sureMoney.setVisibility(View.GONE);
+            }
+
+            int dadanFlag = Integer.parseInt(ZxStringUtil.isEmpty(orderEntry.getDadanFlag())?"0":orderEntry.getDadanFlag());
+            allotViewHolder.print.setText(dadanFlag==0?"打单":"补打单");
+            allotViewHolder.print.setOnClickListener(v ->{
+                        if ("1".equals(orderEntry.getType()) && "0".equals(orderEntry.getMakepriceFlag())){
+                            ZxToastUtil.centerToast("请联系管理员确认收款");
+                        }else {
+                            ARouter.getInstance().build(PathConstant.PRINT)
+                                    .withString("waybillId",orderEntry.getWaybillId())
+                                    .withString("printStatus",orderEntry.getDadanFlag())
+                                    .navigation();
+                        }
+                    }
+            );
         }
 
     }
@@ -81,15 +108,16 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
     }
 
     class AllotViewHolder extends RecyclerView.ViewHolder{
-        Button allot,change;
+        Button allot,change,sureMoney,print;
         TextView createTime,orderNumber,sendWay,receiveShop,line,phone,count,address,pay,status;
         View item;
         public AllotViewHolder(@NonNull View itemView) {
             super(itemView);
             allot = itemView.findViewById(R.id.allot_data_sure_allot);
             change = itemView.findViewById(R.id.allot_data_change_order);
+            sureMoney = itemView.findViewById(R.id.allot_data_change_money);
+            print = itemView.findViewById(R.id.allot_data_print_order);
             item = itemView.findViewById(R.id.allot_data_item);
-            ImageView select = itemView.findViewById(R.id.allot_data_select);
 
             createTime = itemView.findViewById(R.id.send_data_time);
             orderNumber = itemView.findViewById(R.id.send_data_order);
@@ -101,8 +129,6 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
             address = itemView.findViewById(R.id.send_data_address);
             pay = itemView.findViewById(R.id.send_data_pay);
             status = itemView.findViewById(R.id.send_data_status);
-
-            select.setVisibility(View.GONE);
 
         }
     }

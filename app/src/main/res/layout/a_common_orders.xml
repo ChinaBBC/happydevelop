@@ -61,22 +61,26 @@
         android:id="@+id/send_data_img1"
         android:layout_width="@dimen/dp_16"
         android:layout_height="@dimen/dp_16"
-        android:src="@mipmap/send_man"
+        android:src="@mipmap/receive_man"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/send_data_order"
         android:layout_marginTop="@dimen/dp_10"
         />
     <TextView
         android:id="@+id/send_data_shop"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="周海冷冻"
         android:textSize="@dimen/sp_16"
         android:textColor="@color/color_3333"
         app:layout_constraintLeft_toRightOf="@id/send_data_img1"
+        app:layout_constraintRight_toLeftOf="@+id/send_data_lines"
         app:layout_constraintTop_toBottomOf="@id/send_data_order"
         android:layout_marginTop="@dimen/dp_6"
         android:layout_marginLeft="@dimen/dp_4"
+        android:layout_marginRight="@dimen/dp_6"
+        android:lines="1"
+        android:ellipsize="end"
         />
     <TextView
         android:id="@+id/send_data_lines"

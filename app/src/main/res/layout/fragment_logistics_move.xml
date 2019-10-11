@@ -4,19 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/logistics_move_title"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_60"
-        android:text="@string/logistics_center"
-        android:textColor="@color/color_3333"
-        android:textSize="@dimen/sp_16"
-        android:gravity="center_horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        />
+
     <ImageView
         android:id="@+id/logistics_move_img1"
         android:layout_width="0dp"
@@ -24,7 +12,7 @@
         android:src="@mipmap/logistics_move_bg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logistics_move_title"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
@@ -34,11 +22,11 @@
         android:id="@+id/logistics_move_num1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="20"
+        android:text="0"
         android:textSize="@dimen/sp_22"
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logistics_move_title"
+        app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
         app:layout_constraintRight_toLeftOf="@id/logistics_move_num2"
         android:layout_marginLeft="@dimen/dp_10"
@@ -61,13 +49,13 @@
         android:id="@+id/logistics_move_num2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="20"
+        android:text="0"
         android:textSize="@dimen/sp_22"
         android:textColor="@color/white"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/logistics_move_num1"
         app:layout_constraintRight_toLeftOf="@id/logistics_move_num3"
-        app:layout_constraintTop_toBottomOf="@id/logistics_move_title"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/dp_20"
         />
     <TextView
@@ -86,13 +74,13 @@
         android:id="@+id/logistics_move_num3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="20"
+        android:text="0"
         android:textSize="@dimen/sp_22"
         android:textColor="@color/white"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/logistics_move_num2"
         app:layout_constraintRight_toLeftOf="@id/logistics_move_num4"
-        app:layout_constraintTop_toBottomOf="@id/logistics_move_title"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/dp_20"
         />
     <TextView
@@ -111,13 +99,13 @@
         android:id="@+id/logistics_move_num4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="20"
+        android:text="0"
         android:textSize="@dimen/sp_22"
         android:textColor="@color/white"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/logistics_move_num3"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logistics_move_title"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_20"
         />
@@ -134,13 +122,84 @@
         app:layout_constraintTop_toBottomOf="@id/logistics_move_num4"
         android:layout_marginRight="@dimen/dp_10"
         />
+    <LinearLayout
+        android:id="@+id/logistics_move_one"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_move_img1"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_5dp_faf2"
+        >
+        <TextView
+            android:id="@+id/logistics_send_ways"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:text="全部"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/color_3333"
+            android:gravity="center"
+            android:background="@drawable/shape_left_9999"
+            />
+        <ImageView
+            android:id="@+id/logistics_send_ways_img"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_30"
+            android:src="@mipmap/arrows_down"
+            android:scaleType="centerInside"
+            android:background="@drawable/shape_right_9999"
+            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_30"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:background="@drawable/shape_2dp_59ff"
+            android:layout_marginLeft="@dimen/dp_4"
+            >
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:src="@mipmap/search_bar"
+                android:layout_marginLeft="@dimen/dp_6"
+                />
+            <EditText
+                android:id="@+id/logistics_move_input"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/lines_hint"
+                android:textColorHint="@color/color_e0dd"
+                android:textSize="@dimen/sp_14"
+                android:lines="1"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:textCursorDrawable="@drawable/shape_input_cur"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/logistics_move_search"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"
+            android:background="@drawable/shape_5dp_a45b"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp_4"
+            />
+    </LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/logistics_move_refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logistics_move_img1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_move_one"
         app:layout_constraintBottom_toBottomOf="parent">
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
@@ -163,7 +222,7 @@
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logistics_move_img1"
+        app:layout_constraintTop_toBottomOf="@+id/logistics_move_one"
         app:layout_constraintBottom_toBottomOf="parent"
         android:visibility="gone"
         />

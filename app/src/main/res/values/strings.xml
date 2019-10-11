@@ -62,6 +62,7 @@
     <string name="no_data">暂无数据</string>
     <string name="select_type">选择车型</string>
     <string name="input_drive_number">请输入车牌</string>
+    <string name="choice_cure_time">请选择保险时间</string>
     <string name="upload_drive">请上传行驶证</string>
     <string name="upload_cure">请上传保单</string>
     <string name="upload_truck">请上传车辆照片</string>
@@ -83,6 +84,7 @@
     <string name="order_detail">订单详情</string>
     <string name="all_orders">全部运单</string>
     <string name="order_hint">运单号/车牌号/发货手机号/司机姓名</string>
+    <string name="lines_hint">起点/终点</string>
     <string name="check_all">查看全部 ></string>
     <string name="wait_receive">待接单</string>
     <string name="wait_send">待出发</string>

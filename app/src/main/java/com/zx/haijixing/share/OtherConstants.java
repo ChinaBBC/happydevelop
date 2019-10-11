@@ -28,6 +28,7 @@ public final class OtherConstants {
     public final static int DETAIL_SENDING = 3;//配送中
     public final static int DETAIL_COMPLETE = 4;//已完成
     public final static int DETAIL_CANCEL = 5;//已取消
+    public final static int ORDER_INFO = 6;//订单信息
 
     public final static int SURE_RECEIVE = 6;//确认收款
     public final static int CHANGE_ORDER = 7;//修改订单

@@ -87,6 +87,7 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
     private List<SelectEntry> selectEntries = new ArrayList<>();
     private int totalNum = 0;
     private int headSelect = 1;
+    private int selectHead_T = 1;
 
 
     @Override
@@ -151,18 +152,22 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
                 total.setText("共:0单");
                 printAdapter.setSelectTag(0);
                 printAdapter.setSelectHead(1);
+                printAdapter.setSelectHead_T(1);
                 totalNum = 0;
                 headSelect = 1;
+                selectHead_T = 1;
             }else {
                 isSelectAll = true;
                 selectAll.setImageResource(R.mipmap.select_yes_solid);
                 word1.setText(getHaiString(R.string.cancel));
                 int  size = Integer.parseInt(ZxStringUtil.isEmpty(printEntry.getTotalNum())?"0":printEntry.getTotalNum());
-                totalNum = size+1;
+                totalNum = size+2;
                 headSelect = 0;
-                total.setText("共:"+(size+1)+"单");
-                printAdapter.setSelectTag(size+1);
+                selectHead_T = 0;
+                total.setText("共:"+(size+2)+"单");
+                printAdapter.setSelectTag(size+2);
                 printAdapter.setSelectHead(0);
+                printAdapter.setSelectHead_T(0);
             }
             for (int i=0;i<selectEntries.size();i++){
                 selectEntries.get(i).setSelect(isSelectAll);
@@ -285,7 +290,7 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
             try {
                 unregisterReceiver(receiver);
             }catch (Exception e){
-                ZxLogUtil.logError(",<<<<<<未注册");
+                ZxLogUtil.logError("蓝牙广播未注册");
             }
         }
         if ( threadPool != null ) {
@@ -341,7 +346,12 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
         mPresenter.printStatusMethod(params);
 
         threadPool = ThreadPool.getInstantiation();
-        for (int i=headSelect;i<totalNum+headSelect;i++){
+        for (int i=0;i<totalNum+selectHead_T+headSelect;i++){
+            if (i==0 && headSelect==1)
+                continue;
+            if (i==1 && selectHead_T==1)
+                continue;
+
             final Bitmap bitmap = HaiTool.shotRecyclerView(printData,i);
             threadPool.addTask(() -> {
                 if ( DeviceConnectManager.getDeviceConnectManagers() == null || !DeviceConnectManager.getDeviceConnectManagers().getConnState() ) {
@@ -420,10 +430,11 @@ public class PrintActivity extends BaseActivity<PrintImp> implements AdapterView
     }
 
     @Override
-    public void totalResult(int total,int head) {
+    public void totalResult(int total,int head,int headT) {
         ZxLogUtil.logError("<<"+total+"<<"+head);
         totalNum = total;
         headSelect = head;
+        selectHead_T = headT;
         this.total.setText("共:"+total+"单");
         if (total == 0){
             isSelectAll = false;

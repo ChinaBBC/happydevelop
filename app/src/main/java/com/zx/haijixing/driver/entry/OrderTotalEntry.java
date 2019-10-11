@@ -79,6 +79,8 @@ public class OrderTotalEntry{
 
         private boolean isSelect;
 
+        /**  确认收款状态（0未收款   1已收款）  */
+        private String makepriceFlag;
 
         @Override
         public String toString() {
@@ -106,6 +108,14 @@ public class OrderTotalEntry{
                     ", lineId='" + lineId + '\'' +
                     ", isSelect=" + isSelect +
                     '}';
+        }
+
+        public String getMakepriceFlag() {
+            return makepriceFlag;
+        }
+
+        public void setMakepriceFlag(String makepriceFlag) {
+            this.makepriceFlag = makepriceFlag;
         }
 
         public boolean isSelect() {

@@ -24,6 +24,20 @@
         />
 
     <Button
+        android:id="@+id/sending_data_print_order"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_30"
+        android:text="@string/print_order"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_5dp_a45b"
+        app:layout_constraintRight_toLeftOf="@+id/sending_data_sure_pay"
+        app:layout_constraintTop_toBottomOf="@id/sending_data_item"
+        android:layout_marginTop="@dimen/dp_22"
+        android:layout_marginRight="@dimen/dp_5"
+        />
+
+    <Button
         android:id="@+id/sending_data_sure_pay"
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_30"

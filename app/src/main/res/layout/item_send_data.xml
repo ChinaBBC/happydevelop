@@ -39,7 +39,7 @@
         android:id="@+id/send_data_change_order"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_30"
-        android:text="改单"
+        android:text="修改"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
         android:background="@drawable/shape_5dp_a47f"

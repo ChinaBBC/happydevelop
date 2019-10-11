@@ -191,7 +191,6 @@ public class WayBillFragment extends BaseFragment<BotImp> implements BotContract
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        ZxLogUtil.logError("in the way bill hidden");
         if (!hidden && !HaiTool.isFastClick()){
             params.put("timestamp",System.currentTimeMillis()+"");
             params.put("sign","");

@@ -2,11 +2,16 @@ package com.zx.haijixing.logistics.presenter;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.logistics.contract.WaitAllotContract;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
+import com.zx.haijixing.share.service.LogisticsApiService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -36,6 +41,35 @@ public class WaitAllotImp extends BasePresenter<WaitAllotContract.WaitAllotView>
                     @Override
                     protected void onSuccess(OrderTotalEntry data) {
                         mView.waitAllotSuccess(data);
+                    }
+                });
+    }
+
+    @Override
+    public void sureMoneyMethod(Map<String, String> params) {
+        RxHttpUtils.createApi(LogisticsApiService.class)
+                .sureMoneyApi(params)
+                .compose(Transformer.switchSchedulers())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getInt("code") == 0){
+                                mView.sureMoneySuccess(jsonObject.getString("msg"));
+                            }else if (jsonObject.getInt("code") == 1001){
+                                mView.jumpToLogin();
+                            }else {
+                                mView.showFaild(jsonObject.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }

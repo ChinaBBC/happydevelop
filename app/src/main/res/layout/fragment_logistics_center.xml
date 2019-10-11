@@ -4,21 +4,21 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <View
         android:id="@+id/logistics_center_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logistics_center"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/color_b375"
         />
     <com.zx.haijixing.custom.CustomBottomBar
         android:id="@+id/logistics_center_bottom"
         android:layout_width="0dp"
-        android:layout_height="@dimen/dp_70"
+        android:layout_height="@dimen/dp_40"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logistics_center_title"

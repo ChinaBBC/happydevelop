@@ -14,9 +14,11 @@ import java.util.Map;
 public interface WaitAllotContract {
     interface WaitAllotView extends IBaseContract.IBaseView{
         void waitAllotSuccess(OrderTotalEntry orderTotalEntry);
+        void sureMoneySuccess(String msg);
     }
 
     interface WaitAllotPresenter extends IBaseContract.IBasePresenter<WaitAllotView>{
         void waitAllotMethod(Map<String,String> params);
+        void sureMoneyMethod(Map<String,String> params);
     }
 }

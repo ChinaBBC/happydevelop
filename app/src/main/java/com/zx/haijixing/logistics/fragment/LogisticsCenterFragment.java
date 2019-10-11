@@ -34,7 +34,7 @@ import zx.com.skytool.ZxSharePreferenceUtil;
  */
 public class LogisticsCenterFragment extends BaseFragment {
     @BindView(R.id.logistics_center_title)
-    TextView title;
+    View title;
     @BindView(R.id.logistics_center_bottom)
     CustomBottomBar bottom;
     private String loginType;
@@ -55,18 +55,16 @@ public class LogisticsCenterFragment extends BaseFragment {
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());
         loginType = (String) instance.getParam("login_type", "4");
-        setTitleTopMargin(title,0);
+        //setTitleTopMargin(title,0);
         EventBus.getDefault().register(this);
         int titleSize = getResources().getDimensionPixelSize(R.dimen.sp_14);
-        int titleMar = getResources().getDimensionPixelSize(R.dimen.dp_6);
-        int iconSize = getResources().getDimensionPixelSize(R.dimen.dp_40);
         //初始化底部菜单栏
         bottom.setContainer(R.id.logistics_center_replace)
                 .setTitleBeforeAndAfterColor("#666666", "#30703f")
                 .setTitleSize(titleSize)
-                .setTitleIconMargin(titleMar)
-                .setIconHeight(iconSize)
-                .setIconWidth(iconSize)
+                .setTitleIconMargin(0)
+                .setIconHeight(0)
+                .setIconWidth(0)
                 .addItem(LogisticMoveFragment.class,
                         getHaiString(R.string.logistics_move),
                         R.mipmap.logistics_center_a,

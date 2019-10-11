@@ -15,10 +15,12 @@ public interface OrderContract {
     interface OrderView extends IBaseContract.IBaseView{
         void orderSuccess(OrderTotalEntry orderTotalEntry);
         void receiveOrderSuccess(String msg);
+        void sureMoneySuccess(String msg);
     }
 
     interface OrderPresenter extends IBaseContract.IBasePresenter<OrderView>{
         void orderMethod(Map<String,String> params);
         void receiveOrderMethod(Map<String,String> params);
+        void sureMoneyMethod(Map<String,String> params);
     }
 }

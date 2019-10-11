@@ -307,7 +307,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                     if (result.length() == 18){
                         ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                                 .withString("orderId",result)
-                                .withString("detailType",OtherConstants.DETAIL_WAIT_SEND+"")
+                                .withString("detailType",OtherConstants.ORDER_INFO+"")
                                 .navigation();
                     }else {
                         ZxToastUtil.centerToast("请扫描正确的二维码");

@@ -44,7 +44,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public void onBindViewHolder(@NonNull OrderViewHolder orderViewHolder, int i) {
         if (orderEntries.size()>0){
             OrderTotalEntry.OrderEntry orderEntry = orderEntries.get(i);
-            orderViewHolder.address.setText(orderEntry.getSenderAddress());
             String statusStr = orderEntry.getStatus();
             int status = Integer.parseInt(ZxStringUtil.isEmpty(statusStr)?"0":statusStr);
 
@@ -74,16 +73,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             orderViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
             orderViewHolder.orderNumber.setText("运单号："+orderEntry.getWaybillNo());
             orderViewHolder.sendWay.setText(orderEntry.getProductName());
-            orderViewHolder.receiveShop.setText(orderEntry.getSenderName());
+            orderViewHolder.receiveShop.setText(orderEntry.getIncomeName());
             orderViewHolder.line.setText(orderEntry.getLinkName());
-            orderViewHolder.phone.setText(orderEntry.getSenderPhone());
+            orderViewHolder.phone.setText(orderEntry.getIncomePhone());
             orderViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
             orderViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
-            orderViewHolder.address.setText(orderEntry.getSenderAddress());
+            orderViewHolder.address.setText(orderEntry.getIncomeAddress());
             orderViewHolder.item.setOnClickListener(v -> {
                 ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                         .withString("orderId",orderEntry.getWaybillId())
-                        .withString("detailType", statusStr)
+                        .withString("detailType", OtherConstants.ORDER_INFO+"")
                         .navigation();
             });
         }

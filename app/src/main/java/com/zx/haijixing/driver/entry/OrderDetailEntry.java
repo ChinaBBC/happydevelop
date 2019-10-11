@@ -29,6 +29,8 @@ public class OrderDetailEntry {
     //货物信息
     /** 运输品类（关联数据字典） */
     private String category;
+    /** 运输品类Id */
+    private String categoryId;
     /** 起步价 */
     private String startPrice;
     /** 合计件数 */
@@ -96,6 +98,9 @@ public class OrderDetailEntry {
     private String goTime;
     //完成时间
     private String doneTime;
+
+
+
 
     public String getDoneTime() {
         return doneTime;
@@ -207,6 +212,14 @@ public class OrderDetailEntry {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Integer getTotalNum() {
