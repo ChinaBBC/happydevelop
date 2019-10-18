@@ -73,6 +73,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
     @Override
     public void changeOrderMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .changeOrderApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -84,6 +85,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
@@ -102,6 +104,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
     @Override
     public void sureMoneyMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .sureMoneyApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -113,6 +116,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
@@ -131,6 +135,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
     @Override
     public void receiveOrderMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .receiveOrders(params)
                 .compose(Transformer.switchSchedulers())
@@ -142,6 +147,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
@@ -160,6 +166,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
     @Override
     public void completeMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .completeApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -171,6 +178,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
@@ -189,6 +197,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
     @Override
     public void surePayMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .receiveMoneyAPi(params)
                 .compose(Transformer.switchSchedulers())
@@ -200,6 +209,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
@@ -218,6 +228,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
     @Override
     public void changePriceMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .changePrice(params)
                 .compose(Transformer.switchSchedulers())
@@ -229,6 +240,7 @@ public class OrderDetailImp extends BasePresenter<OrderDetailContract.OrderDetai
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){

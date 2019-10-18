@@ -63,21 +63,31 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
             allotViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
             allotViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
             allotViewHolder.address.setText(orderEntry.getIncomeAddress());
+
+            String modify = orderEntry.getModify();
+            if ("0".equals(modify)){
+                allotViewHolder.change.setVisibility(View.VISIBLE);
+                allotViewHolder.change.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                        .withString("orderId",orderEntry.getWaybillId())
+                        .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                        .withString("linesId",orderEntry.getLineId())
+                        .navigation());
+            }else {
+                allotViewHolder.change.setVisibility(View.GONE);
+            }
+
             allotViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())
                     .withString("detailType",orderEntry.getStatus())
                     .withString("priceFlag",orderEntry.getMakepriceFlag())
                     .withString("linesId",orderEntry.getLineId())
+                    .withString("modify",modify)
                     .navigation());
             allotViewHolder.allot.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.ALLOT)
                     .withString("orderId",orderEntry.getWaybillId())
                     .withString("linesId",orderEntry.getLineId())
                     .navigation());
-            allotViewHolder.change.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
-                    .withString("orderId",orderEntry.getWaybillId())
-                    .withString("detailType",OtherConstants.CHANGE_ORDER+"")
-                    .withString("linesId",orderEntry.getLineId())
-                    .navigation());
+
             if (orderEntry.getType().equals("1") && orderEntry.getMakepriceFlag().equals("0")){
                 allotViewHolder.sureMoney.setVisibility(View.VISIBLE);
                 allotViewHolder.sureMoney.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,1));

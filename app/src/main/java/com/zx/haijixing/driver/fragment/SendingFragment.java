@@ -75,6 +75,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     private CommonDialogFragment showChangeMoney;
     private RecyclerViewSkeletonScreen skeletonScreen;
     private boolean isHide = false;
+    private CommonDialogFragment sendComplete;
 
     @Override
     protected int getLayoutId() {
@@ -134,6 +135,13 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
                 showPay.dismissAllowingStateLoss();
                 complete();
                 break;
+            case R.id.dialog_update_no:
+                sendComplete.dismissAllowingStateLoss();
+                break;
+            case R.id.dialog_update_yes:
+                sendComplete.dismissAllowingStateLoss();
+                sendCompleteMethod();
+                break;
         }
     }
 
@@ -189,6 +197,10 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     @Override
     public void surePaySuccess(String msg) {
+       sendCompleteMethod();
+    }
+
+    private void sendCompleteMethod(){
         Map<String, String> param = new HashMap<>();
         param.put("token", token);
         param.put("selectAllFlag", flag+"");
@@ -198,7 +210,6 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         param.put("sign",HaiTool.sign(param));
         mPresenter.completeMethod(param);
     }
-
     @Override
     public void changePriceSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
@@ -255,6 +266,10 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
                 case 3:
                     waybillId = orderEntry.getWaybillId();
                     showChangeMoney = HaiDialogUtil.showChangeMoney(getFragmentManager(), this::payResult,orderEntry.getPrice());
+                    break;
+                case 4:
+                    selectId = orderEntry.getWaybillId();
+                    sendComplete = HaiDialogUtil.showUpdate(getFragmentManager(), "是否确认配送完成？", this::onViewClicked);
                     break;
             }
 

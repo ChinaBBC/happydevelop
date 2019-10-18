@@ -47,6 +47,7 @@ public class LinesClassImp extends BasePresenter<LinesClassContract.LinesClassVi
 
     @Override
     public void allotOrderMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .allotOrderApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -58,6 +59,7 @@ public class LinesClassImp extends BasePresenter<LinesClassContract.LinesClassVi
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){

@@ -68,11 +68,15 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
             sendViewHolder.phone.setText(orderEntry.getIncomePhone());
             sendViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
             sendViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
+
+            String modify = orderEntry.getModify();
+
             sendViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())
                     .withString("detailType",orderEntry.getStatus())
                     .withString("priceFlag",orderEntry.getMakepriceFlag())
                     .withString("linesId",orderEntry.getLineId())
+                    .withString("modify",modify)
                     .navigation());
 
             int dadanFlag = Integer.parseInt(ZxStringUtil.isEmpty(orderEntry.getDadanFlag())?"0":orderEntry.getDadanFlag());
@@ -86,16 +90,22 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
                             .withString("linesId",orderEntry.getLineId())
                             .navigation());
                 }
+                if ("0".equals(modify)){
+                    sendViewHolder.button1.setVisibility(View.VISIBLE);
+                    sendViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                            .withString("orderId",orderEntry.getWaybillId())
+                            .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                            .withString("linesId",orderEntry.getLineId())
+                            .navigation());
+                }else {
+                    sendViewHolder.button1.setVisibility(View.GONE);
+                }
             }else {
                 sendViewHolder.button2.setText("补打单");
                 sendViewHolder.button1.setVisibility(View.GONE);
                 sendViewHolder.allot.setVisibility(View.GONE);
             }
-            sendViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
-                    .withString("orderId",orderEntry.getWaybillId())
-                    .withString("detailType",OtherConstants.CHANGE_ORDER+"")
-                    .withString("linesId",orderEntry.getLineId())
-                    .navigation());
+
             sendViewHolder.button2.setOnClickListener(v ->{
                 if ("1".equals(orderEntry.getType()) && "0".equals(orderEntry.getMakepriceFlag())){
                     ZxToastUtil.centerToast("请联系管理员确认收款");

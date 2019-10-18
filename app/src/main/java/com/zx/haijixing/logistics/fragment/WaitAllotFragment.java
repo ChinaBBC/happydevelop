@@ -140,7 +140,7 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
     public void waitAllotSuccess(OrderTotalEntry orderTotalEntry) {
         if (!isHide){
             skeletonScreen.hide();
-            isHide = false;
+            isHide = true;
         }
         List<OrderTotalEntry.OrderEntry> rows = orderTotalEntry.getRows();
         if (rows.size() == 0) {

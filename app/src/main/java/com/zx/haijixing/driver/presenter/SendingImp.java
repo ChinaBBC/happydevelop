@@ -8,6 +8,7 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.service.DriverApiService;
+import com.zx.haijixing.util.HaiLoading;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
                 .orderLists(params)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new HaiDataObserver<OrderTotalEntry>() {
+
                     @Override
                     protected void onError(String errorMsg) {
                         mView.showFaild(errorMsg);
@@ -45,6 +47,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
 
     @Override
     public void completeMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .completeApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -56,6 +59,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
@@ -74,6 +78,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
 
     @Override
     public void surePayMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .receiveMoneyAPi(params)
                 .compose(Transformer.switchSchedulers())
@@ -85,6 +90,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){
@@ -103,6 +109,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
 
     @Override
     public void changePriceMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .changePrice(params)
                 .compose(Transformer.switchSchedulers())
@@ -114,6 +121,7 @@ public class SendingImp extends BasePresenter<SendingContract.SendingView> imple
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){

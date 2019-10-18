@@ -114,6 +114,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     String linesId;
     @Autowired(name = "priceFlag")
     String priceFlag;
+    @Autowired(name = "modify")
+    String modify;
 
 
     private String token;
@@ -439,7 +441,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
             String[] split = priceAndWeight.split(",");
             String price = ZxStringUtil.multiplication(dwValue, split[0], 2);
             String weight = ZxStringUtil.multiplication(dwValue, split[1], 2);
-            ZxLogUtil.logError("<appWaybillGoodsVo.getDictCode()>"+appWaybillGoodsVo.getDictCode()+"<weight>"+weight+"<split[0]>"+split[0]+"<split[1]>"+split[1]);
+            ZxLogUtil.logError("<appWaybillGoodsVo.getDictCode()>"+appWaybillGoodsVo.getDictCode()+"<weight>"+weight+"<price>"+price+"<dwValue>"+dwValue+"<split[0]>"+split[0]+"<split[1]>"+split[1]);
             double dPrice = Double.parseDouble(ZxStringUtil.isEmpty(price)?"0":price);
             double dWeight = Double.parseDouble(ZxStringUtil.isEmpty(weight)?"0":weight);
             double number = Double.parseDouble(ZxStringUtil.isEmpty(dwValue)?"0":dwValue);
@@ -472,14 +474,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         //double fMoney =Double.parseDouble(ZxStringUtil.isEmpty(totalMoney) ? "0" : trim);
         int intTotalMoney = new Double(totalMoney).intValue();
         int intTotalNumber = new Double(totalNumber).intValue();
-        ZxLogUtil.logError("<<<<totalWeight"+totalWeight+"<<<<intTotalMoney"+intTotalMoney+"<<<<intTotalNumber"+intTotalNumber);
         int coupon = Integer.parseInt(ZxStringUtil.isEmpty(mathMap.get("coupon"))?"0":mathMap.get("coupon"));
         int integral = Integer.parseInt(ZxStringUtil.isEmpty(mathMap.get("integral"))?"0":mathMap.get("integral"));
 
-
         int finalMoney = intTotalMoney-coupon-integral;
 
-        cViewHolder.inputFree.setText(finalMoney/100+"");
+        cViewHolder.inputFree.setText((finalMoney/100.00)+"");
 
         params.put("weight",totalWeight+"");
         params.put("totalNum",intTotalNumber+"");
@@ -552,14 +552,19 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                             .navigation();
                     finish();
                 });
-                eViewHolder.change.setOnClickListener(v -> {
-                    ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
-                            .withString("orderId",orderEntry.getWaybillId())
-                            .withString("detailType",OtherConstants.CHANGE_ORDER+"")
-                            .withString("linesId",linesId)
-                            .navigation();
-                    finish();
-                });
+                if ("0".equals(modify)){
+                    eViewHolder.change.setOnClickListener(v -> {
+                        ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                                .withString("orderId",orderEntry.getWaybillId())
+                                .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                                .withString("linesId",linesId)
+                                .navigation();
+                        finish();
+                    });
+                }else {
+                    eViewHolder.change.setVisibility(View.GONE);
+                }
+
                 if (orderEntry.getType().equals("1") && priceFlag.equals("0")){
                     eViewHolder.complete.setVisibility(View.VISIBLE);
                     eViewHolder.complete.setOnClickListener(v -> {
@@ -600,14 +605,18 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                                 .navigation();
                         finish();
                     });
-                    eViewHolder.change.setOnClickListener(v -> {
-                        ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
-                                .withString("orderId",orderEntry.getWaybillId())
-                                .withString("detailType",OtherConstants.CHANGE_ORDER+"")
-                                .withString("linesId",linesId)
-                                .navigation();
-                        finish();
-                    });
+                    if ("0".equals(modify)){
+                        eViewHolder.change.setOnClickListener(v -> {
+                            ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                                    .withString("orderId",orderEntry.getWaybillId())
+                                    .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                                    .withString("linesId",linesId)
+                                    .navigation();
+                            finish();
+                        });
+                    }else {
+                        eViewHolder.change.setVisibility(View.GONE);
+                    }
                     if (orderEntry.getType().equals("1") && priceFlag.equals("0")){
                         eViewHolder.complete.setVisibility(View.VISIBLE);
                         eViewHolder.complete.setOnClickListener(v -> {
@@ -638,18 +647,24 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                             .navigation();
                     finish();
                 });
-                eViewHolder.change.setOnClickListener(v -> {
-                    ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
-                            .withString("orderId",orderEntry.getWaybillId())
-                            .withString("detailType",OtherConstants.CHANGE_ORDER+"")
-                            .withString("linesId",linesId)
-                            .navigation();
-                    finish();
-                });
+                if ("0".equals(modify)){
+                    eViewHolder.change.setOnClickListener(v -> {
+                        ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                                .withString("orderId",orderEntry.getWaybillId())
+                                .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                                .withString("linesId",linesId)
+                                .navigation();
+                        finish();
+                    });
+                }else {
+                    eViewHolder.change.setVisibility(View.GONE);
+                }
                 break;
             case OtherConstants.DETAIL_SENDING:
                 eViewHolder = new EViewHolder(stubButtons.inflate());
                 eViewHolder.resend.setVisibility(View.GONE);
+                if ("1".equals(modify))
+                    eViewHolder.change.setVisibility(View.GONE);
                 if (OtherConstants.LOGIN_DRIVER.equals(loginTpe)){
                     eViewHolder.change.setText("修改运费");
                     eViewHolder.complete.setText("配送完成");
@@ -662,6 +677,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 }else {
                     eViewHolder.change.setText("修改价格");
                     eViewHolder.complete.setText("查看物流");
+                    eViewHolder.complete.setVisibility(View.GONE);
                     eViewHolder.change.setOnClickListener(v -> {
                         showChangeMoney = HaiDialogUtil.showChangeMoney(getSupportFragmentManager(), this::payResult,orderEntry.getPrice());
                     });
@@ -682,13 +698,17 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 eViewHolder.change.setOnClickListener(v -> {
                     String trim = cViewHolder.inputFree.getText().toString().trim();
                     if (!ZxStringUtil.isEmpty(trim)){
-                        double d = Double.parseDouble(trim);
-                        int m = new Double(d*100).intValue();
-                        params.put("price",m+"");
-                        params.put("timestamp",System.currentTimeMillis()+"");
-                        params.put("sign","");
-                        params.put("sign",HaiTool.sign(params));
-                        mPresenter.changeOrderMethod(params);
+                        if (HaiTool.isFastClick()){
+                            ZxToastUtil.centerToast("正在修改，请稍候。。。");
+                        }else {
+                            double d = Double.parseDouble(trim);
+                            int m = new Double(d*100).intValue();
+                            params.put("price",m+"");
+                            params.put("timestamp",System.currentTimeMillis()+"");
+                            params.put("sign","");
+                            params.put("sign",HaiTool.sign(params));
+                            mPresenter.changeOrderMethod(params);
+                        }
                     }else {
                         ZxToastUtil.centerToast("请输入价格！");
                     }

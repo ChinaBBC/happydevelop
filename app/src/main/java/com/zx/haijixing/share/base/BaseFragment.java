@@ -94,7 +94,9 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
 
     @Override
     public void hideLoading() {
-        commonDialogFragment.dismissAllowingStateLoss();
+        if (commonDialogFragment != null){
+            commonDialogFragment.dismissAllowingStateLoss();
+        }
     }
 
     @Override
@@ -108,6 +110,9 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
         if (refreshLayout != null){
             refreshLayout.finishRefresh(false);
             refreshLayout.finishLoadMore(false);
+        }
+        if (commonDialogFragment != null){
+            commonDialogFragment.dismissAllowingStateLoss();
         }
     }
 
@@ -146,6 +151,9 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
     }
     @Override
     public void jumpToLogin() {
+        if (commonDialogFragment != null){
+            commonDialogFragment.dismissAllowingStateLoss();
+        }
         RxHttpUtils.cancel(OtherConstants.CANCEL_REQUEST);
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());

@@ -81,6 +81,7 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
             receiveViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
             String timeEnd = orderEntry.getTimeEnd();
             long timeStamp = Long.parseLong(ZxStringUtil.isEmpty(timeEnd)?"0":timeEnd);
+            String modify = orderEntry.getModify();
 
             if (isRefresh){
                 long l = timeStamp - 60 * 1000;
@@ -120,12 +121,17 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
                 });
             }else {
                 receiveViewHolder.select.setVisibility(View.GONE);
-                receiveViewHolder.sure.setText("修改");
-                receiveViewHolder.sure.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
-                        .withString("orderId",orderEntry.getWaybillId())
-                        .withString("detailType",OtherConstants.CHANGE_ORDER+"")
-                        .withString("linesId",orderEntry.getLineId())
-                        .navigation());
+                if ("0".equals(modify)){
+                    receiveViewHolder.sure.setVisibility(View.VISIBLE);
+                    receiveViewHolder.sure.setText("修改");
+                    receiveViewHolder.sure.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
+                            .withString("orderId",orderEntry.getWaybillId())
+                            .withString("detailType",OtherConstants.CHANGE_ORDER+"")
+                            .withString("linesId",orderEntry.getLineId())
+                            .navigation());
+                }else {
+                    receiveViewHolder.sure.setVisibility(View.GONE);
+                }
                 receiveViewHolder.allot.setVisibility(View.VISIBLE);
                 receiveViewHolder.allot.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.ALLOT)
                         .withString("orderId",orderEntry.getWaybillId())
@@ -137,6 +143,7 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
                     .withString("detailType",orderEntry.getStatus())
                     .withString("priceFlag",orderEntry.getMakepriceFlag())
                     .withString("linesId",orderEntry.getLineId())
+                    .withString("modify",modify)
                     .navigation());
             if (orderEntry.getType().equals("1") && orderEntry.getMakepriceFlag().equals("0")){
                 receiveViewHolder.sureMoney.setVisibility(View.VISIBLE);

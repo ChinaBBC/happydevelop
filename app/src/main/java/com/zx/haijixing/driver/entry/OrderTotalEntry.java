@@ -81,6 +81,10 @@ public class OrderTotalEntry{
 
         /**  确认收款状态（0未收款   1已收款）  */
         private String makepriceFlag;
+        /**
+         * 是否出现修改按钮0出现1不出现
+         */
+        private String modifyString;
 
         @Override
         public String toString() {
@@ -108,6 +112,14 @@ public class OrderTotalEntry{
                     ", lineId='" + lineId + '\'' +
                     ", isSelect=" + isSelect +
                     '}';
+        }
+
+        public String getModify() {
+            return modifyString;
+        }
+
+        public void setModify(String modifyString) {
+            this.modifyString = modifyString;
         }
 
         public String getMakepriceFlag() {

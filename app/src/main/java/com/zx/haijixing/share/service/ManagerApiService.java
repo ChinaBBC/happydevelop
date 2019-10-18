@@ -1,9 +1,7 @@
 package com.zx.haijixing.share.service;
 
-import java.util.Map;
 
 import io.reactivex.Observable;
-import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -15,5 +13,5 @@ import retrofit2.http.Query;
  */
 public interface ManagerApiService {
     @GET("api/")
-    Observable<String> weatherApi(@Query("version") String version,@Query("cityId") String city);
+    Observable<String> weatherApi(@Query("version") String version,@Query("cityId") String city,@Query("appid") String id,@Query("appsecret") String secret);
 }

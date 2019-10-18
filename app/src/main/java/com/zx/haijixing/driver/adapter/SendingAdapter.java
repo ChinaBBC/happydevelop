@@ -59,7 +59,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
         if (list.size()>0){
             OrderTotalEntry.OrderEntry orderEntry = list.get(i);
 
-            sendingViewHolder.status.setText("配送中");
+            String status = orderEntry.getStatus();
             sendingViewHolder.createTime.setText("下单："+orderEntry.getCreateTime());
             sendingViewHolder.orderNumber.setText("运单号："+orderEntry.getWaybillNo());
             sendingViewHolder.sendWay.setText(orderEntry.getProductName());
@@ -67,50 +67,82 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
             sendingViewHolder.line.setText(orderEntry.getLinkName());
             sendingViewHolder.phone.setText(orderEntry.getIncomePhone());
             sendingViewHolder.count.setText(orderEntry.getCategory()+"/"+orderEntry.getTotalNum()+"件");
-            sendingViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(orderEntry.getType().equals("1")?"寄付":"到付")+")");
+            String sendType = orderEntry.getType();
+            sendingViewHolder.pay.setText("￥"+orderEntry.getPrice()+"元("+(sendType.equals("1")?"寄付":"到付")+")");
             sendingViewHolder.address.setText(orderEntry.getIncomeAddress());
             sendingViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())
-                    .withString("detailType",orderEntry.getStatus())
+                    .withString("detailType", status)
                     .withString("priceFlag",orderEntry.getMakepriceFlag())
                     .withString("linesId",orderEntry.getLineId())
+                    .withString("modify",sendType)
                     .navigation());
-            int dadanFlag = Integer.parseInt(ZxStringUtil.isEmpty(orderEntry.getDadanFlag())?"0":orderEntry.getDadanFlag());
-            sendingViewHolder.print.setText(dadanFlag==0?"打单":"补打单");
-            sendingViewHolder.print.setOnClickListener(v ->{
-                        if ("1".equals(orderEntry.getType()) && "0".equals(orderEntry.getMakepriceFlag())){
-                            ZxToastUtil.centerToast("请联系管理员确认收款");
-                        }else {
-                            ARouter.getInstance().build(PathConstant.PRINT)
-                                    .withString("waybillId",orderEntry.getWaybillId())
-                                    .withString("printStatus",orderEntry.getDadanFlag())
-                                    .navigation();
-                        }
-                    }
-            );
-            if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
-                sendingViewHolder.button1.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,3));
-                sendingViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
-                sendingViewHolder.select.setVisibility(View.VISIBLE);
-                sendingViewHolder.select.setOnClickListener(v -> {
-                    if (orderEntry.isSelect()){
-                        sendingViewHolder.select.setImageResource(R.mipmap.select_no);
-                        orderEntry.setSelect(false);
-                    }else {
-                        sendingViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
-                        orderEntry.setSelect(true);
-                    }
-                    iResultPositionListener.positionResult(null,1);
-                });
-            }else {
+
+            if ("6".equals(status)){
+                sendingViewHolder.status.setText("未签收");
                 sendingViewHolder.select.setVisibility(View.GONE);
-                sendingViewHolder.button2.setText("修改价格");
-                sendingViewHolder.button1.setText("查看物流");
-                sendingViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.CHECK_LOGISTICS)
-                        .withString("waybillNo",orderEntry.getWaybillNo())
-                        .navigation());
+                sendingViewHolder.button1.setVisibility(View.GONE);
+                sendingViewHolder.button2.setVisibility(View.GONE);
+                sendingViewHolder.print.setVisibility(View.GONE);
+            }else{
+                int dadanFlag = Integer.parseInt(ZxStringUtil.isEmpty(orderEntry.getDadanFlag())?"0":orderEntry.getDadanFlag());
+                sendingViewHolder.status.setText("配送中");
+                sendingViewHolder.print.setText(dadanFlag==0?"打单":"补打单");
+                sendingViewHolder.print.setVisibility(View.VISIBLE);
+                sendingViewHolder.select.setVisibility(View.VISIBLE);
+                sendingViewHolder.button2.setVisibility(View.VISIBLE);
+                sendingViewHolder.print.setOnClickListener(v ->{
+                            if ("1".equals(sendType) && "0".equals(orderEntry.getMakepriceFlag())){
+                                ZxToastUtil.centerToast("请联系管理员确认收款");
+                            }else {
+                                ARouter.getInstance().build(PathConstant.PRINT)
+                                        .withString("waybillId",orderEntry.getWaybillId())
+                                        .withString("printStatus",orderEntry.getDadanFlag())
+                                        .navigation();
+                            }
+                        }
+                );
+                if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
+                    sendingViewHolder.button1.setVisibility("1".equals(sendType)?View.GONE:View.VISIBLE);
+                    sendingViewHolder.button1.setOnClickListener(v -> {
+                        iResultPositionListener.positionResult(orderEntry,3);
+                    });
+                    sendingViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
+                    sendingViewHolder.select.setVisibility(View.VISIBLE);
+                    sendingViewHolder.select.setOnClickListener(v -> {
+                        if (orderEntry.isSelect()){
+                            sendingViewHolder.select.setImageResource(R.mipmap.select_no);
+                            orderEntry.setSelect(false);
+                        }else {
+                            sendingViewHolder.select.setImageResource(R.mipmap.select_yes_solid);
+                            orderEntry.setSelect(true);
+                        }
+                        iResultPositionListener.positionResult(null,1);
+                    });
+
+                }else {
+                    sendingViewHolder.select.setVisibility(View.GONE);
+                    sendingViewHolder.button2.setVisibility("1".equals(sendType)?View.GONE:View.VISIBLE);
+                    sendingViewHolder.button2.setText("修改价格");
+                    ///sendingViewHolder.button1.setText("查看物流");
+                    sendingViewHolder.button1.setVisibility(View.GONE);
+                    sendingViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.CHECK_LOGISTICS)
+                            .withString("waybillNo",orderEntry.getWaybillNo())
+                            .navigation());
+
+                }
+                sendingViewHolder.button2.setOnClickListener(v -> {
+                    if ("0".equals(orderEntry.getMakepriceFlag()))
+                        iResultPositionListener.positionResult(orderEntry,2);
+                    else
+                        iResultPositionListener.positionResult(orderEntry,4);
+                });
             }
-            sendingViewHolder.button2.setOnClickListener(v -> iResultPositionListener.positionResult(orderEntry,2));
+
+
+
+
+
         }
 
     }

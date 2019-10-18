@@ -89,6 +89,9 @@ public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> exten
      */
     @Override
     public void jumpToLogin() {
+        if (commonDialogFragment != null){
+            commonDialogFragment.dismissAllowingStateLoss();
+        }
         //RxHttpUtils.cancel(OtherConstants.CANCEL_REQUEST);
         RxHttpUtils.cancelAll();
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();

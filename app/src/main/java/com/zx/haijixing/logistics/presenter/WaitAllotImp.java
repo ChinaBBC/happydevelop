@@ -47,6 +47,7 @@ public class WaitAllotImp extends BasePresenter<WaitAllotContract.WaitAllotView>
 
     @Override
     public void sureMoneyMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(LogisticsApiService.class)
                 .sureMoneyApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -58,6 +59,7 @@ public class WaitAllotImp extends BasePresenter<WaitAllotContract.WaitAllotView>
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){

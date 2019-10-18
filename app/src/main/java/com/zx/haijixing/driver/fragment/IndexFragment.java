@@ -304,7 +304,7 @@ public class IndexFragment extends BaseFragment<IndexImp> implements IIndexContr
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    if (result.length() == 18){
+                    if (result.length() == 12){
                         ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                                 .withString("orderId",result)
                                 .withString("detailType",OtherConstants.ORDER_INFO+"")

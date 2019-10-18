@@ -48,6 +48,7 @@ public class SendImp extends BasePresenter<SendContract.SendView> implements Sen
 
     @Override
     public void departMethod(Map<String, String> params) {
+        mView.showLoading();
         RxHttpUtils.createApi(DriverApiService.class)
                 .sendApi(params)
                 .compose(Transformer.switchSchedulers())
@@ -59,6 +60,7 @@ public class SendImp extends BasePresenter<SendContract.SendView> implements Sen
 
                     @Override
                     protected void onSuccess(String data) {
+                        mView.hideLoading();
                         try {
                             JSONObject jsonObject = new JSONObject(data);
                             if (jsonObject.getInt("code") == 0){

@@ -564,6 +564,7 @@ public class OrderDetailEntry {
                     ", dwMoney='" + dwMoney + '\'' +
                     ", dwName='" + dwName + '\'' +
                     ", dwAvg='" + dwAvg + '\'' +
+                    ", dictCode='" + dictCode + '\'' +
                     '}';
         }
     }

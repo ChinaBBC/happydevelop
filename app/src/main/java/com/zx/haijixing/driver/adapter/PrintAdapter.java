@@ -1,6 +1,7 @@
 package com.zx.haijixing.driver.adapter;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -109,6 +110,7 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printHeadViewHolder.word1.setText("客户回执单");
                 if (isPrint){
                     printHeadViewHolder.select.setVisibility(View.GONE);
+                    printHeadViewHolder.remark.setBackgroundColor(Color.TRANSPARENT);
                 }else {
                     printHeadViewHolder.select.setVisibility(View.VISIBLE);
                     printHeadViewHolder.select.setImageResource(selectHead == 0?R.mipmap.select_yes_solid:R.mipmap.select_no);
@@ -155,6 +157,7 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printHeadViewHolder.word1.setText("司机回执单");
                 if (isPrint){
                     printHeadViewHolder.select.setVisibility(View.GONE);
+                    printHeadViewHolder.remark.setBackgroundColor(Color.TRANSPARENT);
                 }else {
                     printHeadViewHolder.select.setVisibility(View.VISIBLE);
                     printHeadViewHolder.select.setImageResource(selectHead == 0?R.mipmap.select_yes_solid:R.mipmap.select_no);

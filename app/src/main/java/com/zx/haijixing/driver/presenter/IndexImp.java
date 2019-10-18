@@ -142,7 +142,7 @@ public class IndexImp extends BasePresenter<IIndexContract.IndexView> implements
     @Override
     public void weatherMethod(String city) {
         RxHttpUtils.createApi("weather",OtherConstants.WEATHER_API,ManagerApiService.class)
-                .weatherApi("v1",city)
+                .weatherApi("v1",city,OtherConstants.WEATHER_APPID,OtherConstants.WEATHER_APPSECRET)
                 .compose(Transformer.switchSchedulers())
                 .subscribe(new StringObserver() {
                     @Override
