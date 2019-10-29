@@ -86,6 +86,9 @@ public class OrderTotalEntry{
          */
         private String modifyString;
 
+        //是否允许线上支付
+        private boolean canOnlinePay;
+
         @Override
         public String toString() {
             return "OrderEntry{" +
@@ -112,6 +115,22 @@ public class OrderTotalEntry{
                     ", lineId='" + lineId + '\'' +
                     ", isSelect=" + isSelect +
                     '}';
+        }
+
+        public String getModifyString() {
+            return modifyString;
+        }
+
+        public void setModifyString(String modifyString) {
+            this.modifyString = modifyString;
+        }
+
+        public boolean isCanOnlinePay() {
+            return canOnlinePay;
+        }
+
+        public void setCanOnlinePay(boolean canOnlinePay) {
+            this.canOnlinePay = canOnlinePay;
         }
 
         public String getModify() {

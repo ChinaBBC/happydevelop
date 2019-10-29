@@ -16,6 +16,7 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zx.com.skytool.ZxStringUtil;
@@ -31,6 +32,7 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
 
     private List<OrderTotalEntry.OrderEntry> list;
     private IResultPositionListener iResultPositionListener;
+    private ArrayList<String> permissions;
 
     public AllotAdapter(List<OrderTotalEntry.OrderEntry> list) {
         this.list = list;
@@ -38,6 +40,10 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
 
     public void setiResultPositionListener(IResultPositionListener iResultPositionListener) {
         this.iResultPositionListener = iResultPositionListener;
+    }
+
+    public void setPermissions(ArrayList<String> permissions) {
+        this.permissions = permissions;
     }
 
     @NonNull
@@ -66,7 +72,8 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
 
             String modify = orderEntry.getModify();
             if ("0".equals(modify)){
-                allotViewHolder.change.setVisibility(View.VISIBLE);
+                if (permissions != null)
+                    allotViewHolder.change.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_ORDER)?View.VISIBLE:View.GONE);
                 allotViewHolder.change.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                         .withString("orderId",orderEntry.getWaybillId())
                         .withString("detailType",OtherConstants.CHANGE_ORDER+"")
@@ -108,6 +115,7 @@ public class AllotAdapter extends RecyclerView.Adapter<AllotAdapter.AllotViewHol
                         }
                     }
             );
+
         }
 
     }

@@ -34,6 +34,8 @@
     <string name="please_read_first">请先阅读《星配送物流平台合作协议》</string>
     <string name="please_input_phone_pass">请输入账号和密码</string>
     <string name="please_input_phone_code">请输入账号和验证码</string>
+    <string name="please_choice">请选择</string>
+    <string name="please_select_class">请勾选班次</string>
     <string name="has_read_and_agree">已阅读并同意</string>
     <string name="send_success">发送成功</string>
     <string name="xin_logistics_protocol">《星配送物流平台合作协议》</string>
@@ -108,6 +110,7 @@
     <string name="logistics_way">物流产品：</string>
     <string name="logistics_company">承运公司：</string>
     <string name="logistics_company_b">物流公司</string>
+    <string name="logistics_product">物流产品</string>
     <string name="driver_info">司机信息：</string>
     <string name="car_number">运输车牌：</string>
     <string name="remark">备注：</string>
@@ -121,7 +124,7 @@
     <string name="pay_crash">线下支付</string>s
     <string name="select_all">全选</string>
     <string name="sure_pay">确认收款</string>
-    <string name="new_client_back">星配送客户回单</string>
+    <string name="new_client_back">客户回执</string>
     <string name="print_detail">打印详情</string>
     <string name="count">统计</string>
     <string name="word">客户评价</string>
@@ -215,5 +218,12 @@
     <string name="check_logistics">查看物流</string>
 
     <string name="type_price">品类价格</string>
+    <string name="all_lines">总线路</string>
+    <string name="receive_diver">承运司机</string>
+    <string name="car_id">车牌号</string>
+    <string name="class_list">班次列表</string>
+    <string name="complete_btn">完成</string>
+    <string name="quantity_set">批量设置</string>
+    <string name="quantity_class_manage">批量管理班次</string>
 
 </resources>

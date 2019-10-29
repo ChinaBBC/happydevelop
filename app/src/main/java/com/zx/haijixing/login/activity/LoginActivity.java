@@ -2,6 +2,7 @@ package com.zx.haijixing.login.activity;
 
 
 import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import com.zx.haijixing.util.HaiTool;
 import butterknife.BindView;
 import butterknife.OnClick;
 import zx.com.skytool.ZxCountDownTimerUtil;
+import zx.com.skytool.ZxLogUtil;
 import zx.com.skytool.ZxSharePreferenceUtil;
 import zx.com.skytool.ZxStatusBarCompat;
 import zx.com.skytool.ZxStringUtil;

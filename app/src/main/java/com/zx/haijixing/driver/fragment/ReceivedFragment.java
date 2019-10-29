@@ -391,6 +391,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         instance.init(getContext());
         token = (String) instance.getParam("token", "token");
         loginType = (String) instance.getParam("login_type", "4");
+        ArrayList<String> permissions = (ArrayList<String>) instance.getParam("limit",null);
         if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {
             receiveViewHolder = new ReceiveViewHolder(viewStub.inflate());
         }else {
@@ -398,7 +399,7 @@ public class ReceivedFragment extends BaseFragment<ReceiveImp> implements OrderC
         }
 
         receiveAdapter.setLoginType(loginType);
-        ZxLogUtil.logError("<<<<<on resume" + token);
+        receiveAdapter.setPermissions(permissions);
         params.put("token", token);
         params.put("status",OtherConstants.DETAIL_WAIT_RECEIVE+"");
         params.put(OtherConstants.PAGE, page+"");

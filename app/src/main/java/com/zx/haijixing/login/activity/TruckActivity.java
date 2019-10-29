@@ -511,6 +511,7 @@ public class TruckActivity extends BaseActivity<TruckActivityImp> implements ITr
             params.put("carLoad",carLoad);
             params.put("safeEnd",cureTime);
             params.put("idcard",truckNum);
+            params.put("safeImage",cureDan);
             params.put("name",realName);
             params.put("phone",phoneNum);
             params.put("carImgFront",truckFor);

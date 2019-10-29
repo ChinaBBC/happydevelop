@@ -12,8 +12,10 @@ import com.zx.haijixing.share.pub.entry.VersionEntry;
 public interface VersionContract {
     interface VersionView extends IBaseContract.IBaseView{
         void versionSuccess(VersionEntry versionEntry);
+        void payWayShowSuccess(String online, String offline);
     }
     interface VersionPresenter extends IBaseContract.IBasePresenter<VersionView>{
         void versionMethod();
+        void payWayShowMethod();
     }
 }

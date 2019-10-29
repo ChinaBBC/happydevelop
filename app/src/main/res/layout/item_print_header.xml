@@ -54,8 +54,8 @@
         />
     <ImageView
         android:id="@+id/print_header_img2"
-        android:layout_width="@dimen/dp_29"
-        android:layout_height="@dimen/dp_12"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_10"
         android:src="@mipmap/arrows_double"
         app:layout_constraintLeft_toRightOf="@id/print_header_start"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,15 +64,15 @@
         />
     <TextView
         android:id="@+id/print_header_end"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="青羊区(1222223323)"
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_16"
         android:lines="1"
-        android:maxEms="4"
         android:ellipsize="end"
         app:layout_constraintLeft_toRightOf="@id/print_header_img2"
+        app:layout_constraintRight_toLeftOf="@id/print_header_word1"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="@dimen/dp_4"
         />
@@ -115,28 +115,27 @@
         android:layout_height="wrap_content"
         android:text="周润发"
         android:textColor="@color/color_3333"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_14"
         android:lines="1"
         android:maxEms="4"
         android:ellipsize="end"
         app:layout_constraintLeft_toRightOf="@id/print_header_img3"
         app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
-        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_10"
         />
 
     <TextView
         android:id="@+id/print_header_send_phone"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="13888888888"
         android:textColor="@color/color_3333"
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@id/print_header_send_man"
         app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_4"
         />
     <TextView
         android:id="@+id/print_header_img4"
@@ -155,13 +154,13 @@
         android:layout_height="wrap_content"
         android:text="李文冷冻"
         android:textColor="@color/color_3333"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_14"
         android:lines="1"
         android:maxEms="4"
         android:ellipsize="end"
         app:layout_constraintLeft_toRightOf="@id/print_header_img4"
         app:layout_constraintTop_toBottomOf="@id/print_header_send_phone"
-        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_10"
         />
 
@@ -206,13 +205,13 @@
         android:id="@+id/print_header_word2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/freight"
+        android:text="运费:"
         android:textColor="@color/color_6666"
         android:textSize="@dimen/sp_14"
-        app:layout_constraintLeft_toRightOf="@id/print_header_img4"
-        app:layout_constraintTop_toBottomOf="@id/print_header_received_address"
+        app:layout_constraintRight_toLeftOf="@+id/print_header_freight"
+        app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_6"
         />
     <TextView
         android:id="@+id/print_header_freight"
@@ -221,10 +220,9 @@
         android:text="40元(到付)"
         android:textSize="@dimen/sp_14"
         android:textColor="@color/color_3333"
-        app:layout_constraintLeft_toRightOf="@id/print_header_word2"
-        app:layout_constraintTop_toBottomOf="@id/print_header_received_address"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/print_header_orderNum"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginLeft="@dimen/dp_8"
         />
     <TextView
         android:id="@+id/print_header_remark"
@@ -235,7 +233,7 @@
         android:textSize="@dimen/sp_12"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/print_header_word2"
+        app:layout_constraintTop_toBottomOf="@id/print_header_received_address"
         android:padding="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_6"
         android:background="@color/color_f5f1"

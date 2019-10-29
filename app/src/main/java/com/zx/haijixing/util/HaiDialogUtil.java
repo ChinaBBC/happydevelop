@@ -92,7 +92,7 @@ public final class HaiDialogUtil {
         return receiveDialog;
     }
     //支付选择
-    public static CommonDialogFragment showPay(FragmentManager fragmentManager, View.OnClickListener clickListener,TruckResultListener truckResultListener){
+    public static CommonDialogFragment showPay(FragmentManager fragmentManager,int showTag, View.OnClickListener clickListener,TruckResultListener truckResultListener){
         CommonDialogFragment payDialog = CommonDialogFragment.newInstance(context -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_tip, null);
             TextView yes = view.findViewById(R.id.dialog_pay_yes);
@@ -104,6 +104,17 @@ public final class HaiDialogUtil {
             //EditText money = view.findViewById(R.id.dialog_pay_money);
             yes.setOnClickListener(clickListener);
             no.setOnClickListener(clickListener);
+
+            //1表示隐藏线上支付2表示隐藏线下支付
+            if (showTag == 1){
+                online.setVisibility(View.GONE);
+                onlineImg.setVisibility(View.GONE);
+                crash.setImageResource(R.mipmap.select_yes_solid);
+                crashImg.setTextColor(Color.parseColor("#30703f"));
+            }else if (showTag == 2){
+                crash.setVisibility(View.GONE);
+                crashImg.setVisibility(View.GONE);
+            }
 
             crash.setOnClickListener(v -> {
                 crash.setImageResource(R.mipmap.select_yes_solid);

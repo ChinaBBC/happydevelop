@@ -107,7 +107,7 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printHeadViewHolder.freight.setText(payMoney+("1".equals(priceFlag)?"元(寄付)":"元(到付)"));
                 printHeadViewHolder.typeAndNum.setText(printEntry.getCategory()+printEntry.getTotalNum()+"件");
                 printHeadViewHolder.remark.setText(printEntry.getRemark());
-                printHeadViewHolder.word1.setText("客户回执单");
+                printHeadViewHolder.word1.setText("客户回执");
                 if (isPrint){
                     printHeadViewHolder.select.setVisibility(View.GONE);
                     printHeadViewHolder.remark.setBackgroundColor(Color.TRANSPARENT);
@@ -154,7 +154,7 @@ public class PrintAdapter extends RecyclerView.Adapter {
                 printHeadViewHolder.freight.setText(payMoney+("1".equals(priceFlag)?"元(寄付)":"元(到付)"));
                 printHeadViewHolder.typeAndNum.setText(printEntry.getCategory()+printEntry.getTotalNum()+"件");
                 printHeadViewHolder.remark.setText(printEntry.getRemark());
-                printHeadViewHolder.word1.setText("司机回执单");
+                printHeadViewHolder.word1.setText("司机回执");
                 if (isPrint){
                     printHeadViewHolder.select.setVisibility(View.GONE);
                     printHeadViewHolder.remark.setBackgroundColor(Color.TRANSPARENT);

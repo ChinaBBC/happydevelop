@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -22,6 +23,7 @@ import com.zx.haijixing.logistics.entry.LinesManageEntry;
 import com.zx.haijixing.logistics.entry.ProductEntry;
 import com.zx.haijixing.logistics.presenter.LinesManageImp;
 import com.zx.haijixing.share.OtherConstants;
+import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseFragment;
 import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
@@ -53,6 +55,8 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
     TextView noData;
     @BindView(R.id.fragment_lines_manage_ways)
     TextView ways;
+    @BindView(R.id.fragment_lines_manage_allLines)
+    TextView allLines;
     @BindView(R.id.fragment_lines_manage_input)
     EditText inputStr;
 
@@ -154,7 +158,7 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
     }
 
 
-    @OnClick({R.id.fragment_lines_manage_ways, R.id.fragment_lines_manage_ways_img, R.id.fragment_lines_manage_search})
+    @OnClick({R.id.fragment_lines_manage_ways, R.id.fragment_lines_manage_ways_img, R.id.fragment_lines_manage_search,R.id.fragment_lines_manage_manageAll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fragment_lines_manage_ways:
@@ -179,6 +183,9 @@ public class LinesManageFragment extends BaseFragment<LinesManageImp> implements
                 params.put("sign", "");
                 params.put("sign", HaiTool.sign(params));
                 mPresenter.linesManageMethod(params);
+                break;
+            case R.id.fragment_lines_manage_manageAll:
+                ARouter.getInstance().build(PathConstant.QUANTITY_SET).navigation();
                 break;
         }
     }

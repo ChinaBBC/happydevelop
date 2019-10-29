@@ -28,6 +28,7 @@ import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.share.base.BaseActivity;
 import com.zx.haijixing.util.HaiTool;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -226,12 +227,11 @@ public class StatisticsActivity extends BaseActivity<FeeStatisticsImp> implement
     private void setData(FeeStatisticsEntry feeStatisticsEntry,String text){
         List<String> rows = feeStatisticsEntry.getRows();
 
-        float total = 0;
+        BigDecimal result = new BigDecimal(0);
         for (int i = 0; i< rows.size();i++){
-            float y = Float.parseFloat(rows.get(i));
-            total+=y;
+            result = result.add(new BigDecimal(rows.get(i)));
         }
-        addAll.setText(total+text);
+        addAll.setText(result+text);
         //展示图表
         lineChartManager.setXAxisData(feeStatisticsEntry.getDays(),7);
         lineChartManager.setYAxisData(feeStatisticsEntry.getRows(),8);

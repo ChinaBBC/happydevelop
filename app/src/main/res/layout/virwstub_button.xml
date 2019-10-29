@@ -9,7 +9,7 @@
     <Button
         android:id="@+id/view_button_print"
         android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_30"
+        android:layout_height="@dimen/dp_36"
         android:text="@string/print_order"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/view_button_change"
         android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_30"
+        android:layout_height="@dimen/dp_36"
         android:text="@string/change_order"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
@@ -33,7 +33,7 @@
     <Button
         android:id="@+id/view_button_complete"
         android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_30"
+        android:layout_height="@dimen/dp_36"
         android:text="@string/sure_pay"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
@@ -45,7 +45,7 @@
     <Button
         android:id="@+id/view_button_resend"
         android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_30"
+        android:layout_height="@dimen/dp_36"
         android:text="@string/allot"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"

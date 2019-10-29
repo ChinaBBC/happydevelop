@@ -92,9 +92,11 @@ public class WaitAllotFragment extends BaseFragment<WaitAllotImp> implements Wai
         instance.init(getContext());
         token = (String) instance.getParam("token", "null");
         loginType = (String) instance.getParam("login_type", "4");
+        ArrayList<String> permissions = (ArrayList<String>) instance.getParam("limit",null);
 
         rvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         allotAdapter = new AllotAdapter(orderEntries);
+        allotAdapter.setPermissions(permissions);
         rvData.setAdapter(allotAdapter);
         allotAdapter.setiResultPositionListener(this::positionResult);
 

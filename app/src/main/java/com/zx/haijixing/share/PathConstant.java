@@ -48,6 +48,8 @@ public final class PathConstant {
     public final static String ALLOT = "/logistics/activity/AllotActivity";//派单
     public final static String CHECK_LOGISTICS = "/logistics/activity/CheckLogisticsActivity";//查看物流
     public final static String ADD_CLASS = "/logistics/activity/AddClassActivity";//添加班次
+    public final static String QUANTITY_SET = "/logistics/activity/QuantitySetActivity";//批量管理
+    public final static String QUANTITY_CLASS = "/logistics/activity/QuantityClassActivity";//批量管理班次
 
 
 

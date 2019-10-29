@@ -98,9 +98,16 @@ public class OrderDetailEntry {
     private String goTime;
     //完成时间
     private String doneTime;
+    //是否允许线上支付
+    private boolean canOnlinePay;
 
+    public boolean isCanOnlinePay() {
+        return canOnlinePay;
+    }
 
-
+    public void setCanOnlinePay(boolean canOnlinePay) {
+        this.canOnlinePay = canOnlinePay;
+    }
 
     public String getDoneTime() {
         return doneTime;

@@ -17,6 +17,11 @@ public final class OtherConstants {
     public final static String UPLOAD_PATH = "open/upload/files/uploadImages";//上传
     public final static String PROTOCOL_PATH = "privacy/h5page.html";//协议
 
+    public final static String PERMISSION_CHANGE_MONEY = "app:power:ssyf";//修改运费
+    public final static String PERMISSION_CHANGE_ORDER = "app:power:ssyd";//修改运单
+
+
+
     public final static String PAGE = "num";//页数
     public final static String SIZE = "size";//条数
 
@@ -65,6 +70,7 @@ public final class OtherConstants {
     public final static int RED_BOT = 1022;//红点更新
     public final static int ALLOT_REQUEST = 1023;//派单
     public final static int PROTOCOL_REQUEST = 1024;//协议
+    public final static int STATUS_CHANGE = 1025;//状态改变 重新拉取数据
 
 
     public final static int SELECT_DRIVER = 0;//选择司机

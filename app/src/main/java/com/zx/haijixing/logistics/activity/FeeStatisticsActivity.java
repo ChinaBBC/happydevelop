@@ -30,6 +30,7 @@ import com.zx.haijixing.util.CommonDialogFragment;
 import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -278,12 +279,11 @@ public class FeeStatisticsActivity extends BaseActivity<FeeStatisticsImp> implem
 
     private void setData(FeeStatisticsEntry feeStatisticsEntry,String text){
         List<String> rows = feeStatisticsEntry.getRows();
-        double total = 0;
+        BigDecimal result = new BigDecimal(0);
         for (int i = 0; i< rows.size();i++){
-            double y = Double.parseDouble(rows.get(i));
-            total+=y;
+            result = result.add(new BigDecimal(rows.get(i)));
         }
-        addAll.setText(total+text);
+        addAll.setText(result+text);
         //展示图表
         lineChartManager.setXAxisData(feeStatisticsEntry.getDays(),7);
         lineChartManager.setYAxisData(feeStatisticsEntry.getRows(),8);

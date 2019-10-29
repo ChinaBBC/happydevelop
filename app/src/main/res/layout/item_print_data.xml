@@ -71,12 +71,12 @@
         app:layout_constraintRight_toLeftOf="@+id/print_data_img2"
         android:layout_marginTop="@dimen/dp_11"
         android:lines="1"
-        android:ellipsize="end"
+        android:gravity="right"
         />
     <ImageView
         android:id="@+id/print_data_img2"
-        android:layout_width="@dimen/dp_29"
-        android:layout_height="@dimen/dp_12"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_10"
         android:src="@mipmap/arrows_double"
         app:layout_constraintLeft_toRightOf="@id/print_data_start"
         app:layout_constraintTop_toBottomOf="@id/print_data_orderNum"

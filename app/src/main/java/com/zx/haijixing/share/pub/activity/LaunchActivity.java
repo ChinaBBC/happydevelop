@@ -76,6 +76,14 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
         }
     }
 
+    @Override
+    public void payWayShowSuccess(String online, String offline) {
+        ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
+        instance.init(this);
+        instance.saveParam("online",online);
+        instance.saveParam("offline",offline);
+    }
+
     @OnClick(R.id.sample_text)
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -128,6 +136,7 @@ public class LaunchActivity extends BaseActivity<VersionImp> implements VersionC
         }
     }
     private void permission() {
+        mPresenter.payWayShowMethod();
         final List<String> permissionsList = new ArrayList<>();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(LaunchActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) ||

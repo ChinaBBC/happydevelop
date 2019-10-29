@@ -131,6 +131,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private GoodTypeWheel goodTypeWheel = null;
     private CommonDialogFragment showTruck;
     private int temp = 0;
+    private int showTag = 0;
     private List<GoodsTypePriceEntry.GoodType> goodTypeList;
     private Map<String,String> mathMap = new HashMap<>();
     private Map<String,String> upMap = new HashMap<>();
@@ -140,6 +141,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     private int payType=1;
     private CommonDialogFragment showPay;
     private CommonDialogFragment showChangeMoney;
+    private ArrayList<String> permissions;
+    private CommonDialogFragment sendComplete;
 
     @Override
     protected void initView() {
@@ -150,7 +153,19 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         instance.init(this);
         token = (String) instance.getParam("token", "null");
         loginTpe = (String) instance.getParam("login_type", "null");
+        permissions = (ArrayList<String>) instance.getParam("limit",null);
+
         int bg = Integer.parseInt(ZxStringUtil.isEmpty(detailType)?"0":detailType);
+
+        String offline = (String) instance.getParam("offline", "0");
+        String online = (String) instance.getParam("online", "0");
+
+        if (offline.equals("1")){
+            showTag = 2;
+        }else if (online.equals("1")){
+            showTag = 1;
+            payType = 2;
+        }
         switch (bg){
             case OtherConstants.DETAIL_WAIT_ALLOT:
                 title.setText(getHaiString(R.string.wait_allot_order));
@@ -236,6 +251,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 showPay.dismissAllowingStateLoss();
                 complete();
                 break;
+            case R.id.dialog_update_no:
+                sendComplete.dismissAllowingStateLoss();
+                break;
+            case R.id.dialog_update_yes:
+                sendComplete.dismissAllowingStateLoss();
+                sendCompleteMethod();
+                break;
 
         }
     }
@@ -251,6 +273,16 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
         param.put("sign",HaiTool.sign(param));
         mPresenter.surePayMethod(param);
 
+    }
+    private void sendCompleteMethod(){
+        Map<String, String> param = new HashMap<>();
+        param.put("token", token);
+        param.put("selectAllFlag", "0");
+        param.put("waybillIds", orderId);
+        param.put("timestamp",System.currentTimeMillis()+"");
+        param.put("sign","");
+        param.put("sign",HaiTool.sign(param));
+        mPresenter.completeMethod(param);
     }
     private void call(String phone){
         Intent call = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
@@ -379,18 +411,23 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
     public void completeSuccess(String msg) {
         ZxToastUtil.centerToast(msg);
         eViewHolder.complete.setVisibility(View.GONE);
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.STATUS_CHANGE));
     }
 
     @Override
     public void surePaySuccess(String msg) {
-        Map<String, String> param = new HashMap<>();
+        ZxToastUtil.centerToast(msg);
+        eViewHolder.complete.setText("配送完成");
+        priceFlag = "1";
+        EventBus.getDefault().post(new EventBusEntity(OtherConstants.STATUS_CHANGE));
+       /* Map<String, String> param = new HashMap<>();
         param.put("token", token);
         param.put("selectAllFlag", "0");
         param.put("waybillIds", orderId);
         param.put("timestamp",System.currentTimeMillis()+"");
         param.put("sign","");
         param.put("sign",HaiTool.sign(param));
-        mPresenter.completeMethod(param);
+        mPresenter.completeMethod(param);*/
     }
 
     @Override
@@ -561,10 +598,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                                 .navigation();
                         finish();
                     });
+                    if (permissions != null)
+                        eViewHolder.change.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_ORDER)?View.VISIBLE:View.GONE);
                 }else {
                     eViewHolder.change.setVisibility(View.GONE);
                 }
-
                 if (orderEntry.getType().equals("1") && priceFlag.equals("0")){
                     eViewHolder.complete.setVisibility(View.VISIBLE);
                     eViewHolder.complete.setOnClickListener(v -> {
@@ -579,6 +617,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                 }else {
                     eViewHolder.complete.setVisibility(View.GONE);
                 }
+
                 break;
             case OtherConstants.DETAIL_WAIT_RECEIVE:
                 eViewHolder = new EViewHolder(stubButtons.inflate());
@@ -614,6 +653,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                                     .navigation();
                             finish();
                         });
+                        if (permissions != null)
+                            eViewHolder.change.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_ORDER)?View.VISIBLE:View.GONE);
                     }else {
                         eViewHolder.change.setVisibility(View.GONE);
                     }
@@ -631,6 +672,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                     }else {
                         eViewHolder.complete.setVisibility(View.GONE);
                     }
+
                 }
                 break;
             case OtherConstants.DETAIL_WAIT_SEND:
@@ -656,23 +698,42 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                                 .navigation();
                         finish();
                     });
+                    if (permissions != null)
+                        eViewHolder.change.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_ORDER)?View.VISIBLE:View.GONE);
                 }else {
                     eViewHolder.change.setVisibility(View.GONE);
                 }
+
                 break;
             case OtherConstants.DETAIL_SENDING:
                 eViewHolder = new EViewHolder(stubButtons.inflate());
                 eViewHolder.resend.setVisibility(View.GONE);
-                if ("1".equals(modify))
+                if ("1".equals(modify)){
                     eViewHolder.change.setVisibility(View.GONE);
+                }else {
+                    if (permissions != null)
+                        eViewHolder.change.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_MONEY)?View.VISIBLE:View.GONE);
+                }
                 if (OtherConstants.LOGIN_DRIVER.equals(loginTpe)){
                     eViewHolder.change.setText("修改运费");
                     eViewHolder.complete.setText("配送完成");
+                    eViewHolder.complete.setText("0".equals(priceFlag)?"确认收款":"配送完成");
                     eViewHolder.change.setOnClickListener(v -> {
                         showChangeMoney = HaiDialogUtil.showChangeMoney(getSupportFragmentManager(), this::payResult,orderEntry.getPrice());
                     });
                     eViewHolder.complete.setOnClickListener(v -> {
-                        showPay = HaiDialogUtil.showPay(getSupportFragmentManager(), OrderDetailActivity.this::onViewClicked,this::truckResult);
+                        if ("0".equals(priceFlag)){
+                            int tempTag = 0;
+                            if (showTag == 0 && !orderEntry.isCanOnlinePay()){
+                                tempTag = 1;
+                            }else {
+                                tempTag = showTag;
+                            }
+                            showPay = HaiDialogUtil.showPay(getSupportFragmentManager(), tempTag, OrderDetailActivity.this::onViewClicked,this::truckResult);
+                        } else{
+                            sendComplete = HaiDialogUtil.showUpdate(getSupportFragmentManager(), "是否确认配送完成？", this::onViewClicked);
+                        }
+
                     });
                 }else {
                     eViewHolder.change.setText("修改价格");
@@ -687,6 +748,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailImp> implements
                                 .navigation();
                     });
                 }
+
                 break;
             case OtherConstants.CHANGE_ORDER:
                 eViewHolder = new EViewHolder(stubButtons.inflate());

@@ -2,12 +2,17 @@ package com.zx.haijixing.share.pub.imp;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.allen.library.observer.StringObserver;
 import com.zx.haijixing.share.base.BasePresenter;
 import com.zx.haijixing.share.base.HaiBaseData;
 import com.zx.haijixing.share.base.HaiDataObserver;
 import com.zx.haijixing.share.pub.contract.VersionContract;
 import com.zx.haijixing.share.pub.entry.VersionEntry;
 import com.zx.haijixing.share.service.ShareApiService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -38,6 +43,35 @@ public class VersionImp extends BasePresenter<VersionContract.VersionView> imple
                     @Override
                     protected void onSuccess(VersionEntry data) {
                         mView.versionSuccess(data);
+                    }
+                });
+    }
+
+    @Override
+    public void payWayShowMethod() {
+        RxHttpUtils.createApi(ShareApiService.class)
+                .payWayShowApi()
+                .compose(Transformer.<String>switchSchedulers())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new StringObserver() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        mView.showFaild(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String data) {
+                        try {
+                            JSONObject object = new JSONObject(data);
+                            if (object.getInt("code") == 0){
+                                JSONObject jsonObject = object.getJSONObject("data");
+                                mView.payWayShowSuccess(jsonObject.getString("onlinePay"),jsonObject.getString("unlinePay"));
+                            }else {
+                                mView.showFaild(object.getString("msg"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }

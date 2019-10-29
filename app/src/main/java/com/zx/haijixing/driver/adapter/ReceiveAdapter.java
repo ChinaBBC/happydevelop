@@ -18,6 +18,7 @@ import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 import com.zx.haijixing.util.HaiTool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zx.com.skytool.ZxStringUtil;
@@ -34,6 +35,7 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
     private String loginType = OtherConstants.LOGIN_DRIVER;
     private IResultPositionListener iResultPositionListener;
     private List<OrderTotalEntry.OrderEntry> list;
+    private ArrayList<String> permissions;
     private boolean isRefresh = false;
 
     public ReceiveAdapter(List<OrderTotalEntry.OrderEntry> list) {
@@ -54,6 +56,10 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
 
     public void setOnClickListener(IResultPositionListener iResultPositionListener) {
         this.iResultPositionListener = iResultPositionListener;
+    }
+
+    public void setPermissions(ArrayList<String> permissions) {
+        this.permissions = permissions;
     }
 
     @NonNull
@@ -122,7 +128,8 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
             }else {
                 receiveViewHolder.select.setVisibility(View.GONE);
                 if ("0".equals(modify)){
-                    receiveViewHolder.sure.setVisibility(View.VISIBLE);
+                    if (permissions != null)
+                        receiveViewHolder.sure.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_ORDER)?View.VISIBLE:View.GONE);
                     receiveViewHolder.sure.setText("修改");
                     receiveViewHolder.sure.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                             .withString("orderId",orderEntry.getWaybillId())
@@ -137,6 +144,7 @@ public class ReceiveAdapter extends RecyclerView.Adapter<ReceiveAdapter.ReceiveV
                         .withString("orderId",orderEntry.getWaybillId())
                         .withString("linesId",orderEntry.getLineId())
                         .navigation());
+
             }
             receiveViewHolder.item.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                     .withString("orderId",orderEntry.getWaybillId())

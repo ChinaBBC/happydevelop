@@ -27,6 +27,8 @@ import com.zx.haijixing.util.HaiDialogUtil;
 import com.zx.haijixing.util.HaiTool;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +60,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     TextView noData;
 
     private SendingAdapter sendingAdapter;
-    private SendingViewHolder sendingViewHolder;
+    //private SendingViewHolder sendingViewHolder;
     private Map<String, String> params = new HashMap<>();
     private List<OrderTotalEntry.OrderEntry> orderEntries = new ArrayList<>();
     private String loginType;
@@ -70,6 +72,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
     private boolean isTotal = false;
     private int totalData = 0;
     private int payType = 1;
+    private int showTag = 0;
     private String selectId = "";
     private String waybillId = "";
     private CommonDialogFragment showChangeMoney;
@@ -90,20 +93,32 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     @Override
     protected void initView(View view) {
+        EventBus.getDefault().register(this);
         ZxSharePreferenceUtil instance = ZxSharePreferenceUtil.getInstance();
         instance.init(getContext());
         loginType = (String) instance.getParam("login_type", "4");
+        String offline = (String) instance.getParam("offline", "0");
+        String online = (String) instance.getParam("online", "0");
         token = (String) instance.getParam("token", "token");
 
-        ZxLogUtil.logError("<loginType>"+loginType);
+        ArrayList<String> permissions = (ArrayList<String>) instance.getParam("limit",null);
+        ZxLogUtil.logError("<<<<<sending fragment"+permissions.toString());
+        if (offline.equals("1")){
+            showTag = 2;
+        }else if (online.equals("1")){
+            showTag = 1;
+            payType = 2;
+        }
+        /*ZxLogUtil.logError("<loginType>"+loginType);
         if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {
             sendingViewHolder = new SendingViewHolder(viewStub.inflate());
         } else {
 
-        }
+        }*/
         sendingData.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         sendingAdapter = new SendingAdapter(orderEntries);
         sendingAdapter.setLoginType(loginType);
+        sendingAdapter.setPermissions(permissions);
         sendingAdapter.setiResultPositionListener(this::positionResult);
         sendingData.setAdapter(sendingAdapter);
 
@@ -187,17 +202,19 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         params.put("sign","");
         params.put("sign",HaiTool.sign(params));
         mPresenter.sendingMethod(params);
-        sendingViewHolder.word1.setText(getString(R.string.select_all));
-        sendingViewHolder.selectAll.setImageResource(R.mipmap.select_no);
+        //sendingViewHolder.word1.setText(getString(R.string.select_all));
+        //sendingViewHolder.selectAll.setImageResource(R.mipmap.select_no);
         flag = 0;
         selectId = "";
-        sendingViewHolder.total.setText("共：0单");
+        //sendingViewHolder.total.setText("共：0单");
         EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
     }
 
     @Override
     public void surePaySuccess(String msg) {
-       sendCompleteMethod();
+        ZxToastUtil.centerToast(msg);
+        doRefresh();
+       //sendCompleteMethod();
     }
 
     private void sendCompleteMethod(){
@@ -241,8 +258,8 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     private void doRefresh(){
         EventBus.getDefault().post(new EventBusEntity(OtherConstants.RED_BOT));
-        if (flag == 0 && sendingViewHolder != null)
-            sendingViewHolder.total.setText("共：0单");
+        //if (flag == 0 && sendingViewHolder != null)
+            //sendingViewHolder.total.setText("共：0单");
         refresh.setNoMoreData(false);
         page = 1;
         orderEntries.clear();
@@ -257,11 +274,17 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {
             switch (tag){
                 case 1:
-                    uiSet();
+                    //uiSet();
                     break;
                 case 2:
                     selectId = orderEntry.getWaybillId();
-                    showPay = HaiDialogUtil.showPay(getFragmentManager(), SendingFragment.this::onViewClicked,this::truckResult);
+                    int tempTag = 0;
+                    if (showTag == 0 && !orderEntry.isCanOnlinePay()){
+                        tempTag = 1;
+                    }else {
+                        tempTag = showTag;
+                    }
+                    showPay = HaiDialogUtil.showPay(getFragmentManager(),tempTag, SendingFragment.this::onViewClicked,this::truckResult);
                     break;
                 case 3:
                     waybillId = orderEntry.getWaybillId();
@@ -301,7 +324,7 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         }
     }
 
-    //出发
+    //完成
     private void complete() {
         Map<String, String> param = new HashMap<>();
         param.put("token", token);
@@ -332,7 +355,13 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
 
     }
 
-    //界面变化
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusEntity entity){
+        if (entity.getMsg() == OtherConstants.STATUS_CHANGE){
+            doRefresh();
+        }
+    }
+  /*  //界面变化
     private void uiSet(){
         int all = 0;
         for (int i = 0; i < orderEntries.size(); i++) {
@@ -358,14 +387,20 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
         }
         if (all > 0)
             canReceive = true;
-    }
+    }*/
 
     @Override
     public void truckResult(int index) {
         payType = index;
     }
 
-    class SendingViewHolder {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /*class SendingViewHolder {
         @BindView(R.id.fragment_sending_selectAll)
         ImageView selectAll;
         @BindView(R.id.fragment_sending_word1)
@@ -423,5 +458,5 @@ public class SendingFragment extends BaseFragment<SendingImp> implements Sending
                 ZxToastUtil.centerToast("暂无数据");
             }
         }
-    }
+    }*/
 }

@@ -94,4 +94,8 @@ public interface ShareApiService {
     //司机评价
     @GET("api/reception/orderComment/driverCommentScore")
     Observable<HaiBaseData<List<DriverWordEntry>>> driverWordApi(@QueryMap Map<String,String> params);
+
+    //支付选择
+    @GET("open/app/setting")
+    Observable<String> payWayShowApi();
 }

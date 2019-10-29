@@ -17,6 +17,7 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zx.com.skytool.ZxStringUtil;
@@ -33,6 +34,7 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
     private List<OrderTotalEntry.OrderEntry> list;
     private IResultPositionListener iResultPositionListener;
     private String loginType = OtherConstants.LOGIN_DRIVER;
+    private ArrayList<String> permissions;
 
     public SendAdapter(List<OrderTotalEntry.OrderEntry> list) {
         this.list = list;
@@ -44,6 +46,10 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
 
     public void setLoginType(String loginType) {
         this.loginType = loginType;
+    }
+
+    public void setPermissions(ArrayList<String> permissions) {
+        this.permissions = permissions;
     }
 
     @NonNull
@@ -91,7 +97,8 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
                             .navigation());
                 }
                 if ("0".equals(modify)){
-                    sendViewHolder.button1.setVisibility(View.VISIBLE);
+                    if (permissions != null)
+                        sendViewHolder.button1.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_ORDER)?View.VISIBLE:View.GONE);
                     sendViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.DRIVER_ORDER_DETAIL)
                             .withString("orderId",orderEntry.getWaybillId())
                             .withString("detailType",OtherConstants.CHANGE_ORDER+"")
@@ -118,7 +125,6 @@ public class SendAdapter extends RecyclerView.Adapter<SendAdapter.SendViewHolder
                     }
                     );
             sendViewHolder.select.setVisibility(View.GONE);
-
 
 
            /* sendViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);

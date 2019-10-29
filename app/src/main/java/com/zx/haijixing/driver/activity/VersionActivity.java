@@ -86,4 +86,9 @@ public class VersionActivity extends BaseActivity<VersionImp> implements Version
             ZxToastUtil.centerToast("您已经是最新版本了");
         }
     }
+
+    @Override
+    public void payWayShowSuccess(String online, String offline) {
+
+    }
 }

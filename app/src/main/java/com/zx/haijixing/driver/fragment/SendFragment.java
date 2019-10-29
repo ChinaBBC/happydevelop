@@ -95,11 +95,13 @@ public class SendFragment extends BaseFragment<SendImp> implements SendContract.
         instance.init(getContext());
         token = (String) instance.getParam("token", "token");
         loginType = (String) instance.getParam("login_type", "4");
+        ArrayList<String> permissions = (ArrayList<String>) instance.getParam("limit",null);
         EventBus.getDefault().register(this);
 
         sendData.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         sendAdapter = new SendAdapter(orderEntries);
         sendAdapter.setLoginType(loginType);
+        sendAdapter.setPermissions(permissions);
         sendAdapter.setiResultPositionListener(this::positionResult);
         sendData.setAdapter(sendAdapter);
         if (loginType.equals(OtherConstants.LOGIN_DRIVER)) {

@@ -16,6 +16,7 @@ import com.zx.haijixing.driver.entry.OrderTotalEntry;
 import com.zx.haijixing.share.OtherConstants;
 import com.zx.haijixing.share.PathConstant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zx.com.skytool.ZxStringUtil;
@@ -32,6 +33,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
     private String loginType = OtherConstants.LOGIN_DRIVER;
     private IResultPositionListener iResultPositionListener;
     private List<OrderTotalEntry.OrderEntry> list;
+    private ArrayList<String> permissions;
 
     public SendingAdapter(List<OrderTotalEntry.OrderEntry> list) {
         this.list = list;
@@ -45,6 +47,9 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
         this.iResultPositionListener = iResultPositionListener;
     }
 
+    public void setPermissions(ArrayList<String> permissions) {
+        this.permissions = permissions;
+    }
 
     @NonNull
     @Override
@@ -80,7 +85,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
 
             if ("6".equals(status)){
                 sendingViewHolder.status.setText("未签收");
-                sendingViewHolder.select.setVisibility(View.GONE);
+                //sendingViewHolder.select.setVisibility(View.GONE);
                 sendingViewHolder.button1.setVisibility(View.GONE);
                 sendingViewHolder.button2.setVisibility(View.GONE);
                 sendingViewHolder.print.setVisibility(View.GONE);
@@ -89,7 +94,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
                 sendingViewHolder.status.setText("配送中");
                 sendingViewHolder.print.setText(dadanFlag==0?"打单":"补打单");
                 sendingViewHolder.print.setVisibility(View.VISIBLE);
-                sendingViewHolder.select.setVisibility(View.VISIBLE);
+                //sendingViewHolder.select.setVisibility(View.VISIBLE);
                 sendingViewHolder.button2.setVisibility(View.VISIBLE);
                 sendingViewHolder.print.setOnClickListener(v ->{
                             if ("1".equals(sendType) && "0".equals(orderEntry.getMakepriceFlag())){
@@ -103,11 +108,17 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
                         }
                 );
                 if (loginType.equals(OtherConstants.LOGIN_DRIVER)){
-                    sendingViewHolder.button1.setVisibility("1".equals(sendType)?View.GONE:View.VISIBLE);
+                    sendingViewHolder.button2.setText("0".equals(orderEntry.getMakepriceFlag())?"确认收款":"配送完成");
+                    if ("1".equals(sendType)){
+                        sendingViewHolder.button1.setVisibility(View.GONE);
+                    }else {
+                        if (permissions != null)
+                            sendingViewHolder.button1.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_MONEY)?View.VISIBLE:View.GONE);
+                    }
                     sendingViewHolder.button1.setOnClickListener(v -> {
                         iResultPositionListener.positionResult(orderEntry,3);
                     });
-                    sendingViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
+                    /*sendingViewHolder.select.setImageResource(orderEntry.isSelect()?R.mipmap.select_yes_solid:R.mipmap.select_no);
                     sendingViewHolder.select.setVisibility(View.VISIBLE);
                     sendingViewHolder.select.setOnClickListener(v -> {
                         if (orderEntry.isSelect()){
@@ -118,17 +129,22 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
                             orderEntry.setSelect(true);
                         }
                         iResultPositionListener.positionResult(null,1);
-                    });
+                    });*/
 
                 }else {
-                    sendingViewHolder.select.setVisibility(View.GONE);
-                    sendingViewHolder.button2.setVisibility("1".equals(sendType)?View.GONE:View.VISIBLE);
+                    //sendingViewHolder.select.setVisibility(View.GONE);
+                    if ("1".equals(sendType)){
+                        sendingViewHolder.button2.setVisibility(View.GONE);
+                    }else {
+                        if (permissions != null)
+                            sendingViewHolder.button2.setVisibility(permissions.contains(OtherConstants.PERMISSION_CHANGE_MONEY)?View.VISIBLE:View.GONE);
+                    }
                     sendingViewHolder.button2.setText("修改价格");
                     ///sendingViewHolder.button1.setText("查看物流");
                     sendingViewHolder.button1.setVisibility(View.GONE);
-                    sendingViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.CHECK_LOGISTICS)
+                    /*sendingViewHolder.button1.setOnClickListener(v -> ARouter.getInstance().build(PathConstant.CHECK_LOGISTICS)
                             .withString("waybillNo",orderEntry.getWaybillNo())
-                            .navigation());
+                            .navigation());*/
 
                 }
                 sendingViewHolder.button2.setOnClickListener(v -> {
@@ -175,7 +191,7 @@ public class SendingAdapter extends RecyclerView.Adapter<SendingAdapter.SendingV
             address = itemView.findViewById(R.id.send_data_address);
             pay = itemView.findViewById(R.id.send_data_pay);
             status = itemView.findViewById(R.id.send_data_status);
-            select = itemView.findViewById(R.id.sending_data_select);
+            //select = itemView.findViewById(R.id.sending_data_select);
             item = itemView.findViewById(R.id.sending_data_item);
         }
     }
